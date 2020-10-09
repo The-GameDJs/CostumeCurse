@@ -1,0 +1,2 @@
+# CostumeCurse
+Our Spooky Game
