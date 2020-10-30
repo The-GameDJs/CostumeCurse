@@ -7,11 +7,12 @@ public class Player : MonoBehaviour
 {
     public float movementSpeed = 1f;
     public float rotationSpeed = 1f;
+    private CharacterController characterController;
     
     // Start is called before the first frame update
     void Start()
     {
-        
+        characterController = GetComponent<CharacterController>();
     }
 
     // Update is called once per frame
@@ -25,19 +26,25 @@ public class Player : MonoBehaviour
         float horizontalMovement = Input.GetAxis("Horizontal");
         float verticalMovement = Input.GetAxis("Vertical");
 
-        if (Mathf.Approximately(verticalMovement, 0.0f) && Mathf.Approximately(horizontalMovement, 0.0f))
-            return;
-
         Vector3 direction = new Vector3(horizontalMovement, 0f, verticalMovement).normalized;
         Vector3 targetPosition = transform.position + direction;
 
-        transform.position = Vector3.Lerp(
-            transform.position, 
-            targetPosition, 
-            movementSpeed * Time.deltaTime);
-        transform.localRotation = Quaternion.RotateTowards(
+        if (characterController.isGrounded)
+        {
+            print("CharacterController is grounded");
+        }
+        characterController.SimpleMove(direction * movementSpeed * Time.deltaTime);
+
+        //transform.position = Vector3.Lerp(
+        //    transform.position, 
+        //    targetPosition, 
+        //    movementSpeed * Time.deltaTime);
+
+        if (!Mathf.Approximately(verticalMovement, 0.0f) || !Mathf.Approximately(horizontalMovement, 0.0f))
+            transform.localRotation = Quaternion.RotateTowards(
             transform.localRotation,
             Quaternion.LookRotation(direction, Vector3.up),
             rotationSpeed * Time.deltaTime);
+
     }
 }
