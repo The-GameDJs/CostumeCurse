@@ -27,18 +27,8 @@ public class Player : MonoBehaviour
         float verticalMovement = Input.GetAxis("Vertical");
 
         Vector3 direction = new Vector3(horizontalMovement, 0f, verticalMovement).normalized;
-        Vector3 targetPosition = transform.position + direction;
 
-        if (characterController.isGrounded)
-        {
-            print("CharacterController is grounded");
-        }
-        characterController.SimpleMove(direction * movementSpeed * Time.deltaTime);
-
-        //transform.position = Vector3.Lerp(
-        //    transform.position, 
-        //    targetPosition, 
-        //    movementSpeed * Time.deltaTime);
+        characterController.SimpleMove(direction * movementSpeed);
 
         if (!Mathf.Approximately(verticalMovement, 0.0f) || !Mathf.Approximately(horizontalMovement, 0.0f))
             transform.localRotation = Quaternion.RotateTowards(
