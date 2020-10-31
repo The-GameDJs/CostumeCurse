@@ -6,11 +6,22 @@ using UnityEngine.UI;
 public class Costume : MonoBehaviour
 {
     [SerializeField] private GameObject abilitiesUI;
+    private bool displayAbilities;
 
     // TODO: Stop displaying abilities UI after a choice
 
-    public void DisplayAbilities(bool boolean)
+    private void Update()
     {
-        abilitiesUI.SetActive(boolean);
+        if (displayAbilities)
+        {
+            Vector3 relativeScreenPosition = Camera.main.WorldToScreenPoint(transform.position);
+            abilitiesUI.transform.position = relativeScreenPosition;
+        }
+    }
+
+    public void DisplayAbilities(bool displayAbilities)
+    {
+        this.displayAbilities = displayAbilities;
+        abilitiesUI.SetActive(displayAbilities);
     }
 }
