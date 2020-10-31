@@ -77,7 +77,7 @@ public class ThunderStorm : Ability
 
     private void AnimateThunderstrike(float progress)
     {
-        if (progress <= timeWindowForStrikes / 2.0f + perfectStrikeTimeWindow)
+        if (progress <= timeWindowForStrikes / 2.0f)
             thunder.transform.localScale += scaleChange;
         else
             thunder.transform.localScale -= scaleChange;
