@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class ThunderStorm : Ability
 {
-    enum PHASE { THUNDERCLOUD, THUNDERSTRIKE, INACTIVE}
+    enum Phase { Cloud, Strike, Inactive}
 
     // This holds the thunderstrike/thunderstorm prefab
     [SerializeField] GameObject thunder;
     Timer timer;
 
-    int numberOfThunderStrikes = 3;
+    int totalThunderStrikes = 3;
     int completedThunderStrikes = 0;
 
     float timeWindowForStrikes = 3.0f;
@@ -24,7 +24,7 @@ public class ThunderStorm : Ability
     int minDamage = 10;
     int maxDamage = 30;
 
-    PHASE phase = PHASE.INACTIVE;
+    Phase phase = Phase.Inactive;
     // Temporary for testing purposes
     Vector3 scaleChange = new Vector3(0.01f, 0.01f, 0.01f);
 
@@ -37,84 +37,107 @@ public class ThunderStorm : Ability
 
     void Update()
     {
-        if (phase == PHASE.THUNDERCLOUD)
-        {
-            if(timer.GetTimerState())
-            {
-                if(Input.GetKeyDown(KeyCode.Z))
-                {
-                    pressCounter++;
-                }
-            }
-            else
-            {
-                Debug.Log(pressCounter);
-                Debug.Log(CalculateBaseDamage());
-                completedThunderStrikes = 0;
-                //Start next phase after this phase is completed
-                StartThunderStrike();
-            }
-        }
+        if (phase == Phase.Cloud)
+            ThundercloudUpdate();
 
-        else if (phase == PHASE.THUNDERSTRIKE)
-        {
-            if(timer.GetTimerState())
-            {
-                // Temporary for testing purposes
-                // TODO: Change to final animation
-                if(timer.GetCurrentTime() <= timeWindowForStrikes / 2.0f + perfectStrikeTimeWindow)
-                {
-                    thunder.transform.localScale += scaleChange;
-                }
-                else
-                {
-                    thunder.transform.localScale -= scaleChange;
-                }
-
-                if(Input.GetKeyDown(KeyCode.X))
-                {
-                    Debug.Log("X pressed");
-                    timer.StopTimer();
-                    // TODO: At this point add calculated damage and bonus damage
-                }
-            }
-            else
-            {
-                EvaluateThunderStrikeInput(timer.GetCurrentTime());
-                phase = PHASE.INACTIVE;
-                completedThunderStrikes++;
-                // Start next thunderstrike
-                if(completedThunderStrikes < numberOfThunderStrikes)
-                {
-                    thunder.transform.localScale = new Vector3(1,1,1);
-                    StartThunderStrike();
-                }
-            }
-        }
+        if (phase == Phase.Strike)
+            ThunderstrikeUpdate();
+        
         // TODO: Implement "break"
     }
 
+    private void ThunderstrikeUpdate()
+    {
+        if (timer.IsInProgress())
+        {
+            // Temporary for testing purposes
+            // TODO: Change to final animation           
+            if (timer.GetProgress() <= timeWindowForStrikes / 2.0f + perfectStrikeTimeWindow)
+                thunder.transform.localScale += scaleChange;
+            else
+                thunder.transform.localScale -= scaleChange;
+
+            if (Input.GetKeyDown(KeyCode.X))
+            {
+                Debug.Log("X pressed during Thunderstrike Phase");
+                
+                timer.StopTimer();
+                
+                // TODO: At this point add calculated damage and bonus damage
+            }
+        }
+        
+        if (timer.IsFinished())
+        {
+            EvaluateThunderStrikeInput(timer.GetProgress());
+            phase = Phase.Inactive;
+            completedThunderStrikes++;
+            
+            if (completedThunderStrikes < totalThunderStrikes)
+                NewThunderStrike();
+        }
+    }
+
+    private void ThundercloudUpdate()
+    {
+        if (timer.IsInProgress())
+            ThundercloudMash();
+        else
+        {
+            Debug.Log($"Thundercloud Complete with presses: {pressCounter}");
+            
+            int baseDamage = CalculateBaseDamage();
+            Debug.Log($"Base damage: {baseDamage}");
+
+            StartThunderStrikePhase();
+        }
+    }
+
+    private void ThundercloudMash()
+    {
+        if (Input.GetKeyDown(KeyCode.Z))
+            pressCounter++;
+    }
+
     public override void UseAbility()
-    {   
-        pressCounter = 0;
-        phase = PHASE.THUNDERCLOUD;
-        timer.StartTimer(maxTimeOfInput);
+    {
+        StartThunderCloudPhase();
+    }
+
+    private void StartThunderCloudPhase()
+    {
         Debug.Log("Thundercloud phase start");
+
+        pressCounter = 0;
+        phase = Phase.Cloud;
+        timer.StartTimer(maxTimeOfInput);
     }
 
     int CalculateBaseDamage()
     {
-        int damage = 0;
-        damage = (int) (pressCounter / 100.0f * ((maxDamage-minDamage)+1) + minDamage);
+        int damage = (int) (pressCounter / 100.0f * ((maxDamage-minDamage)+1) + minDamage);
+        // TODO: Implement bonus damage calculation
+
         return damage;
     }
 
-    // TODO: Implement bonus damage calculation
 
-    void StartThunderStrike()
+    void StartThunderStrikePhase()
     {
-        phase = PHASE.THUNDERSTRIKE;
         Debug.Log("Thunderbolt phase start");
+
+        phase = Phase.Strike;
+        completedThunderStrikes = 0;
+        
+        NewThunderStrike();
+    }
+
+    private void NewThunderStrike()
+    {
+        completedThunderStrikes++;
+        Debug.Log($"New thunderstrike, number {completedThunderStrikes}");
+
+        thunder.transform.localScale = Vector3.one;
         timer.StartTimer(timeWindowForStrikes);
     }
 
