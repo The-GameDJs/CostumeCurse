@@ -2,48 +2,64 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+enum TimerState { InProgress, Finished, NotStarted }
+
 public class Timer : MonoBehaviour
 {
-    float timer;
-    float maxTime;
-    bool isStarted;
+    float progress;
+    float duration;
+    private TimerState timerState;
 
     void Start()
     {
-        isStarted = false;
+        timerState = TimerState.NotStarted;
     }
 
     void Update()
     {
-        if(isStarted && timer < maxTime)
-        {
-            timer += Time.deltaTime;
-        }
+        if (timerState != TimerState.InProgress)
+            return;
+        
+        if (progress < duration)
+            IncrementTimer();
         else
-        {
             StopTimer();
-        }
     }
 
-    public void StartTimer(float max)
+    private void IncrementTimer()
     {
-        maxTime = max;
-        timer = 0;
-        isStarted = true;
+        progress += Time.deltaTime;
+    }
+
+    public void StartTimer(float duration)
+    {
+        this.duration = duration;
+        progress = 0;
+        timerState = TimerState.InProgress;
     }
 
     public void StopTimer()
     {
-        isStarted = false;
+        timerState = TimerState.Finished;
+    }
+    
+    public void ResetTimer()
+    {
+        timerState = TimerState.NotStarted;
     }
 
-    public float GetCurrentTime()
+    public float GetProgress()
     {
-        return timer;
+        return progress;
     }
 
-    public bool GetTimerState()
+    public bool IsInProgress()
     {
-        return isStarted;
+        return timerState == TimerState.InProgress;
+    }
+    
+    public bool IsFinished()
+    {
+        return timerState == TimerState.Finished;
     }
 }
