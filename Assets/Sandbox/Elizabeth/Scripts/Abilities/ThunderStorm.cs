@@ -1,93 +1,112 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UIElements;
 
 public class ThunderStorm : Ability
 {
-    enum Phase { Cloud, Strike, Inactive}
+    private enum Phase { Cloud, Strike, Inactive }
 
-    // This holds the thunderstrike/thunderstorm prefab
-    [SerializeField] GameObject thunder;
-    Timer timer;
+    [SerializeField]
+    private GameObject thunder;
+    private Timer timer;
 
-    int totalThunderStrikes = 3;
-    int completedThunderStrikes = 0;
+    private readonly int totalThunderStrikes = 3;
+    private int currentThunderStrike = 0;
 
-    float timeWindowForStrikes = 3.0f;
-    float goodStrikeTimeWindow = 0.5f;
-    float perfectStrikeTimeWindow = 0.2f;
-    // TODO: If we want to implement a "break" between thunderstrikes
-    float strikeTimeInterval = 2.0f;
+    private readonly float timeWindowForStrikes = 3.0f;
+    private readonly float goodStrikeTimeWindow = 1.5f;
+    private readonly float perfectStrikeTimeWindow = 0.5f;
+    private readonly float strikeTimeInterval = 2.0f;
 
-    int pressCounter;
-    float maxTimeOfInput = 5.0f;
-    int minDamage = 10;
-    int maxDamage = 30;
+    private int pressCounter;
+    private readonly float maxTimeOfInput = 5.0f;
+    private readonly int minDamage = 10;
+    private readonly int maxDamage = 30;
+    private readonly int perfectDamageBonus = 50;
+    private readonly int goodDamageBonus = 20;
+    private int currentDamage;
 
-    Phase phase = Phase.Inactive;
-    // Temporary for testing purposes
-    Vector3 scaleChange = new Vector3(0.01f, 0.01f, 0.01f);
+    private Phase phase = Phase.Inactive;
+    private Vector3 scaleChange = new Vector3(0.01f, 0.01f, 0.01f);
 
-    // TODO: Implement damange dealing to enemies
-    
-    void Start()
+    private void Start()
     {
         timer = GetComponent<Timer>();
     }
 
-    void Update()
+    private void Update()
     {
         if (phase == Phase.Cloud)
             ThundercloudUpdate();
 
         if (phase == Phase.Strike)
             ThunderstrikeUpdate();
-        
-        // TODO: Implement "break"
     }
 
     private void ThunderstrikeUpdate()
     {
         if (timer.IsInProgress())
         {
-            // Temporary for testing purposes
-            // TODO: Change to final animation           
-            if (timer.GetProgress() <= timeWindowForStrikes / 2.0f + perfectStrikeTimeWindow)
-                thunder.transform.localScale += scaleChange;
-            else
-                thunder.transform.localScale -= scaleChange;
+            float progress = timer.GetProgress();
 
-            if (Input.GetKeyDown(KeyCode.X))
+            AnimateThunderstrike(progress);
+
+            if (Input.GetButtonDown("Action Command"))
             {
-                Debug.Log("X pressed during Thunderstrike Phase");
-                
+                Debug.Log("Action Command pressed during Thunderstrike Phase");
+
                 timer.StopTimer();
-                
-                // TODO: At this point add calculated damage and bonus damage
             }
         }
-        
+
         if (timer.IsFinished())
         {
             EvaluateThunderStrikeInput(timer.GetProgress());
             phase = Phase.Inactive;
-            completedThunderStrikes++;
-            
-            if (completedThunderStrikes < totalThunderStrikes)
-                NewThunderStrike();
+
+            if (currentThunderStrike < totalThunderStrikes)
+                Invoke(nameof(NewThunderStrike), UnityEngine.Random.Range(strikeTimeInterval, 1.5f * strikeTimeInterval));
+            else
+                ConcludeAbility();
         }
+    }
+
+    private void AnimateThunderstrike(float progress)
+    {
+        if (progress <= timeWindowForStrikes / 2.0f + perfectStrikeTimeWindow)
+            thunder.transform.localScale += scaleChange;
+        else
+            thunder.transform.localScale -= scaleChange;
+
+        if (WithinPerfectStrikeWindow(progress))
+            thunder.GetComponent<Renderer>().material.color = Color.red;
+        else if (WithinGoodStrikeWindow(progress))
+            thunder.GetComponent<Renderer>().material.color = Color.blue;
+        else
+            thunder.GetComponent<Renderer>().material.color = Color.white;
+    }
+
+    private void ConcludeAbility()
+    {
+        Debug.Log($"Thunderstorm Damage total: {currentDamage}");
     }
 
     private void ThundercloudUpdate()
     {
         if (timer.IsInProgress())
+        {
             ThundercloudMash();
+        }
         else
         {
             Debug.Log($"Thundercloud Complete with presses: {pressCounter}");
-            
-            int baseDamage = CalculateBaseDamage();
-            Debug.Log($"Base damage: {baseDamage}");
+
+            currentDamage = CalculateThunderCloudDamage();
+            Debug.Log($"Thunder Cloud Build Up damage: {currentDamage}");
 
             StartThunderStrikePhase();
         }
@@ -95,8 +114,12 @@ public class ThunderStorm : Ability
 
     private void ThundercloudMash()
     {
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetButtonDown("Action Command"))
+        {
             pressCounter++;
+            thunder.transform.localScale += 20 * scaleChange;
+        }
+
     }
 
     public override void UseAbility()
@@ -113,54 +136,68 @@ public class ThunderStorm : Ability
         timer.StartTimer(maxTimeOfInput);
     }
 
-    int CalculateBaseDamage()
+    private int CalculateThunderCloudDamage()
     {
-        int damage = (int) (pressCounter / 100.0f * ((maxDamage-minDamage)+1) + minDamage);
-        // TODO: Implement bonus damage calculation
+        int damage = (int)((pressCounter / 100.0f * (maxDamage - minDamage + 1)) + minDamage);
 
         return damage;
     }
 
 
-    void StartThunderStrikePhase()
+    private void StartThunderStrikePhase()
     {
         Debug.Log("Thunderbolt phase start");
 
-        phase = Phase.Strike;
-        completedThunderStrikes = 0;
-        
-        NewThunderStrike();
+        phase = Phase.Inactive;
+        thunder.transform.localScale = Vector3.one;
+
+        currentThunderStrike = 0;
+
+        Invoke(nameof(NewThunderStrike), UnityEngine.Random.Range(strikeTimeInterval, 1.5f * strikeTimeInterval));
+
     }
 
     private void NewThunderStrike()
     {
-        completedThunderStrikes++;
-        Debug.Log($"New thunderstrike, number {completedThunderStrikes}");
+        currentThunderStrike++;
+        Debug.Log($"New thunderstrike, currently on # {currentThunderStrike}");
+
+        phase = Phase.Strike;
 
         thunder.transform.localScale = Vector3.one;
         timer.StartTimer(timeWindowForStrikes);
     }
 
     // TODO: Implement user feedback
-    void EvaluateThunderStrikeInput(float timerValue)
+    private void EvaluateThunderStrikeInput(float timerValue)
     {
         Debug.Log("Timer Value: " + timerValue);
-    
-        if (timerValue >= (timeWindowForStrikes / 2.0f - perfectStrikeTimeWindow) &&
-            timerValue <= (timeWindowForStrikes / 2.0f + perfectStrikeTimeWindow))
+
+        if (WithinPerfectStrikeWindow(timerValue))
         {
             Debug.Log("Perfect Strike");
+            currentDamage += perfectDamageBonus;
         }
-
-        else if (timerValue >= (timeWindowForStrikes + goodStrikeTimeWindow) &&
-                timerValue <= (timeWindowForStrikes - goodStrikeTimeWindow))
+        else if (WithinGoodStrikeWindow(timerValue))
         {
             Debug.Log("Good Strike");
+            currentDamage += goodDamageBonus;
         }
-
         else
         {
             Debug.Log("Missed Strike");
         }
+    }
+
+    private bool WithinGoodStrikeWindow(float timerValue)
+    {
+        return timerValue >= ((timeWindowForStrikes - goodStrikeTimeWindow) / 2.0f) &&
+                    timerValue <= ((timeWindowForStrikes + goodStrikeTimeWindow) / 2.0f);
+    }
+
+    private bool WithinPerfectStrikeWindow(float timerValue)
+    {
+        return timerValue >= ((timeWindowForStrikes - perfectStrikeTimeWindow) / 2.0f) &&
+                    timerValue <= ((timeWindowForStrikes + perfectStrikeTimeWindow) / 2.0f);
     }
 }
