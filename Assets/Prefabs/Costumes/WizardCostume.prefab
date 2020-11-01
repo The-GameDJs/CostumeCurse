@@ -10,8 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1927651598062133287}
   - component: {fileID: 5420633139810198379}
+  - component: {fileID: 8209177477390665232}
+  - component: {fileID: 4772747129340349577}
   m_Layer: 0
-  m_Name: WizardCostume 1
+  m_Name: WizardCostume
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,3 +46,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   abilitiesUI: {fileID: 0}
+--- !u!114 &8209177477390665232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5526754725628559126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a47175b7790b16c458eb7e1844ff546f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thunder: {fileID: 1850965175944089189, guid: 3b650ef091932f040b5135d8cfe3c4df, type: 3}
+--- !u!114 &4772747129340349577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5526754725628559126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6c24458bbc330b42991d046af3fbd56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
