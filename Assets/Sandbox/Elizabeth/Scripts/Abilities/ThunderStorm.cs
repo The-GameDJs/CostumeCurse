@@ -31,11 +31,14 @@ public class ThunderStorm : Ability
     private int currentDamage;
 
     private Phase phase = Phase.Inactive;
-    private Vector3 scaleChange = new Vector3(0.01f, 0.01f, 0.01f);
+    
+    private readonly float thunderCloudGrowthSpeed = 0.05f;
+    private readonly float thunderStrikeGrowthSpeed = 1.0f;
 
     private void Start()
     {
         timer = GetComponent<Timer>();
+        thunder.SetActive(false);
     }
 
     private void Update()
@@ -67,6 +70,7 @@ public class ThunderStorm : Ability
         {
             EvaluateThunderStrikeInput(timer.GetProgress());
             phase = Phase.Inactive;
+            thunder.SetActive(false);
 
             if (currentThunderStrike < totalThunderStrikes)
                 Invoke(nameof(NewThunderStrike), UnityEngine.Random.Range(strikeTimeInterval, 1.5f * strikeTimeInterval));
@@ -76,11 +80,11 @@ public class ThunderStorm : Ability
     }
 
     private void AnimateThunderstrike(float progress)
-    {
+    {        
         if (progress <= timeWindowForStrikes / 2.0f)
-            thunder.transform.localScale += scaleChange;
+            thunder.transform.localScale += Vector3.one * thunderStrikeGrowthSpeed * Time.deltaTime;
         else
-            thunder.transform.localScale -= scaleChange;
+            thunder.transform.localScale -= Vector3.one * thunderStrikeGrowthSpeed * Time.deltaTime;
 
         if (WithinPerfectStrikeWindow(progress))
             thunder.GetComponent<Renderer>().material.color = Color.red;
@@ -93,6 +97,7 @@ public class ThunderStorm : Ability
     private void ConcludeAbility()
     {
         Debug.Log($"Thunderstorm Damage total: {currentDamage}");
+        thunder.SetActive(false);
     }
 
     private void ThundercloudUpdate()
@@ -106,6 +111,7 @@ public class ThunderStorm : Ability
             Debug.Log($"Thundercloud Complete with presses: {pressCounter}");
 
             currentDamage = CalculateThunderCloudDamage();
+            thunder.SetActive(false);
             Debug.Log($"Thunder Cloud Build Up damage: {currentDamage}");
 
             StartThunderStrikePhase();
@@ -117,9 +123,8 @@ public class ThunderStorm : Ability
         if (Input.GetButtonDown("Action Command"))
         {
             pressCounter++;
-            thunder.transform.localScale += 20 * scaleChange;
+            thunder.transform.localScale += Vector3.one * thunderCloudGrowthSpeed;
         }
-
     }
 
     public override void UseAbility()
@@ -133,6 +138,12 @@ public class ThunderStorm : Ability
 
         pressCounter = 0;
         phase = Phase.Cloud;
+
+        thunder.transform.position = transform.position + 5f * Vector3.up;
+        thunder.transform.localScale = Vector3.one;
+        thunder.SetActive(true);
+        thunder.GetComponent<Renderer>().material.color = Color.white;
+
         timer.StartTimer(maxTimeOfInput);
     }
 
@@ -149,7 +160,9 @@ public class ThunderStorm : Ability
         Debug.Log("Thunderbolt phase start");
 
         phase = Phase.Inactive;
+
         thunder.transform.localScale = Vector3.one;
+        thunder.transform.position = transform.position + 5f * Vector3.up + 5f * Vector3.right;
 
         currentThunderStrike = 0;
 
@@ -164,6 +177,7 @@ public class ThunderStorm : Ability
 
         phase = Phase.Strike;
 
+        thunder.SetActive(true);
         thunder.transform.localScale = Vector3.one;
         timer.StartTimer(timeWindowForStrikes);
     }
