@@ -38,7 +38,7 @@ public class ThunderStorm : Ability
     private void Start()
     {
         timer = GetComponent<Timer>();
-        //thunder.SetActive(false);
+        thunder.SetActive(false);
     }
 
     private void Update()
@@ -70,7 +70,7 @@ public class ThunderStorm : Ability
         {
             EvaluateThunderStrikeInput(timer.GetProgress());
             phase = Phase.Inactive;
-            //thunder.SetActive(false);
+            thunder.SetActive(false);
 
             if (currentThunderStrike < totalThunderStrikes)
                 Invoke(nameof(NewThunderStrike), UnityEngine.Random.Range(strikeTimeInterval, 1.5f * strikeTimeInterval));
@@ -97,7 +97,7 @@ public class ThunderStorm : Ability
     protected override void ConcludeAbility()
     {
         Debug.Log($"Thunderstorm Damage total: {currentDamage}");
-        //thunder.SetActive(false);
+        thunder.SetActive(false);
     }
 
     private void ThundercloudUpdate()
@@ -111,7 +111,7 @@ public class ThunderStorm : Ability
             Debug.Log($"Thundercloud Complete with presses: {pressCounter}");
 
             currentDamage = CalculateThunderCloudDamage();
-            //thunder.SetActive(false);
+            thunder.SetActive(false);
             Debug.Log($"Thunder Cloud Build Up damage: {currentDamage}");
 
             StartThunderStrikePhase();

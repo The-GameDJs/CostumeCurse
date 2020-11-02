@@ -12,6 +12,9 @@ public class CombatZone : MonoBehaviour
     private GameObject[] Players;
     [SerializeField]
     private GameObject[] PlayerPositions;
+    [SerializeField]
+    private CombatSystem CombatSystem;
+
 
     private bool CombatStarted;
 
@@ -24,7 +27,8 @@ public class CombatZone : MonoBehaviour
         {
             CombatStarted = true;
             Debug.Log("Entered combat zone");
-
+            
+            // Initializing positions for combat
             for (int i = 0; i < EnemyPositions.Length; i++)
             {
                 Enemies[i].transform.position = EnemyPositions[i].transform.position;
@@ -39,8 +43,10 @@ public class CombatZone : MonoBehaviour
                 player.transform.position = PlayerPositions[j].transform.position;
                 player.SetActive(true);
             }
-
+            
+            CombatSystem.InitiateCombat(Players, Enemies);
         }
+        
     }
 
     void OnTriggerExit(Collider other)
