@@ -5,4 +5,6 @@ using UnityEngine;
 public abstract class Ability : MonoBehaviour
 {
     public abstract void UseAbility();
+
+    protected abstract void ConcludeAbility();
 }

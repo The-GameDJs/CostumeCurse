@@ -8,8 +8,8 @@ public abstract class Character : MonoBehaviour
 
     public abstract void PlayTurn();
 
-    private void AddHitPoints(int value)
+    protected void TakeDamage(int damage)
     {
-        hitPoints += value;
+        hitPoints -= damage;
     }
 }

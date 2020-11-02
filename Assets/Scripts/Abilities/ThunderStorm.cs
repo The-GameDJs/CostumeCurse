@@ -38,7 +38,7 @@ public class ThunderStorm : Ability
     private void Start()
     {
         timer = GetComponent<Timer>();
-        thunder.SetActive(false);
+        //thunder.SetActive(false);
     }
 
     private void Update()
@@ -70,7 +70,7 @@ public class ThunderStorm : Ability
         {
             EvaluateThunderStrikeInput(timer.GetProgress());
             phase = Phase.Inactive;
-            thunder.SetActive(false);
+            //thunder.SetActive(false);
 
             if (currentThunderStrike < totalThunderStrikes)
                 Invoke(nameof(NewThunderStrike), UnityEngine.Random.Range(strikeTimeInterval, 1.5f * strikeTimeInterval));
@@ -94,10 +94,10 @@ public class ThunderStorm : Ability
             thunder.GetComponent<Renderer>().material.color = Color.white;
     }
 
-    private void ConcludeAbility()
+    protected override void ConcludeAbility()
     {
         Debug.Log($"Thunderstorm Damage total: {currentDamage}");
-        thunder.SetActive(false);
+        //thunder.SetActive(false);
     }
 
     private void ThundercloudUpdate()
@@ -111,7 +111,7 @@ public class ThunderStorm : Ability
             Debug.Log($"Thundercloud Complete with presses: {pressCounter}");
 
             currentDamage = CalculateThunderCloudDamage();
-            thunder.SetActive(false);
+            //thunder.SetActive(false);
             Debug.Log($"Thunder Cloud Build Up damage: {currentDamage}");
 
             StartThunderStrikePhase();
@@ -139,9 +139,9 @@ public class ThunderStorm : Ability
         pressCounter = 0;
         phase = Phase.Cloud;
 
+        thunder.SetActive(true);
         thunder.transform.position = transform.position + 5f * Vector3.up;
         thunder.transform.localScale = Vector3.one;
-        thunder.SetActive(true);
         thunder.GetComponent<Renderer>().material.color = Color.white;
 
         timer.StartTimer(maxTimeOfInput);
@@ -161,6 +161,7 @@ public class ThunderStorm : Ability
 
         phase = Phase.Inactive;
 
+        thunder.SetActive(true);
         thunder.transform.localScale = Vector3.one;
         thunder.transform.position = transform.position + 5f * Vector3.up + 5f * Vector3.right;
 

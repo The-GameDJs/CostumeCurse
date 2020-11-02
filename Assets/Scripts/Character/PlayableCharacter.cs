@@ -4,26 +4,42 @@ using UnityEngine;
 
 public class PlayableCharacter : Character
 {
-    [SerializeField] Costume costume;
+    [SerializeField] 
+    Costume costume;
+    [SerializeField] 
+    CombatSystem combatSystem;
 
     void Start()
     {
-        
         costume.DisplayAbilities(false);
+        //combatSystem = 
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Debug.Log("Space pressed");
-            costume.DisplayAbilities(true);
-        }
+
     }
 
     public override void PlayTurn()
     {
+        Debug.Log("Playing Turn");
+
+        costume.DisplayAbilities(true);
+
         // TODO: Implement turn system
+
+        // notify gamesystem
+    }
+
+    public bool ReturnablePlayTurn()
+    {
+        Debug.Log("Playing Turn");
+        costume.DisplayAbilities(true);
+
+        return true;
+        // TODO: Implement turn system
+
+        // notify gamesystem
     }
 
 }
