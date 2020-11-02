@@ -15,10 +15,6 @@ public class CombatZone : MonoBehaviour
 
     private bool CombatStarted;
 
-    void Start()
-    {
-     
-    }
 
     void OnTriggerEnter(Collider other)
     {
@@ -35,11 +31,14 @@ public class CombatZone : MonoBehaviour
                 Enemies[i].transform.position = EnemyPositions[i].transform.position;
             }
 
-
-            // other.GetComponent<CharacterController>().SimpleMove(playerPositions[0].transform.position - other.transform.position);
-            other.gameObject.SetActive(false);
-            other.transform.position = PlayerPositions[0].transform.position;
-            other.gameObject.SetActive(true);
+            for (int j = 0; j < PlayerPositions.Length; j++)
+            {
+                Players[j].GetComponent<CharacterController>().enabled = !Players[j].GetComponent<CharacterController>().enabled;
+                Players[j].GetComponent<Player>().enabled = !Players[j].GetComponent<Player>().enabled;
+                Players[j].SetActive(false);
+                Players[j].transform.position = PlayerPositions[j].transform.position;
+                Players[j].SetActive(true);
+            }
 
         }
     }
@@ -47,5 +46,11 @@ public class CombatZone : MonoBehaviour
     void OnTriggerExit(Collider other)
     {
         CombatStarted = false;
+
+        for (int j = 0; j < PlayerPositions.Length; j++)
+        {
+            Players[j].GetComponent<CharacterController>().enabled = !Players[j].GetComponent<CharacterController>().enabled;
+            Players[j].GetComponent<Player>().enabled = !Players[j].GetComponent<Player>().enabled;
+        }
     }
 }
