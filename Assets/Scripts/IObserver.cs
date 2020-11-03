@@ -1,4 +1,4 @@
 ﻿public interface IObserver
 {
-    void OnNotify(CharacterEvent gameEvent);
+    void OnNotify();
 }

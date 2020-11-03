@@ -35,10 +35,16 @@ public class ThunderStorm : Ability
     private readonly float thunderCloudGrowthSpeed = 0.05f;
     private readonly float thunderStrikeGrowthSpeed = 1.0f;
 
-    private void Start()
+    public new void Start()
     {
+        base.Start();
         timer = GetComponent<Timer>();
         thunder.SetActive(false);
+
+        TargetSchema = new TargetSchema(
+            0,
+            CombatantType.Enemy,
+            SelectorType.All);
     }
 
     private void Update()
@@ -75,7 +81,7 @@ public class ThunderStorm : Ability
             if (currentThunderStrike < totalThunderStrikes)
                 Invoke(nameof(NewThunderStrike), UnityEngine.Random.Range(strikeTimeInterval, 1.5f * strikeTimeInterval));
             else
-                ConcludeAbility();
+                EndAbility();
         }
     }
 
@@ -94,11 +100,13 @@ public class ThunderStorm : Ability
             thunder.GetComponent<Renderer>().material.color = Color.white;
     }
 
-    protected override void ConcludeAbility()
+    protected override void EndAbility()
     {
         Debug.Log($"Thunderstorm Damage total: {currentDamage}");
         thunder.SetActive(false);
-        gameObject.GetComponentInParent<Character>().NotifyEndOfTurn();
+
+        // TODO end the turn, or signal defend, TBD
+        //CombatSystem.CombatantIsDoneTurn(this.GetComponent<>);
     }
 
     private void ThundercloudUpdate()
@@ -128,7 +136,7 @@ public class ThunderStorm : Ability
         }
     }
 
-    public override void UseAbility()
+    protected override void ContinueAbilityAfterTargeting()
     {
         StartThunderCloudPhase();
     }
