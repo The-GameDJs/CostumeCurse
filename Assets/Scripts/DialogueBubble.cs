@@ -11,24 +11,34 @@ public class DialogueBubble : MonoBehaviour
     const string kAlphaCode = "<color=#00000000>";
     const float kMaxTextTime = 0.1f;
     public static int TextSpeed = 2;
+
+    CanvasGroup Group;
     
-    // Start is called before the first frame update
     void Start()
     {
-        
+        Group = GetComponent<CanvasGroup>();
+        Group.alpha = 0;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Show(string text)
     {
-        
+        Group.alpha = 1;
+        CurrentText = text;
+        StartCoroutine(DisplayText());
     }
+
+    public void Close()
+    {
+        StopAllCoroutines();
+        Group.alpha = 0;
+    }
+
 
     private IEnumerator DisplayText()
     {
         if (Text == null)
         {
-            Debug.LogError("Text is not linked in DialogueWindow: " + gameObject.name);
+            Debug.LogError("Text is not linked in TextBubble: " + gameObject.name);
             yield return null;
         }
 
