@@ -1,0 +1,44 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public abstract class Ability : MonoBehaviour
+{
+    public TargetSelector TargetSelector;
+    public CombatSystem CombatSystem;
+
+    public TargetSchema TargetSchema;
+
+    public GameObject[] TargetedCombatants;
+
+    public void Start()
+    {
+        TargetSelector = GameObject.FindGameObjectWithTag("TargetSelector").GetComponent<TargetSelector>();
+        CombatSystem = GameObject.FindGameObjectWithTag("CombatSystem").GetComponent<CombatSystem>();
+    }
+
+    public void StartAbility()
+    {
+        Debug.Log("StartAbility");
+        Debug.Log(TargetSelector);
+        TargetSelector.Target(this);
+
+        // TODO this should end here. 
+        // TargetSelector should call SetTargetedCombatants afterward, which THEN calls
+        // ContinueAbilityAfterTargeting
+        ContinueAbilityAfterTargeting();
+    }
+
+    protected abstract void ContinueAbilityAfterTargeting();
+
+    // called by the TargetSelector once it has selected targets
+    public void SetTargetedCombatants(GameObject[] targetedCombatants)
+    {
+        TargetedCombatants = targetedCombatants;
+
+        ContinueAbilityAfterTargeting();
+    }
+
+    protected abstract void EndAbility();
+}

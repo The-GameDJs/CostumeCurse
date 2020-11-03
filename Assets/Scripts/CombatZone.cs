@@ -12,11 +12,15 @@ public class CombatZone : MonoBehaviour
     private GameObject[] Players;
     [SerializeField]
     private GameObject[] PlayerPositions;
-    [SerializeField]
-    private CombatSystem CombatSystem;
+    protected CombatSystem CombatSystem;
 
 
     private bool CombatStarted;
+
+    public void Start()
+    {
+        CombatSystem = GameObject.FindGameObjectWithTag("CombatSystem").GetComponent<CombatSystem>();
+    }
 
     void OnTriggerEnter(Collider other)
     {
@@ -44,7 +48,7 @@ public class CombatZone : MonoBehaviour
                 player.SetActive(true);
             }
             
-            CombatSystem.InitiateCombat(Players, Enemies);
+            CombatSystem.StartCombat(Players, Enemies);
         }
         
     }

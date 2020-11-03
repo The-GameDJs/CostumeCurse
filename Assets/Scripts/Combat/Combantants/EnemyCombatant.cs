@@ -1,8 +1,9 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.Combat;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyCharacter : Character
+public class EnemyCombatant : Combatant
 {
     [SerializeField] 
     private GameObject enemyPanel;
@@ -11,7 +12,7 @@ public class EnemyCharacter : Character
     private GameObject enemyUI;
 
     private bool displayUI;
-
+    
     private void Update()
     {
         if (displayUI)
@@ -31,14 +32,27 @@ public class EnemyCharacter : Character
     // Start is called before the first frame update
     void Start()
     {
+        // For now TODO
+        TurnPriority = 10;
+
         enemyUI = Instantiate(enemyUITemplate);
         enemyUI.transform.parent = enemyPanel.transform;
 
         DisplayUI(true); // for now
     }
 
-    public override void PlayTurn()
+    public override void StartTurn()
     {
         
+    }
+
+    public override void EndTurn()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override void Defend(Attack attack)
+    {
+        throw new System.NotImplementedException();
     }
 }
