@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CombatSystem : MonoBehaviour
+public class CombatSystem : MonoBehaviour, IObserver
 {
     // Not sure if keeping states
-    private enum CombatState { CombatEnd, TurnStart, TurnEnd }
+    private enum CombatState { CombatLose, CombatWin, TurnStart, TurnEnd }
     private enum PlayerTurn { Sield, Ganiel }
 
     private CombatState combatState;
@@ -35,17 +35,35 @@ public class CombatSystem : MonoBehaviour
     {
         if (combatState == CombatState.TurnStart)
         {
+
             CharacterOrder[CurrentCharacterTurnIndex].PlayTurn();
         }
 
         if (combatState == CombatState.TurnEnd)
         {
-            
+            // Check if all players or all enemies are dead
+
+            // If all players are dead, game over
+            // Change combat state to CombatLose
+
+            // If all enemies are dead, end of combat
+            // Change combat state to CombatWin
+
+            // Else, continue combat
+            // Increase turn index (Make it circular) CurrentCharacterTurnIndex
+            // Change combat state back to TurnStart
         }
 
-        if (combatState == CombatState.CombatEnd)
+        if (combatState == CombatState.CombatLose)
         {
+            // Load game over screen
+        }
 
+        if (combatState == CombatState.CombatWin)
+        {
+            // Get rid of combat trigger
+            // ??? Do we want to start each fight with full HP or not?
+            // Revert back to overworld control
         }
     }
 
@@ -76,4 +94,11 @@ public class CombatSystem : MonoBehaviour
         // ResultOfTurn resultOfTurn = sield.PlayTurn();
     }
 
+    public void OnNotify(CharacterEvent gameEvent)
+    {
+        if(gameEvent.isTurnCompleted == true)
+        {
+            combatState = CombatState.TurnEnd;
+        }
+    }
 }

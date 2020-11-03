@@ -98,6 +98,7 @@ public class ThunderStorm : Ability
     {
         Debug.Log($"Thunderstorm Damage total: {currentDamage}");
         thunder.SetActive(false);
+        gameObject.GetComponentInParent<Character>().NotifyEndOfTurn();
     }
 
     private void ThundercloudUpdate()
