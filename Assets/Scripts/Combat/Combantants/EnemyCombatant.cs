@@ -25,7 +25,7 @@ public class EnemyCombatant : Combatant
 
     private void UpdateUIPosition()
     {
-        if (displayUI)
+        if (displayUI && isAlive)
         {
             Vector3 relativeScreenPosition = Camera.main.WorldToScreenPoint(transform.position);
             enemyUI.transform.position = relativeScreenPosition;

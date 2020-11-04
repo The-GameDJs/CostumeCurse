@@ -17,7 +17,7 @@ public abstract class Combatant : MonoBehaviour
     [SerializeField]
     GameObject HealthBarUIPanel;
 
-    private GameObject HealthBar;
+    public GameObject HealthBar;
     private bool displayHealthBar;
 
     public bool isAlive = true;
