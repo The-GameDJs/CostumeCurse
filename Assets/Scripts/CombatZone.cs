@@ -63,16 +63,20 @@ public class CombatZone : MonoBehaviour
 
     public void DestroyCombatZone()
     {
-        // TODO Aramando ;)
-        Debug.Log("TODO by Aramdo");
-    }
-
-    void OnTriggerExit(Collider other)
-    {
-        for (int j = 0; j < PlayerPositions.Length; j++)
+        Debug.Log("Combat has Ended");
+        foreach(GameObject player in Players)
         {
-            Players[j].GetComponent<CharacterController>().enabled = true;
-            Players[j].GetComponent<Player>().enabled = true;
+            player.GetComponent<CharacterController>().enabled = true;
+            player.GetComponent<Player>().enabled = true;
+            player.GetComponentInChildren<Costume>().DisplayAbilities(false);
         }
+
+        foreach (GameObject enemy in Enemies)
+        {
+            Destroy(enemy.GetComponent<Combatant>().HealthBar);
+            Destroy(enemy);
+        }
+
+        Destroy(gameObject);
     }
 }
