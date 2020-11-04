@@ -10,7 +10,6 @@ public abstract class Combatant : MonoBehaviour
     public int TurnPriority;
     [SerializeField]
     public int MaxHealthPoints;
-    [SerializeField]
     public int CurrentHealthPoints;
     protected CombatSystem CombatSystem;
     [SerializeField]
@@ -27,6 +26,8 @@ public abstract class Combatant : MonoBehaviour
     {
         CombatSystem = GameObject.FindGameObjectWithTag("CombatSystem").GetComponent<CombatSystem>();
 
+        CurrentHealthPoints = MaxHealthPoints;
+
         HealthBar = Instantiate(HealthBarPrefab);
         HealthBar.transform.parent = HealthBarUIPanel.transform;
         displayHealthBar = true; // TODO show only when combat start, finish when it ends!
@@ -39,10 +40,14 @@ public abstract class Combatant : MonoBehaviour
 
     private void UpdateHealthBar()
     {
+        string healthText = isAlive ? 
+            $"{CurrentHealthPoints} / {MaxHealthPoints}" : 
+            "I've fallen and can't get up";
+
         Vector3 relativeScreenPosition = Camera.main.WorldToScreenPoint(transform.position);
         relativeScreenPosition.y += 125f;
         HealthBar.transform.position = relativeScreenPosition;
-        HealthBar.GetComponentInChildren<Text>().text = $"{CurrentHealthPoints} / {MaxHealthPoints}";
+        HealthBar.GetComponentInChildren<Text>().text = healthText;
     }
 
     public abstract void StartTurn();
@@ -53,6 +58,9 @@ public abstract class Combatant : MonoBehaviour
     protected void TakeDamage(int damage)
     {
         CurrentHealthPoints -= damage;
+        
+        if (CurrentHealthPoints < 0)
+            isAlive = false;
     }
 
 }
