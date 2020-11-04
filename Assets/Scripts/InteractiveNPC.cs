@@ -7,45 +7,71 @@ public class InteractiveNPC : MonoBehaviour
     public string DialogueText;
     public DialogueBubble DialogueUI;
     private bool displayDialogueBubble;
+    private bool PlayerInRange;
+    private float DistanceBetweenPlayer;
+    public float MinDistance = 3.5f;
 
-    // Start is called before the first frame update
     void Start()
     {
-        
+        displayDialogueBubble = false;
+        PlayerInRange = false;
+        DistanceBetweenPlayer = 100f; // Arbitrary number
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (displayDialogueBubble)
+        CheckIfInRange();
+
+        if (Input.GetKeyDown(KeyCode.X) && PlayerInRange)
         {
+            displayDialogueBubble = !displayDialogueBubble;
+            DisplayTextBubble(displayDialogueBubble);
+        }
+
+        if(displayDialogueBubble)
+        {
+            // Displays the bubble on top of the NPC
             // TODO: Maybe change the hardcoded value to something else?
             var yOffset = transform.position.y + (GetComponent<Collider>().bounds.size.y) + 1.0f;
             Vector3 offsetPos = new Vector3(transform.position.x, transform.position.y + yOffset, transform.position.z);
             Vector3 relativeScreenPosition = Camera.main.WorldToScreenPoint(offsetPos);
             DialogueUI.transform.position = relativeScreenPosition;
+
+            if (!PlayerInRange)
+            {
+                DialogueUI.Close();
+                displayDialogueBubble = false;
+            }
         }
     }
 
-    void OnTriggerEnter(Collider other)
+    void DisplayTextBubble(bool isActive)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (isActive)
         {
-            displayDialogueBubble = true;
             DialogueUI.Show(DialogueText);
-            Debug.Log("Player activated dialogue");
-            Debug.Log(transform.position);
-            Debug.Log(DialogueUI.gameObject.transform.position);
+        }
+        else 
+        {
+            DialogueUI.Close();
         }
     }
 
-    void OnTriggerExit(Collider other)
+    void CheckIfInRange()
     {
-        if (other.gameObject.CompareTag("Player"))
+        GameObject player = GameObject.FindWithTag("Player");
+        if (player)
         {
-            displayDialogueBubble = false;
-            DialogueUI.Close();
-            Debug.Log("Player deactivated dialogue");
+            DistanceBetweenPlayer = Vector3.Distance(player.transform.position, transform.position);
+        }
+
+        if(DistanceBetweenPlayer <= MinDistance)
+        {
+            PlayerInRange = true;
+        }
+        else
+        {
+            PlayerInRange = false;
         }
     }
 }
