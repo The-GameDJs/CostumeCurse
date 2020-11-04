@@ -25,17 +25,18 @@ public class ThunderStorm : Ability
     private readonly float perfectStrikeTimeWindow = 0.5f;
     private readonly float strikeTimeInterval = 2.0f;
 
-    private int pressCounter;
+    private int Presses;
     private readonly float maxTimeOfInput = 5.0f;
-    private readonly int minDamage = 10;
-    private readonly int maxDamage = 30;
+    private readonly int ThunderCloudMinimumDamage = 10;
+    private readonly int ThunderCloudMaximumDamage = 50;
+    private readonly int ThunderCloudDifficultyCurve = 5;
     private readonly int perfectDamageBonus = 50;
-    private readonly int goodDamageBonus = 20;
-    private int currentDamage;
+    private readonly int goodDamageBonus = 25;
+    private int CurrentDamage;
 
     private Phase phase = Phase.Inactive;
     
-    private readonly float thunderCloudGrowthSpeed = 0.05f;
+    private readonly float ThunderCloudGrowthSpeed = 0.05f;
     private readonly float thunderStrikeGrowthSpeed = 1.0f;
 
     public new void Start()
@@ -53,7 +54,7 @@ public class ThunderStorm : Ability
     private void Update()
     {
         if (phase == Phase.Cloud)
-            ThundercloudUpdate();
+            ThunderCloudUpdate();
 
         if (phase == Phase.Strike)
             ThunderstrikeUpdate();
@@ -105,13 +106,13 @@ public class ThunderStorm : Ability
 
     protected override void EndAbility()
     {
-        Debug.Log($"Thunderstorm Damage total: {currentDamage}");
+        Debug.Log($"Thunderstorm Damage total: {CurrentDamage}");
         thunder.SetActive(false);
 
         // Deal damage to defender, wait
         // for now, let's just pick 3 random ones
         // this might be done before EndAbility
-        Attack attack = new Attack(currentDamage);
+        Attack attack = new Attack(CurrentDamage);
         for(int i = 0; i < TotalThunderStrikes; i++)
             TargetedCombatants[Random.Range(0, TargetedCombatants.Length)].GetComponent<Combatant>()
                 .Defend(attack);
@@ -119,30 +120,35 @@ public class ThunderStorm : Ability
         CombatSystem.EndTurn(this.GetComponentInParent<Combatant>().gameObject);
     }
 
-    private void ThundercloudUpdate()
+    private void ThunderCloudUpdate()
     {
         if (timer.IsInProgress())
         {
-            ThundercloudMash();
+            ThunderCloudMash();
         }
         else
         {
-            Debug.Log($"Thundercloud Complete with presses: {pressCounter}");
-
-            currentDamage = CalculateThunderCloudDamage();
-            thunder.SetActive(false);
-            Debug.Log($"Thunder Cloud Build Up damage: {currentDamage}");
-
-            StartThunderStrikePhase();
+            EndThunderCloudPhase();
         }
     }
 
-    private void ThundercloudMash()
+    private void EndThunderCloudPhase()
+    {
+        Debug.Log($"Thundercloud Complete with presses: {Presses}");
+
+        CurrentDamage = (int) CalculateThunderCloudDamage();
+        thunder.SetActive(false);
+        Debug.Log($"Thunder Cloud Build Up damage: {CurrentDamage}");
+
+        StartThunderStrikePhase();
+    }
+
+    private void ThunderCloudMash()
     {
         if (Input.GetButtonDown("Action Command"))
         {
-            pressCounter++;
-            thunder.transform.localScale += Vector3.one * thunderCloudGrowthSpeed;
+            Presses++;
+            thunder.transform.localScale += Vector3.one * ThunderCloudGrowthSpeed;
         }
     }
 
@@ -153,7 +159,7 @@ public class ThunderStorm : Ability
 
     private void StartThunderCloudPhase()
     {
-        pressCounter = 0;
+        Presses = 0;
         phase = Phase.Cloud;
 
         thunder.SetActive(true);
@@ -164,11 +170,18 @@ public class ThunderStorm : Ability
         timer.StartTimer(maxTimeOfInput);
     }
 
-    private int CalculateThunderCloudDamage()
+    private float CalculateThunderCloudDamage()
     {
-        int damage = (int)((pressCounter / 100.0f * (maxDamage - minDamage + 1)) + minDamage);
+        // Using variables from https://www.desmos.com/calculator/km7jlgm5ws
+        float M = ThunderCloudMaximumDamage;
+        float m = ThunderCloudMinimumDamage;
+        float d = ThunderCloudDifficultyCurve;
+        float p = Presses;
 
-        return damage;
+        // Please refer to https://www.desmos.com/calculator/km7jlgm5ws for curve
+        float thunderCloudDamage = (M - m) / (Mathf.PI / 2) * Mathf.Atan(p / d) + m;
+
+        return thunderCloudDamage;
     }
 
 
@@ -206,12 +219,12 @@ public class ThunderStorm : Ability
         if (WithinPerfectStrikeWindow(timerValue))
         {
             Debug.Log("Perfect Strike");
-            currentDamage += perfectDamageBonus;
+            CurrentDamage += perfectDamageBonus;
         }
         else if (WithinGoodStrikeWindow(timerValue))
         {
             Debug.Log("Good Strike");
-            currentDamage += goodDamageBonus;
+            CurrentDamage += goodDamageBonus;
         }
         else
         {
