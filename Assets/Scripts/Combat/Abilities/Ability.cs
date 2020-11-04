@@ -20,14 +20,7 @@ public abstract class Ability : MonoBehaviour
 
     public void StartAbility()
     {
-        Debug.Log("StartAbility");
-        Debug.Log(TargetSelector);
         TargetSelector.Target(this);
-
-        // TODO this should end here. 
-        // TargetSelector should call SetTargetedCombatants afterward, which THEN calls
-        // ContinueAbilityAfterTargeting
-        ContinueAbilityAfterTargeting();
     }
 
     protected abstract void ContinueAbilityAfterTargeting();
@@ -35,6 +28,7 @@ public abstract class Ability : MonoBehaviour
     // called by the TargetSelector once it has selected targets
     public void SetTargetedCombatants(GameObject[] targetedCombatants)
     {
+        Debug.Log($"Ability about to continue! Got {targetedCombatants.Length} combatnats");
         TargetedCombatants = targetedCombatants;
 
         ContinueAbilityAfterTargeting();

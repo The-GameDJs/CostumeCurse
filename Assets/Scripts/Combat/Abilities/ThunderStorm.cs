@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Assets.Scripts.Combat;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
+using Random = UnityEngine.Random;
 
 public class ThunderStorm : Ability
 {
@@ -105,6 +107,12 @@ public class ThunderStorm : Ability
         Debug.Log($"Thunderstorm Damage total: {currentDamage}");
         thunder.SetActive(false);
 
+        // Deal damage to defender, wait
+        // for now, let's just pick a random onw and do all strikes on that poor soul
+        Attack attack = new Attack(currentDamage);
+        TargetedCombatants[Random.Range(0, TargetedCombatants.Length)].GetComponent<Combatant>()
+            .Defend(attack);
+
         // TODO end the turn, or signal defend, TBD
         //CombatSystem.CombatantIsDoneTurn(this.GetComponent<>);
     }
@@ -143,8 +151,6 @@ public class ThunderStorm : Ability
 
     private void StartThunderCloudPhase()
     {
-        Debug.Log("Thundercloud phase start");
-
         pressCounter = 0;
         phase = Phase.Cloud;
 
@@ -166,8 +172,6 @@ public class ThunderStorm : Ability
 
     private void StartThunderStrikePhase()
     {
-        Debug.Log("Thunderbolt phase start");
-
         phase = Phase.Inactive;
 
         thunder.SetActive(true);
