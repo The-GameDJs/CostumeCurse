@@ -34,40 +34,48 @@ public class CombatSystem : MonoBehaviour
 
         if (turnPriority1 == turnPriority2)
             return (int)(Random.value - 0.5f);
-        
+
         return 1;
     }
-    
+
     public void StartCombat(GameObject[] allies, GameObject[] enemies)
     {
-        CurrentCombatantTurn = 0;
-        
         Combatants = new List<GameObject>();
         foreach (GameObject ally in allies)
             Combatants.Add(ally);
         foreach (GameObject enemy in enemies)
             Combatants.Add(enemy);
-        Combatants.Sort(SortByTurnPriority);
 
-        Combatants[CurrentCombatantTurn].GetComponent<Combatant>().StartTurn();
+        StartNewRound();
     }
 
     public void EndTurn(GameObject combatant)
     {
         Debug.Log($"A Combantant has finished their turn!");
 
-        CurrentCombatantTurn++;
-
-        Combatants[CurrentCombatantTurn].GetComponent<Combatant>().StartTurn();
+        StartNextTurn();
     }
 
-    // In favor of direct communication between Combantants, and the CombantantIsDoneTurn method
-    // Leaving this for now in case!
-    //public void OnNotify(CharacterEvent gameEvent)
-    //{
-    //    if(gameEvent.isTurnCompleted == true)
-    //    {
-    //        combatState = CombatState.TurnEnd;
-    //    }
-    //}
+    private void StartNextTurn()
+    {
+        Debug.Log($"Starting a new turn");
+
+        CurrentCombatantTurn++;
+
+        if (CurrentCombatantTurn > Combatants.Count)
+            StartNewRound();
+
+        Combatants[CurrentCombatantTurn - 1].GetComponent<Combatant>().StartTurn();
+    }
+
+    private void StartNewRound()
+    {
+        Debug.Log($"Starting a new round");
+
+        CurrentCombatantTurn = 1;
+
+        Combatants.Sort(SortByTurnPriority);
+
+        Combatants[CurrentCombatantTurn - 1].GetComponent<Combatant>().StartTurn();
+    }
 }

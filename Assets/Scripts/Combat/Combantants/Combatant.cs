@@ -12,8 +12,7 @@ public abstract class Combatant : MonoBehaviour
     public int MaxHealthPoints;
     [SerializeField]
     public int CurrentHealthPoints;
-    [SerializeField]
-    CombatSystem CombatSystem;
+    protected CombatSystem CombatSystem;
     [SerializeField]
     GameObject HealthBarPrefab;
     [SerializeField]
@@ -26,6 +25,8 @@ public abstract class Combatant : MonoBehaviour
 
     public void Start()
     {
+        CombatSystem = GameObject.FindGameObjectWithTag("CombatSystem").GetComponent<CombatSystem>();
+
         HealthBar = Instantiate(HealthBarPrefab);
         HealthBar.transform.parent = HealthBarUIPanel.transform;
         displayHealthBar = true; // TODO show only when combat start, finish when it ends!
