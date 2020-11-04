@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class CombatSystem : MonoBehaviour
 {
     public List<GameObject> Combatants;
+    public List<GameObject> AllyCombatants;
+    public List<GameObject> EnemyCombatants;
     private int CurrentCombatantTurn;
+
+    private GameObject CurrentCombatZone;
 
     [SerializeField]
     private GameObject Sield;
@@ -38,22 +43,52 @@ public class CombatSystem : MonoBehaviour
         return 1;
     }
 
-    public void StartCombat(GameObject[] allies, GameObject[] enemies)
+    // Called by CombatZone
+    public void StartCombat(GameObject CombatZone, GameObject[] allies, GameObject[] enemies)
     {
-        Combatants = new List<GameObject>();
-        foreach (GameObject ally in allies)
-            Combatants.Add(ally);
-        foreach (GameObject enemy in enemies)
-            Combatants.Add(enemy);
+        CurrentCombatZone = CombatZone;
+        AllyCombatants = allies.ToList();
+        EnemyCombatants = enemies.ToList();
+        
+        Combatants = AllyCombatants.Concat(EnemyCombatants).ToList();
 
         StartNewRound();
+    }
+
+    private void EndCombat()
+    {
+        CurrentCombatZone.GetComponent<CombatZone>().DestroyCombatZone();
     }
 
     public void EndTurn(GameObject combatant)
     {
         Debug.Log($"A Combantant has finished their turn!");
 
-        StartNextTurn();
+        // TODO maybe a state would be useful after all?
+        if (AlliesWon() || EnemiesWon())
+            EndCombat();
+        else 
+            StartNextTurn();
+    }
+
+    private bool AlliesWon()
+    {
+        foreach (GameObject enemy in EnemyCombatants)
+            if (enemy.GetComponent<EnemyCombatant>().isAlive)
+                return false;
+
+        Debug.Log("!!!!Allies Win!!!!");
+        return true;
+    }
+
+    private bool EnemiesWon()
+    {
+        foreach (GameObject ally in AllyCombatants)
+            if (ally.GetComponent<EnemyCombatant>().isAlive)
+                return false;
+
+        Debug.Log("....Enemies Win....");
+        return true;
     }
 
     private void StartNextTurn()
