@@ -13,8 +13,10 @@ public class EnemyCombatant : Combatant
 
     private bool displayUI;
     
-    private void Update()
+    private new void Update()
     {
+        base.Update();
+
         if (displayUI)
         {
             Vector3 relativeScreenPosition = Camera.main.WorldToScreenPoint(transform.position);
@@ -30,8 +32,9 @@ public class EnemyCombatant : Combatant
 
 
     // Start is called before the first frame update
-    void Start()
+    new void Start()
     {
+        base.Start();
         // For now TODO
         TurnPriority = 10;
 

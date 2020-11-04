@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class CombatSystem : MonoBehaviour//, IObserver
+public class CombatSystem : MonoBehaviour
 {
     public List<GameObject> Combatants;
     private int CurrentCombatantTurn;
@@ -19,10 +19,9 @@ public class CombatSystem : MonoBehaviour//, IObserver
 
     }
 
-    // Update is called once per frame
     void Update()
     {
-        // check state: do something
+
     }
 
     private int SortByTurnPriority(GameObject combatant1, GameObject combatant2)
@@ -41,8 +40,6 @@ public class CombatSystem : MonoBehaviour//, IObserver
     
     public void StartCombat(GameObject[] allies, GameObject[] enemies)
     {
-        Debug.Log($"Initiating Combat");
-
         CurrentCombatantTurn = 0;
         
         Combatants = new List<GameObject>();
@@ -53,8 +50,6 @@ public class CombatSystem : MonoBehaviour//, IObserver
         Combatants.Sort(SortByTurnPriority);
 
         Combatants[CurrentCombatantTurn].GetComponent<Combatant>().StartTurn();
-        
-        Debug.Log($"InitiateCombat finished. Did someone start their turn?");
     }
 
     public void EndTurn(GameObject combatant)
