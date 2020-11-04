@@ -14,7 +14,8 @@ public class DialogueBubble : MonoBehaviour
 
     const string kAlphaCode = "<color=#00000000>";
     const float kMaxTextTime = 0.1f;
-    public static int TextSpeed = 2;
+    public static float TextSpeed = 2;
+    private float originalTextSpeed;
 
     CanvasGroup Group;
 
@@ -36,6 +37,8 @@ public class DialogueBubble : MonoBehaviour
     {
         Text = GetComponentInChildren<TMP_Text>();
         activeEffect = TextEffect.None;
+        // Store original speed to restore after acceleration
+        originalTextSpeed = TextSpeed;
     }
 
     void Start()
@@ -51,6 +54,12 @@ public class DialogueBubble : MonoBehaviour
             isTextShaking = !isTextShaking;
         }
 
+        // Simple hacky way to accelerate the text speed.
+        if (Input.GetKeyDown(KeyCode.C)) {
+            TextSpeed = 100;
+        }
+
+        // Temporary for showcase purposes
         if (isTextShaking)
         {
             StartCoroutine(ShakeText());
@@ -62,6 +71,7 @@ public class DialogueBubble : MonoBehaviour
         Group.alpha = 1;
         CurrentText = text;
         StartCoroutine(DisplayText());
+        TextSpeed = originalTextSpeed;
     }
 
     public void Close()
@@ -243,6 +253,10 @@ public class DialogueBubble : MonoBehaviour
             inTag = false;
         }
     }
+
+    // TODO: Create a tag/command list
+
+    // TODO: Execute tag/command where needed
 
     // We use regex to strip all <tags> from our current dialogue line
     // We have two strings: one with tags and the one printing on screen
