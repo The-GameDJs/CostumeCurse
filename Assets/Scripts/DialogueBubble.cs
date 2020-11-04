@@ -1,10 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using TMPro;
 
 public class DialogueBubble : MonoBehaviour
 {
+    enum TextEffect { None, Shaky, Wavy }
+    TextEffect activeEffect;
+
     private TMP_Text Text;
     private string CurrentText;
 
@@ -31,6 +35,7 @@ public class DialogueBubble : MonoBehaviour
     void Awake()
     {
         Text = GetComponentInChildren<TMP_Text>();
+        activeEffect = TextEffect.None;
     }
 
     void Start()
@@ -205,5 +210,51 @@ public class DialogueBubble : MonoBehaviour
 
             yield return new WaitForSeconds(0.1f);
         }
+    }
+
+    void CheckTag(string fullText, char currentChar, int currentCharIndex, ref bool inTag)
+    {
+        if (currentChar == '<')
+        {
+            // Encountered a tag
+            inTag = true;
+
+            char next = fullText[currentCharIndex+1];
+
+            if (next != '/')
+            {
+                // Entering a new tag
+                switch (next)
+                {
+                    case 'w': activeEffect = TextEffect.Wavy; break;
+                    case 's': activeEffect = TextEffect.Shaky; break;
+                }
+            }
+            else
+            {
+                // Exited an ending tag, revert back to no effect
+                activeEffect = TextEffect.None;
+            }
+        }
+        else if (currentCharIndex > 0 && fullText[currentCharIndex - 1] == '>')
+        {
+            // Exited a tag
+            inTag = false;
+        }
+    }
+
+    // We use regex to strip all <tags> from our current dialogue line
+    // We have two strings: one with tags and the one printing on screen
+    // We keep track of both in order to know when there's a tag to execute, if any
+    private string StripAllTags(string text) 
+    {
+        // Clean string to return
+        string cleanString;
+
+        // Regex Pattern. Remove all "<tag>" from our dialogue line
+        string pattern = "<.[^>]+>";
+
+        cleanString = Regex.Replace(text, pattern, "");
+        return cleanString;
     }
 }
