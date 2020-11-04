@@ -8,23 +8,22 @@ public class AllyCombatant : Combatant
     [SerializeField] 
     Costume costume;
 
-    void Start()
+    new void Start()
     {
+        base.Start();
         // set for now TODO
         TurnPriority = 0;
         costume.DisplayAbilities(false);
         //combatSystem = 
     }
 
-    void Update()
+    new void Update()
     {
-
+        base.Update();
     }
 
     public override void StartTurn()
     {
-        Debug.Log("Playing Turn");
-
         costume.DisplayAbilities(true);
     }
 

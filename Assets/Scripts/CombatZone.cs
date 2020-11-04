@@ -30,7 +30,6 @@ public class CombatZone : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             CombatStarted = true;
-            Debug.Log("Entered combat zone");
             
             // Initializing positions for combat
             for (int i = 0; i < EnemyPositions.Length; i++)
