@@ -81,11 +81,12 @@ public class DialogueBubble : MonoBehaviour
 
         Text.text = "";
 
-        string originalText = CurrentText;
+        string cleanedText = StripAllTags(CurrentText);
+        string originalText = cleanedText;
         string displayedText = "";
         int alphaIndex = 0;
 
-        foreach (char c in CurrentText.ToCharArray())
+        foreach (char c in cleanedText.ToCharArray())
         {
             alphaIndex++;
             Text.text = originalText;
@@ -252,7 +253,7 @@ public class DialogueBubble : MonoBehaviour
         string cleanString;
 
         // Regex Pattern. Remove all "<tag>" from our dialogue line
-        string pattern = "<.[^>]+>";
+        string pattern = "<[^>]+>";
 
         cleanString = Regex.Replace(text, pattern, "");
         return cleanString;
