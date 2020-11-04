@@ -5,8 +5,8 @@ using UnityEngine;
 public class InteractiveNPC : MonoBehaviour
 {
     public string DialogueText;
-    public DialogueBubble Dialogue;
-
+    public DialogueBubble DialogueUI;
+    private bool displayDialogueBubble;
 
     // Start is called before the first frame update
     void Start()
@@ -17,15 +17,22 @@ public class InteractiveNPC : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (displayDialogueBubble)
+        {
+            Vector3 relativeScreenPosition = Camera.main.WorldToScreenPoint(transform.position);
+            DialogueUI.transform.position = relativeScreenPosition;
+        }
     }
 
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            Dialogue.Show(DialogueText);
+            displayDialogueBubble = true;
+            DialogueUI.Show(DialogueText);
             Debug.Log("Player activated dialogue");
+            Debug.Log(transform.position);
+            Debug.Log(DialogueUI.gameObject.transform.position);
         }
     }
 
@@ -33,7 +40,8 @@ public class InteractiveNPC : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            Dialogue.Close();
+            displayDialogueBubble = false;
+            DialogueUI.Close();
             Debug.Log("Player deactivated dialogue");
         }
     }
