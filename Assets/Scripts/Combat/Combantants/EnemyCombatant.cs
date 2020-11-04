@@ -45,7 +45,6 @@ public class EnemyCombatant : Combatant
     }
 
 
-    // Start is called before the first frame update
     new void Start()
     {
         base.Start();
@@ -58,13 +57,19 @@ public class EnemyCombatant : Combatant
         HideUI();
     }
 
-    public override void StartTurn()
+    protected override void TakeTurnWhileDead()
+    {
+        // TODO add some dead idling animation? 
+
+        EndTurn();
+    }
+
+    protected override void TakeTurnWhileAlive()
     {
         DisplayUI();
         enemyUI.GetComponent<Text>().text = "I Attak! But actually i slep";
 
-        StartCoroutine(SimpleEnemyAttack()); // 
-        //Thread.Sleep(2000);
+        StartCoroutine(SimpleEnemyAttack());
     }
 
     IEnumerator SimpleEnemyAttack()
