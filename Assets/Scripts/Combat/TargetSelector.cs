@@ -1,11 +1,14 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using UnityEngine;
 
 
 public enum CombatantType { Enemy, Ally };
 public enum SelectorType { Self, All, Number };
 
 public struct TargetSchema
-{
+{    
     public int NumberOfTargets;
     public CombatantType CombatantType;
     public SelectorType SelectorType;
@@ -21,12 +24,29 @@ public struct TargetSchema
 // TODO let's make this virtual: one for allies; one for enemies, cuz they're pretty different
 public class TargetSelector : MonoBehaviour
 {
-    private GameObject[] TargetedCombatants;
+    public CombatSystem CombatSystem;
+
+    private GameObject[] CurrentTargetedCombatants;
     private Ability CallingAbility;
+    private TargetSchema CurrentTargetSchema;
+
+    public void Start()
+    {
+        CombatSystem = GameObject.FindGameObjectWithTag("CombatSystem").GetComponent<CombatSystem>();
+    }
 
     public void Target(Ability callingAbility)
     {
         CallingAbility = callingAbility;
+        CurrentTargetSchema = callingAbility.TargetSchema;
+
+        if (CurrentTargetSchema.SelectorType == SelectorType.All)
+            TargetAllEnemies();
+
+        if (CurrentTargetSchema.SelectorType == SelectorType.Number)
+        {
+            // TODO do something else, add rest of options
+        }
     }
 
     private void TargetSingleEnemy()
@@ -36,13 +56,21 @@ public class TargetSelector : MonoBehaviour
 
     private void TargetAllEnemies()
     {
-        // TODO
+        GameObject[] enemies = CombatSystem.Combatants.
+            Where(combantant => combantant.CompareTag("Enemy")).ToArray();
+
+        // TODO highlight each enemy, wait for user selection
+        Thread.Sleep(3000); // Fake the UI selection
+        CurrentTargetedCombatants = enemies;
+        
+        // TODO for now, pretend the UI has triggered this function
+        // this function will not be here afterward
+        ReplyToCallingAbility();
     }
 
-    private void ReplyToCallingAbility(Ability callingAbility)
+    private void ReplyToCallingAbility()
     {
-        // TODO
-        callingAbility.SetTargetedCombatants(TargetedCombatants);
+        CallingAbility.SetTargetedCombatants(CurrentTargetedCombatants);
     }
 
 }
