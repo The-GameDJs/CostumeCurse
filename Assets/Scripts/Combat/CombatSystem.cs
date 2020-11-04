@@ -74,7 +74,7 @@ public class CombatSystem : MonoBehaviour
 
         CurrentCombatantTurn = 1;
 
-        Combatants.Sort(SortByTurnPriority);
+        Combatants.Sort(SortByTurnPriority); // TODO use case for updating priority?
 
         Combatants[CurrentCombatantTurn - 1].GetComponent<Combatant>().StartTurn();
     }

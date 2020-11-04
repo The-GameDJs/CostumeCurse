@@ -193,6 +193,14 @@ PrefabInstance:
       propertyPath: HealthBarUIPanel
       value: 
       objectReference: {fileID: 5905072203430277938}
+    - target: {fileID: 4336986228912575789, guid: e3e6540067d403e4ab18edaba0779f55, type: 3}
+      propertyPath: MaxHealthPoints
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 4336986228912575789, guid: e3e6540067d403e4ab18edaba0779f55, type: 3}
+      propertyPath: CurrentHealthPoints
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 6121362164579827105, guid: e3e6540067d403e4ab18edaba0779f55, type: 3}
       propertyPath: m_Name
       value: Enemy3
@@ -433,6 +441,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20dbd2ff39132844caaa3532051f26bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CombatSystem: {fileID: 0}
 --- !u!1 &275369117
 GameObject:
   m_ObjectHideFlags: 0
@@ -1595,6 +1604,14 @@ PrefabInstance:
       propertyPath: HealthBarUIPanel
       value: 
       objectReference: {fileID: 5905072203430277938}
+    - target: {fileID: 4336986228912575789, guid: e3e6540067d403e4ab18edaba0779f55, type: 3}
+      propertyPath: MaxHealthPoints
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 4336986228912575789, guid: e3e6540067d403e4ab18edaba0779f55, type: 3}
+      propertyPath: CurrentHealthPoints
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 6121362164579827105, guid: e3e6540067d403e4ab18edaba0779f55, type: 3}
       propertyPath: m_Name
       value: Enemy2
@@ -1754,11 +1771,11 @@ PrefabInstance:
       objectReference: {fileID: 5905072203430277938}
     - target: {fileID: 492862330534067325, guid: 6abebb575b1123946bc5c64e103c3ccf, type: 3}
       propertyPath: MaxHealthPoints
-      value: 420
+      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 492862330534067325, guid: 6abebb575b1123946bc5c64e103c3ccf, type: 3}
       propertyPath: CurrentHealthPoints
-      value: 69
+      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 1815031238843681074, guid: 6abebb575b1123946bc5c64e103c3ccf, type: 3}
       propertyPath: m_Enabled
@@ -2234,11 +2251,11 @@ PrefabInstance:
       objectReference: {fileID: 5905072203430277938}
     - target: {fileID: 4336986228912575789, guid: e3e6540067d403e4ab18edaba0779f55, type: 3}
       propertyPath: MaxHealthPoints
-      value: 42
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 4336986228912575789, guid: e3e6540067d403e4ab18edaba0779f55, type: 3}
       propertyPath: CurrentHealthPoints
-      value: 64
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 6121362164579827105, guid: e3e6540067d403e4ab18edaba0779f55, type: 3}
       propertyPath: m_Name

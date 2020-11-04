@@ -34,7 +34,7 @@ public class AllyCombatant : Combatant
 
     public override void Defend(Attack attack)
     {
-        throw new System.NotImplementedException();
+        TakeDamage(attack.Damage);
     }
 
     public void CancelTargeting()

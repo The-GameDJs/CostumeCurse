@@ -34,6 +34,11 @@ public abstract class Combatant : MonoBehaviour
 
     public void Update()
     {
+        UpdateHealthBar();
+    }
+
+    private void UpdateHealthBar()
+    {
         Vector3 relativeScreenPosition = Camera.main.WorldToScreenPoint(transform.position);
         relativeScreenPosition.y += 125f;
         HealthBar.transform.position = relativeScreenPosition;
