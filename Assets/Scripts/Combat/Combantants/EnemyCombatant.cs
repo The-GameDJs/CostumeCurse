@@ -46,12 +46,14 @@ public class EnemyCombatant : Combatant
 
     public override void StartTurn()
     {
-        
+        // for now do nothing
+        EndTurn();
     }
 
     public override void EndTurn()
     {
-        throw new System.NotImplementedException();
+        // for now do nothing lmao
+        CombatSystem.EndTurn(this.gameObject);
     }
 
     public override void Defend(Attack attack)

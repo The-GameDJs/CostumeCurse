@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
@@ -16,7 +17,7 @@ public class ThunderStorm : Ability
     private GameObject thunder;
     private Timer timer;
 
-    private readonly int totalThunderStrikes = 3;
+    private readonly int TotalThunderStrikes = 3;
     private int currentThunderStrike = 0;
 
     private readonly float timeWindowForStrikes = 3.0f;
@@ -80,7 +81,7 @@ public class ThunderStorm : Ability
             phase = Phase.Inactive;
             thunder.SetActive(false);
 
-            if (currentThunderStrike < totalThunderStrikes)
+            if (currentThunderStrike < TotalThunderStrikes)
                 Invoke(nameof(NewThunderStrike), UnityEngine.Random.Range(strikeTimeInterval, 1.5f * strikeTimeInterval));
             else
                 EndAbility();
@@ -108,13 +109,14 @@ public class ThunderStorm : Ability
         thunder.SetActive(false);
 
         // Deal damage to defender, wait
-        // for now, let's just pick a random onw and do all strikes on that poor soul
+        // for now, let's just pick 3 random ones
+        // this might be done before EndAbility
         Attack attack = new Attack(currentDamage);
-        TargetedCombatants[Random.Range(0, TargetedCombatants.Length)].GetComponent<Combatant>()
-            .Defend(attack);
+        for(int i = 0; i < TotalThunderStrikes; i++)
+            TargetedCombatants[Random.Range(0, TargetedCombatants.Length)].GetComponent<Combatant>()
+                .Defend(attack);
 
-        // TODO end the turn, or signal defend, TBD
-        //CombatSystem.CombatantIsDoneTurn(this.GetComponent<>);
+        CombatSystem.EndTurn(this.GetComponentInParent<Combatant>().gameObject);
     }
 
     private void ThundercloudUpdate()
