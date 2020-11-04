@@ -11,10 +11,8 @@ public class AllyCombatant : Combatant
     new void Start()
     {
         base.Start();
-        // set for now TODO
-        TurnPriority = 0;
+        
         costume.DisplayAbilities(false);
-        //combatSystem = 
     }
 
     new void Update()
@@ -22,7 +20,14 @@ public class AllyCombatant : Combatant
         base.Update();
     }
 
-    public override void StartTurn()
+    protected override void TakeTurnWhileDead()
+    {
+        // TODO add some dead idling animation? 
+
+        EndTurn();
+    }
+
+    protected override void TakeTurnWhileAlive()
     {
         costume.DisplayAbilities(true);
     }

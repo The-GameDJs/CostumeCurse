@@ -40,8 +40,8 @@ public abstract class Combatant : MonoBehaviour
 
     private void UpdateHealthBar()
     {
-        string healthText = isAlive ? 
-            $"{CurrentHealthPoints} / {MaxHealthPoints}" : 
+        string healthText = isAlive ?
+            $"{CurrentHealthPoints} / {MaxHealthPoints}" :
             "I've fallen and can't get up";
 
         Vector3 relativeScreenPosition = Camera.main.WorldToScreenPoint(transform.position);
@@ -50,10 +50,19 @@ public abstract class Combatant : MonoBehaviour
         HealthBar.GetComponentInChildren<Text>().text = healthText;
     }
 
-    public abstract void StartTurn();
+    public void StartTurn()
+    {
+        if (isAlive)
+            TakeTurnWhileAlive();
+        else
+            TakeTurnWhileDead();
+    }
     public abstract void EndTurn();
 
     public abstract void Defend(Attack attack);
+
+    protected abstract void TakeTurnWhileDead();
+    protected abstract void TakeTurnWhileAlive();
 
     protected void TakeDamage(int damage)
     {
