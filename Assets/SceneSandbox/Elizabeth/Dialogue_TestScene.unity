@@ -529,64 +529,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &353043627
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 353043628}
-  - component: {fileID: 353043629}
-  - component: {fileID: 353043630}
-  m_Layer: 0
-  m_Name: TextBubble
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &353043628
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 353043627}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -401.89563, y: -217.74506, z: -61.06611}
-  m_LocalScale: {x: 0.8316008, y: 0.8316008, z: 0.8316008}
-  m_Children:
-  - {fileID: 1661863594}
-  m_Father: {fileID: 1147982919}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!225 &353043629
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 353043627}
-  m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
---- !u!114 &353043630
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 353043627}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2388f55e84d1f134f871e01498acc3db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Text: {fileID: 140791954}
 --- !u!1001 &393721715
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1012,7 +954,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DialogueText: This is a test message I am using to debug. Hello world!
-  Dialogue: {fileID: 353043630}
+  DialogueUI: {fileID: 1661863597}
 --- !u!4 &684130512 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8708324957311352290, guid: ed59dd3b66a574942897aea199fdf4ee, type: 3}
@@ -1382,7 +1324,7 @@ RectTransform:
   m_Children:
   - {fileID: 529213363}
   - {fileID: 393721716}
-  - {fileID: 353043628}
+  - {fileID: 1661863594}
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1809,8 +1751,10 @@ GameObject:
   - component: {fileID: 1661863594}
   - component: {fileID: 1661863596}
   - component: {fileID: 1661863595}
+  - component: {fileID: 1661863597}
+  - component: {fileID: 1661863598}
   m_Layer: 0
-  m_Name: Panel
+  m_Name: TextBubble
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1823,18 +1767,18 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1661863593}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -61.066105}
+  m_LocalScale: {x: 0.8316007, y: 0.8316007, z: 0.8316007}
   m_Children:
   - {fileID: 140791953}
-  m_Father: {fileID: 353043628}
-  m_RootOrder: 0
+  m_Father: {fileID: 1147982919}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 386.41, y: 58}
-  m_SizeDelta: {x: 267.30786, y: 70.455864}
+  m_AnchoredPosition: {x: -80.5567, y: -126.067154}
+  m_SizeDelta: {x: -532.69214, y: -379.54407}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1661863595
 MonoBehaviour:
@@ -1874,6 +1818,31 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1661863593}
   m_CullTransparentMesh: 0
+--- !u!114 &1661863597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1661863593}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2388f55e84d1f134f871e01498acc3db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Text: {fileID: 140791954}
+--- !u!225 &1661863598
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1661863593}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!4 &1667723904 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8708324957311352290, guid: ed59dd3b66a574942897aea199fdf4ee, type: 3}
