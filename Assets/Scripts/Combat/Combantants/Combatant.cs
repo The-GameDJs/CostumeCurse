@@ -71,7 +71,7 @@ public abstract class Combatant : MonoBehaviour
     {
         CurrentHealthPoints -= damage;
         
-        if (CurrentHealthPoints < 0)
+        if (CurrentHealthPoints <= 0)
             IsAlive = false;
     }
 
