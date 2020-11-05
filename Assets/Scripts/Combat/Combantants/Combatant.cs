@@ -17,25 +17,32 @@ public abstract class Combatant : MonoBehaviour
     [SerializeField]
     GameObject HealthBarUIPanel;
 
-    public GameObject HealthBar;
-    private bool displayHealthBar;
+    private GameObject HealthBar;
 
     public bool isAlive = true;
+    private bool inCombat;
 
     public void Start()
     {
+        inCombat = false;
+        HealthBar = Instantiate(HealthBarPrefab);
+        HealthBar.transform.parent = HealthBarUIPanel.transform;
+        HealthBar.SetActive(false);
+    }
+
+    public void ShowHealth()
+    {
+        inCombat = true;
         CombatSystem = GameObject.FindGameObjectWithTag("CombatSystem").GetComponent<CombatSystem>();
 
         CurrentHealthPoints = MaxHealthPoints;
-
-        HealthBar = Instantiate(HealthBarPrefab);
-        HealthBar.transform.parent = HealthBarUIPanel.transform;
-        displayHealthBar = true; // TODO show only when combat start, finish when it ends!
+        HealthBar.SetActive(true);
     }
 
     public void Update()
     {
-        UpdateHealthBar();
+        if(inCombat)
+            UpdateHealthBar();
     }
 
     private void UpdateHealthBar()
@@ -70,6 +77,12 @@ public abstract class Combatant : MonoBehaviour
         
         if (CurrentHealthPoints < 0)
             isAlive = false;
+    }
+
+    public void RemoveHealthBars()
+    {
+        inCombat = false;
+        HealthBar.SetActive(false);
     }
 
 }
