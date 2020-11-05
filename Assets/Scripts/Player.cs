@@ -32,9 +32,19 @@ public class Player : MonoBehaviour
 
         if (!Mathf.Approximately(verticalMovement, 0.0f) || !Mathf.Approximately(horizontalMovement, 0.0f))
             transform.localRotation = Quaternion.RotateTowards(
-            transform.localRotation,
-            Quaternion.LookRotation(direction, Vector3.up),
-            rotationSpeed * Time.deltaTime);
+                transform.localRotation,
+                Quaternion.LookRotation(direction, Vector3.up),
+                rotationSpeed * Time.deltaTime);
+    }
 
+    public void EnableMovement()
+    {
+        GetComponent<CharacterController>().enabled = true;
+        GetComponent<Player>().enabled = true;
+    }
+    public void DisableMovement()
+    {
+        GetComponent<CharacterController>().enabled = false;
+        GetComponent<Player>().enabled = false;
     }
 }

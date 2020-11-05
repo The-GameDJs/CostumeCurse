@@ -72,7 +72,7 @@ public class CombatSystem : MonoBehaviour
     private bool AlliesWon()
     {
         foreach (GameObject enemy in EnemyCombatants)
-            if (enemy.GetComponent<EnemyCombatant>().isAlive)
+            if (enemy.GetComponent<EnemyCombatant>().IsAlive)
                 return false;
 
         Debug.Log("!!!!Allies Win!!!!");
@@ -82,7 +82,7 @@ public class CombatSystem : MonoBehaviour
     private bool EnemiesWon()
     {
         foreach (GameObject ally in AllyCombatants)
-            if (ally.GetComponent<AllyCombatant>().isAlive)
+            if (ally.GetComponent<AllyCombatant>().IsAlive)
                 return false;
 
         Debug.Log("....Enemies Win....");

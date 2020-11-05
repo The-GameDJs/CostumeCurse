@@ -20,6 +20,12 @@ public class AllyCombatant : Combatant
         base.Update();
     }
 
+    new public void ExitCombat()
+    {
+        base.ExitCombat();
+        GetComponentInChildren<Costume>().DisplayAbilities(false);
+    }
+
     protected override void TakeTurnWhileDead()
     {
         // TODO add some dead idling animation? 
