@@ -25,7 +25,7 @@ public class EnemyCombatant : Combatant
 
     private void UpdateUIPosition()
     {
-        if (displayUI && isAlive)
+        if (displayUI)
         {
             Vector3 relativeScreenPosition = Camera.main.WorldToScreenPoint(transform.position);
             enemyUI.transform.position = relativeScreenPosition;
@@ -52,7 +52,7 @@ public class EnemyCombatant : Combatant
         TurnPriority = 10;
 
         enemyUI = Instantiate(enemyUITemplate);
-        enemyUI.transform.parent = enemyPanel.transform;
+        enemyUI.transform.SetParent(enemyPanel.transform);
 
         HideUI();
     }

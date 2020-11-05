@@ -20,6 +20,8 @@ public abstract class Ability : MonoBehaviour
 
     public void StartAbility()
     {
+        GetComponentInChildren<Costume>().DisplayAbilities(false);
+
         TargetSelector.Target(this);
     }
 

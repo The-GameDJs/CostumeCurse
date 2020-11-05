@@ -49,15 +49,15 @@ public class CombatZone : MonoBehaviour
         {
             GameObject enemy = Enemies[i];
             enemy.transform.position = EnemyPositions[i].transform.position;
-            enemy.GetComponent<Combatant>().ShowHealth();
+            enemy.GetComponent<Combatant>().EnterCombat();
         }
 
         for (int j = 0; j < PlayerPositions.Length; j++)
         {
             GameObject player = Players[j];
-            player.GetComponent<CharacterController>().enabled = false;
-            player.GetComponent<Combatant>().ShowHealth();
-            player.GetComponent<Player>().enabled = false;
+            player.GetComponent<Combatant>().EnterCombat();
+            player.GetComponent<Player>().DisableMovement();
+
             player.SetActive(false);
             player.transform.position = PlayerPositions[j].transform.position;
             player.SetActive(true);
@@ -66,27 +66,21 @@ public class CombatZone : MonoBehaviour
 
     public void DestroyCombatZone()
     {
-        Debug.Log("Combat has Ended");
+        Debug.Log("Destroying this Combat Zone!");
 
         foreach(GameObject player in Players)
         {
-            EnableMovement(player);
+            player.GetComponent<Combatant>().ExitCombat();
+            player.GetComponent<Player>().EnableMovement();
         }
 
         foreach (GameObject enemy in Enemies)
         {
-            enemy.GetComponent<Combatant>().RemoveHealthBars();
+            enemy.GetComponent<Combatant>().ExitCombat();
             Destroy(enemy);
         }
 
         Destroy(gameObject);
     }
 
-    private static void EnableMovement(GameObject player)
-    {
-        player.GetComponent<CharacterController>().enabled = true;
-        player.GetComponent<Combatant>().RemoveHealthBars();
-        player.GetComponent<Player>().enabled = true;
-        player.GetComponentInChildren<Costume>().DisplayAbilities(false);
-    }
 }

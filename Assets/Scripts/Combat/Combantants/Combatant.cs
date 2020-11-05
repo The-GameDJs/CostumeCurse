@@ -19,35 +19,31 @@ public abstract class Combatant : MonoBehaviour
 
     private GameObject HealthBar;
 
-    public bool isAlive = true;
-    private bool inCombat;
+    public bool IsAlive = true;
+    private bool IsInCombat;
 
     public void Start()
     {
-        inCombat = false;
-        HealthBar = Instantiate(HealthBarPrefab);
-        HealthBar.transform.parent = HealthBarUIPanel.transform;
-        HealthBar.SetActive(false);
-    }
-
-    public void ShowHealth()
-    {
-        inCombat = true;
         CombatSystem = GameObject.FindGameObjectWithTag("CombatSystem").GetComponent<CombatSystem>();
 
+        IsInCombat = false;
+
+        HealthBar = Instantiate(HealthBarPrefab);
+        HealthBar.transform.SetParent(HealthBarUIPanel.transform);
+        HealthBar.SetActive(false);
+
         CurrentHealthPoints = MaxHealthPoints;
-        HealthBar.SetActive(true);
     }
 
     public void Update()
     {
-        if(inCombat)
+        if(IsInCombat)
             UpdateHealthBar();
     }
 
     private void UpdateHealthBar()
     {
-        string healthText = isAlive ?
+        string healthText = IsAlive ?
             $"{CurrentHealthPoints} / {MaxHealthPoints}" :
             "I've fallen and can't get up";
 
@@ -59,7 +55,7 @@ public abstract class Combatant : MonoBehaviour
 
     public void StartTurn()
     {
-        if (isAlive)
+        if (IsAlive)
             TakeTurnWhileAlive();
         else
             TakeTurnWhileDead();
@@ -76,13 +72,19 @@ public abstract class Combatant : MonoBehaviour
         CurrentHealthPoints -= damage;
         
         if (CurrentHealthPoints < 0)
-            isAlive = false;
+            IsAlive = false;
     }
 
-    public void RemoveHealthBars()
+    public void ExitCombat()
     {
-        inCombat = false;
+        IsInCombat = false;
         HealthBar.SetActive(false);
     }
 
+    public void EnterCombat()
+    {
+        IsInCombat = true;
+
+        HealthBar.SetActive(true);
+    }
 }
