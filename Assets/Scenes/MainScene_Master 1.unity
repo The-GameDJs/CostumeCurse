@@ -195,7 +195,7 @@ PrefabInstance:
       objectReference: {fileID: 5905072203430277938}
     - target: {fileID: 4336986228912575789, guid: e3e6540067d403e4ab18edaba0779f55, type: 3}
       propertyPath: MaxHealthPoints
-      value: 100
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 4336986228912575789, guid: e3e6540067d403e4ab18edaba0779f55, type: 3}
       propertyPath: CurrentHealthPoints
@@ -268,6 +268,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Combatants: []
+  AllyCombatants: []
+  EnemyCombatants: []
   Sield: {fileID: 0}
   Ganiel: {fileID: 0}
 --- !u!4 &128004871
@@ -837,6 +839,112 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7078057653899943907, guid: 5e55cca64ee21f94bbb0d14295f3d9ee, type: 3}
   m_PrefabInstance: {fileID: 5058209219773274409}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &608690258 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6121362164579827105, guid: e3e6540067d403e4ab18edaba0779f55, type: 3}
+  m_PrefabInstance: {fileID: 8038807547533511597}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &610356046
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2639131285977403850, guid: 946922e3ecbfd9a4db3e258bd9bd1988, type: 3}
+      propertyPath: m_Name
+      value: Combat Zone (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2639131285977403854, guid: 946922e3ecbfd9a4db3e258bd9bd1988, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -9.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2639131285977403854, guid: 946922e3ecbfd9a4db3e258bd9bd1988, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2639131285977403854, guid: 946922e3ecbfd9a4db3e258bd9bd1988, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -14.29
+      objectReference: {fileID: 0}
+    - target: {fileID: 2639131285977403854, guid: 946922e3ecbfd9a4db3e258bd9bd1988, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2639131285977403854, guid: 946922e3ecbfd9a4db3e258bd9bd1988, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2639131285977403854, guid: 946922e3ecbfd9a4db3e258bd9bd1988, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2639131285977403854, guid: 946922e3ecbfd9a4db3e258bd9bd1988, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2639131285977403854, guid: 946922e3ecbfd9a4db3e258bd9bd1988, type: 3}
+      propertyPath: m_RootOrder
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 2639131285977403854, guid: 946922e3ecbfd9a4db3e258bd9bd1988, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2639131285977403854, guid: 946922e3ecbfd9a4db3e258bd9bd1988, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2639131285977403854, guid: 946922e3ecbfd9a4db3e258bd9bd1988, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2639131285977403855, guid: 946922e3ecbfd9a4db3e258bd9bd1988, type: 3}
+      propertyPath: Enemies.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2639131285977403855, guid: 946922e3ecbfd9a4db3e258bd9bd1988, type: 3}
+      propertyPath: EnemyPositions.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2639131285977403855, guid: 946922e3ecbfd9a4db3e258bd9bd1988, type: 3}
+      propertyPath: Enemies.Array.data[0]
+      value: 
+      objectReference: {fileID: 608690258}
+    - target: {fileID: 2639131285977403855, guid: 946922e3ecbfd9a4db3e258bd9bd1988, type: 3}
+      propertyPath: Enemies.Array.data[1]
+      value: 
+      objectReference: {fileID: 1889062836}
+    - target: {fileID: 2639131285977403855, guid: 946922e3ecbfd9a4db3e258bd9bd1988, type: 3}
+      propertyPath: Players.Array.data[0]
+      value: 
+      objectReference: {fileID: 474584803}
+    - target: {fileID: 2639131287950841190, guid: 946922e3ecbfd9a4db3e258bd9bd1988, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2.329
+      objectReference: {fileID: 0}
+    - target: {fileID: 2639131287950841190, guid: 946922e3ecbfd9a4db3e258bd9bd1988, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.835
+      objectReference: {fileID: 0}
+    - target: {fileID: 2639131288026190279, guid: 946922e3ecbfd9a4db3e258bd9bd1988, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.343
+      objectReference: {fileID: 0}
+    - target: {fileID: 2639131288026190279, guid: 946922e3ecbfd9a4db3e258bd9bd1988, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.099
+      objectReference: {fileID: 0}
+    - target: {fileID: 2639131288042347537, guid: 946922e3ecbfd9a4db3e258bd9bd1988, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.304
+      objectReference: {fileID: 0}
+    - target: {fileID: 2639131288042347537, guid: 946922e3ecbfd9a4db3e258bd9bd1988, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.198
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 946922e3ecbfd9a4db3e258bd9bd1988, type: 3}
 --- !u!4 &684130512 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8708324957311352290, guid: ed59dd3b66a574942897aea199fdf4ee, type: 3}
@@ -1606,7 +1714,7 @@ PrefabInstance:
       objectReference: {fileID: 5905072203430277938}
     - target: {fileID: 4336986228912575789, guid: e3e6540067d403e4ab18edaba0779f55, type: 3}
       propertyPath: MaxHealthPoints
-      value: 100
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 4336986228912575789, guid: e3e6540067d403e4ab18edaba0779f55, type: 3}
       propertyPath: CurrentHealthPoints
@@ -1757,6 +1865,14 @@ PrefabInstance:
       propertyPath: thunder
       value: 
       objectReference: {fileID: 730278768}
+    - target: {fileID: 8929857066982550, guid: 6abebb575b1123946bc5c64e103c3ccf, type: 3}
+      propertyPath: TargetSelector
+      value: 
+      objectReference: {fileID: 202065309}
+    - target: {fileID: 8929857066982550, guid: 6abebb575b1123946bc5c64e103c3ccf, type: 3}
+      propertyPath: CombatSystem
+      value: 
+      objectReference: {fileID: 128004870}
     - target: {fileID: 492862330534067325, guid: 6abebb575b1123946bc5c64e103c3ccf, type: 3}
       propertyPath: CombatSystem
       value: 
@@ -1771,7 +1887,7 @@ PrefabInstance:
       objectReference: {fileID: 5905072203430277938}
     - target: {fileID: 492862330534067325, guid: 6abebb575b1123946bc5c64e103c3ccf, type: 3}
       propertyPath: MaxHealthPoints
-      value: 250
+      value: 700
       objectReference: {fileID: 0}
     - target: {fileID: 492862330534067325, guid: 6abebb575b1123946bc5c64e103c3ccf, type: 3}
       propertyPath: CurrentHealthPoints
@@ -2199,7 +2315,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2331611586568891690, guid: e3e6540067d403e4ab18edaba0779f55, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.65
+      value: -18.83
       objectReference: {fileID: 0}
     - target: {fileID: 2331611586568891690, guid: e3e6540067d403e4ab18edaba0779f55, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2207,7 +2323,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2331611586568891690, guid: e3e6540067d403e4ab18edaba0779f55, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 5.65
+      value: -10.74
       objectReference: {fileID: 0}
     - target: {fileID: 2331611586568891690, guid: e3e6540067d403e4ab18edaba0779f55, type: 3}
       propertyPath: m_LocalRotation.x
@@ -2251,7 +2367,7 @@ PrefabInstance:
       objectReference: {fileID: 5905072203430277938}
     - target: {fileID: 4336986228912575789, guid: e3e6540067d403e4ab18edaba0779f55, type: 3}
       propertyPath: MaxHealthPoints
-      value: 100
+      value: 1500
       objectReference: {fileID: 0}
     - target: {fileID: 4336986228912575789, guid: e3e6540067d403e4ab18edaba0779f55, type: 3}
       propertyPath: CurrentHealthPoints
