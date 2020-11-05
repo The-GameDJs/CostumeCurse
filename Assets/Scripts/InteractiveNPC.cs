@@ -6,42 +6,31 @@ public class InteractiveNPC : MonoBehaviour
 {
     public string DialogueText;
     public DialogueBubble DialogueUI;
-    private bool displayDialogueBubble;
+    private bool DisplayDialogueBubble;
     private bool PlayerInRange;
     private float DistanceBetweenPlayer;
     public float MinDistance = 3.5f;
 
     void Start()
     {
-        displayDialogueBubble = false;
+        DisplayDialogueBubble = false;
         PlayerInRange = false;
-        DistanceBetweenPlayer = 100f; // Arbitrary number
+        DistanceBetweenPlayer = 0f;
     }
 
     void Update()
     {
         CheckIfInRange();
 
-        if (Input.GetKeyDown(KeyCode.X) && PlayerInRange)
+        if (Input.GetButtonDown("Action Command") && PlayerInRange)
         {
-            displayDialogueBubble = !displayDialogueBubble;
-            DisplayTextBubble(displayDialogueBubble);
+            DisplayDialogueBubble = !DisplayDialogueBubble;
+            DisplayTextBubble(DisplayDialogueBubble);
         }
 
-        if(displayDialogueBubble)
+        if (DisplayDialogueBubble)
         {
-            // Displays the bubble on top of the NPC
-            // TODO: Maybe change the hardcoded value to something else?
-            var yOffset = transform.position.y + (GetComponent<Collider>().bounds.size.y) + 1.0f;
-            Vector3 offsetPos = new Vector3(transform.position.x, transform.position.y + yOffset, transform.position.z);
-            Vector3 relativeScreenPosition = Camera.main.WorldToScreenPoint(offsetPos);
-            DialogueUI.transform.position = relativeScreenPosition;
-
-            if (!PlayerInRange)
-            {
-                DialogueUI.Close();
-                displayDialogueBubble = false;
-            }
+            UpdateDialogueBubblePosition();
         }
     }
 
@@ -51,7 +40,7 @@ public class InteractiveNPC : MonoBehaviour
         {
             DialogueUI.Show(DialogueText);
         }
-        else 
+        else
         {
             DialogueUI.Close();
         }
@@ -65,13 +54,30 @@ public class InteractiveNPC : MonoBehaviour
             DistanceBetweenPlayer = Vector3.Distance(player.transform.position, transform.position);
         }
 
-        if(DistanceBetweenPlayer <= MinDistance)
+        if (DistanceBetweenPlayer <= MinDistance)
         {
             PlayerInRange = true;
         }
         else
         {
             PlayerInRange = false;
+        }
+    }
+
+    // Displays the bubble on top of the NPC
+    void UpdateDialogueBubblePosition()
+    {
+
+        // TODO: Maybe change the hardcoded value to something else?
+        var yOffset = transform.position.y + (GetComponent<Collider>().bounds.size.y) + 1.0f;
+        Vector3 offsetPos = new Vector3(transform.position.x, transform.position.y + yOffset, transform.position.z);
+        Vector3 relativeScreenPosition = Camera.main.WorldToScreenPoint(offsetPos);
+        DialogueUI.transform.position = relativeScreenPosition;
+
+        if (!PlayerInRange)
+        {
+            DialogueUI.Close();
+            DisplayDialogueBubble = false;
         }
     }
 }
