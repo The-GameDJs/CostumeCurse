@@ -7,38 +7,38 @@ using TMPro;
 public class DialogueBubble : MonoBehaviour
 {
     enum TextEffect { None, Shaky, Wavy }
-    TextEffect activeEffect;
+    TextEffect ActiveEffect;
 
     private TMP_Text Text;
     private string CurrentText;
 
-    const string kAlphaCode = "<color=#00000000>";
-    const float kMaxTextTime = 0.1f;
+    const string KAlphaCode = "<color=#00000000>";
+    const float KMaxTextTime = 0.1f;
     public static float TextSpeed = 2;
-    private float originalTextSpeed;
+    private float OriginalTextSpeed;
 
     CanvasGroup Group;
 
     public float AngleMultiplier = 1.0f;
     public float SpeedMultiplier = 1.0f;
     public float CurveScale = 1.0f;
-    private bool hasTextChanged;
-    private bool isTextShaking = false;
+    private bool HasTextChanged;
+    private bool IsTextShaking = false;
 
     // Contains animation data
     private struct VertexAnim
     {
-        public float angleRange;
-        public float angle;
-        public float speed;
+        public float AngleRange;
+        public float Angle;
+        public float Speed;
     }
 
     void Awake()
     {
         Text = GetComponentInChildren<TMP_Text>();
-        activeEffect = TextEffect.None;
+        ActiveEffect = TextEffect.None;
         // Store original speed to restore after acceleration
-        originalTextSpeed = TextSpeed;
+        OriginalTextSpeed = TextSpeed;
     }
 
     void Start()
@@ -51,16 +51,16 @@ public class DialogueBubble : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.J))
         {
-            isTextShaking = !isTextShaking;
+            IsTextShaking = !IsTextShaking;
         }
 
         // Simple hacky way to accelerate the text speed.
-        if (Input.GetKeyDown(KeyCode.C)) {
+        if (Input.GetButtonDown("Fast Forward")) {
             TextSpeed = 100;
         }
 
         // Temporary for showcase purposes
-        if (isTextShaking)
+        if (IsTextShaking)
         {
             StartCoroutine(ShakeText());
         }
@@ -71,7 +71,7 @@ public class DialogueBubble : MonoBehaviour
         Group.alpha = 1;
         CurrentText = text;
         StartCoroutine(DisplayText());
-        TextSpeed = originalTextSpeed;
+        TextSpeed = OriginalTextSpeed;
     }
 
     public void Close()
@@ -100,10 +100,10 @@ public class DialogueBubble : MonoBehaviour
         {
             alphaIndex++;
             Text.text = originalText;
-            displayedText = Text.text.Insert(alphaIndex, kAlphaCode);
+            displayedText = Text.text.Insert(alphaIndex, KAlphaCode);
             Text.text = displayedText;
 
-            yield return new WaitForSecondsRealtime(kMaxTextTime / TextSpeed);
+            yield return new WaitForSecondsRealtime(KMaxTextTime / TextSpeed);
         }
 
         yield return null;
@@ -122,14 +122,14 @@ public class DialogueBubble : MonoBehaviour
         Matrix4x4 matrix;
 
         int loopCount = 0;
-        hasTextChanged = true;
+        HasTextChanged = true;
 
         // Create an Array which contains pre-computed Angle Ranges and Speeds for a bunch of characters.
         VertexAnim[] vertexAnim = new VertexAnim[1024];
         for (int i = 0; i < 1024; i++)
         {
-            vertexAnim[i].angleRange = Random.Range(10f, 25f);
-            vertexAnim[i].speed = Random.Range(1f, 3f);
+            vertexAnim[i].AngleRange = Random.Range(10f, 25f);
+            vertexAnim[i].Speed = Random.Range(1f, 3f);
         }
 
         // Cache the vertex data of the text object as the Jitter FX is applied to the original position of the characters.
@@ -139,11 +139,11 @@ public class DialogueBubble : MonoBehaviour
         {
 
             // Get new copy of vertex data if the text has changed.
-            if (hasTextChanged)
+            if (HasTextChanged)
             {
                 // Update the copy of the vertex data for the text object.
                 cachedMeshInfo = textInfo.CopyMeshInfoVertexData();
-                hasTextChanged = false;
+                HasTextChanged = false;
             }
 
             int characterCount = textInfo.characterCount;
@@ -192,7 +192,7 @@ public class DialogueBubble : MonoBehaviour
                 destinationVertices[vertexIndex + 2] = sourceVertices[vertexIndex + 2] - offset;
                 destinationVertices[vertexIndex + 3] = sourceVertices[vertexIndex + 3] - offset;
 
-                vertAnim.angle = Mathf.SmoothStep(-vertAnim.angleRange, vertAnim.angleRange, Mathf.PingPong(loopCount / 25f * vertAnim.speed, 1f));
+                vertAnim.Angle = Mathf.SmoothStep(-vertAnim.AngleRange, vertAnim.AngleRange, Mathf.PingPong(loopCount / 25f * vertAnim.Speed, 1f));
                 Vector3 jitterOffset = new Vector3(Random.Range(-.25f, .25f), Random.Range(-.25f, .25f), 0);
 
                 matrix = Matrix4x4.TRS(jitterOffset * CurveScale, Quaternion.Euler(0, 0, Random.Range(-5f, 5f) * AngleMultiplier), Vector3.one);
@@ -237,14 +237,14 @@ public class DialogueBubble : MonoBehaviour
                 // Entering a new tag
                 switch (next)
                 {
-                    case 'w': activeEffect = TextEffect.Wavy; break;
-                    case 's': activeEffect = TextEffect.Shaky; break;
+                    case 'w': ActiveEffect = TextEffect.Wavy; break;
+                    case 's': ActiveEffect = TextEffect.Shaky; break;
                 }
             }
             else
             {
                 // Exited an ending tag, revert back to no effect
-                activeEffect = TextEffect.None;
+                ActiveEffect = TextEffect.None;
             }
         }
         else if (currentCharIndex > 0 && fullText[currentCharIndex - 1] == '>')
