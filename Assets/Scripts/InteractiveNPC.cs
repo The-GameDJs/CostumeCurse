@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class InteractiveNPC : MonoBehaviour
 {
-    public string DialogueText;
+    [TextArea(3, 10)]
+    public string[] DialogueText;
     public DialogueBubble DialogueUI;
     private bool DisplayDialogueBubble;
     private bool PlayerInRange;
@@ -38,7 +39,7 @@ public class InteractiveNPC : MonoBehaviour
     {
         if (isActive)
         {
-            DialogueUI.Show(DialogueText);
+            DialogueUI.StartDialogue(DialogueText);
         }
         else
         {

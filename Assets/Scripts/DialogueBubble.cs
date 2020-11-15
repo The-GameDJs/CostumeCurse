@@ -10,6 +10,7 @@ public class DialogueBubble : MonoBehaviour
     TextEffect ActiveEffect;
 
     private TMP_Text Text;
+    private Queue<string> Dialogue;
     private string CurrentText;
 
     const string KAlphaCode = "<color=#00000000>";
@@ -39,12 +40,10 @@ public class DialogueBubble : MonoBehaviour
         ActiveEffect = TextEffect.None;
         // Store original speed to restore after acceleration
         OriginalTextSpeed = TextSpeed;
-    }
-
-    void Start()
-    {
         Group = GetComponent<CanvasGroup>();
         Group.alpha = 0;
+
+        Dialogue = new Queue<string>();
     }
 
     void Update()
@@ -66,10 +65,40 @@ public class DialogueBubble : MonoBehaviour
         }
     }
 
-    public void Show(string text)
+    public void StartDialogue(string[] dialogueText)
     {
         Group.alpha = 1;
+        Dialogue.Clear();
+
+        foreach(string line in dialogueText)
+        {
+            Dialogue.Enqueue(line);
+        }
+
+        DisplayNextLine();
+        TextSpeed = OriginalTextSpeed;
+    }
+
+    public void DisplayNextLine()
+    {
+        if (Dialogue.Count == 0)
+        {
+            Close();
+            return;
+        }
+
+        string text = Dialogue.Dequeue();
         CurrentText = text;
+        StopAllCoroutines();
+        StartCoroutine(DisplayText());
+        TextSpeed = OriginalTextSpeed;
+    }
+
+    // Kept for debugging will delete later
+    public void Show(string[] text)
+    {
+        Group.alpha = 1;
+        CurrentText = text[0];
         StartCoroutine(DisplayText());
         TextSpeed = OriginalTextSpeed;
     }
