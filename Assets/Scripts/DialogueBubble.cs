@@ -79,12 +79,12 @@ public class DialogueBubble : MonoBehaviour
         TextSpeed = OriginalTextSpeed;
     }
 
-    public void DisplayNextLine()
+    public bool DisplayNextLine()
     {
         if (Dialogue.Count == 0)
         {
             Close();
-            return;
+            return false;
         }
 
         string text = Dialogue.Dequeue();
@@ -92,6 +92,7 @@ public class DialogueBubble : MonoBehaviour
         StopAllCoroutines();
         StartCoroutine(DisplayText());
         TextSpeed = OriginalTextSpeed;
+        return true;
     }
 
     // Kept for debugging will delete later

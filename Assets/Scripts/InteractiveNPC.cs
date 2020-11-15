@@ -23,7 +23,12 @@ public class InteractiveNPC : MonoBehaviour
     {
         CheckIfInRange();
 
-        if (Input.GetButtonDown("Action Command") && PlayerInRange)
+        if(DisplayDialogueBubble & Input.GetButtonDown("Action Command"))
+        {
+                DisplayDialogueBubble = DialogueUI.DisplayNextLine();
+        }
+
+        else if (Input.GetButtonDown("Action Command") && PlayerInRange)
         {
             DisplayDialogueBubble = !DisplayDialogueBubble;
             DisplayTextBubble(DisplayDialogueBubble);
