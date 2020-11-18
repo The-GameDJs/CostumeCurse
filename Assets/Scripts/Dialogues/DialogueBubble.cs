@@ -8,6 +8,7 @@ public class DialogueBubble : MonoBehaviour
 {
     enum TextEffect { None, Shaky, Wavy }
     TextEffect ActiveEffect;
+    private List<SpecialCommand> specialCommands;
 
     private TMP_Text Text;
     private Queue<string> Dialogue;
@@ -121,6 +122,8 @@ public class DialogueBubble : MonoBehaviour
 
         Text.text = "";
 
+        specialCommands = BuildSpecialCommandList(CurrentText);
+
         string cleanedText = StripAllTags(CurrentText);
         string originalText = cleanedText;
         string displayedText = "";
@@ -128,6 +131,9 @@ public class DialogueBubble : MonoBehaviour
 
         foreach (char c in cleanedText.ToCharArray())
         {
+            if (specialCommands.Count > 0) {
+                CheckForCommands(c);
+            }
             alphaIndex++;
             Text.text = originalText;
             displayedText = Text.text.Insert(alphaIndex, KAlphaCode);
@@ -285,8 +291,37 @@ public class DialogueBubble : MonoBehaviour
     }
 
     // TODO: Create a tag/command list
+    private List<SpecialCommand> BuildSpecialCommandList(string text) {
+        List<SpecialCommand> listCommand = new List<SpecialCommand>();
+
+
+
+         return listCommand;
+    }
 
     // TODO: Execute tag/command where needed
+    private void ExecuteCommand(SpecialCommand command)
+    {
+
+    }
+
+    //Check all commands in a given index. 
+    //It's possible to have two commands next to each other in the dialogue line.
+    //This means both will share the same index.
+    private void CheckForCommands(int index) {
+        for (int i = 0; i < specialCommands.Count; i++) {
+            if (specialCommands[i].Index == index) {
+                //Execute if found a match.
+                ExecuteCommand(specialCommands[i]);
+
+                //Remove it.
+                specialCommands.RemoveAt(i);
+
+                //Take a step back since we removed one command from the list. Otherwise, the script will skip one command.
+                i--;
+            }
+        }
+    }
 
     // We use regex to strip all <tags> from our current dialogue line
     // We have two strings: one with tags and the one printing on screen
@@ -301,5 +336,20 @@ public class DialogueBubble : MonoBehaviour
 
         cleanString = Regex.Replace(text, pattern, "");
         return cleanString;
+    }
+}
+
+//Basic Class for special commands
+class SpecialCommand
+{
+    // Command Name
+    public string Name { get; set; }
+
+    public int Index { get; set; }
+
+    public SpecialCommand()
+    {
+        Name = "";
+        Index = 0;
     }
 }
