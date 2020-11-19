@@ -259,6 +259,7 @@ public class DialogueBubble : MonoBehaviour
         }
     }
 
+    // Useless maybe
     void CheckTag(string fullText, char currentChar, int currentCharIndex, ref bool inTag)
     {
         if (currentChar == '<')
@@ -294,9 +295,41 @@ public class DialogueBubble : MonoBehaviour
     private List<SpecialCommand> BuildSpecialCommandList(string text) {
         List<SpecialCommand> listCommand = new List<SpecialCommand>();
 
+        string command = "";
+        char[] tags = { '<', '>' };
 
+        // Go through the dialogue line, get all our special commands
+        for (int i = 0; i < text.Length; i++) {
+            string currentChar = text[i].ToString();
 
-         return listCommand;
+            //If true, we are getting a command.
+            if (currentChar == "<") {
+
+                //Go ahead and get the command.
+                while (currentChar != ">" && i < text.Length) {
+                    currentChar = text[i].ToString();
+                    command += currentChar;
+                    text = text.Remove(i, 1);  // Remove current character. We want to get the next character in the command
+                }
+
+                // Done getting the command
+                if (currentChar == ">") {
+                    command = command.Trim(tags);
+
+                    SpecialCommand newCommand = new SpecialCommand(command, i);
+                    listCommand.Add(newCommand);
+
+                    command = "";
+
+                    // Take a step back otherwise a character will be skipped
+                    i--;
+                } else {
+                    Debug.Log("Command in dialogue line not closed.");
+                }
+            }
+        }
+
+        return listCommand;
     }
 
     // TODO: Execute tag/command where needed
@@ -305,9 +338,9 @@ public class DialogueBubble : MonoBehaviour
 
     }
 
-    //Check all commands in a given index. 
-    //It's possible to have two commands next to each other in the dialogue line.
-    //This means both will share the same index.
+    // Check all commands in a given index. 
+    // It's possible to have two commands next to each other in the dialogue line.
+    // This means both will share the same index.
     private void CheckForCommands(int index) {
         for (int i = 0; i < specialCommands.Count; i++) {
             if (specialCommands[i].Index == index) {
@@ -347,9 +380,9 @@ class SpecialCommand
 
     public int Index { get; set; }
 
-    public SpecialCommand()
+    public SpecialCommand(string name, int i)
     {
-        Name = "";
-        Index = 0;
+        Name = name;
+        Index = i;
     }
 }
