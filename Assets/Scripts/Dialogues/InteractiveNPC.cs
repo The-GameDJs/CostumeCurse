@@ -27,7 +27,7 @@ public class InteractiveNPC : MonoBehaviour
 
         if(DisplayDialogueBubble & Input.GetButtonDown("Action Command"))
         {
-            DialogueManager.AdvanceConversation();
+            DisplayDialogueBubble = DialogueManager.AdvanceConversation();
         }
 
         else if (Input.GetButtonDown("Action Command") && PlayerInRange)

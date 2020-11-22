@@ -36,18 +36,20 @@ public class DialogueManager : MonoBehaviour
         AdvanceConversation();
     }
 
-    public void AdvanceConversation()
+    public bool AdvanceConversation()
     {
         if (ActiveLineIndex < Conversation.Lines.Length)
         {
             DisplayLine();
             ActiveLineIndex++;
+            return true;
         }
         else
         {
             DialogueUI.Close();
             ActiveLineIndex = 0;
             DisplayDialogueBubble = false;
+            return false;
         }
     }
 
@@ -62,7 +64,7 @@ public class DialogueManager : MonoBehaviour
     // Displays the bubble on top of the NPC
     void UpdateDialogueBubblePosition() 
     {
-        var yOffset = CurrentSpeaker.transform.position.y + (CurrentSpeaker.GetComponent<Collider>().bounds.size.y) * 1.10f;
+        var yOffset = CurrentSpeaker.GetComponent<Collider>().bounds.size.y * 1.45f;
         Vector3 offsetPos = new Vector3(CurrentSpeaker.transform.position.x, CurrentSpeaker.transform.position.y + yOffset, CurrentSpeaker.transform.position.z);
         Vector3 relativeScreenPosition = Camera.main.WorldToScreenPoint(offsetPos);
         DialogueUI.transform.position = relativeScreenPosition;
