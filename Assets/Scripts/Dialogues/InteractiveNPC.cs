@@ -11,6 +11,8 @@ public class InteractiveNPC : MonoBehaviour
     private bool PlayerInRange;
     private float DistanceBetweenPlayer;
     public float MinDistance = 3.5f;
+    public DialogueManager DialogueManager;
+    public Conversation Conversation;
 
     void Start()
     {
@@ -25,18 +27,13 @@ public class InteractiveNPC : MonoBehaviour
 
         if(DisplayDialogueBubble & Input.GetButtonDown("Action Command"))
         {
-                DisplayDialogueBubble = DialogueUI.DisplayNextLine();
+            DialogueManager.AdvanceConversation();
         }
 
         else if (Input.GetButtonDown("Action Command") && PlayerInRange)
         {
             DisplayDialogueBubble = !DisplayDialogueBubble;
-            DisplayTextBubble(DisplayDialogueBubble);
-        }
-
-        if (DisplayDialogueBubble)
-        {
-            UpdateDialogueBubblePosition();
+            DialogueManager.StartDialogue(Conversation);
         }
     }
 

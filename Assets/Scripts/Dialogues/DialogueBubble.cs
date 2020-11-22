@@ -85,6 +85,16 @@ public class DialogueBubble : MonoBehaviour
         return true;
     }
 
+    public bool Display(string text)
+    {
+        Group.alpha = 1;
+        CurrentText = text;
+        StopAllCoroutines();
+        StartCoroutine(DisplayText());
+        TextSpeed = OriginalTextSpeed;
+        return true;
+    }
+
     // Kept for debugging will delete later
     public void Show(string[] text)
     {
@@ -197,8 +207,6 @@ public class DialogueBubble : MonoBehaviour
         {
             return;
         }
-
-        Debug.Log("Command " + command.Name + " found!");
 
         if (command.Name == "shaky") 
         {
