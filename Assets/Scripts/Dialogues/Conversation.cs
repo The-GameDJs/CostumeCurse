@@ -5,7 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public struct Line
 {
-    //public Character Character;
+    public GameObject Character;
 
     [TextArea(2,5)]
     public string text;

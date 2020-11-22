@@ -111,7 +111,7 @@ public class DialogueBubble : MonoBehaviour
 
         Text.text = "";
 
-        specialCommands = BuildSpecialCommandList(CurrentText);
+        SpecialCommands = BuildSpecialCommandList(CurrentText);
 
         string cleanedText = StripAllTags(CurrentText);
         string originalText = cleanedText;
@@ -121,7 +121,7 @@ public class DialogueBubble : MonoBehaviour
 
         foreach (char c in cleanedText.ToCharArray())
         {
-            if (specialCommands.Count > 0) {
+            if (SpecialCommands.Count > 0) {
                 CheckForCommands(characterIndex);
             }
             alphaIndex++;
@@ -210,12 +210,12 @@ public class DialogueBubble : MonoBehaviour
     // It's possible to have two commands next to each other in the dialogue line.
     // This means both will share the same index.
     private void CheckForCommands(int index) {
-        for (int i = 0; i < specialCommands.Count; i++) {
-            if (specialCommands[i].StartIndex == index) {
-                ExecuteCommand(specialCommands[i]);
+        for (int i = 0; i < SpecialCommands.Count; i++) {
+            if (SpecialCommands[i].StartIndex == index) {
+                ExecuteCommand(SpecialCommands[i]);
 
                 // Remove it
-                specialCommands.RemoveAt(i);
+                SpecialCommands.RemoveAt(i);
 
                 //Take a step back since we removed one command from the list. Otherwise, the script will skip one command.
                 i--;

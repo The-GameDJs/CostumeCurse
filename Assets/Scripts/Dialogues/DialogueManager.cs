@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class DialogueManager : MonoBehaviour
 {
+    public DialogueBubble DialogueUI;
+    public Conversation Conversation;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,6 +24,10 @@ public class DialogueManager : MonoBehaviour
     void StartDialogue() 
     {
         // Display line will be handled by DialogueBubble
+        
+        //DialogueUI.StartDialogue(DialogueText);
+
+        //DialogueUI.DisplayNextLine();
     }
 
     
