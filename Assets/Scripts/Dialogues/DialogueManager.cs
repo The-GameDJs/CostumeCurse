@@ -5,35 +5,66 @@ using UnityEngine;
 public class DialogueManager : MonoBehaviour
 {
     public DialogueBubble DialogueUI;
-    public Conversation Conversation;
+    private Conversation Conversation;
+
+    private Line ActiveLine;
+    private int ActiveLineIndex;
+    private GameObject CurrentSpeaker;
+    
+    private bool DisplayDialogueBubble;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        ActiveLineIndex = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if(DisplayDialogueBubble)
+        {
+            UpdateDialogueBubblePosition();
+        }
     }
-
 
     // Start dialogue
-    void StartDialogue() 
+    public void StartDialogue(Conversation conversation) 
     {
-        // Display line will be handled by DialogueBubble
-        
-        //DialogueUI.StartDialogue(DialogueText);
-
-        //DialogueUI.DisplayNextLine();
+        DisplayDialogueBubble = true;
+        Conversation = conversation;
+        AdvanceConversation();
     }
 
-    
+    public void AdvanceConversation()
+    {
+        if (ActiveLineIndex < Conversation.Lines.Length)
+        {
+            DisplayLine();
+            ActiveLineIndex++;
+        }
+        else
+        {
+            DialogueUI.Close();
+            ActiveLineIndex = 0;
+            DisplayDialogueBubble = false;
+        }
+    }
+
+    void DisplayLine()
+    {
+        ActiveLine = Conversation.Lines[ActiveLineIndex];
+        CurrentSpeaker = GameObject.FindWithTag(ActiveLine.Character);
+
+        DialogueUI.Display(ActiveLine.text);
+    }
+
+    // Displays the bubble on top of the NPC
     void UpdateDialogueBubblePosition() 
     {
-        // Get current speaker and make sure dialogue bubble is updated
-        // according to that speaker's position
+        var yOffset = CurrentSpeaker.transform.position.y + (CurrentSpeaker.GetComponent<Collider>().bounds.size.y) * 1.10f;
+        Vector3 offsetPos = new Vector3(CurrentSpeaker.transform.position.x, CurrentSpeaker.transform.position.y + yOffset, CurrentSpeaker.transform.position.z);
+        Vector3 relativeScreenPosition = Camera.main.WorldToScreenPoint(offsetPos);
+        DialogueUI.transform.position = relativeScreenPosition;
     }
 }
