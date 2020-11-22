@@ -13,13 +13,12 @@ public class DialogueManager : MonoBehaviour
     
     private bool DisplayDialogueBubble;
 
-    // Start is called before the first frame update
     void Start()
     {
         ActiveLineIndex = 0;
+        DisplayDialogueBubble = false;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if(DisplayDialogueBubble)
