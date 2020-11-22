@@ -11,7 +11,6 @@ public class DialogueBubble : MonoBehaviour
     private List<SpecialCommand> SpecialCommands;
 
     private TMP_Text Text;
-    private Queue<string> Dialogue;
     private string CurrentText;
 
     const string KAlphaCode = "<color=#00000000>";
@@ -43,8 +42,6 @@ public class DialogueBubble : MonoBehaviour
         OriginalTextSpeed = TextSpeed;
         Group = GetComponent<CanvasGroup>();
         Group.alpha = 0;
-
-        Dialogue = new Queue<string>();
     }
 
     void Update()
@@ -53,36 +50,6 @@ public class DialogueBubble : MonoBehaviour
         if (Input.GetButtonDown("Fast Forward")) {
             TextSpeed = 100;
         }
-    }
-
-    public void StartDialogue(string[] dialogueText)
-    {
-        Group.alpha = 1;
-        Dialogue.Clear();
-
-        foreach(string line in dialogueText)
-        {
-            Dialogue.Enqueue(line);
-        }
-
-        DisplayNextLine();
-        TextSpeed = OriginalTextSpeed;
-    }
-
-    public bool DisplayNextLine()
-    {
-        if (Dialogue.Count == 0)
-        {
-            Close();
-            return false;
-        }
-
-        string text = Dialogue.Dequeue();
-        CurrentText = text;
-        StopAllCoroutines();
-        StartCoroutine(DisplayText());
-        TextSpeed = OriginalTextSpeed;
-        return true;
     }
 
     public bool Display(string text)
@@ -95,21 +62,11 @@ public class DialogueBubble : MonoBehaviour
         return true;
     }
 
-    // Kept for debugging will delete later
-    public void Show(string[] text)
-    {
-        Group.alpha = 1;
-        CurrentText = text[0];
-        StartCoroutine(DisplayText());
-        TextSpeed = OriginalTextSpeed;
-    }
-
     public void Close()
     {
         StopAllCoroutines();
         Group.alpha = 0;
     }
-
 
     private IEnumerator DisplayText()
     {
