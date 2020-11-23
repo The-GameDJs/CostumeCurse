@@ -54,7 +54,7 @@ public class DialogueBubble : MonoBehaviour
         }
 
         // Update arrow position
-        Arrow.transform.position = new Vector3 (transform.position.x + rt.rect.width / 2.78f, transform.position.y - rt.rect.height / 2.1f, 0);
+        Arrow.transform.position = new Vector3 (transform.position.x + rt.rect.width / 2.78f, transform.position.y , 0);
     }
 
     public bool Display(string text)
