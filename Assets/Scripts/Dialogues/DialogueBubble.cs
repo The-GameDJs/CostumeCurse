@@ -6,8 +6,6 @@ using TMPro;
 
 public class DialogueBubble : MonoBehaviour
 {
-    enum TextEffect { None, Shaky, Wavy }
-    TextEffect ActiveEffect;
     private List<SpecialCommand> SpecialCommands;
 
     private TMP_Text Text;
@@ -19,12 +17,14 @@ public class DialogueBubble : MonoBehaviour
     private float OriginalTextSpeed;
 
     CanvasGroup Group;
+    Animator ArrowAnim;
+    GameObject Arrow;
+    RectTransform rt;
 
     public float AngleMultiplier = 1.0f;
     public float SpeedMultiplier = 1.0f;
     public float CurveScale = 1.0f;
     private bool HasTextChanged;
-    private bool IsTextShaking = false;
 
     // Contains animation data
     private struct VertexAnim
@@ -36,8 +36,10 @@ public class DialogueBubble : MonoBehaviour
 
     void Awake()
     {
+        rt = GetComponent<RectTransform>();
+        Arrow = transform.parent.gameObject.transform.GetChild(1).gameObject;
+        ArrowAnim = transform.parent.GetComponentInChildren<Animator>();
         Text = GetComponentInChildren<TMP_Text>();
-        ActiveEffect = TextEffect.None;
         // Store original speed to restore after acceleration
         OriginalTextSpeed = TextSpeed;
         Group = GetComponent<CanvasGroup>();
@@ -50,10 +52,14 @@ public class DialogueBubble : MonoBehaviour
         if (Input.GetButtonDown("Fast Forward")) {
             TextSpeed = 100;
         }
+
+        // Update arrow position
+        Arrow.transform.position = new Vector3 (transform.position.x + rt.rect.width / 2.78f, transform.position.y - rt.rect.height / 2.1f, 0);
     }
 
     public bool Display(string text)
     {
+        ArrowAnim.SetBool("Open", false);
         Group.alpha = 1;
         CurrentText = text;
         StopAllCoroutines();
@@ -64,8 +70,9 @@ public class DialogueBubble : MonoBehaviour
 
     public void Close()
     {
-        StopAllCoroutines();
+        ArrowAnim.SetBool("Open", false);
         Group.alpha = 0;
+        StopAllCoroutines();
     }
 
     private IEnumerator DisplayText()
@@ -99,6 +106,8 @@ public class DialogueBubble : MonoBehaviour
 
             yield return new WaitForSecondsRealtime(KMaxTextTime / TextSpeed);
         }
+
+        ArrowAnim.SetBool("Open", true);
 
         yield return null;
     }
