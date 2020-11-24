@@ -10,7 +10,8 @@ public class DialogueManager : MonoBehaviour
     private Line ActiveLine;
     private int ActiveLineIndex;
     private GameObject CurrentSpeaker;
-    
+    private float YOffsetScaler = 1.45f;
+
     private bool DisplayDialogueBubble;
 
     void Start()
@@ -21,14 +22,14 @@ public class DialogueManager : MonoBehaviour
 
     void Update()
     {
-        if(DisplayDialogueBubble)
+        if (DisplayDialogueBubble)
         {
             UpdateDialogueBubblePosition();
         }
     }
 
     // Start dialogue
-    public void StartDialogue(Conversation conversation) 
+    public void StartDialogue(Conversation conversation)
     {
         DisplayDialogueBubble = true;
         Conversation = conversation;
@@ -46,7 +47,6 @@ public class DialogueManager : MonoBehaviour
         else
         {
             CloseDialogue();
-            DisplayDialogueBubble = false;
             return false;
         }
     }
@@ -61,14 +61,15 @@ public class DialogueManager : MonoBehaviour
 
     public void CloseDialogue()
     {
+        DisplayDialogueBubble = false;
         ActiveLineIndex = 0;
         DialogueUI.Close();
     }
 
     // Displays the bubble on top of the NPC
-    void UpdateDialogueBubblePosition() 
+    void UpdateDialogueBubblePosition()
     {
-        var yOffset = CurrentSpeaker.GetComponent<Collider>().bounds.size.y * 1.45f;
+        var yOffset = CurrentSpeaker.GetComponent<Collider>().bounds.size.y * YOffsetScaler;
         Vector3 offsetPos = new Vector3(CurrentSpeaker.transform.position.x, CurrentSpeaker.transform.position.y + yOffset, CurrentSpeaker.transform.position.z);
         Vector3 relativeScreenPosition = Camera.main.WorldToScreenPoint(offsetPos);
         DialogueUI.transform.position = relativeScreenPosition;

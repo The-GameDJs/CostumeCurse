@@ -6,6 +6,7 @@ using TMPro;
 
 public class DialogueBubble : MonoBehaviour
 {
+    private const float FastForwardTextSpeed = 500f;
     private List<SpecialCommand> SpecialCommands;
 
     private TMP_Text Text;
@@ -20,10 +21,13 @@ public class DialogueBubble : MonoBehaviour
     Animator ArrowAnim;
     GameObject Arrow;
     RectTransform RectTrans;
+    private const float WidthOffsetScaler = 2.85f;
 
     private float AngleMultiplier = 1.0f;
     private float CurveScale = 5.0f;
     private bool HasTextChanged;
+
+    const string ShakyCommandName = "shaky";
 
     // Contains animation data
     private struct VertexAnim
@@ -48,15 +52,16 @@ public class DialogueBubble : MonoBehaviour
     void Update()
     {
         // Simple hacky way to accelerate the text speed.
-        if (Input.GetButtonDown("Fast Forward")) {
-            TextSpeed = 500;
+        if (Input.GetButtonDown("Fast Forward"))
+        {
+            TextSpeed = FastForwardTextSpeed;
         }
 
         // Update arrow position
-        Arrow.transform.position = new Vector3 (transform.position.x + RectTrans.rect.width / 2.78f, transform.position.y , 0);
+        Arrow.transform.position = new Vector3(transform.position.x + RectTrans.rect.width / WidthOffsetScaler, transform.position.y, 0);
     }
 
-    public bool Display(string text)
+    public void Display(string text)
     {
         ArrowAnim.SetBool("Open", false);
         Group.alpha = 1;
@@ -64,7 +69,6 @@ public class DialogueBubble : MonoBehaviour
         StopAllCoroutines();
         StartCoroutine(DisplayText());
         TextSpeed = OriginalTextSpeed;
-        return true;
     }
 
     public void Close()
@@ -94,7 +98,8 @@ public class DialogueBubble : MonoBehaviour
 
         foreach (char c in cleanedText.ToCharArray())
         {
-            if (SpecialCommands.Count > 0) {
+            if (SpecialCommands.Count > 0)
+            {
                 CheckForCommands(characterIndex);
             }
             alphaIndex++;
@@ -111,22 +116,23 @@ public class DialogueBubble : MonoBehaviour
         yield return null;
     }
 
-    private List<SpecialCommand> BuildSpecialCommandList(string text) {
+    private List<SpecialCommand> BuildSpecialCommandList(string text)
+    {
         List<SpecialCommand> listCommand = new List<SpecialCommand>();
 
         string command = "";
         char[] tags = { '<', '>' };
 
         // Go through the dialogue line, get all our special commands
-        for (int i = 0; i < text.Length; i++) 
+        for (int i = 0; i < text.Length; i++)
         {
             string currentChar = text[i].ToString();
 
             //If true, we are getting a command.
-            if (currentChar == "<") 
+            if (currentChar == "<")
             {
                 // Go ahead and get the command.
-                while (currentChar != ">" && i < text.Length) 
+                while (currentChar != ">" && i < text.Length)
                 {
                     currentChar = text[i].ToString();
                     command += currentChar;
@@ -134,13 +140,13 @@ public class DialogueBubble : MonoBehaviour
                 }
 
                 // Done getting the command
-                if (currentChar == ">") 
+                if (currentChar == ">")
                 {
                     command = command.Trim(tags);
 
-                    if(command.Contains("/"))
+                    if (command.Contains("/"))
                     {
-                        if(listCommand.Count>0)
+                        if (listCommand.Count > 0)
                         {
                             listCommand[listCommand.Count - 1].EndIndex = i;
                         }
@@ -155,8 +161,8 @@ public class DialogueBubble : MonoBehaviour
 
                     // Take a step back otherwise a character will be skipped
                     i--;
-                } 
-                else 
+                }
+                else
                 {
                     Debug.Log("Command in dialogue line not closed.");
                 }
@@ -168,12 +174,12 @@ public class DialogueBubble : MonoBehaviour
 
     private void ExecuteCommand(SpecialCommand command)
     {
-        if (command == null) 
+        if (command == null)
         {
             return;
         }
 
-        if (command.Name == "shaky") 
+        if (command.Name == ShakyCommandName)
         {
             StartCoroutine(ShakeTextAt(command.StartIndex, command.EndIndex));
         }
@@ -182,9 +188,12 @@ public class DialogueBubble : MonoBehaviour
     // Check all commands in a given index. 
     // It's possible to have two commands next to each other in the dialogue line.
     // This means both will share the same index.
-    private void CheckForCommands(int index) {
-        for (int i = 0; i < SpecialCommands.Count; i++) {
-            if (SpecialCommands[i].StartIndex == index) {
+    private void CheckForCommands(int index)
+    {
+        for (int i = 0; i < SpecialCommands.Count; i++)
+        {
+            if (SpecialCommands[i].StartIndex == index)
+            {
                 ExecuteCommand(SpecialCommands[i]);
 
                 // Remove it
@@ -199,16 +208,11 @@ public class DialogueBubble : MonoBehaviour
     // We use regex to strip all <tags> from our current dialogue line
     // We have two strings: one with tags and the one printing on screen
     // We keep track of both in order to know when there's a tag to execute, if any
-    private string StripAllTags(string text) 
+    private string StripAllTags(string text)
     {
-        // Clean string to return
-        string cleanString;
-
         // Regex Pattern. Remove all "<tag>" from our dialogue line
         string pattern = "<[^>]+>";
-
-        cleanString = Regex.Replace(text, pattern, "");
-        return cleanString;
+        return Regex.Replace(text, pattern, "");
     }
 
     // Shaking example taken from the TextMeshPro demo.

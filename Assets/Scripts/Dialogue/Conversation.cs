@@ -8,11 +8,11 @@ public struct Line
     [TagSelector]
     public string Character;
 
-    [TextArea(2,5)]
+    [TextArea(2, 5)]
     public string text;
 }
 
-[CreateAssetMenu(fileName="New Conversation", menuName = "Conversation")]
+[CreateAssetMenu(fileName = "New Conversation", menuName = "Conversation")]
 public class Conversation : ScriptableObject
 {
     public Line[] Lines;
