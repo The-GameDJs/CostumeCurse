@@ -45,8 +45,7 @@ public class DialogueManager : MonoBehaviour
         }
         else
         {
-            DialogueUI.Close();
-            ActiveLineIndex = 0;
+            CloseDialogue();
             DisplayDialogueBubble = false;
             return false;
         }
@@ -58,6 +57,12 @@ public class DialogueManager : MonoBehaviour
         CurrentSpeaker = GameObject.FindWithTag(ActiveLine.Character);
 
         DialogueUI.Display(ActiveLine.text);
+    }
+
+    public void CloseDialogue()
+    {
+        ActiveLineIndex = 0;
+        DialogueUI.Close();
     }
 
     // Displays the bubble on top of the NPC
