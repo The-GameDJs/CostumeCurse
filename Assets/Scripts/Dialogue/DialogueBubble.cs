@@ -13,17 +13,16 @@ public class DialogueBubble : MonoBehaviour
 
     const string KAlphaCode = "<color=#00000000>";
     const float KMaxTextTime = 0.1f;
-    public static float TextSpeed = 2;
+    public static float TextSpeed = 2.6f;
     private float OriginalTextSpeed;
 
     CanvasGroup Group;
     Animator ArrowAnim;
     GameObject Arrow;
-    RectTransform rt;
+    RectTransform RectTrans;
 
-    public float AngleMultiplier = 1.0f;
-    public float SpeedMultiplier = 1.0f;
-    public float CurveScale = 1.0f;
+    private float AngleMultiplier = 1.0f;
+    private float CurveScale = 5.0f;
     private bool HasTextChanged;
 
     // Contains animation data
@@ -36,7 +35,7 @@ public class DialogueBubble : MonoBehaviour
 
     void Awake()
     {
-        rt = GetComponent<RectTransform>();
+        RectTrans = GetComponent<RectTransform>();
         Arrow = transform.parent.gameObject.transform.GetChild(1).gameObject;
         ArrowAnim = transform.parent.GetComponentInChildren<Animator>();
         Text = GetComponentInChildren<TMP_Text>();
@@ -50,11 +49,11 @@ public class DialogueBubble : MonoBehaviour
     {
         // Simple hacky way to accelerate the text speed.
         if (Input.GetButtonDown("Fast Forward")) {
-            TextSpeed = 100;
+            TextSpeed = 500;
         }
 
         // Update arrow position
-        Arrow.transform.position = new Vector3 (transform.position.x + rt.rect.width / 2.78f, transform.position.y , 0);
+        Arrow.transform.position = new Vector3 (transform.position.x + RectTrans.rect.width / 2.78f, transform.position.y , 0);
     }
 
     public bool Display(string text)

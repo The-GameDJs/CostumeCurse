@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class InteractiveNPC : MonoBehaviour
 {
-    private bool DisplayDialogueBubble;
-    private bool PlayerInRange;
+    private bool IsDisplayingDialogue;
+    private bool IsPlayerInRange;
     private float DistanceBetweenPlayer;
     public float MinDistance = 3.5f;
     public DialogueManager DialogueManager;
@@ -13,8 +13,8 @@ public class InteractiveNPC : MonoBehaviour
 
     void Start()
     {
-        DisplayDialogueBubble = false;
-        PlayerInRange = false;
+        IsDisplayingDialogue = false;
+        IsPlayerInRange = false;
         DistanceBetweenPlayer = 0f;
     }
 
@@ -22,14 +22,13 @@ public class InteractiveNPC : MonoBehaviour
     {
         CheckIfInRange();
 
-        if(DisplayDialogueBubble & Input.GetButtonDown("Action Command"))
+        if(IsDisplayingDialogue & Input.GetButtonDown("Action Command"))
         {
-            DisplayDialogueBubble = DialogueManager.AdvanceConversation();
+            IsDisplayingDialogue = DialogueManager.AdvanceConversation();
         }
-
-        else if (Input.GetButtonDown("Action Command") && PlayerInRange)
+        else if (Input.GetButtonDown("Action Command") && IsPlayerInRange)
         {
-            DisplayDialogueBubble = !DisplayDialogueBubble;
+            IsDisplayingDialogue = !IsDisplayingDialogue;
             DialogueManager.StartDialogue(Conversation);
         }
     }
@@ -44,11 +43,15 @@ public class InteractiveNPC : MonoBehaviour
 
         if (DistanceBetweenPlayer <= MinDistance)
         {
-            PlayerInRange = true;
+            IsPlayerInRange = true;
         }
         else
         {
-            PlayerInRange = false;
+            IsPlayerInRange = false;
+            if(IsDisplayingDialogue)
+            {
+                DialogueManager.CloseDialogue();
+            }
         }
     }
 }
