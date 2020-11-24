@@ -1,22 +1,23 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
- 
-//Original by DYLAN ENGELMAN http://jupiterlighthousestudio.com/custom-inspectors-unity/
-//Altered by Brecht Lecluyse http://www.brechtos.com
- 
+
+// Original by DYLAN ENGELMAN http://jupiterlighthousestudio.com/custom-inspectors-unity/
+// Altered by Brecht Lecluyse http://www.brechtos.com
+
+// Code borrowed for TagSelector property used in Conversation.cs
+
 [CustomPropertyDrawer(typeof(TagSelectorAttribute))]
 public class TagSelectorPropertyDrawer : PropertyDrawer
 {
- 
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
         if (property.propertyType == SerializedPropertyType.String)
         {
             EditorGUI.BeginProperty(position, label, property);
- 
+
             var attrib = this.attribute as TagSelectorAttribute;
- 
+
             if (attrib.UseDefaultTagFieldDrawer)
             {
                 property.stringValue = EditorGUI.TagField(position, label, property.stringValue);
@@ -29,7 +30,7 @@ public class TagSelectorPropertyDrawer : PropertyDrawer
                 tagList.AddRange(UnityEditorInternal.InternalEditorUtility.tags);
                 string propertyString = property.stringValue;
                 int index = -1;
-                if(propertyString =="")
+                if (propertyString == "")
                 {
                     //The tag is empty
                     index = 0; //first index is the special <notag> entry
@@ -47,12 +48,12 @@ public class TagSelectorPropertyDrawer : PropertyDrawer
                         }
                     }
                 }
-                
+
                 //Draw the popup box with the current selected index
                 index = EditorGUI.Popup(position, label.text, index, tagList.ToArray());
- 
+
                 //Adjust the actual string value of the property based on the selection
-                if(index==0)
+                if (index == 0)
                 {
                     property.stringValue = "";
                 }
@@ -65,7 +66,7 @@ public class TagSelectorPropertyDrawer : PropertyDrawer
                     property.stringValue = "";
                 }
             }
- 
+
             EditorGUI.EndProperty();
         }
         else
