@@ -10,7 +10,7 @@ public class DialogueManager : MonoBehaviour
     private Line ActiveLine;
     private int ActiveLineIndex;
     private GameObject CurrentSpeaker;
-    private float YOffsetScaler = 1.45f;
+    private const float YOffsetScaler = 1.45f;
 
     private bool DisplayDialogueBubble;
 
