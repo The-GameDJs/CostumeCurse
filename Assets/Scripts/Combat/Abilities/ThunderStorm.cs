@@ -51,12 +51,12 @@ public class ThunderStorm : Ability
             SelectorType.All);
     }
 
-    new public void StartAbility()
+    public new void StartAbility()
     {
-        base.StartAbility();
-
         CurrentDamage = 0;
         Presses = 0;
+        
+        base.StartAbility();
     }
 
     private void Update()
