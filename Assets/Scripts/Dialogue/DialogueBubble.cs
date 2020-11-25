@@ -17,10 +17,10 @@ public class DialogueBubble : MonoBehaviour
     public static float TextSpeed = 2.6f;
     private float OriginalTextSpeed;
 
-    CanvasGroup Group;
-    Animator ArrowAnim;
-    GameObject Arrow;
-    RectTransform RectTrans;
+    private CanvasGroup Group;
+    private Animator ArrowAnim;
+    private GameObject Arrow;
+    private RectTransform RectTrans;
     private const float WidthOffsetScaler = 2.85f;
 
     private float AngleMultiplier = 1.0f;
@@ -41,7 +41,7 @@ public class DialogueBubble : MonoBehaviour
     {
         RectTrans = GetComponent<RectTransform>();
         Arrow = transform.parent.gameObject.transform.GetChild(1).gameObject;
-        ArrowAnim = transform.parent.GetComponentInChildren<Animator>();
+        ArrowAnim = transform.parent.GetComponentsInChildren<Animator>()[0];
         Text = GetComponentInChildren<TMP_Text>();
         // Store original speed to restore after acceleration
         OriginalTextSpeed = TextSpeed;

@@ -8,10 +8,14 @@ public class InteractiveNPC : MonoBehaviour
     private bool IsPlayerInRange;
     private float DistanceBetweenPlayer;
     public float MinDistance = 3.5f;
+    public float MinDistanceForCheck = 5f;
     private DialogueManager DialogueManager;
     public Conversation Conversation;
     private GameObject Player;
-
+    
+    private Animator DialogueIndicatorAnim;
+    private GameObject DialogueIndicatorUI;
+    private const float IndicatorOffsetScaler = 1.35f;
 
     void Start()
     {
@@ -20,6 +24,9 @@ public class InteractiveNPC : MonoBehaviour
         IsConversationActive = false;
         IsPlayerInRange = false;
         DistanceBetweenPlayer = 0f;
+
+        DialogueIndicatorUI = GameObject.FindGameObjectWithTag("DialogueIndicator");
+        DialogueIndicatorAnim = DialogueIndicatorUI.GetComponent<Animator>();
     }
 
     void Update()
@@ -39,23 +46,41 @@ public class InteractiveNPC : MonoBehaviour
 
     void CheckIfInRange()
     {
-        if (Player)
-        {
-            DistanceBetweenPlayer = Vector3.Distance(Player.transform.position, transform.position);
-        }
+        DistanceBetweenPlayer = Vector3.Distance(Player.transform.position, transform.position);
 
-        if (DistanceBetweenPlayer <= MinDistance)
+        // Prevents other InteractableNPC objects from checking if not in a
+        // minimum check distance
+        if (DistanceBetweenPlayer <= MinDistanceForCheck)
         {
-            IsPlayerInRange = true;
-        }
-        else
-        {
-            IsPlayerInRange = false;
-            if (IsConversationActive)
+            if (DistanceBetweenPlayer <= MinDistance)
             {
-                DialogueManager.CloseDialogue();
-                IsConversationActive = false;
+                IsPlayerInRange = true;
+                DialogueIndicatorAnim.SetBool("InRange", true);
+                UpdateDialogueIndicatorPosition();
+                if (IsConversationActive)
+                {
+                    DialogueIndicatorAnim.SetBool("InRange", false);
+                }
+            }
+            else 
+            {
+                IsPlayerInRange = false;
+                DialogueIndicatorAnim.SetBool("InRange", false);
+                if (IsConversationActive)
+                {
+                    DialogueManager.CloseDialogue();
+                    IsConversationActive = false;
+                }
             }
         }
+    }
+
+    void UpdateDialogueIndicatorPosition()
+    {
+        var yOffset = Player.GetComponent<Collider>().bounds.size.y * IndicatorOffsetScaler;
+        var xOffset = Player.GetComponent<Collider>().bounds.size.x * IndicatorOffsetScaler;
+        Vector3 offsetPos = new Vector3(Player.transform.position.x + xOffset, Player.transform.position.y + yOffset, Player.transform.position.z);
+        Vector3 relativeScreenPosition = Camera.main.WorldToScreenPoint(offsetPos);
+        DialogueIndicatorUI.transform.position = relativeScreenPosition;
     }
 }
