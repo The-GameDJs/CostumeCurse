@@ -46,6 +46,7 @@ public class TargetSelector : MonoBehaviour
         if (CurrentTargetSchema.SelectorType == SelectorType.Number)
         {
             // TODO do something else, add rest of options
+            TargetAllEnemies();
         }
     }
 
@@ -60,7 +61,7 @@ public class TargetSelector : MonoBehaviour
             Where(combantant => combantant.CompareTag("Enemy")).ToArray();
 
         // TODO highlight each enemy, wait for user selection
-        Thread.Sleep(3000); // Fake the UI selection
+        Thread.Sleep(500); // Fake the UI selection
         CurrentTargetedCombatants = enemies;
         
         // TODO for now, pretend the UI has triggered this function
