@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using UnityEngine;
@@ -41,7 +42,12 @@ public class TargetSelector : MonoBehaviour
         CurrentTargetSchema = callingAbility.TargetSchema;
 
         if (CurrentTargetSchema.SelectorType == SelectorType.All)
-            TargetAllEnemies();
+        {
+            if (CurrentTargetSchema.CombatantType == CombatantType.Enemy)
+                TargetAllEnemies();
+            else if (CurrentTargetSchema.CombatantType == CombatantType.Ally)
+                TargetAllAllies();
+        }
 
         if (CurrentTargetSchema.SelectorType == SelectorType.Number)
         {
@@ -66,6 +72,15 @@ public class TargetSelector : MonoBehaviour
         
         // TODO for now, pretend the UI has triggered this function
         // this function will not be here afterward
+        ReplyToCallingAbility();
+    }
+
+    private void TargetAllAllies()
+    {
+        GameObject[] allies = CombatSystem.Combatants.
+          Where(combantant => combantant.CompareTag("Player")).ToArray();
+
+        CurrentTargetedCombatants = allies;
         ReplyToCallingAbility();
     }
 
