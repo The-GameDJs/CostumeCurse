@@ -33,6 +33,10 @@ namespace Combat.Abilities
         private const float FireballScalingSmoothness = 2f;
         private float FireballScalingElapsedTime = 0;
 
+        private const float FireballMaximumDamage = 100;
+        private const float FireballMinimumDamage = 10;
+        private const float FireballDifficultyCurve = 100;
+
         private enum ExpectedDirection { Up, Down, Right, Left};
         private List<ExpectedDirection> ExpectedDirections = new List<ExpectedDirection>();
 
@@ -117,6 +121,7 @@ namespace Combat.Abilities
                     && CurrentFireballCyclePhase == FireballCyclePhase.Normal)
                 {
                     CurrentDamage += (int)EvaluateFireballDamage();
+                    Debug.Log(CurrentDamage);
                     EndAbility();
                     return;
                 }
@@ -155,13 +160,13 @@ namespace Combat.Abilities
 
         private float EvaluateFireballDamage()
         {
-            //// Using variables from https://www.desmos.com/calculator/km7jlgm5ws
-            float M = 50;
-            float m = 10;
-            float d = 64;
+            //// Using variables from https://www.desmos.com/calculator/ca9cqhpsto
+            float M = FireballMaximumDamage;
+            float m = FireballMinimumDamage;
+            float d = FireballDifficultyCurve;
             float s = FireballSize > 1f ? FireballSize * 100 - 100 : 0;
 
-            //// Please refer to https://www.desmos.com/calculator/km7jlgm5ws for curve
+            //// Please refer to https://www.desmos.com/calculator/ca9cqhpsto for curve
             float fireballDamage = (M - m) / (Mathf.PI / 2) * Mathf.Atan(s / d) + m;
 
             return fireballDamage;
@@ -239,6 +244,7 @@ namespace Combat.Abilities
 
             CurrentDamage = 0;
             FireballSize = 1f;
+            CurrentFireballCycle = 0;
 
             base.StartAbility();
         }
