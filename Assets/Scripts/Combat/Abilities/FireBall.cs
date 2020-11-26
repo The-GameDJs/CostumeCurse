@@ -27,9 +27,11 @@ namespace Combat.Abilities
         private const float FireballUnstableDuration = 2.0f;
 
         private float FireballSize = 1.0f;
-        private float FireballGrowth = 0.025f;
-        private float FireballShrinkNormal = 0.005f;
-        private float FireballShrinkUnstable = 0.15f;
+        private const float FireballGrowth = 0.025f;
+        private const float FireballShrinkNormal = 0.005f;
+        private const float FireballShrinkUnstable = 0.15f;
+        private const float FireballScalingSmoothness = 2f;
+        private float FireballScalingElapsedTime = 0;
 
         private enum ExpectedDirection { Up, Down, Right, Left};
         private List<ExpectedDirection> ExpectedDirections = new List<ExpectedDirection>();
@@ -55,6 +57,13 @@ namespace Combat.Abilities
 
         private void FireballUpdate()
         {
+            float t = 1 / (Mathf.PI / 2) * Mathf.Atan(FireballScalingElapsedTime / FireballScalingSmoothness);
+            Fireball.transform.localScale = Vector3.Lerp(
+                Fireball.transform.localScale, 
+                Vector3.one * FireballSize,
+                t);
+            FireballScalingElapsedTime += Time.deltaTime;
+
             if (Timer.IsInProgress())
             {
                 float progress = Timer.GetProgress();
@@ -203,8 +212,7 @@ namespace Combat.Abilities
             ExpectedDirections.Add(currentKey);
 
             FireballSize += FireballGrowth;
-
-            Fireball.transform.localScale = Vector3.one * FireballSize;
+            FireballScalingElapsedTime = 0;
         }
 
         private void ShrinkFireball()
@@ -214,8 +222,7 @@ namespace Combat.Abilities
             FireballSize -= CurrentFireballCyclePhase == FireballCyclePhase.Unstable ? FireballShrinkUnstable : FireballShrinkNormal;
             if (FireballSize < 0)
                 FireballSize = 0f;
-
-            Fireball.transform.localScale = Vector3.one * FireballSize;
+            FireballScalingElapsedTime = 0;
         }
 
         private bool IsFireballKeyDown()
