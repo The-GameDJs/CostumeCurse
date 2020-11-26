@@ -10,6 +10,7 @@ public class MagicShield : Ability
     private enum Phase { SequencePhase, Activate, Inactive };
     private Timer SequenceTimer;
     private Queue<Button> Sequence = new Queue<Button>();
+    private Queue<Button> SequenceOrder = new Queue<Button>();
     private Queue<GameObject> Directions = new Queue<GameObject>();
 
     [SerializeField]
@@ -18,7 +19,9 @@ public class MagicShield : Ability
     private GameObject[] Arrows; // 0: Up, 1: Down, 2: Left, 3: Right 
 
     private readonly float SequenceDuration = 2f;
-    private readonly float initialPosition = 5f;
+    private readonly float InitialPosition = 5f;
+    private readonly float PositionOffset = 4f;
+    private Vector3 Position = Vector3.zero;
     private Phase CurrentPhase = Phase.Inactive;
 
     public new void Start()
@@ -66,9 +69,14 @@ public class MagicShield : Ability
         Debug.Log("Starting Magic Shield Ability");
         Array buttons = Enum.GetValues(typeof(Button));
 
-        for(int i = 0; i < buttons.Length; i++)
-            Sequence.Enqueue((Button)buttons.GetValue(Random.Range(0, buttons.Length)));
+        for (int i = 0; i < buttons.Length; i++)
+        {
+            Button random_button = (Button)buttons.GetValue(Random.Range(0, buttons.Length));
+            Sequence.Enqueue(random_button);
+            SequenceOrder.Enqueue(random_button);
+        }
 
+        Position = Arrows[0].transform.position;
         Debug.Log("Sequence Appearing!");
         SequenceTimer.StartTimer(SequenceDuration);
         CurrentPhase = Phase.SequencePhase;
@@ -83,29 +91,35 @@ public class MagicShield : Ability
             if (Sequence.Count != 0)
             {
                 Button button = Sequence.Dequeue();
-                GameObject direction = new GameObject();
-                Vector3 initialposition = direction.transform.position;
+                GameObject direction;
 
                 switch (button)
                 {
                     case Button.Up:
-                        direction = Arrows[0];
-                        initialposition += Arrows[0].transform.position;
+                        direction = Instantiate(Arrows[0]);
+                        direction.transform.localPosition = Position;
+                        Position += new Vector3(PositionOffset, 0, 0);
                         direction.SetActive(true);
                         Directions.Enqueue(direction);
                         break;
                     case Button.Down:
-                        direction = Arrows[1];
+                        direction = Instantiate(Arrows[1]);
+                        direction.transform.localPosition = Position;
+                        Position += new Vector3(PositionOffset, 0, 0);
                         direction.SetActive(true);
                         Directions.Enqueue(direction);
                         break;
                     case Button.Left:
-                        direction = Arrows[2];
+                        direction = Instantiate(Arrows[2]);
+                        direction.transform.localPosition = Position;
+                        Position += new Vector3(PositionOffset, 0, 0);
                         direction.SetActive(true);
                         Directions.Enqueue(direction);
                         break;
                     case Button.Right:
-                        direction = Arrows[3];
+                        direction = Instantiate(Arrows[3]);
+                        direction.transform.localPosition = Position;
+                        Position += new Vector3(PositionOffset, 0, 0);
                         direction.SetActive(true);
                         Directions.Enqueue(direction);
                         break;
