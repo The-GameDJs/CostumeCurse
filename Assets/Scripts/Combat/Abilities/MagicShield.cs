@@ -22,7 +22,8 @@ public class MagicShield : Ability
     private Vector3 ArrowStartPosition = Vector3.zero;
     private Phase CurrentPhase = Phase.Inactive;
 
-    private readonly int MinMagicShieldHealth = 20;
+    private readonly float MinMagicShieldHealth = 20f;
+    private readonly float ShieldSlope = 100f;
     private int CorrectInputs = 0;
     private int ArrowsMoved = 0;
     private int MagicShieldHealth;
@@ -65,8 +66,8 @@ public class MagicShield : Ability
     {
         Debug.Log($"Magic Shield Total Health: {MagicShieldHealth}");
 
-        for (int i = 0; i < TargetedCombatants.Length; i++)
-            TargetedCombatants[i].GetComponent<Combatant>().ApplyShield(MagicShieldHealth);
+        foreach (GameObject target in TargetedCombatants)
+            target.GetComponent<Combatant>().ApplyShield(MagicShieldHealth);
 
         CombatSystem.EndTurn(this.GetComponentInParent<Combatant>().gameObject);
 
@@ -249,10 +250,11 @@ public class MagicShield : Ability
 
     private int CalculateMagicShieldHealth()
     {
-        float M = MinMagicShieldHealth;
+        float m = MinMagicShieldHealth;
+        float F = ShieldSlope;
         float p = CorrectInputs;
 
-        int shieldMaxHealth = (int) (M * p + M);
+        int shieldMaxHealth = (int) (F * p + m);
 
         return shieldMaxHealth;
     }
