@@ -25,9 +25,7 @@ public class MagicShield : Ability
     private Phase CurrentPhase = Phase.Inactive;
 
     private int CorrectInputs = 0;
-    private readonly int MagicShieldMaxhealth = 50;
-    private readonly int MagicShieldMinHealth = 0;
-    private readonly int MagicShieldDifficultyCurve = 3;
+    private readonly int MagicShieldFactor = 20;
     private int MagicShieldHealth;
 
     public new void Start()
@@ -79,6 +77,11 @@ public class MagicShield : Ability
     private void StartMagicShieldSequence()
     {
         Debug.Log("Starting Magic Shield Ability");
+
+        Shield.transform.position = GameObject.FindGameObjectWithTag("Player").transform.position;
+        Shield.transform.position -= new Vector3(0, 5, 0);
+        Shield.transform.Translate(new Vector3(0, 10, 0));
+
         Array buttons = Enum.GetValues(typeof(Button));
 
         for (int i = 0; i < buttons.Length; i++)
@@ -162,10 +165,10 @@ public class MagicShield : Ability
 
     private bool IsArrowInputDown()
     {
-        return Input.GetKeyDown(KeyCode.W) ||
-            Input.GetKeyDown(KeyCode.D) ||
-            Input.GetKeyDown(KeyCode.S) ||
-            Input.GetKeyDown(KeyCode.A);
+        return Input.GetButtonDown("Up") ||
+            Input.GetButtonDown("Right") ||
+            Input.GetButtonDown("Down") ||
+            Input.GetButtonDown("Left");
     }
 
     private void OnCorrectInput()
@@ -195,25 +198,25 @@ public class MagicShield : Ability
         switch (expectedButton)
         {
             case Button.Up:
-                if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.A))
+                if (Input.GetButtonDown("Right") || Input.GetButtonDown("Down") || Input.GetButtonDown("Left"))
                     OnIncorrectInput();
                 else
                     OnCorrectInput();
                 break;
             case Button.Down:
-                if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.D))
+                if (Input.GetButtonDown("Left") || Input.GetButtonDown("Up") || Input.GetButtonDown("Right"))
                     OnIncorrectInput();
                 else
                     OnCorrectInput();
                 break;
             case Button.Left:
-                if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.S))
+                if (Input.GetButtonDown("Up") || Input.GetButtonDown("Right") || Input.GetButtonDown("Down"))
                     OnIncorrectInput();
                 else
                     OnCorrectInput();
                 break;
             case Button.Right:
-                if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.W))
+                if (Input.GetButtonDown("Down") || Input.GetButtonDown("Left") || Input.GetButtonDown("Up"))
                     OnIncorrectInput();
                 else
                     OnCorrectInput();
@@ -251,19 +254,15 @@ public class MagicShield : Ability
 
     private void AnimateMagicShield()
     {
-        Shield.SetActive(true);
-        Shield.transform.position = GameObject.FindGameObjectWithTag("Player").transform.position;
-        Shield.transform.position -= new Vector3(0, 5, 0);
+        Shield.SetActive(true); 
     }
 
     private int CalculateMagicShieldHealth()
     {
-        float M = MagicShieldMaxhealth;
-        float m = MagicShieldMinHealth;
-        float d = MagicShieldDifficultyCurve;
+        float M = MagicShieldFactor;
         float p = CorrectInputs;
 
-        int shieldMaxHealth = (int) (Mathf.Atan(p / d + m / M));
+        int shieldMaxHealth = (int) (M * p + M);
 
         return shieldMaxHealth;
     }
