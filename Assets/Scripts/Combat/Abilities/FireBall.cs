@@ -26,6 +26,7 @@ namespace Combat.Abilities
         private const float FireballUnstablingWarningDuration = 1.0f;
         private const float FireballUnstableDuration = 2.0f;
 
+        private const float FireballHeight = 5f;
         private float FireballSize = 1.0f;
         private const float FireballGrowth = 0.025f;
         private const float FireballShrinkNormal = 0.005f;
@@ -86,25 +87,25 @@ namespace Combat.Abilities
                     switch (currentKey)
                     {
                         case ExpectedDirection.Up:
-                            if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.A))
+                            if (Input.GetButtonDown("Right") || Input.GetButtonDown("Down") || Input.GetButtonDown("Left"))
                                 ShrinkFireball();
                             else
                                 GrowFireball();
                             break;
                         case ExpectedDirection.Down:
-                            if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.D))
+                            if (Input.GetButtonDown("Left") || Input.GetButtonDown("Up") || Input.GetButtonDown("Right"))
                                 ShrinkFireball();
                             else
                                 GrowFireball();
                             break;
                         case ExpectedDirection.Right:
-                            if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.W))
+                            if (Input.GetButtonDown("Down") || Input.GetButtonDown("Left") || Input.GetButtonDown("Up"))
                                 ShrinkFireball();
                             else
                                 GrowFireball();
                             break;
                         case ExpectedDirection.Left:
-                            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.S))
+                            if (Input.GetButtonDown("Up") || Input.GetButtonDown("Right") || Input.GetButtonDown("Down"))
                                 ShrinkFireball();
                             else
                                 GrowFireball();
@@ -232,10 +233,10 @@ namespace Combat.Abilities
 
         private bool IsFireballKeyDown()
         {
-            return Input.GetKeyDown(KeyCode.W) ||
-                Input.GetKeyDown(KeyCode.D) ||
-                Input.GetKeyDown(KeyCode.S) ||
-                Input.GetKeyDown(KeyCode.A);
+            return Input.GetButtonDown("Up") ||
+                Input.GetButtonDown("Right") ||
+                Input.GetButtonDown("Down") ||
+                Input.GetButtonDown("Left");
         }
 
         public new void StartAbility()
@@ -258,7 +259,7 @@ namespace Combat.Abilities
             this.CurrentFireballPhase = FireballPhase.Growth;
 
             Fireball.SetActive(true);
-            Fireball.transform.position = transform.position + 5f * Vector3.up;
+            Fireball.transform.position = transform.position + FireballHeight * Vector3.up;
             Fireball.transform.localScale = Vector3.one;
             Fireball.GetComponent<Renderer>().material.color = Color.red;
 
