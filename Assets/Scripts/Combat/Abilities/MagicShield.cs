@@ -24,6 +24,8 @@ public class MagicShield : Ability
     private Vector3 Position = Vector3.zero;
     private Phase CurrentPhase = Phase.Inactive;
 
+    private int CorrectInputs = 0;
+
     public new void Start()
     {
         base.Start();
@@ -31,9 +33,7 @@ public class MagicShield : Ability
         Shield.SetActive(false);
 
         foreach(GameObject arrow in Arrows)
-        {
             arrow.SetActive(false);
-        }
 
         TargetSchema = new TargetSchema(
             0,
@@ -43,20 +43,17 @@ public class MagicShield : Ability
 
     new public void StartAbility()
     {
+        CorrectInputs = 0;
         base.StartAbility();
     }
 
     private void Update()
     {
         if(CurrentPhase == Phase.SequencePhase)
-        {
             SequencePhaseUpdate();
-        }
 
         else if(CurrentPhase == Phase.InputSequence)
-        {
             InputSequenceUpdate();
-        }
     }
 
     protected override void ContinueAbilityAfterTargeting()
@@ -66,7 +63,7 @@ public class MagicShield : Ability
 
     protected override void EndAbility()
     {
-        throw new System.NotImplementedException();
+        // TODO
     }
 
     private void StartMagicShieldSequence()
@@ -132,126 +129,111 @@ public class MagicShield : Ability
 
     private void EndSequencePhase()
     {
-        if (Directions.Count != 0)
-            Directions.Dequeue().SetActive(false);
-        else
-            StartInputPhase();
+        foreach (GameObject arrow in Directions)
+            arrow.SetActive(false);
+
+        StartInputPhase();
     }
 
     private void StartInputPhase()
     {
-        CurrentPhase = Phase.Inactive;
         SequenceTimer.StartTimer(InputDuration);
         CurrentPhase = Phase.InputSequence;
     }
 
     private void InputSequenceUpdate()
     {
-        if(SequenceTimer.IsInProgress())
-        {
+        if (SequenceTimer.IsInProgress())
             CheckUserInputs();
-        }
 
-        if (SequenceTimer.IsFinished())
-        {
-            if (SequenceTimer.GetProgress() < SequenceDuration && SequenceOrder.Count > 0)
-            {
-                Debug.Log("Incorrect button pressed, Magic Shield could not be casted!");
-            }
+        else if (SequenceTimer.IsFinished())
+            EndInputPhase();
+    }
 
-            else if (SequenceOrder.Count > 0)
-            {
-                Debug.Log("Time ran out! Spell cannot be casted!");
-            }
-            
-            else
-            {
-                Debug.Log("Magic Shield is casted!");
-            }
+    private bool IsArrowInputDown()
+    {
+        return Input.GetKeyDown(KeyCode.W) ||
+            Input.GetKeyDown(KeyCode.D) ||
+            Input.GetKeyDown(KeyCode.S) ||
+            Input.GetKeyDown(KeyCode.A);
+    }
 
-            CurrentPhase = Phase.Inactive;
-        }
+    private void OnCorrectInput()
+    {
+        Debug.Log("OnCorrectInput");
+        
+        CorrectInputs += 1;
+
+        SequenceOrder.Dequeue();
+    }
+
+    private void OnIncorrectInput()
+    {
+        Debug.Log("OnIncorrectInput");
+
+        SequenceOrder.Dequeue();
     }
 
     private void CheckUserInputs()
     {
-        Button expected_button = SequenceOrder.Peek();
+        if (!IsArrowInputDown())
+            return;
 
-        if (Input.GetKeyDown(KeyCode.W))
+        Button expectedButton = SequenceOrder.Peek();
+        Debug.Log(expectedButton);
+
+        switch (expectedButton)
         {
-            if (SequenceOrder.Peek() == Button.Up)
-            {
-                Debug.Log("Got one sequence! Button Up!");
-                SequenceOrder.Dequeue();
-            }
-
-            else
-            {
-                SequenceTimer.StopTimer();
-            }
-
-            IsSequenceGuessed();
-
+            case Button.Up:
+                if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.A))
+                    OnIncorrectInput();
+                else
+                    OnCorrectInput();
+                break;
+            case Button.Down:
+                if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.D))
+                    OnIncorrectInput();
+                else
+                    OnCorrectInput();
+                break;
+            case Button.Left:
+                if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.S))
+                    OnIncorrectInput();
+                else
+                    OnCorrectInput();
+                break;
+            case Button.Right:
+                if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.W))
+                    OnIncorrectInput();
+                else
+                    OnCorrectInput();
+                break;
+            default:
+                break;
         }
 
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            if (SequenceOrder.Peek() == Button.Down)
-            {
-                Debug.Log("Got one sequence! Button Down!");
-                SequenceOrder.Dequeue();
-            }
+        if (SequenceOrder.Count == 0)
+            EndInputPhase();
 
-            else
-            {
-                SequenceTimer.StopTimer();
-            }
-
-            IsSequenceGuessed();
-
-        }
-
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            if (SequenceOrder.Peek() == Button.Left)
-            {
-                Debug.Log("Got one sequence! Button Left!");
-                SequenceOrder.Dequeue();
-            }
-
-            else
-            {
-                SequenceTimer.StopTimer();
-            }
-
-            IsSequenceGuessed();
-
-        }
-
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            if (SequenceOrder.Peek() == Button.Right)
-            {
-                Debug.Log("Got one sequence! Button Right!");
-                SequenceOrder.Dequeue();
-            }
-
-            else
-            {
-                SequenceTimer.StopTimer();
-            }
-
-            IsSequenceGuessed();
-
-        }
     }
 
-    private void IsSequenceGuessed()
+    private void EndInputPhase()
     {
-        if (SequenceOrder.Count == 0)
+        SequenceTimer.StopTimer();
+        CurrentPhase = Phase.Inactive;
+
+        if (CorrectInputs == 4)
         {
-            Debug.Log("Congrats! You got the sequence correctly!");
-            SequenceTimer.StopTimer();
+            Debug.Log("Magic Shield is casted!");
         }
+
+        else
+        {
+            Debug.Log("Time ran out! Spell cannot be casted! ");
+            Debug.Log($"Correct inputs: {CorrectInputs} / 4");
+        }
+
+        EndAbility();
+
     }
 }
