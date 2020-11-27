@@ -11,8 +11,8 @@ public abstract class Combatant : MonoBehaviour
     [SerializeField]
     public int MaxHealthPoints;
     public int CurrentHealthPoints;
-    public int MaxShield;
-    public int CurrentShield;
+    public int MaxShieldPoints;
+    public int CurrentShieldPoints;
     private readonly float HealthBarPosition = 125f;
     protected CombatSystem CombatSystem;
     [SerializeField]
@@ -50,9 +50,9 @@ public abstract class Combatant : MonoBehaviour
     {
         string healthText;
 
-        if (CurrentShield > 0)
+        if (CurrentShieldPoints > 0)
             healthText = IsAlive ?
-                        $"{CurrentHealthPoints} / {MaxHealthPoints} Shield: {CurrentShield} / {MaxShield}" :
+                        $"{CurrentHealthPoints} / {MaxHealthPoints} Shield: {CurrentShieldPoints} / {MaxShieldPoints}" :
                         "I've fallen and can't get up";
 
         else
@@ -82,12 +82,12 @@ public abstract class Combatant : MonoBehaviour
 
     protected void TakeDamage(int damage)
     {
-        if (CurrentShield > 0)
+        if (CurrentShieldPoints > 0)
         {
-            CurrentShield -= damage;
-            if (CurrentShield <= 0) {
+            CurrentShieldPoints -= damage;
+            if (CurrentShieldPoints <= 0) {
                 Shield.SetActive(false);
-                int leftoverDmg = -1 * CurrentShield;
+                int leftoverDmg = -1 * CurrentShieldPoints;
                 CurrentHealthPoints -= leftoverDmg;
             }
         }
@@ -105,8 +105,8 @@ public abstract class Combatant : MonoBehaviour
         Shield.transform.position -= new Vector3(0, 5, 0);
         Shield.transform.Translate(new Vector3(0, 5, 0));
         Shield.SetActive(true);
-        MaxShield = shieldHealth;
-        CurrentShield = shieldHealth;
+        MaxShieldPoints = shieldHealth;
+        CurrentShieldPoints = shieldHealth;
     }
 
     public void ExitCombat()
