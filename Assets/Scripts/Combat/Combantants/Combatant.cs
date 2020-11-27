@@ -87,6 +87,7 @@ public abstract class Combatant : MonoBehaviour
             CurrentShieldPoints -= damage;
             if (CurrentShieldPoints <= 0) {
                 Shield.SetActive(false);
+                MaxShieldPoints = 0;
                 int leftoverDmg = -1 * CurrentShieldPoints;
                 CurrentHealthPoints -= leftoverDmg;
             }
@@ -101,12 +102,25 @@ public abstract class Combatant : MonoBehaviour
 
     public void ApplyShield(int shieldHealth)
     {
-        Shield.transform.position = GameObject.FindGameObjectWithTag("Player").transform.position;
-        Shield.transform.position -= new Vector3(0, 5, 0);
-        Shield.transform.Translate(new Vector3(0, 5, 0));
-        Shield.SetActive(true);
-        MaxShieldPoints = shieldHealth;
-        CurrentShieldPoints = shieldHealth;
+        if (MaxShieldPoints == 0)
+        {
+            Shield.transform.position = GameObject.FindGameObjectWithTag("Player").transform.position;
+            Shield.SetActive(true);
+            MaxShieldPoints = shieldHealth;
+            CurrentShieldPoints = shieldHealth;
+        }
+
+        // If the Shield is already up (and its a worse sequence, but max shield health is higher), add to the current shield health. 
+        // If they end up getting a better sequence, replace the max shield health and add that health to the current shield health
+        else
+        {
+            if (shieldHealth > MaxShieldPoints)
+                MaxShieldPoints = shieldHealth;
+
+            CurrentShieldPoints += shieldHealth;
+            if (CurrentShieldPoints > MaxShieldPoints)
+                CurrentShieldPoints = MaxShieldPoints;
+        }
     }
 
     public void ExitCombat()
