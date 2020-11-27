@@ -94,40 +94,38 @@ public class MagicShield : Ability
     private void SequencePhaseUpdate()
     {
 
-        if (Timer.IsInProgress())
+        if (Timer.IsInProgress() && ArrowsMoved < MaxButtonsInSequence)
         {
-            if (ArrowsMoved < MaxButtonsInSequence)
+            Button button = Sequence[0];
+            Sequence.RemoveAt(0);
+            GameObject direction;
+
+            switch (button)
             {
-                Button button = Sequence[0];
-                Sequence.RemoveAt(0);
-                GameObject direction;
-
-                switch (button)
-                {
-                    case Button.Up:
-                        direction = Instantiate(Arrows[0]);                       
-                        break;
-                    case Button.Down:
-                        direction = Instantiate(Arrows[1]);
-                        break;
-                    case Button.Left:
-                        direction = Instantiate(Arrows[2]);
-                        break;
-                    case Button.Right:
-                        direction = Instantiate(Arrows[3]);
-                        break;
-                    default:
-                        direction = Instantiate(Arrows[0]);
-                        break;
-                }
-
-                direction.transform.localPosition = ArrowStartPosition;
-                Sequence.Add(button);
-                ArrowStartPosition += new Vector3(ArrowPositionOffset, 0, 0);
-                direction.SetActive(true);
-                ArrowsMoved++;
-                Directions.Enqueue(direction);
+                case Button.Up:
+                    direction = Instantiate(Arrows[0]);
+                    break;
+                case Button.Down:
+                    direction = Instantiate(Arrows[1]);
+                    break;
+                case Button.Left:
+                    direction = Instantiate(Arrows[2]);
+                    break;
+                case Button.Right:
+                    direction = Instantiate(Arrows[3]);
+                    break;
+                default:
+                    direction = Instantiate(Arrows[0]);
+                    break;
             }
+
+            direction.transform.localPosition = ArrowStartPosition;
+            Sequence.Add(button);
+            ArrowStartPosition += new Vector3(ArrowPositionOffset, 0, 0);
+            direction.SetActive(true);
+            ArrowsMoved++;
+            Directions.Enqueue(direction);
+
         }
 
         if (Timer.IsFinished())
@@ -140,10 +138,9 @@ public class MagicShield : Ability
     private void EndSequencePhase()
     {
         foreach (GameObject arrow in Directions) {
-            Directions.Dequeue();
             Destroy(arrow);
         }
-
+        Directions.Clear();
         StartInputPhase();
     }
 
@@ -197,28 +194,28 @@ public class MagicShield : Ability
         switch (expectedButton)
         {
             case Button.Up:
-                if (Input.GetButtonDown("Right") || Input.GetButtonDown("Down") || Input.GetButtonDown("Left"))
-                    OnIncorrectInput();
-                else
+                if (Input.GetButtonDown("Up"))
                     OnCorrectInput();
+                else
+                    OnIncorrectInput();
                 break;
             case Button.Down:
-                if (Input.GetButtonDown("Left") || Input.GetButtonDown("Up") || Input.GetButtonDown("Right"))
-                    OnIncorrectInput();
-                else
+                if (Input.GetButtonDown("Down"))
                     OnCorrectInput();
+                else
+                    OnIncorrectInput();
                 break;
             case Button.Left:
-                if (Input.GetButtonDown("Up") || Input.GetButtonDown("Right") || Input.GetButtonDown("Down"))
-                    OnIncorrectInput();
-                else
+                if (Input.GetButtonDown("Left"))
                     OnCorrectInput();
+                else
+                    OnIncorrectInput();
                 break;
             case Button.Right:
-                if (Input.GetButtonDown("Down") || Input.GetButtonDown("Left") || Input.GetButtonDown("Up"))
-                    OnIncorrectInput();
-                else
+                if (Input.GetButtonDown("Right"))
                     OnCorrectInput();
+                else
+                    OnIncorrectInput();
                 break;
             default:
                 break;
