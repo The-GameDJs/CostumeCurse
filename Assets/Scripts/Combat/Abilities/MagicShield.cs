@@ -7,32 +7,30 @@ using Random = UnityEngine.Random;
 public class MagicShield : Ability
 {
     private enum Button { Up, Down, Left, Right };
-    private enum Phase { SequencePhase, InputSequence, Activate, Inactive };
-    private Timer SequenceTimer;
-    private Queue<Button> Sequence = new Queue<Button>();
-    private Queue<Button> SequenceOrder = new Queue<Button>();
+    private enum Phase { SequencePhase, InputSequence, Inactive };
+    private Timer Timer;
+    private List<Button> Sequence = new List<Button>();
     private Queue<GameObject> Directions = new Queue<GameObject>();
 
-    [SerializeField]
-    private GameObject Shield;
     [SerializeField]
     private GameObject[] Arrows; // 0: Up, 1: Down, 2: Left, 3: Right 
 
     private readonly float SequenceDuration = 2f;
     private readonly float InputDuration = 5f;
-    private readonly float PositionOffset = 4f;
-    private Vector3 Position = Vector3.zero;
+    private readonly float ArrowPositionOffset = 4f;
+    private readonly int MaxButtonsInSequence = 4;
+    private Vector3 ArrowStartPosition = Vector3.zero;
     private Phase CurrentPhase = Phase.Inactive;
 
+    private readonly int MinMagicShieldHealth = 20;
     private int CorrectInputs = 0;
-    private readonly int MagicShieldFactor = 20;
+    private int ArrowsMoved = 0;
     private int MagicShieldHealth;
 
     public new void Start()
     {
         base.Start();
-        SequenceTimer = GetComponent<Timer>();
-        Shield.SetActive(false);
+        Timer = GetComponent<Timer>();
 
         foreach(GameObject arrow in Arrows)
             arrow.SetActive(false);
@@ -54,7 +52,7 @@ public class MagicShield : Ability
         if(CurrentPhase == Phase.SequencePhase)
             SequencePhaseUpdate();
 
-        else if(CurrentPhase == Phase.InputSequence)
+        if(CurrentPhase == Phase.InputSequence)
             InputSequenceUpdate();
     }
 
@@ -78,22 +76,17 @@ public class MagicShield : Ability
     {
         Debug.Log("Starting Magic Shield Ability");
 
-        Shield.transform.position = GameObject.FindGameObjectWithTag("Player").transform.position;
-        Shield.transform.position -= new Vector3(0, 5, 0);
-        Shield.transform.Translate(new Vector3(0, 10, 0));
-
         Array buttons = Enum.GetValues(typeof(Button));
 
-        for (int i = 0; i < buttons.Length; i++)
+        foreach (Button button in buttons)
         {
-            Button random_button = (Button)buttons.GetValue(Random.Range(0, buttons.Length));
-            Sequence.Enqueue(random_button);
-            SequenceOrder.Enqueue(random_button);
+            Button randomButton = (Button)buttons.GetValue(Random.Range(0, buttons.Length));
+            Sequence.Add(randomButton);
         }
 
-        Position = Arrows[0].transform.position;
+        ArrowStartPosition = Arrows[0].transform.position;
         Debug.Log("Sequence Appearing!");
-        SequenceTimer.StartTimer(SequenceDuration);
+        Timer.StartTimer(SequenceDuration);
         CurrentPhase = Phase.SequencePhase;
           
     }
@@ -101,11 +94,12 @@ public class MagicShield : Ability
     private void SequencePhaseUpdate()
     {
 
-        if (SequenceTimer.IsInProgress())
+        if (Timer.IsInProgress())
         {
-            if (Sequence.Count != 0)
+            if (ArrowsMoved < MaxButtonsInSequence)
             {
-                Button button = Sequence.Dequeue();
+                Button button = Sequence[0];
+                Sequence.RemoveAt(0);
                 GameObject direction;
 
                 switch (button)
@@ -127,39 +121,44 @@ public class MagicShield : Ability
                         break;
                 }
 
-                direction.transform.localPosition = Position;
-                Position += new Vector3(PositionOffset, 0, 0);
+                direction.transform.localPosition = ArrowStartPosition;
+                Sequence.Add(button);
+                ArrowStartPosition += new Vector3(ArrowPositionOffset, 0, 0);
                 direction.SetActive(true);
+                ArrowsMoved++;
                 Directions.Enqueue(direction);
             }
         }
 
-        if (SequenceTimer.IsFinished())
+        if (Timer.IsFinished())
         {
+            ArrowsMoved = 0;
             EndSequencePhase();
         }
     }
 
     private void EndSequencePhase()
     {
-        foreach (GameObject arrow in Directions)
-            arrow.SetActive(false);
+        foreach (GameObject arrow in Directions) {
+            Directions.Dequeue();
+            Destroy(arrow);
+        }
 
         StartInputPhase();
     }
 
     private void StartInputPhase()
     {
-        SequenceTimer.StartTimer(InputDuration);
+        Timer.StartTimer(InputDuration);
         CurrentPhase = Phase.InputSequence;
     }
 
     private void InputSequenceUpdate()
     {
-        if (SequenceTimer.IsInProgress())
+        if (Timer.IsInProgress())
             CheckUserInputs();
 
-        else if (SequenceTimer.IsFinished())
+        else if (Timer.IsFinished())
             EndInputPhase();
     }
 
@@ -177,14 +176,14 @@ public class MagicShield : Ability
         
         CorrectInputs += 1;
 
-        SequenceOrder.Dequeue();
+        Sequence.RemoveAt(0);
     }
 
     private void OnIncorrectInput()
     {
         Debug.Log("OnIncorrectInput");
 
-        SequenceOrder.Dequeue();
+        Sequence.RemoveAt(0);
     }
 
     private void CheckUserInputs()
@@ -192,7 +191,7 @@ public class MagicShield : Ability
         if (!IsArrowInputDown())
             return;
 
-        Button expectedButton = SequenceOrder.Peek();
+        Button expectedButton = Sequence[0];
         Debug.Log(expectedButton);
 
         switch (expectedButton)
@@ -225,14 +224,14 @@ public class MagicShield : Ability
                 break;
         }
 
-        if (SequenceOrder.Count == 0)
+        if (Sequence.Count == 0)
             EndInputPhase();
 
     }
 
     private void EndInputPhase()
     {
-        SequenceTimer.StopTimer();
+        Timer.StopTimer();
         CurrentPhase = Phase.Inactive;
 
         if (CorrectInputs == 4)
@@ -247,19 +246,13 @@ public class MagicShield : Ability
         }
 
         MagicShieldHealth = CalculateMagicShieldHealth();
-        AnimateMagicShield();
         EndAbility();
 
     }
 
-    private void AnimateMagicShield()
-    {
-        Shield.SetActive(true); 
-    }
-
     private int CalculateMagicShieldHealth()
     {
-        float M = MagicShieldFactor;
+        float M = MinMagicShieldHealth;
         float p = CorrectInputs;
 
         int shieldMaxHealth = (int) (M * p + M);
