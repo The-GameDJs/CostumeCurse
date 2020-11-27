@@ -180,12 +180,6 @@ namespace Combat.Abilities
             GameObject victim = TargetedCombatants[Random.Range(0, TargetedCombatants.Length)];
             
             StartCoroutine(LaunchFireball(victim));
-            
-            Attack attack = new Attack(CurrentDamage);
-            victim.GetComponent<Combatant>()
-                    .Defend(attack);
-
-            CombatSystem.EndTurn(this.GetComponentInParent<Combatant>().gameObject);
 
             CurrentFireballPhase = FireballPhase.Inactive;
         }
@@ -207,6 +201,12 @@ namespace Combat.Abilities
             }
 
             Fireball.SetActive(false);
+
+            Attack attack = new Attack(CurrentDamage);
+            target.GetComponent<Combatant>()
+                    .Defend(attack);
+
+            CombatSystem.EndTurn(this.GetComponentInParent<Combatant>().gameObject);
         }
 
         private void GrowFireball()
