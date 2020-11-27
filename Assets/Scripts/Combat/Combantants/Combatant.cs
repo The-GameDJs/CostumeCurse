@@ -84,8 +84,11 @@ public abstract class Combatant : MonoBehaviour
         if (CurrentShieldHealth > 0)
         {
             CurrentShieldHealth -= damage;
-            if (CurrentShieldHealth <= 0)
+            if (CurrentShieldHealth <= 0) {
                 Shield.SetActive(false);
+                int leftoverDmg = -1 * CurrentShieldHealth;
+                CurrentHealthPoints -= leftoverDmg;
+            }
         }
 
         else
