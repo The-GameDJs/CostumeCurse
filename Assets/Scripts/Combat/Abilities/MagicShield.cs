@@ -25,6 +25,10 @@ public class MagicShield : Ability
     private Phase CurrentPhase = Phase.Inactive;
 
     private int CorrectInputs = 0;
+    private readonly int MagicShieldMaxhealth = 50;
+    private readonly int MagicShieldMinHealth = 0;
+    private readonly int MagicShieldDifficultyCurve = 3;
+    private int MagicShieldHealth;
 
     public new void Start()
     {
@@ -63,7 +67,13 @@ public class MagicShield : Ability
 
     protected override void EndAbility()
     {
-        // TODO
+        Debug.Log($"Magic Shield Total Health: {MagicShieldHealth}");
+
+        for (int i = 0; i < TargetedCombatants.Length; i++)
+            TargetedCombatants[i].GetComponent<Combatant>().ApplyShield(MagicShieldHealth);
+
+        CombatSystem.EndTurn(this.GetComponentInParent<Combatant>().gameObject);
+
     }
 
     private void StartMagicShieldSequence()
@@ -224,7 +234,7 @@ public class MagicShield : Ability
 
         if (CorrectInputs == 4)
         {
-            Debug.Log("Magic Shield is casted!");
+            Debug.Log("Magic Shield is casted perfectly!");
         }
 
         else
@@ -233,7 +243,28 @@ public class MagicShield : Ability
             Debug.Log($"Correct inputs: {CorrectInputs} / 4");
         }
 
+        MagicShieldHealth = CalculateMagicShieldHealth();
+        AnimateMagicShield();
         EndAbility();
 
+    }
+
+    private void AnimateMagicShield()
+    {
+        Shield.SetActive(true);
+        Shield.transform.position = GameObject.FindGameObjectWithTag("Player").transform.position;
+        Shield.transform.position -= new Vector3(0, 5, 0);
+    }
+
+    private int CalculateMagicShieldHealth()
+    {
+        float M = MagicShieldMaxhealth;
+        float m = MagicShieldMinHealth;
+        float d = MagicShieldDifficultyCurve;
+        float p = CorrectInputs;
+
+        int shieldMaxHealth = (int) (Mathf.Atan(p / d + m / M));
+
+        return shieldMaxHealth;
     }
 }

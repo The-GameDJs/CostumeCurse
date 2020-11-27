@@ -11,6 +11,8 @@ public abstract class Combatant : MonoBehaviour
     [SerializeField]
     public int MaxHealthPoints;
     public int CurrentHealthPoints;
+    public int MaxShieldHealth;
+    public int CurrentShieldHealth;
     protected CombatSystem CombatSystem;
     [SerializeField]
     GameObject HealthBarPrefab;
@@ -43,9 +45,17 @@ public abstract class Combatant : MonoBehaviour
 
     private void UpdateHealthBar()
     {
-        string healthText = IsAlive ?
-            $"{CurrentHealthPoints} / {MaxHealthPoints}" :
-            "I've fallen and can't get up";
+        string healthText;
+
+        if (CurrentShieldHealth > 0)
+            healthText = IsAlive ?
+                        $"{CurrentHealthPoints} / {MaxHealthPoints} Shield: {CurrentShieldHealth} / {MaxShieldHealth}" :
+                        "I've fallen and can't get up";
+
+        else
+            healthText = IsAlive ?
+                $"{CurrentHealthPoints} / {MaxHealthPoints}" :
+                "I've fallen and can't get up";
 
         Vector3 relativeScreenPosition = Camera.main.WorldToScreenPoint(transform.position);
         relativeScreenPosition.y += 125f;
@@ -69,10 +79,19 @@ public abstract class Combatant : MonoBehaviour
 
     protected void TakeDamage(int damage)
     {
-        CurrentHealthPoints -= damage;
+        if(MaxShieldHealth > 0)
+            CurrentShieldHealth -= damage;
+
+        else
+            CurrentHealthPoints -= damage;
         
         if (CurrentHealthPoints <= 0)
             IsAlive = false;
+    }
+
+    public void ApplyShield(int shieldHealth)
+    {
+        MaxShieldHealth = shieldHealth;
     }
 
     public void ExitCombat()
