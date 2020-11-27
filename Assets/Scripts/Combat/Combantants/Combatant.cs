@@ -11,8 +11,9 @@ public abstract class Combatant : MonoBehaviour
     [SerializeField]
     public int MaxHealthPoints;
     public int CurrentHealthPoints;
-    public int MaxShieldHealth;
-    public int CurrentShieldHealth;
+    public int MaxShield;
+    public int CurrentShield;
+    private readonly float HealthBarPosition = 125f;
     protected CombatSystem CombatSystem;
     [SerializeField]
     GameObject HealthBarPrefab;
@@ -29,7 +30,7 @@ public abstract class Combatant : MonoBehaviour
     public void Start()
     {
         CombatSystem = GameObject.FindGameObjectWithTag("CombatSystem").GetComponent<CombatSystem>();
-
+        Shield.SetActive(false);
         IsInCombat = false;
 
         HealthBar = Instantiate(HealthBarPrefab);
@@ -49,9 +50,9 @@ public abstract class Combatant : MonoBehaviour
     {
         string healthText;
 
-        if (CurrentShieldHealth > 0)
+        if (CurrentShield > 0)
             healthText = IsAlive ?
-                        $"{CurrentHealthPoints} / {MaxHealthPoints} Shield: {CurrentShieldHealth} / {MaxShieldHealth}" :
+                        $"{CurrentHealthPoints} / {MaxHealthPoints} Shield: {CurrentShield} / {MaxShield}" :
                         "I've fallen and can't get up";
 
         else
@@ -60,7 +61,7 @@ public abstract class Combatant : MonoBehaviour
                 "I've fallen and can't get up";
 
         Vector3 relativeScreenPosition = Camera.main.WorldToScreenPoint(transform.position);
-        relativeScreenPosition.y += 125f;
+        relativeScreenPosition.y += HealthBarPosition;
         HealthBar.transform.position = relativeScreenPosition;
         HealthBar.GetComponentInChildren<Text>().text = healthText;
     }
@@ -81,12 +82,12 @@ public abstract class Combatant : MonoBehaviour
 
     protected void TakeDamage(int damage)
     {
-        if (CurrentShieldHealth > 0)
+        if (CurrentShield > 0)
         {
-            CurrentShieldHealth -= damage;
-            if (CurrentShieldHealth <= 0) {
+            CurrentShield -= damage;
+            if (CurrentShield <= 0) {
                 Shield.SetActive(false);
-                int leftoverDmg = -1 * CurrentShieldHealth;
+                int leftoverDmg = -1 * CurrentShield;
                 CurrentHealthPoints -= leftoverDmg;
             }
         }
@@ -100,8 +101,12 @@ public abstract class Combatant : MonoBehaviour
 
     public void ApplyShield(int shieldHealth)
     {
-        MaxShieldHealth = shieldHealth;
-        CurrentShieldHealth = shieldHealth;
+        Shield.transform.position = GameObject.FindGameObjectWithTag("Player").transform.position;
+        Shield.transform.position -= new Vector3(0, 5, 0);
+        Shield.transform.Translate(new Vector3(0, 5, 0));
+        Shield.SetActive(true);
+        MaxShield = shieldHealth;
+        CurrentShield = shieldHealth;
     }
 
     public void ExitCombat()
