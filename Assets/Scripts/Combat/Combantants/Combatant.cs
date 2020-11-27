@@ -18,6 +18,8 @@ public abstract class Combatant : MonoBehaviour
     GameObject HealthBarPrefab;
     [SerializeField]
     GameObject HealthBarUIPanel;
+    [SerializeField]
+    GameObject Shield;
 
     private GameObject HealthBar;
 
@@ -79,8 +81,12 @@ public abstract class Combatant : MonoBehaviour
 
     protected void TakeDamage(int damage)
     {
-        if(MaxShieldHealth > 0)
+        if (CurrentShieldHealth > 0)
+        {
             CurrentShieldHealth -= damage;
+            if (CurrentShieldHealth <= 0)
+                Shield.SetActive(false);
+        }
 
         else
             CurrentHealthPoints -= damage;
@@ -92,6 +98,7 @@ public abstract class Combatant : MonoBehaviour
     public void ApplyShield(int shieldHealth)
     {
         MaxShieldHealth = shieldHealth;
+        CurrentShieldHealth = shieldHealth;
     }
 
     public void ExitCombat()
