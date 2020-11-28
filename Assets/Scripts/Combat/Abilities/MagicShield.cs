@@ -17,7 +17,8 @@ public class MagicShield : Ability
 
     private readonly float SequenceDuration = 2f;
     private readonly float InputDuration = 5f;
-    private readonly float ArrowPositionOffset = 4f;
+    private readonly float ArrowPositionHeight = 5f;
+    private readonly float NextArrowPositionOffsetX = 4f;
     private readonly int MaxButtonsInSequence = 4;
     private Vector3 ArrowStartPosition = Vector3.zero;
     private Phase CurrentPhase = Phase.Inactive;
@@ -85,7 +86,8 @@ public class MagicShield : Ability
             Sequence.Add(randomButton);
         }
 
-        ArrowStartPosition = Arrows[0].transform.position;
+        ArrowStartPosition = new Vector3(-NextArrowPositionOffsetX, ArrowPositionHeight, 0)
+            + transform.parent.transform.position;
         Debug.Log("Sequence Appearing!");
         Timer.StartTimer(SequenceDuration);
         CurrentPhase = Phase.SequencePhase;
@@ -122,7 +124,7 @@ public class MagicShield : Ability
 
             direction.transform.localPosition = ArrowStartPosition;
             Sequence.Add(button);
-            ArrowStartPosition += new Vector3(ArrowPositionOffset, 0, 0);
+            ArrowStartPosition += new Vector3(NextArrowPositionOffsetX, 0, 0);
             direction.SetActive(true);
             ArrowsMoved++;
             Directions.Enqueue(direction);

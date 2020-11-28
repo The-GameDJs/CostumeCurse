@@ -5,8 +5,8 @@ using UnityEngine;
 
 public abstract class Ability : MonoBehaviour
 {
-    public TargetSelector TargetSelector;
-    public CombatSystem CombatSystem;
+    protected TargetSelector TargetSelector;
+    protected CombatSystem CombatSystem;
 
     public TargetSchema TargetSchema;
 
