@@ -130,6 +130,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3094732795779198633}
   - component: {fileID: 2430083117438727276}
+  - component: {fileID: -210474982103452522}
   m_Layer: 0
   m_Name: SkeletoodleIce
   m_TagString: Untagged
@@ -144,8 +145,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2430083117438727187}
-  m_LocalRotation: {x: -0, y: 0.95051736, z: -0, w: 0.31067166}
-  m_LocalPosition: {x: 801.14, y: 198.324, z: 656.63}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_Children:
   - {fileID: 7195100715018014833}
@@ -157,7 +158,7 @@ Transform:
   - {fileID: 7244713300277976757}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 143.801, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &2430083117438727276
 Animator:
   serializedVersion: 3
@@ -177,6 +178,20 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!136 &-210474982103452522
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2430083117438727187}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 1.19
+  m_Height: 6.37
+  m_Direction: 1
+  m_Center: {x: 0, y: 2.93, z: 0}
 --- !u!1 &3046522617250438190
 GameObject:
   m_ObjectHideFlags: 0
