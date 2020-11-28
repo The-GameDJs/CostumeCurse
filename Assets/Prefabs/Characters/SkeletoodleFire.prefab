@@ -525,6 +525,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6543156113162692071}
   - component: {fileID: 6543156113162692070}
+  - component: {fileID: 8340664348812271479}
   m_Layer: 0
   m_Name: SkeletoodleFire
   m_TagString: Untagged
@@ -539,8 +540,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6543156113162692069}
-  m_LocalRotation: {x: -0, y: 0.95051736, z: -0, w: 0.31067166}
-  m_LocalPosition: {x: 803.97, y: 198.78, z: 658.85}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_Children:
   - {fileID: 6543156113782828498}
@@ -552,7 +553,7 @@ Transform:
   - {fileID: 6543156112794304767}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 143.801, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &6543156113162692070
 Animator:
   serializedVersion: 3
@@ -572,6 +573,20 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!136 &8340664348812271479
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6543156113162692069}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 1.19
+  m_Height: 6.37
+  m_Direction: 1
+  m_Center: {x: 0, y: 2.93, z: 0}
 --- !u!1 &6543156113173023613
 GameObject:
   m_ObjectHideFlags: 0
