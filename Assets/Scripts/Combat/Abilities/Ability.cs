@@ -18,11 +18,14 @@ public abstract class Ability : MonoBehaviour
         CombatSystem = GameObject.FindGameObjectWithTag("CombatSystem").GetComponent<CombatSystem>();
     }
 
-    public void StartAbility()
+    public void StartAbility(bool userTargeting = true)
     {
-        GetComponentInChildren<Costume>().DisplayAbilities(false);
+        // Hide UI for Allies
+        Costume costume = GetComponentInChildren<Costume>();
+        if (costume)
+            costume.DisplayAbilities(false);
 
-        TargetSelector.Target(this);
+        TargetSelector.Target(this, userTargeting);
     }
 
     protected abstract void ContinueAbilityAfterTargeting();

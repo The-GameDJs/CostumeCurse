@@ -9,12 +9,15 @@ using UnityEngine.UI;
 public class EnemyCombatant : Combatant
 {
     [SerializeField]
-    private GameObject enemyPanel;
+    private GameObject EnemyPanel;
     [SerializeField]
-    private GameObject enemyUITemplate;
-    private GameObject enemyUI;
+    private GameObject EnemyUITemplate;
+    private GameObject EnemyUI;
 
-    private bool displayUI;
+    private bool DisplayMessage;
+
+    [SerializeField]
+    private Ability[] Abilities;
 
     private new void Update()
     {
@@ -25,34 +28,34 @@ public class EnemyCombatant : Combatant
 
     private void UpdateUIPosition()
     {
-        if (displayUI)
+        if (DisplayMessage)
         {
             Vector3 relativeScreenPosition = Camera.main.WorldToScreenPoint(transform.position);
-            enemyUI.transform.position = relativeScreenPosition;
+            EnemyUI.transform.position = relativeScreenPosition;
         }
     }
 
     private void DisplayUI()
     {
-        displayUI = true;
-        enemyUI.SetActive(displayUI);
+        DisplayMessage = true;
+        EnemyUI.SetActive(DisplayMessage);
     }
 
     private void HideUI()
     {
-        displayUI = false;
-        enemyUI.SetActive(displayUI);
+        DisplayMessage = false;
+        EnemyUI.SetActive(DisplayMessage);
     }
 
 
     new void Start()
     {
         base.Start();
-        // For now TODO
-        TurnPriority = 10;
 
-        enemyUI = Instantiate(enemyUITemplate);
-        enemyUI.transform.SetParent(enemyPanel.transform);
+        EnemyUI = Instantiate(EnemyUITemplate);
+        EnemyUI.transform.SetParent(EnemyPanel.transform);
+
+        Abilities = GetComponentsInChildren<Ability>();
 
         HideUI();
     }
@@ -67,11 +70,13 @@ public class EnemyCombatant : Combatant
     protected override void TakeTurnWhileAlive()
     {
         DisplayUI();
-        enemyUI.GetComponent<Text>().text = "I Attak! But actually i slep";
+        EnemyUI.GetComponent<Text>().text = "I Attak!";
 
-        StartCoroutine(SimpleEnemyAttack());
+        Debug.Log(Abilities.Length);
+        Abilities[Random.Range(0, Abilities.Length - 1)].StartAbility(false);
     }
 
+    // Deprecated
     IEnumerator SimpleEnemyAttack()
     {
         yield return new WaitForSeconds(2);

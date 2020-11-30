@@ -1,21 +1,22 @@
 ﻿using Assets.Scripts.Combat;
+using Combat.Abilities;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class AllyCombatant : Combatant
 {
-    [SerializeField] 
+    [SerializeField]
     Costume costume;
 
-    new void Start()
+    new public void Start()
     {
         base.Start();
-        
+
         costume.DisplayAbilities(false);
     }
 
-    new void Update()
+    new public void Update()
     {
         base.Update();
     }

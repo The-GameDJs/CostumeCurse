@@ -239,7 +239,7 @@ namespace Combat.Abilities
                 Input.GetButtonDown("Left");
         }
 
-        public new void StartAbility()
+        public new void StartAbility(bool userTargeting = false)
         {
             Debug.Log("Starting fireball ability");
 

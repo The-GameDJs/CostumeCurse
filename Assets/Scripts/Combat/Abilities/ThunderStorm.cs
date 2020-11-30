@@ -51,7 +51,7 @@ public class ThunderStorm : Ability
             SelectorType.All);
     }
 
-    public new void StartAbility()
+    public new void StartAbility(bool userTargeting = false)
     {
         CurrentDamage = 0;
         Presses = 0;

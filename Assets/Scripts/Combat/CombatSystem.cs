@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -19,7 +20,7 @@ public class CombatSystem : MonoBehaviour
 
     void Start()
     {
-
+        AssetDatabase.Refresh(); // This will update all animators, fixes a bug with Git! 
     }
 
     void Update()
@@ -108,6 +109,11 @@ public class CombatSystem : MonoBehaviour
         CurrentCombatantTurn = 1;
 
         Combatants.Sort(SortByTurnPriority); // TODO use case for updating priority?
+
+        foreach (GameObject ally in AllyCombatants)
+            ally.transform.LookAt(EnemyCombatants[Random.Range(0, EnemyCombatants.Count - 1)].transform.position);
+        foreach (GameObject enemy in EnemyCombatants)
+            enemy.transform.LookAt(AllyCombatants[Random.Range(0, EnemyCombatants.Count - 1)].transform.position);
 
         Combatants[CurrentCombatantTurn - 1].GetComponent<Combatant>().StartTurn();
     }

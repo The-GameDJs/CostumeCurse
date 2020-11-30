@@ -36,7 +36,7 @@ public class TargetSelector : MonoBehaviour
         CombatSystem = GameObject.FindGameObjectWithTag("CombatSystem").GetComponent<CombatSystem>();
     }
 
-    public void Target(Ability callingAbility)
+    public void Target(Ability callingAbility, bool userTargeting = true)
     {
         CallingAbility = callingAbility;
         CurrentTargetSchema = callingAbility.TargetSchema;
@@ -44,43 +44,55 @@ public class TargetSelector : MonoBehaviour
         if (CurrentTargetSchema.SelectorType == SelectorType.All)
         {
             if (CurrentTargetSchema.CombatantType == CombatantType.Enemy)
-                TargetAllEnemies();
+                TargetAllEnemies(userTargeting);
             else if (CurrentTargetSchema.CombatantType == CombatantType.Ally)
-                TargetAllAllies();
+                TargetAllAllies(userTargeting);
         }
 
         if (CurrentTargetSchema.SelectorType == SelectorType.Number)
         {
             // TODO do something else, add rest of options
-            TargetAllEnemies();
+            if (CurrentTargetSchema.CombatantType == CombatantType.Enemy)
+                TargetAllEnemies(userTargeting);
+            else if (CurrentTargetSchema.CombatantType == CombatantType.Ally)
+                TargetAllAllies(userTargeting);
         }
     }
 
-    private void TargetSingleEnemy()
+    private void TargetSingleEnemy(bool userTargeting = true)
     {
         // TODO
     }
 
-    private void TargetAllEnemies()
+    private void TargetAllEnemies(bool userTargeting = true)
     {
         GameObject[] enemies = CombatSystem.Combatants.
             Where(combantant => combantant.CompareTag("Enemy")).ToArray();
 
-        // TODO highlight each enemy, wait for user selection
-        Thread.Sleep(500); // Fake the UI selection
+        if (userTargeting)
+        {
+            // TODO highlight each enemy, wait for user selection
+            Thread.Sleep(500); // Fake the UI selection
+        }
+
         CurrentTargetedCombatants = enemies;
         
-        // TODO for now, pretend the UI has triggered this function
-        // this function will not be here afterward
         ReplyToCallingAbility();
     }
 
-    private void TargetAllAllies()
+    private void TargetAllAllies(bool userTargeting = true)
     {
         GameObject[] allies = CombatSystem.Combatants.
           Where(combantant => combantant.CompareTag("Player")).ToArray();
 
+        if (userTargeting)
+        {
+            // TODO highlight each enemy, wait for user selection
+            Thread.Sleep(500); // Fake the UI selection
+        }
+
         CurrentTargetedCombatants = allies;
+
         ReplyToCallingAbility();
     }
 
