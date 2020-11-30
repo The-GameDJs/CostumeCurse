@@ -806,7 +806,7 @@ Transform:
   m_LocalScale: {x: 89.38613, y: 89.38613, z: 89.38613}
   m_Children: []
   m_Father: {fileID: 7887312764890489834}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &8840560530447221913
 SkinnedMeshRenderer:
@@ -1053,7 +1053,7 @@ Transform:
   m_Children:
   - {fileID: 3250992664461720686}
   m_Father: {fileID: 7887312764890489834}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5253741491541884171
 GameObject:
@@ -1502,7 +1502,7 @@ GameObject:
   - component: {fileID: 7367481652005828945}
   - component: {fileID: 7367481652005828947}
   m_Layer: 0
-  m_Name: SieldCostumed
+  m_Name: Sield
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1519,6 +1519,7 @@ Transform:
   m_LocalPosition: {x: 812.6609, y: 199.384, z: 638.4557}
   m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_Children:
+  - {fileID: 1015405315537927717}
   - {fileID: 356062260891881731}
   - {fileID: 7975433105517393689}
   - {fileID: 7220364714766006235}
@@ -1792,7 +1793,7 @@ Transform:
   - {fileID: 4720891090364491753}
   - {fileID: 3575868809122054865}
   m_Father: {fileID: 7887312764890489834}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &454691614426118827
 SkinnedMeshRenderer:
@@ -1871,3 +1872,65 @@ SkinnedMeshRenderer:
     m_Center: {x: 0, y: 0.04283772, z: 0}
     m_Extent: {x: 0.014836001, y: 0.03004985, z: 0.014835995}
   m_DirtyAABB: 0
+--- !u!1001 &1501692277303238146
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 7887312764890489834}
+    m_Modifications:
+    - target: {fileID: 1927651598062133287, guid: 03db29cbb4fd4cf478a3eb2f6ba21cc5, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1927651598062133287, guid: 03db29cbb4fd4cf478a3eb2f6ba21cc5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1927651598062133287, guid: 03db29cbb4fd4cf478a3eb2f6ba21cc5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1927651598062133287, guid: 03db29cbb4fd4cf478a3eb2f6ba21cc5, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1927651598062133287, guid: 03db29cbb4fd4cf478a3eb2f6ba21cc5, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1927651598062133287, guid: 03db29cbb4fd4cf478a3eb2f6ba21cc5, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1927651598062133287, guid: 03db29cbb4fd4cf478a3eb2f6ba21cc5, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1927651598062133287, guid: 03db29cbb4fd4cf478a3eb2f6ba21cc5, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1927651598062133287, guid: 03db29cbb4fd4cf478a3eb2f6ba21cc5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1927651598062133287, guid: 03db29cbb4fd4cf478a3eb2f6ba21cc5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1927651598062133287, guid: 03db29cbb4fd4cf478a3eb2f6ba21cc5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5526754725628559126, guid: 03db29cbb4fd4cf478a3eb2f6ba21cc5, type: 3}
+      propertyPath: m_Name
+      value: WizardCostume
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 03db29cbb4fd4cf478a3eb2f6ba21cc5, type: 3}
+--- !u!4 &1015405315537927717 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1927651598062133287, guid: 03db29cbb4fd4cf478a3eb2f6ba21cc5, type: 3}
+  m_PrefabInstance: {fileID: 1501692277303238146}
+  m_PrefabAsset: {fileID: 0}

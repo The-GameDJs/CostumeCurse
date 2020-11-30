@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Combat;
+using Combat.Abilities;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -134,5 +135,11 @@ public abstract class Combatant : MonoBehaviour
         IsInCombat = true;
 
         HealthBar.SetActive(true);
+    }
+
+    // Due to how the animator event system work, we have no choice but to broadcast this event down :( 
+    public void DealBonkDamage()
+    {
+        GetComponentInChildren<Bonk>().DealBonkDamage();
     }
 }

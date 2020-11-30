@@ -43,7 +43,7 @@ public class MagicShield : Ability
             SelectorType.All);
     }
 
-    new public void StartAbility()
+    new public void StartAbility(bool userTargeting = false)
     {
         CorrectInputs = 0;
         base.StartAbility();
