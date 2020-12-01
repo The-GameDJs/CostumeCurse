@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 3318459807386206545}
   - component: {fileID: 695683454906239080}
   - component: {fileID: 1894241433914813861}
+  - component: {fileID: -7279337127914229487}
   m_Layer: 0
   m_Name: WizardCostume
   m_TagString: Untagged
@@ -48,7 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63188bee75ef81948b4e863361c5f95c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerUIPanel: {fileID: 0}
+  playerUIPanel: {fileID: 920638876471999998, guid: a4e3fcc4d626aee439361bc268cea789, type: 3}
 --- !u!114 &4772747129340349577
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -121,3 +122,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TargetedCombatants: []
   BelongsToAlly: 1
+--- !u!114 &-7279337127914229487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5526754725628559126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9119d800971c5843bb96782d6270937, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TargetedCombatants: []
+  BrewCanvas: {fileID: 0}
+  BakeCanvas: {fileID: 0}
