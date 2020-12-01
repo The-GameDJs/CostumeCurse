@@ -27,6 +27,8 @@ public class Player : MonoBehaviour
         float verticalMovement = Input.GetAxis("Vertical");
 
         Vector3 direction = new Vector3(horizontalMovement, 0f, verticalMovement).normalized;
+        direction = Camera.main.transform.TransformDirection(direction);
+        direction.y = 0;
 
         characterController.SimpleMove(direction * movementSpeed);
 
