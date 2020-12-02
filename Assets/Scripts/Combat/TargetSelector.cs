@@ -67,7 +67,7 @@ public class TargetSelector : MonoBehaviour
     private void TargetAllEnemies(bool userTargeting = true)
     {
         GameObject[] enemies = CombatSystem.Combatants.
-            Where(combantant => combantant.CompareTag("Enemy")).ToArray();
+            Where(combatant => combatant.CompareTag("Enemy") && combatant.GetComponent<Combatant>().IsAlive).ToArray();
 
         if (userTargeting)
         {
@@ -83,7 +83,7 @@ public class TargetSelector : MonoBehaviour
     private void TargetAllAllies(bool userTargeting = true)
     {
         GameObject[] allies = CombatSystem.Combatants.
-          Where(combantant => combantant.CompareTag("Player")).ToArray();
+          Where(combatant => combatant.CompareTag("Player") && combatant.GetComponent<Combatant>().IsAlive).ToArray();
 
         if (userTargeting)
         {

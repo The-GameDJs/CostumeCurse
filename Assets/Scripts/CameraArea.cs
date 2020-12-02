@@ -42,8 +42,11 @@ public class CameraArea : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
+    public void OnDestroy()
     {
+        if (CameraRig == null)
+            return;
+
         CameraRig.SetTransitionSmoothness(TransitionOutSmoothness);
         CameraRig.MoveCameraRelative(CameraRig.DefaultOffset,
             CameraRig.DefaultRotation);

@@ -26,7 +26,7 @@ public class Player : MonoBehaviour
     private Quaternion TargetRotation;
     private Vector3 Direction;
 
-
+    private bool IsMovementDisabled;
 
     private CharacterController CharacterController;
     private Player MainPlayer;
@@ -37,7 +37,6 @@ public class Player : MonoBehaviour
     {
         CharacterController = GetComponent<CharacterController>();
         var foundPlayers = GameObject.FindObjectsOfType<Player>();
-        Debug.Log(foundPlayers.Length);
         MainPlayer = Array.Find(foundPlayers, player => player.IsMainPlayer);
         Timer = GetComponent<Timer>();
     }
@@ -45,6 +44,9 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (IsMovementDisabled)
+            return;
+
         if (IsMainPlayer)
             UpdateMainCharacterMovement();
         else
@@ -55,7 +57,7 @@ public class Player : MonoBehaviour
     {
         if (!Timer.IsInProgress())
         {
-            Timer.StartTimer(.01f);
+            Timer.StartTimer(.001f);
 
             if (MainPlayer == null)
             {
@@ -68,6 +70,8 @@ public class Player : MonoBehaviour
                 MainPlayer.gameObject.transform.forward * FollowDistance;
 
             Direction = (TargetPosition - transform.position).normalized;
+            Direction = Camera.main.transform.TransformDirection(Direction);
+            Direction.y = 0;
 
             TargetRotation = transform.localRotation;
             TargetRotation = Quaternion.LookRotation(Direction, Vector3.up);
@@ -106,10 +110,12 @@ public class Player : MonoBehaviour
     {
         GetComponent<CharacterController>().enabled = true;
         GetComponent<Player>().enabled = true;
+        IsMovementDisabled = false;
     }
     public void DisableMovement()
     {
         GetComponent<CharacterController>().enabled = false;
         GetComponent<Player>().enabled = false;
+        IsMovementDisabled = true;
     }
 }

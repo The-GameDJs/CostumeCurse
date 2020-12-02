@@ -15,15 +15,12 @@ public abstract class Combatant : MonoBehaviour
     public int MaxShieldPoints;
     public int CurrentShieldPoints;
     protected CombatSystem CombatSystem;
-    [SerializeField]
-    GameObject HealthBarPrefab;
-    [SerializeField]
-    GameObject ShieldBarPrefab;
-    [SerializeField]
-    GameObject HealthBarUIPanel;
-    [SerializeField]
-    GameObject Shield;
-
+    
+    protected static GameObject HealthBarPrefab;
+    protected static GameObject ShieldBarPrefab;
+    protected static GameObject HealthBarUIPanel;
+    
+    private static GameObject Shield;
     private GameObject HealthBar;
     private PointsBar RedBar;
     private Text HealthText;
@@ -36,7 +33,6 @@ public abstract class Combatant : MonoBehaviour
     private const float HealthBarYOffsetScaler = 1.25f;
     private const float ShieldBarYOffsetScaler = 1.45f;
 
-    bool HasCharacterController;
     float CharacterHeight;
 
     public bool IsAlive = true;
@@ -45,6 +41,12 @@ public abstract class Combatant : MonoBehaviour
     public void Start()
     {
         CombatSystem = GameObject.FindGameObjectWithTag("CombatSystem").GetComponent<CombatSystem>();
+        if (Shield == null)
+        {
+            Shield = GameObject.Find("Magic Shield");
+            HealthBarPrefab = GameObject.Find("HealthBarPrefab");
+            HealthBarUIPanel = GameObject.Find("HealthBarsUI");
+        }
         Shield.SetActive(false);
         IsShieldSpawned = false;
         IsInCombat = false;
@@ -55,16 +57,15 @@ public abstract class Combatant : MonoBehaviour
         HealthText = HealthBar.GetComponentInChildren<Text>();
         RedBar.MaxValue = MaxHealthPoints;
         HealthBar.SetActive(false);
+        HealthBarPrefab.SetActive(false);
 
         if (GetComponent<CharacterController>() != null)
         {
-            HasCharacterController = true;
             CharacterHeight = GetComponent<CharacterController>().height / 2.0f;
         }
         else
         {
             CharacterHeight = GetComponent<Collider>().bounds.size.y;
-            Debug.Log("Bounds Y: " + CharacterHeight);
         }
         
         CurrentHealthPoints = MaxHealthPoints;

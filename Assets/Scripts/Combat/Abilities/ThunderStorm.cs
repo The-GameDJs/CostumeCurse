@@ -11,39 +11,41 @@ using Random = UnityEngine.Random;
 
 public class ThunderStorm : Ability
 {
-    private enum Phase { Cloud, Strike, Inactive }
+    private enum ThunderstormPhase { Cloud, Strike, Inactive }
 
-    [SerializeField]
-    private GameObject thunder;
-    private Timer timer;
+    private static GameObject Thunder;
+    private Timer Timer;
 
     private readonly int TotalThunderStrikes = 3;
     private int CurrentThunderStrike = 0;
 
-    private readonly float timeWindowForStrikes = 3.0f;
-    private readonly float goodStrikeTimeWindow = 1.5f;
-    private readonly float perfectStrikeTimeWindow = 0.5f;
-    private readonly float strikeTimeInterval = 2.0f;
+    private readonly float TimeWindowForStrikes = 3.0f;
+    private readonly float GoodStrikeTimeWindow = 1.5f;
+    private readonly float PerfectStrikeTimeWindow = 0.5f;
+    private readonly float StrikeTimeInterval = 2.0f;
 
     private int Presses;
+    private readonly float ThunderStormHeight = 7f;
     private readonly float ThunderCloudDuration = 5.0f;
     private readonly int ThunderCloudMinimumDamage = 10;
     private readonly int ThunderCloudMaximumDamage = 50;
     private readonly int ThunderCloudDifficultyCurve = 5;
     private readonly int ThunderStrikePerfectDamageBonus = 50;
     private readonly int ThunderStrikeGoodDamageBonus = 25;
-    private int CurrentDamage;
 
-    private Phase phase = Phase.Inactive;
-    
+    private ThunderstormPhase CurrentPhase = ThunderstormPhase.Inactive;
+    private GameObject CurrentVictim;
+
     private readonly float ThunderCloudGrowthSpeed = 0.05f;
     private readonly float ThunderStrikeGrowthSpeed = 1.0f;
 
     public new void Start()
     {
         base.Start();
-        timer = GetComponent<Timer>();
-        thunder.SetActive(false);
+        if(Thunder == null)
+            Thunder = GameObject.Find("Thunderstorm");
+        Timer = GetComponent<Timer>();
+        Thunder.SetActive(false);
 
         TargetSchema = new TargetSchema(
             0,
@@ -53,7 +55,6 @@ public class ThunderStorm : Ability
 
     public new void StartAbility(bool userTargeting = false)
     {
-        CurrentDamage = 0;
         Presses = 0;
         
         base.StartAbility();
@@ -61,18 +62,18 @@ public class ThunderStorm : Ability
 
     private void Update()
     {
-        if (phase == Phase.Cloud)
+        if (CurrentPhase == ThunderstormPhase.Cloud)
             ThunderCloudUpdate();
 
-        if (phase == Phase.Strike)
+        if (CurrentPhase == ThunderstormPhase.Strike)
             ThunderstrikeUpdate();
     }
 
     private void ThunderstrikeUpdate()
     {
-        if (timer.IsInProgress())
+        if (Timer.IsInProgress())
         {
-            float progress = timer.GetProgress();
+            float progress = Timer.GetProgress();
 
             AnimateThunderstrike(progress);
 
@@ -80,18 +81,20 @@ public class ThunderStorm : Ability
             {
                 Debug.Log("Action Command pressed during Thunderstrike Phase");
 
-                timer.StopTimer();
+                Timer.StopTimer();
             }
         }
 
-        if (timer.IsFinished())
+        if (Timer.IsFinished())
         {
-            EvaluateThunderStrikeInput(timer.GetProgress());
-            phase = Phase.Inactive;
-            thunder.SetActive(false);
+            CurrentPhase = ThunderstormPhase.Inactive;
+            Thunder.SetActive(false);
+
+            Attack attack = new Attack((int) EvaluateThunderStrikeInput());
+            CurrentVictim.GetComponent<Combatant>().Defend(attack);
 
             if (CurrentThunderStrike < TotalThunderStrikes)
-                Invoke(nameof(NewThunderStrike), UnityEngine.Random.Range(strikeTimeInterval, 1.5f * strikeTimeInterval));
+                Invoke(nameof(NewThunderStrike), Random.Range(StrikeTimeInterval, 1.5f * StrikeTimeInterval));
             else
                 EndAbility();
         }
@@ -99,38 +102,29 @@ public class ThunderStorm : Ability
 
     private void AnimateThunderstrike(float progress)
     {        
-        if (progress <= timeWindowForStrikes / 2.0f)
-            thunder.transform.localScale += Vector3.one * ThunderStrikeGrowthSpeed * Time.deltaTime;
+        if (progress <= TimeWindowForStrikes / 2.0f)
+            Thunder.transform.localScale += Vector3.one * ThunderStrikeGrowthSpeed * Time.deltaTime;
         else
-            thunder.transform.localScale -= Vector3.one * ThunderStrikeGrowthSpeed * Time.deltaTime;
+            Thunder.transform.localScale -= Vector3.one * ThunderStrikeGrowthSpeed * Time.deltaTime;
 
         if (WithinPerfectStrikeWindow(progress))
-            thunder.GetComponent<Renderer>().material.color = Color.red;
+            Thunder.GetComponent<Renderer>().material.color = Color.red;
         else if (WithinGoodStrikeWindow(progress))
-            thunder.GetComponent<Renderer>().material.color = Color.blue;
+            Thunder.GetComponent<Renderer>().material.color = Color.blue;
         else
-            thunder.GetComponent<Renderer>().material.color = Color.white;
+            Thunder.GetComponent<Renderer>().material.color = Color.white;
     }
 
     protected override void EndAbility()
     {
-        Debug.Log($"Thunderstorm Damage total: {CurrentDamage}");
-        thunder.SetActive(false);
-
-        // Deal damage to defender, wait
-        // for now, let's just pick 3 random ones
-        // this might be done before EndAbility
-        Attack attack = new Attack(CurrentDamage);
-        for(int i = 0; i < TotalThunderStrikes; i++)
-            TargetedCombatants[Random.Range(0, TargetedCombatants.Length)].GetComponent<Combatant>()
-                .Defend(attack);
+        Thunder.SetActive(false);
 
         CombatSystem.EndTurn(this.GetComponentInParent<Combatant>().gameObject);
     }
 
     private void ThunderCloudUpdate()
     {
-        if (timer.IsInProgress())
+        if (Timer.IsInProgress())
         {
             ThunderCloudMash();
         }
@@ -144,9 +138,7 @@ public class ThunderStorm : Ability
     {
         Debug.Log($"Thundercloud Complete with presses: {Presses}");
 
-        CurrentDamage = (int) CalculateThunderCloudDamage();
-        thunder.SetActive(false);
-        Debug.Log($"Thunder Cloud Build Up damage: {CurrentDamage}");
+        Thunder.SetActive(false);
 
         StartThunderStrikePhase();
     }
@@ -156,7 +148,7 @@ public class ThunderStorm : Ability
         if (Input.GetButtonDown("Action Command"))
         {
             Presses++;
-            thunder.transform.localScale += Vector3.one * ThunderCloudGrowthSpeed;
+            Thunder.transform.localScale += Vector3.one * ThunderCloudGrowthSpeed;
         }
     }
 
@@ -168,14 +160,14 @@ public class ThunderStorm : Ability
     private void StartThunderCloudPhase()
     {
         Presses = 0;
-        phase = Phase.Cloud;
+        CurrentPhase = ThunderstormPhase.Cloud;
 
-        thunder.SetActive(true);
-        thunder.transform.position = transform.position + 5f * Vector3.up;
-        thunder.transform.localScale = Vector3.one;
-        thunder.GetComponent<Renderer>().material.color = Color.white;
+        Thunder.SetActive(true);
+        Thunder.transform.position = transform.position + ThunderStormHeight * Vector3.up;
+        Thunder.transform.localScale = Vector3.one;
+        Thunder.GetComponent<Renderer>().material.color = Color.white;
 
-        timer.StartTimer(ThunderCloudDuration);
+        Timer.StartTimer(ThunderCloudDuration);
     }
 
     private float CalculateThunderCloudDamage()
@@ -195,15 +187,11 @@ public class ThunderStorm : Ability
 
     private void StartThunderStrikePhase()
     {
-        phase = Phase.Inactive;
-
-        thunder.SetActive(true);
-        thunder.transform.localScale = Vector3.one;
-        thunder.transform.position = transform.position + 5f * Vector3.up + 5f * Vector3.right;
+        CurrentPhase = ThunderstormPhase.Inactive;
 
         CurrentThunderStrike = 0;
 
-        Invoke(nameof(NewThunderStrike), UnityEngine.Random.Range(strikeTimeInterval, 1.5f * strikeTimeInterval));
+        Invoke(nameof(NewThunderStrike), UnityEngine.Random.Range(StrikeTimeInterval, 1.5f * StrikeTimeInterval));
 
     }
 
@@ -212,43 +200,52 @@ public class ThunderStorm : Ability
         CurrentThunderStrike++;
         Debug.Log($"New thunderstrike, currently on # {CurrentThunderStrike}");
 
-        phase = Phase.Strike;
+        Thunder.SetActive(true);
+        Thunder.transform.localScale = Vector3.one;
 
-        thunder.SetActive(true);
-        thunder.transform.localScale = Vector3.one;
-        timer.StartTimer(timeWindowForStrikes);
+        var possibleVictims = Array.FindAll(TargetedCombatants, combatant => combatant.GetComponent<Combatant>().IsAlive);
+
+        CurrentVictim = possibleVictims.Length > 0 ?
+            possibleVictims[Random.Range(0, possibleVictims.Length)] :
+            TargetedCombatants[Random.Range(0, possibleVictims.Length)];
+
+        Thunder.transform.position = CurrentVictim.transform.position + ThunderStormHeight * Vector3.up;
+
+        CurrentPhase = ThunderstormPhase.Strike;
+        Timer.StartTimer(TimeWindowForStrikes);
     }
 
     // TODO: Implement user feedback
-    private void EvaluateThunderStrikeInput(float timerValue)
+    private float EvaluateThunderStrikeInput()
     {
-        Debug.Log("Timer Value: " + timerValue);
+        var progress = Timer.GetProgress();
+        var damage = CalculateThunderCloudDamage();
 
-        if (WithinPerfectStrikeWindow(timerValue))
+        if (WithinPerfectStrikeWindow(progress))
         {
-            Debug.Log("Perfect Strike");
-            CurrentDamage += ThunderStrikePerfectDamageBonus;
+            damage += ThunderStrikePerfectDamageBonus;
         }
-        else if (WithinGoodStrikeWindow(timerValue))
+        else if (WithinGoodStrikeWindow(progress))
         {
-            Debug.Log("Good Strike");
-            CurrentDamage += ThunderStrikeGoodDamageBonus;
+            damage += ThunderStrikeGoodDamageBonus;
         }
         else
         {
             Debug.Log("Missed Strike");
         }
+
+        return damage;
     }
 
     private bool WithinGoodStrikeWindow(float timerValue)
     {
-        return timerValue >= ((timeWindowForStrikes - goodStrikeTimeWindow) / 2.0f) &&
-                    timerValue <= ((timeWindowForStrikes + goodStrikeTimeWindow) / 2.0f);
+        return timerValue >= ((TimeWindowForStrikes - GoodStrikeTimeWindow) / 2.0f) &&
+                    timerValue <= ((TimeWindowForStrikes + GoodStrikeTimeWindow) / 2.0f);
     }
 
     private bool WithinPerfectStrikeWindow(float timerValue)
     {
-        return timerValue >= ((timeWindowForStrikes - perfectStrikeTimeWindow) / 2.0f) &&
-                    timerValue <= ((timeWindowForStrikes + perfectStrikeTimeWindow) / 2.0f);
+        return timerValue >= ((TimeWindowForStrikes - PerfectStrikeTimeWindow) / 2.0f) &&
+                    timerValue <= ((TimeWindowForStrikes + PerfectStrikeTimeWindow) / 2.0f);
     }
 }

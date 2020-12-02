@@ -10491,7 +10491,6 @@ MonoBehaviour:
   CurrentShieldPoints: 0
   HealthBarPrefab: {fileID: 1606284794824802834, guid: 5e55cca64ee21f94bbb0d14295f3d9ee, type: 3}
   HealthBarUIPanel: {fileID: 5905072201763150092, guid: 280d4408389f831458b3340127047a16, type: 3}
-  Shield: {fileID: 0}
   IsAlive: 1
   costume: {fileID: 0}
 --- !u!114 &1190740066
@@ -10506,8 +10505,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3f9d758869e307409aff4b4cbf8125c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 12
-  rotationSpeed: 360
+  IsMainPlayer: 0
+  MovementSpeed: 1
+  RotationSpeed: 1
+  FollowDistance: 5
+  CatchUpSpeed: 2
 --- !u!143 &1190740067
 CharacterController:
   m_ObjectHideFlags: 0
@@ -18991,7 +18993,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TargetedCombatants: []
-  thunder: {fileID: 0}
 --- !u!114 &2000450008
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1501,9 +1501,11 @@ GameObject:
   - component: {fileID: 7367481652005828946}
   - component: {fileID: 7367481652005828945}
   - component: {fileID: 7367481652005828947}
+  - component: {fileID: 603280033588285928}
+  - component: {fileID: 8454097014992259087}
   m_Layer: 0
   m_Name: Sield
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1575,8 +1577,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3f9d758869e307409aff4b4cbf8125c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 12
-  rotationSpeed: 360
+  IsMainPlayer: 1
+  MovementSpeed: 10
+  RotationSpeed: 360
+  FollowDistance: 5
+  CatchUpSpeed: 15
+--- !u!114 &603280033588285928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7367481652005828944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6c24458bbc330b42991d046af3fbd56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8454097014992259087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7367481652005828944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d0fef4c2ee3310488ed5d67e741859b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TurnPriority: 0
+  MaxHealthPoints: 700
+  CurrentHealthPoints: 700
+  MaxShieldPoints: 0
+  CurrentShieldPoints: 0
+  IsAlive: 1
+  costume: {fileID: 6912708998622068073}
 --- !u!1 &7486796943535785957
 GameObject:
   m_ObjectHideFlags: 0
@@ -1879,6 +1915,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7887312764890489834}
     m_Modifications:
+    - target: {fileID: -7279337127914229487, guid: 03db29cbb4fd4cf478a3eb2f6ba21cc5, type: 3}
+      propertyPath: BrewCanvas
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: -7279337127914229487, guid: 03db29cbb4fd4cf478a3eb2f6ba21cc5, type: 3}
+      propertyPath: BakeCanvas
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 1927651598062133287, guid: 03db29cbb4fd4cf478a3eb2f6ba21cc5, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -1929,6 +1973,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 03db29cbb4fd4cf478a3eb2f6ba21cc5, type: 3}
+--- !u!114 &6912708998622068073 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5420633139810198379, guid: 03db29cbb4fd4cf478a3eb2f6ba21cc5, type: 3}
+  m_PrefabInstance: {fileID: 1501692277303238146}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63188bee75ef81948b4e863361c5f95c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1015405315537927717 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1927651598062133287, guid: 03db29cbb4fd4cf478a3eb2f6ba21cc5, type: 3}
