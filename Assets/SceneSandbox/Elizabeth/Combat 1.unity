@@ -426,6 +426,10 @@ PrefabInstance:
       propertyPath: HealthBarPrefab
       value: 
       objectReference: {fileID: 418841011633031611, guid: 5e55cca64ee21f94bbb0d14295f3d9ee, type: 3}
+    - target: {fileID: 7629498436011726338, guid: f951f383623d06144aabd9dca38fba66, type: 3}
+      propertyPath: ShieldBarPrefab
+      value: 
+      objectReference: {fileID: 2085671076293016782, guid: 57980a145e35c9a4cb2f5a6c7ddfc140, type: 3}
     - target: {fileID: 7820125400853066415, guid: f951f383623d06144aabd9dca38fba66, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -1239,9 +1243,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 872ba10c7a6bde047ab99361fcdf5039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Smoothness: 0
-  DefaultOffset: {x: 0, y: 0, z: 0}
-  DefaultRotation: {x: 0, y: 0, z: 0, w: 1}
+  Smoothness: 5
+  DefaultOffset: {x: 0, y: 6, z: -12}
+  DefaultRotation: {x: 0.06975647, y: 0, z: 0, w: 0.9975641}
 --- !u!114 &1022119220
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2031,6 +2035,7 @@ MonoBehaviour:
   MaxShieldPoints: 0
   CurrentShieldPoints: 0
   HealthBarPrefab: {fileID: 418841011633031611, guid: 5e55cca64ee21f94bbb0d14295f3d9ee, type: 3}
+  ShieldBarPrefab: {fileID: 2085671076293016782, guid: 57980a145e35c9a4cb2f5a6c7ddfc140, type: 3}
   HealthBarUIPanel: {fileID: 5905072203430277938}
   Shield: {fileID: 6032700958985964697}
   IsAlive: 1
@@ -2699,6 +2704,10 @@ PrefabInstance:
       propertyPath: HealthBarPrefab
       value: 
       objectReference: {fileID: 418841011633031611, guid: 5e55cca64ee21f94bbb0d14295f3d9ee, type: 3}
+    - target: {fileID: 7629498436011726338, guid: f951f383623d06144aabd9dca38fba66, type: 3}
+      propertyPath: ShieldBarPrefab
+      value: 
+      objectReference: {fileID: 2085671076293016782, guid: 57980a145e35c9a4cb2f5a6c7ddfc140, type: 3}
     - target: {fileID: 7820125400853066415, guid: f951f383623d06144aabd9dca38fba66, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
