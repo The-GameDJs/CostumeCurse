@@ -22,23 +22,6 @@ public class ItemSlot : MonoBehaviour, IDropHandler
         }
     }
 
-    private void HandleCookingPot(GameObject objectDropped)
-    {
-        if(!objectDropped.GetComponent<DragAndDrop>().GetIsInside())
-        {
-            if(objectDropped.name == "Sweet")
-            {
-                SweetsDropped++;
-                objectDropped.GetComponent<DragAndDrop>().SetIsInside(true);
-            }
-            else if(objectDropped.name == "Rotten")
-            {
-                RotsDropped++;
-                objectDropped.GetComponent<DragAndDrop>().SetIsInside(true);
-            }
-        }
-    }
-
     private void HandleCookingPot(PointerEventData eventData)
     {
         if(!eventData.pointerDrag.GetComponent<DragAndDrop>().GetIsInside())

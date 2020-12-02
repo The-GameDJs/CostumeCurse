@@ -111,7 +111,7 @@ public class Confection : Ability
         }
     }
 
-    new public void StartAbility()
+    public new void StartAbility(bool userTargeting = false)
     {
         base.StartAbility();
         Debug.Log("Started Confection Ability");
