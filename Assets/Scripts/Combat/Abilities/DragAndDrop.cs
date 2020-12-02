@@ -10,9 +10,11 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     private bool IsInside = false;
     private RectTransform RectTransform;
     private CanvasGroup CanvasGroup;
+    private Canvas Canvas;
 
     private void Start()
     {
+        Canvas = GetComponentInParent<Canvas>();
         RectTransform = GetComponent<RectTransform>();
         CanvasGroup = GetComponent<CanvasGroup>();
         OriginalPos = RectTransform.localPosition;
@@ -33,7 +35,7 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     {
         // TODO: possibly snap back to original position ?
         if(!IsInside) // for sweets/rots
-            RectTransform.anchoredPosition += eventData.delta;
+            RectTransform.anchoredPosition += eventData.delta / Canvas.scaleFactor;
     }
 
     public void OnEndDrag(PointerEventData eventData)
