@@ -12,12 +12,11 @@ namespace Combat.Abilities
         private int CurrentDamage;
         
         private enum FireballPhase { Growth, Inactive }
-        private FireballPhase CurrentFireballPhase = FireballPhase.Inactive;
+        private FireballPhase CurrentPhase = FireballPhase.Inactive;
         private enum FireballCyclePhase { Normal, UnstableWarning, Unstable };
-        private FireballCyclePhase CurrentFireballCyclePhase = FireballCyclePhase.Normal;
+        private FireballCyclePhase CurrentCyclePhase = FireballCyclePhase.Normal;
 
-        [SerializeField]
-        private GameObject Fireball;
+        private static GameObject Fireball;
         private Timer Timer;
         private const float FireballGrowthMinDuration = 3.0f;
         private const float FireballGrowthMaxDuration = 5.0f;
@@ -26,7 +25,7 @@ namespace Combat.Abilities
         private const float FireballUnstablingWarningDuration = 1.0f;
         private const float FireballUnstableDuration = 2.0f;
 
-        private const float FireballHeight = 5f;
+        private const float FireballHeight = 7f;
         private float FireballSize = 1.0f;
         private const float FireballGrowth = 0.025f;
         private const float FireballShrinkNormal = 0.005f;
@@ -45,6 +44,9 @@ namespace Combat.Abilities
         public new void Start()
         {
             base.Start();
+            
+            if(Fireball == null)
+                Fireball = GameObject.Find("Fireball");
             Timer = GetComponent<Timer>();
             Fireball.SetActive(false);
 
@@ -56,7 +58,7 @@ namespace Combat.Abilities
 
         private void Update()
         {
-            if (CurrentFireballPhase == FireballPhase.Growth)
+            if (CurrentPhase == FireballPhase.Growth)
                 FireballUpdate();
         }
 
@@ -75,7 +77,7 @@ namespace Combat.Abilities
 
                 if(IsFireballKeyDown())
                 {
-                    if(CurrentFireballCyclePhase == FireballCyclePhase.Unstable)
+                    if(CurrentCyclePhase == FireballCyclePhase.Unstable)
                     {
                         ShrinkFireball();
                         return;
@@ -119,7 +121,7 @@ namespace Combat.Abilities
             else if (Timer.IsFinished())
             {
                 if (CurrentFireballCycle == FireballCycles 
-                    && CurrentFireballCyclePhase == FireballCyclePhase.Normal)
+                    && CurrentCyclePhase == FireballCyclePhase.Normal)
                 {
                     CurrentDamage += (int)EvaluateFireballDamage();
                     Debug.Log(CurrentDamage);
@@ -127,28 +129,28 @@ namespace Combat.Abilities
                     return;
                 }
 
-                if (CurrentFireballCyclePhase == FireballCyclePhase.Normal)
+                if (CurrentCyclePhase == FireballCyclePhase.Normal)
                 {
-                    CurrentFireballCyclePhase = FireballCyclePhase.UnstableWarning;
+                    CurrentCyclePhase = FireballCyclePhase.UnstableWarning;
                     Timer.StartTimer(FireballUnstablingWarningDuration);
                     Fireball.GetComponent<Renderer>().material.color = Color.yellow;
                     return;
 
                 }
 
-                if (CurrentFireballCyclePhase == FireballCyclePhase.UnstableWarning)
+                if (CurrentCyclePhase == FireballCyclePhase.UnstableWarning)
                 {
-                    CurrentFireballCyclePhase = FireballCyclePhase.Unstable;
+                    CurrentCyclePhase = FireballCyclePhase.Unstable;
                     Timer.StartTimer(FireballUnstableDuration);
                     Fireball.GetComponent<Renderer>().material.color = Color.white;
                     return;
 
                 }
 
-                if (CurrentFireballCyclePhase == FireballCyclePhase.Unstable)
+                if (CurrentCyclePhase == FireballCyclePhase.Unstable)
                 {
                     CurrentFireballCycle += 1;
-                    CurrentFireballCyclePhase = FireballCyclePhase.Normal;
+                    CurrentCyclePhase = FireballCyclePhase.Normal;
                     Fireball.GetComponent<Renderer>().material.color = Color.red;
 
                     Timer.StartTimer(Random.Range(FireballGrowthMinDuration, FireballGrowthMaxDuration));
@@ -182,7 +184,7 @@ namespace Combat.Abilities
             
             StartCoroutine(LaunchFireball(victim));
 
-            CurrentFireballPhase = FireballPhase.Inactive;
+            CurrentPhase = FireballPhase.Inactive;
         }
 
         private IEnumerator LaunchFireball(GameObject target)
@@ -225,7 +227,7 @@ namespace Combat.Abilities
         {
             Debug.Log("ShrinkFireball");
 
-            FireballSize -= CurrentFireballCyclePhase == FireballCyclePhase.Unstable ? FireballShrinkUnstable : FireballShrinkNormal;
+            FireballSize -= CurrentCyclePhase == FireballCyclePhase.Unstable ? FireballShrinkUnstable : FireballShrinkNormal;
             if (FireballSize < 0)
                 FireballSize = 0f;
             FireballScalingElapsedTime = 0;
@@ -256,7 +258,7 @@ namespace Combat.Abilities
 
         private void StartFireballPhase()
         {
-            this.CurrentFireballPhase = FireballPhase.Growth;
+            this.CurrentPhase = FireballPhase.Growth;
 
             Fireball.SetActive(true);
             Fireball.transform.position = transform.position + FireballHeight * Vector3.up;
@@ -271,7 +273,7 @@ namespace Combat.Abilities
                 ExpectedDirection.Left
             };
 
-            CurrentFireballCyclePhase = FireballCyclePhase.Normal;
+            CurrentCyclePhase = FireballCyclePhase.Normal;
 
             Timer.StartTimer(Random.Range(FireballGrowthMinDuration, FireballGrowthMaxDuration));
         }

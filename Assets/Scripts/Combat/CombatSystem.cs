@@ -11,6 +11,8 @@ public class CombatSystem : MonoBehaviour
     public List<GameObject> EnemyCombatants;
     private int CurrentCombatantTurn;
 
+    private GameObject MainCamera;
+
     private GameObject CurrentCombatZone;
 
     [SerializeField]
@@ -21,6 +23,8 @@ public class CombatSystem : MonoBehaviour
     void Start()
     {
         AssetDatabase.Refresh(); // This will update all animators, fixes a bug with Git! 
+
+        MainCamera = GameObject.FindGameObjectWithTag("MainCamera");
     }
 
     void Update()
@@ -77,6 +81,9 @@ public class CombatSystem : MonoBehaviour
                 return false;
 
         Debug.Log("!!!!Allies Win!!!!");
+
+        MainCamera.GetComponent<CameraRig>().SetTargetGO(Sield);
+
         return true;
     }
 
@@ -99,7 +106,12 @@ public class CombatSystem : MonoBehaviour
         if (CurrentCombatantTurn > Combatants.Count)
             StartNewRound();
 
-        Combatants[CurrentCombatantTurn - 1].GetComponent<Combatant>().StartTurn();
+        var currentCombatant = Combatants[CurrentCombatantTurn - 1].GetComponent<Combatant>();
+
+        MainCamera.GetComponent<CameraRig>().SetTargetGO(currentCombatant.gameObject);
+
+        currentCombatant.StartTurn();
+
     }
 
     private void StartNewRound()
@@ -111,9 +123,9 @@ public class CombatSystem : MonoBehaviour
         Combatants.Sort(SortByTurnPriority); // TODO use case for updating priority?
 
         foreach (GameObject ally in AllyCombatants)
-            ally.transform.LookAt(EnemyCombatants[Random.Range(0, EnemyCombatants.Count - 1)].transform.position);
+            ally.transform.LookAt(EnemyCombatants[Random.Range(0, EnemyCombatants.Count)].transform.position);
         foreach (GameObject enemy in EnemyCombatants)
-            enemy.transform.LookAt(AllyCombatants[Random.Range(0, EnemyCombatants.Count - 1)].transform.position);
+            enemy.transform.LookAt(AllyCombatants[Random.Range(0, EnemyCombatants.Count)].transform.position);
 
         Combatants[CurrentCombatantTurn - 1].GetComponent<Combatant>().StartTurn();
     }

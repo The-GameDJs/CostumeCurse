@@ -15,17 +15,16 @@ public class SliderHandle : MonoBehaviour
     private BoxCollider2D GoodCollider;
     private BoxCollider2D PerfectCollider;
 
-    private float SliderSpeed = 300.0f;
+    private readonly float SliderSpeed = 300.0f;
     private int Clicks;
-    private int MaxClicks = 3;
+    private readonly int MaxClicks = 3;
     private int GoodClicks;
     private int PerfectClicks;
     private bool Arrived = false;
 
     private enum Click { None, Miss, Good, Perfect } 
-    private Click ClickPhase = Click.None;
 
-    private void Start()
+    public void Start()
     {
         HitTransform = HitArea.GetComponent<RectTransform>();
         SliderCollider = Slider.GetComponent<BoxCollider2D>();
@@ -51,19 +50,16 @@ public class SliderHandle : MonoBehaviour
             {
                 if(SliderCollider.IsTouching(PerfectCollider))
                 {
-                    ClickPhase = Click.Perfect;
                     PerfectClicks++;
                     Debug.Log("Perfect Hit");
                 }
                 else if(SliderCollider.IsTouching(GoodCollider))
                 {
-                    ClickPhase = Click.Good;
                     GoodClicks++;
                     Debug.Log("Good Hit");
                 }
                 else
                 {
-                    ClickPhase = Click.Miss;
                     Debug.Log("Missed Hit");
                 }
 

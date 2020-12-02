@@ -11,9 +11,7 @@ public class MagicShield : Ability
     private Timer Timer;
     private List<Button> Sequence = new List<Button>();
     private Queue<GameObject> Directions = new Queue<GameObject>();
-
-    [SerializeField]
-    private GameObject[] Arrows; // 0: Up, 1: Down, 2: Left, 3: Right 
+    private static GameObject[] Arrows; // 0: Up, 1: Down, 2: Left, 3: Right 
 
     private readonly float SequenceDuration = 2f;
     private readonly float InputDuration = 5f;
@@ -34,7 +32,16 @@ public class MagicShield : Ability
         base.Start();
         Timer = GetComponent<Timer>();
 
-        foreach(GameObject arrow in Arrows)
+        if (Arrows == null)
+        {
+            Arrows = new GameObject[4];
+            Arrows[0] = GameObject.Find("Up Arrow");
+            Arrows[1] = GameObject.Find("Down Arrow");
+            Arrows[2] = GameObject.Find("Left Arrow");
+            Arrows[3] = GameObject.Find("Right Arrow");
+        }
+
+        foreach (GameObject arrow in Arrows)
             arrow.SetActive(false);
 
         TargetSchema = new TargetSchema(

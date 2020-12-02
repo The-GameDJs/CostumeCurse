@@ -8,16 +8,32 @@ using UnityEngine.UI;
 
 public class EnemyCombatant : Combatant
 {
-    [SerializeField]
-    private GameObject EnemyPanel;
-    [SerializeField]
-    private GameObject EnemyUITemplate;
+    private static GameObject EnemyUIPanel;
+    private static GameObject EnemyUITemplate;
     private GameObject EnemyUI;
 
     private bool DisplayMessage;
 
     [SerializeField]
     private Ability[] Abilities;
+
+    new void Start()
+    {
+        base.Start();
+        if(EnemyUIPanel == null)
+        {
+            EnemyUIPanel = GameObject.Find("Enemy UI");
+            EnemyUITemplate = GameObject.Find("DefaultEnemyText");
+            EnemyUITemplate.SetActive(false);
+        }
+        
+        EnemyUI = Instantiate(EnemyUITemplate);
+        EnemyUI.transform.SetParent(EnemyUIPanel.transform);
+
+        Abilities = GetComponentsInChildren<Ability>();
+
+        HideUI();
+    }
 
     private new void Update()
     {
@@ -47,19 +63,6 @@ public class EnemyCombatant : Combatant
         EnemyUI.SetActive(DisplayMessage);
     }
 
-
-    new void Start()
-    {
-        base.Start();
-
-        EnemyUI = Instantiate(EnemyUITemplate);
-        EnemyUI.transform.SetParent(EnemyPanel.transform);
-
-        Abilities = GetComponentsInChildren<Ability>();
-
-        HideUI();
-    }
-
     protected override void TakeTurnWhileDead()
     {
         // TODO add some dead idling animation? 
@@ -73,7 +76,7 @@ public class EnemyCombatant : Combatant
         EnemyUI.GetComponent<Text>().text = "I Attak!";
 
         Debug.Log(Abilities.Length);
-        Abilities[Random.Range(0, Abilities.Length - 1)].StartAbility(false);
+        Abilities[Random.Range(0, Abilities.Length)].StartAbility(false);
     }
 
     // Deprecated

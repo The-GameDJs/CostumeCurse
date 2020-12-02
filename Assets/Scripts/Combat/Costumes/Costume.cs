@@ -5,23 +5,23 @@ using UnityEngine.UI;
 
 public class Costume : MonoBehaviour
 {
-    [SerializeField] private GameObject playerUIPanel;
-    private bool displayAbilities;
+    [SerializeField] private GameObject AbilitiesUIPanel;
+    private bool IsDisplayingAbilities;
 
     // TODO: Stop displaying abilities UI after a choice
 
     private void Update()
     {
-        if (displayAbilities)
+        if (IsDisplayingAbilities)
         {
             Vector3 relativeScreenPosition = Camera.main.WorldToScreenPoint(transform.position);
-            playerUIPanel.transform.position = relativeScreenPosition;
+            AbilitiesUIPanel.transform.position = relativeScreenPosition;
         }
     }
 
     public void DisplayAbilities(bool displayAbilities)
     {
-        this.displayAbilities = displayAbilities;
-        playerUIPanel.SetActive(displayAbilities);
+        IsDisplayingAbilities = displayAbilities;
+        AbilitiesUIPanel.SetActive(displayAbilities);
     }
 }

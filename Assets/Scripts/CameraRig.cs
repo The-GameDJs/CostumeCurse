@@ -121,8 +121,6 @@ public class CameraRig : MonoBehaviour
         }
         else
         {
-            Debug.Log($"Done! {Timer.GetProgress()}");
-
             Timer.ResetTimer();
 
             CurrentPhase = CameraPhase.NoTransition;

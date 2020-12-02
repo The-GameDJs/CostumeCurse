@@ -17,8 +17,8 @@ public class Confection : Ability
     [SerializeField] private Canvas BrewCanvas;
     [SerializeField] private Canvas BakeCanvas;
     private Text TimerText;
-    private CanvasGroup BrewCanvasGroup;
-    private CanvasGroup BakeCanvasGroup;
+    private static CanvasGroup BrewCanvasGroup;
+    private static CanvasGroup BakeCanvasGroup;
     private ItemSlot CookingPot;
     private SliderHandle SliderScript;
     private Timer Timer;
@@ -56,24 +56,27 @@ public class Confection : Ability
 
     private void StartUI()
     {
-        HandleBrewUI();
-        HandleBakeUI();
+        StartBrewUI();
+        StartBakeUI();
     }
 
-    private void HandleBrewUI()
+    private void StartBrewUI()
     {
         CookingPot = BrewCanvas.GetComponentInChildren<ItemSlot>();
         TimerText = BrewCanvas.GetComponentInChildren<Text>();
-        BrewCanvasGroup = BrewCanvas.GetComponent<CanvasGroup>();
+        
+        if (BrewCanvasGroup == null)
+            BrewCanvasGroup = BrewCanvas.GetComponent<CanvasGroup>();
         if(BrewCanvasGroup != null)
             EnableCanvas(BrewCanvas, false); //this disables both the canvas and canvasgroup
     }
 
-    private void HandleBakeUI()
+    private void StartBakeUI()
     {
         SliderScript = BakeCanvas.GetComponent<SliderHandle>();
         MaxClicks = SliderScript.GetMaxClicks();
-        BakeCanvasGroup = BakeCanvas.GetComponent<CanvasGroup>();
+        if (BakeCanvasGroup == null)
+            BakeCanvasGroup = BakeCanvas.GetComponent<CanvasGroup>();
         if(BakeCanvasGroup != null)
             EnableCanvas(BakeCanvas, false); //this disables both the canvas and canvasgroup
         SliderScript.enabled = false;
@@ -81,7 +84,8 @@ public class Confection : Ability
 
     private void EnableCanvas(Canvas canvas, bool enabled)
     {
-        canvas.enabled = enabled;
+        canvas.gameObject.SetActive(true);
+        //canvas.enabled = enabled;
         EnableCanvasGroup(canvas, enabled);
     }
 
@@ -185,7 +189,7 @@ public class Confection : Ability
 
         //Only deals damage to one enemy
         Attack attack = new Attack(CurrentDamage);
-        TargetedCombatants[Random.Range(0, TargetedCombatants.Length - 1)].GetComponent<Combatant>().Defend(attack);
+        TargetedCombatants[Random.Range(0, TargetedCombatants.Length)].GetComponent<Combatant>().Defend(attack);
         CombatSystem.EndTurn(this.GetComponentInParent<Combatant>().gameObject);
     }
 

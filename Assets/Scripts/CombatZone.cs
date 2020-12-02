@@ -9,7 +9,6 @@ public class CombatZone : MonoBehaviour
     private GameObject[] Enemies;
     [SerializeField]
     private GameObject[] EnemyPositions;
-    [SerializeField]
     private GameObject[] Players;
     [SerializeField]
     private GameObject[] PlayerPositions;
@@ -21,6 +20,14 @@ public class CombatZone : MonoBehaviour
     public void Start()
     {
         CombatSystem = GameObject.FindGameObjectWithTag("CombatSystem").GetComponent<CombatSystem>();
+        
+        if (Players == null)
+        {
+            Players = new GameObject[2];
+            Players[0] = GameObject.Find("Sield");
+            Players[1] = GameObject.Find("Ganiel");
+        }
+
     }
 
     void OnTriggerEnter(Collider other)
