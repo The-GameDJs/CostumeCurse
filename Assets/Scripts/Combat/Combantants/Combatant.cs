@@ -14,18 +14,30 @@ public abstract class Combatant : MonoBehaviour
     public int CurrentHealthPoints;
     public int MaxShieldPoints;
     public int CurrentShieldPoints;
-    private readonly float HealthBarPosition = 125f;
     protected CombatSystem CombatSystem;
     [SerializeField]
     GameObject HealthBarPrefab;
+    [SerializeField]
+    GameObject ShieldBarPrefab;
     [SerializeField]
     GameObject HealthBarUIPanel;
     [SerializeField]
     GameObject Shield;
 
     private GameObject HealthBar;
-    private HealthBar Bar;
+    private PointsBar RedBar;
     private Text HealthText;
+
+    private bool IsShieldSpawned;
+    private GameObject ShieldBar;
+    private PointsBar BlueBar;
+    private Text ShieldText;
+
+    private const float HealthBarYOffsetScaler = 1.25f;
+    private const float ShieldBarYOffsetScaler = 1.45f;
+
+    bool HasCharacterController;
+    float CharacterHeight;
 
     public bool IsAlive = true;
     private bool IsInCombat;
@@ -34,14 +46,26 @@ public abstract class Combatant : MonoBehaviour
     {
         CombatSystem = GameObject.FindGameObjectWithTag("CombatSystem").GetComponent<CombatSystem>();
         Shield.SetActive(false);
+        IsShieldSpawned = false;
         IsInCombat = false;
 
         HealthBar = Instantiate(HealthBarPrefab);
         HealthBar.transform.SetParent(HealthBarUIPanel.transform);
-        Bar = HealthBar.GetComponentInChildren<HealthBar>();
+        RedBar = HealthBar.GetComponentInChildren<PointsBar>();
         HealthText = HealthBar.GetComponentInChildren<Text>();
-        Bar.MaxHealth = MaxHealthPoints;
+        RedBar.MaxValue = MaxHealthPoints;
         HealthBar.SetActive(false);
+
+        if (GetComponent<CharacterController>() != null)
+        {
+            HasCharacterController = true;
+            CharacterHeight = GetComponent<CharacterController>().height / 2.0f;
+        }
+        else
+        {
+            CharacterHeight = GetComponent<Collider>().bounds.size.y;
+            Debug.Log("Bounds Y: " + CharacterHeight);
+        }
         
         CurrentHealthPoints = MaxHealthPoints;
     }
@@ -49,38 +73,63 @@ public abstract class Combatant : MonoBehaviour
     public void Update()
     {
         if(IsInCombat)
+        {
             UpdateHealthBar();
+            UpdateShieldBar();
+        }
     }
 
     private void UpdateHealthBar()
     {
-        Bar.NewHealth = CurrentHealthPoints;
+        RedBar.NewValue = CurrentHealthPoints;
         HealthText.text = $"{CurrentHealthPoints} / {MaxHealthPoints}";
         
-        Vector3 relativeScreenPosition = Camera.main.WorldToScreenPoint(transform.position);
-        relativeScreenPosition.y += HealthBarPosition;
+        UpdateHealthBarPosition();
+    }
+
+    private void UpdateShieldBar()
+    {
+        if (IsShieldSpawned && CurrentShieldPoints > 0)
+        {
+            ShieldBar.SetActive(true);
+            BlueBar.NewValue = CurrentShieldPoints;
+            ShieldText.text = $"{CurrentShieldPoints} / {MaxShieldPoints}";
+        
+            UpdateShieldBarPosition();
+        }
+        else if (CurrentShieldPoints <= 0 && IsShieldSpawned)
+        {
+            ShieldBar.SetActive(false);
+        }
+        // Only instantiates a shield if ability is called
+        else if (CurrentShieldPoints > 0)
+        {
+            IsShieldSpawned = true;
+            ShieldBar = Instantiate(ShieldBarPrefab);
+            ShieldBar.transform.SetParent(HealthBarUIPanel.transform);
+            BlueBar = ShieldBar.GetComponentInChildren<PointsBar>();
+            ShieldText = ShieldBar.GetComponentInChildren<Text>();
+            BlueBar.NewValue = CurrentHealthPoints;
+            BlueBar.MaxValue = MaxShieldPoints;
+            ShieldText.text = $"{CurrentShieldPoints} / {MaxShieldPoints}";
+        }
+
+    }
+
+    private void UpdateHealthBarPosition()
+    {
+        Vector3 yOffset = new Vector3 (0, CharacterHeight * HealthBarYOffsetScaler, 0);
+        Vector3 offsetPos = gameObject.transform.position + yOffset;
+        Vector3 relativeScreenPosition = Camera.main.WorldToScreenPoint(offsetPos);
         HealthBar.transform.position = relativeScreenPosition;
     }
 
-    
-    private void CopyOfUpdateHealthBar()
+    private void UpdateShieldBarPosition()
     {
-        string healthText;
-
-        if (CurrentShieldPoints > 0)
-            healthText = IsAlive ?
-                        $"{CurrentHealthPoints} / {MaxHealthPoints} Shield: {CurrentShieldPoints} / {MaxShieldPoints}" :
-                        "I've fallen and can't get up";
-
-        else
-            healthText = IsAlive ?
-                $"{CurrentHealthPoints} / {MaxHealthPoints}" :
-                "I've fallen and can't get up";
-
-        Vector3 relativeScreenPosition = Camera.main.WorldToScreenPoint(transform.position);
-        relativeScreenPosition.y += HealthBarPosition;
-        HealthBar.transform.position = relativeScreenPosition;
-        HealthBar.GetComponentInChildren<Text>().text = healthText;
+        Vector3 yOffset = new Vector3 (0, CharacterHeight * ShieldBarYOffsetScaler, 0);
+        Vector3 offsetPos = gameObject.transform.position + yOffset;
+        Vector3 relativeScreenPosition = Camera.main.WorldToScreenPoint(offsetPos);
+        ShieldBar.transform.position = relativeScreenPosition;
     }
 
     public void StartTurn()
