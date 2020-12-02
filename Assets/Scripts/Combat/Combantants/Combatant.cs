@@ -24,6 +24,8 @@ public abstract class Combatant : MonoBehaviour
     GameObject Shield;
 
     private GameObject HealthBar;
+    private HealthBar Bar;
+    private Text HealthText;
 
     public bool IsAlive = true;
     private bool IsInCombat;
@@ -36,8 +38,11 @@ public abstract class Combatant : MonoBehaviour
 
         HealthBar = Instantiate(HealthBarPrefab);
         HealthBar.transform.SetParent(HealthBarUIPanel.transform);
+        Bar = HealthBar.GetComponentInChildren<HealthBar>();
+        HealthText = HealthBar.GetComponentInChildren<Text>();
+        Bar.MaxHealth = MaxHealthPoints;
         HealthBar.SetActive(false);
-
+        
         CurrentHealthPoints = MaxHealthPoints;
     }
 
@@ -48,6 +53,17 @@ public abstract class Combatant : MonoBehaviour
     }
 
     private void UpdateHealthBar()
+    {
+        Bar.NewHealth = CurrentHealthPoints;
+        HealthText.text = $"{CurrentHealthPoints} / {MaxHealthPoints}";
+        
+        Vector3 relativeScreenPosition = Camera.main.WorldToScreenPoint(transform.position);
+        relativeScreenPosition.y += HealthBarPosition;
+        HealthBar.transform.position = relativeScreenPosition;
+    }
+
+    
+    private void CopyOfUpdateHealthBar()
     {
         string healthText;
 
