@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Threading;
 using UnityEngine;
@@ -26,6 +26,7 @@ public struct TargetSchema
 public class TargetSelector : MonoBehaviour
 {
     public CombatSystem CombatSystem;
+    private MouseSelect MouseSelector;
 
     private GameObject[] CurrentTargetedCombatants;
     private Ability CallingAbility;
@@ -33,6 +34,8 @@ public class TargetSelector : MonoBehaviour
 
     public void Start()
     {
+        MouseSelector = GetComponent<MouseSelect>();
+        MouseSelector.enabled = false;
         CombatSystem = GameObject.FindGameObjectWithTag("CombatSystem").GetComponent<CombatSystem>();
     }
 
@@ -53,15 +56,30 @@ public class TargetSelector : MonoBehaviour
         {
             // TODO do something else, add rest of options
             if (CurrentTargetSchema.CombatantType == CombatantType.Enemy)
-                TargetAllEnemies(userTargeting);
+                StartCoroutine(TargetSingleEnemy());
             else if (CurrentTargetSchema.CombatantType == CombatantType.Ally)
                 TargetAllAllies(userTargeting);
         }
     }
 
-    private void TargetSingleEnemy(bool userTargeting = true)
+    private IEnumerator TargetSingleEnemy()
     {
-        // TODO
+        MouseSelector.enabled = true;
+        
+        while (!MouseSelector.IsTargetSelected)
+        {
+            yield return null;
+        }
+
+        MouseSelector.enabled = false;
+
+        ReplyToCallingAbility();
+    }
+
+    public void ChooseTarget(GameObject target)
+    {
+        GameObject[] enemy = {target};
+        CurrentTargetedCombatants = enemy;
     }
 
     private void TargetAllEnemies(bool userTargeting = true)
