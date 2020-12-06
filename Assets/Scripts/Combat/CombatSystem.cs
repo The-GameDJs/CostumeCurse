@@ -147,7 +147,11 @@ public class CombatSystem : MonoBehaviour
            Quaternion.Euler(CurrentCombatZone.GetComponent<CombatZone>().CameraArea.Rotation));
 
         currentCombatant.StartTurn();
+    }
 
+    public void GoBackToAbilitySelect()
+    {
+        Combatants[CurrentCombatantTurn - 1].GetComponent<Combatant>().StartTurn();
     }
 
     private void StartNewRound()

@@ -47,7 +47,7 @@ public class TargetSelector : MonoBehaviour
         if (CurrentTargetSchema.SelectorType == SelectorType.All)
         {
             if (CurrentTargetSchema.CombatantType == CombatantType.Enemy)
-                TargetAllEnemies(userTargeting);
+                StartCoroutine(TargetAllEnemies());
             else if (CurrentTargetSchema.CombatantType == CombatantType.Ally)
                 TargetAllAllies(userTargeting);
         }
@@ -65,12 +65,23 @@ public class TargetSelector : MonoBehaviour
     private IEnumerator TargetSingleEnemy()
     {
         MouseSelector.enabled = true;
+        MouseSelector.IsSingleTargetting = true;
         
         while (!MouseSelector.IsTargetSelected)
         {
+            if (MouseSelector.IsRegrettingDecision)
+            {
+                MouseSelector.enabled = false;
+                Debug.Log("Regretting decision");
+                MouseSelector.IsRegrettingDecision = false;
+                CombatSystem.GoBackToAbilitySelect();
+                yield break;
+            }
             yield return null;
         }
-
+        
+        MouseSelector.IsSingleTargetting = false;
+        MouseSelector.IsTargetSelected = false;
         MouseSelector.enabled = false;
 
         ReplyToCallingAbility();
@@ -82,22 +93,34 @@ public class TargetSelector : MonoBehaviour
         CurrentTargetedCombatants = enemy;
     }
 
-    private void TargetAllEnemies(bool userTargeting = true)
+    private IEnumerator TargetAllEnemies()
     {
         GameObject[] enemies = CombatSystem.Combatants.
             Where(combatant => combatant.CompareTag("Enemy") && combatant.GetComponent<Combatant>().IsAlive).ToArray();
 
-        if (userTargeting)
+        MouseSelector.enabled = true;
+        
+        while (!MouseSelector.IsTargetSelected)
         {
-            // TODO highlight each enemy, wait for user selection
-            Thread.Sleep(500); // Fake the UI selection
+            if (MouseSelector.IsRegrettingDecision)
+            {
+                MouseSelector.enabled = false;
+                Debug.Log("Regretting decision");
+                MouseSelector.IsRegrettingDecision = false;
+                CombatSystem.GoBackToAbilitySelect();
+                yield break;
+            }
+            yield return null;
         }
+
+        MouseSelector.IsTargetSelected = false;
+        MouseSelector.enabled = false;
 
         CurrentTargetedCombatants = enemies;
         
         ReplyToCallingAbility();
     }
-
+    
     private void TargetAllAllies(bool userTargeting = true)
     {
         GameObject[] allies = CombatSystem.Combatants.
@@ -118,5 +141,4 @@ public class TargetSelector : MonoBehaviour
     {
         CallingAbility.SetTargetedCombatants(CurrentTargetedCombatants);
     }
-
 }
