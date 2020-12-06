@@ -7,11 +7,12 @@ public class MouseSelect : MonoBehaviour
     public GameObject SelectedObject;
     private TargetSelector TargetSelector;
     public LayerMask LayerMask;
-    public bool IsTargetSelected;
+    public bool IsTargetSelected = false;
+    public bool IsRegrettingDecision = false;
+    public bool IsSingleTargetting = false;
 
     void Start()
     {
-        IsTargetSelected = false;
         TargetSelector = GetComponent<TargetSelector>();
     }
 
@@ -28,6 +29,11 @@ public class MouseSelect : MonoBehaviour
         else 
         {
             ClearSelection();
+        }
+
+        if (Input.GetButtonDown("Fast Forward"))
+        {
+            IsRegrettingDecision = true;
         }
 
         if (SelectedObject != null && Input.GetButtonDown("Action Command"))
