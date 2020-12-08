@@ -12,24 +12,24 @@ public class CombatSystem : MonoBehaviour
     private int CurrentCombatantTurn;
 
     private GameObject MainCamera;
+    private CameraRig CameraRig;
 
     private GameObject CurrentCombatZone;
 
-    [SerializeField]
     private GameObject Sield;
-    [SerializeField]
     private GameObject Ganiel;
+
+    public bool IsInProgress = false;
 
     void Start()
     {
         AssetDatabase.Refresh(); // This will update all animators, fixes a bug with Git! 
 
         MainCamera = GameObject.FindGameObjectWithTag("MainCamera");
-    }
+        CameraRig = MainCamera.GetComponent<CameraRig>();
 
-    void Update()
-    {
-
+        Sield = GameObject.Find("Sield");
+        Ganiel = GameObject.Find("Sield");
     }
 
     private int SortByTurnPriority(GameObject combatant1, GameObject combatant2)
@@ -49,6 +49,8 @@ public class CombatSystem : MonoBehaviour
     // Called by CombatZone
     public void StartCombat(GameObject CombatZone, GameObject[] allies, GameObject[] enemies)
     {
+        IsInProgress = true;
+
         CurrentCombatZone = CombatZone;
         AllyCombatants = allies.ToList();
         EnemyCombatants = enemies.ToList();
@@ -60,7 +62,43 @@ public class CombatSystem : MonoBehaviour
 
     private void EndCombat()
     {
+        if (EnemiesWon())
+            OnEnemyWin();
+        else
+            OnAllyWin();
+
+        IsInProgress = false;
+    }
+
+    private void OnAllyWin()
+    {
+        Debug.Log("!!!!Allies Win!!!!");
+
         CurrentCombatZone.GetComponent<CombatZone>().DestroyCombatZone();
+
+        if (Sield != null)
+        {
+            CameraRig.SetTargetGO(Sield);
+            CameraRig.MoveCameraRelative(CameraRig.DefaultOffset, CameraRig.DefaultRotation);
+        }
+
+        else if (Ganiel != null)
+        {
+            CameraRig.SetTargetGO(Ganiel);
+            CameraRig.MoveCameraRelative(CameraRig.DefaultOffset, CameraRig.DefaultRotation);
+        }
+    }
+
+    private void OnEnemyWin()
+    {
+        Debug.Log("....Enemies Win....");
+
+        CurrentCombatZone.GetComponent<CombatZone>().DestroyCombatZone();
+
+        CameraRig.SetTransitionSmoothness(60);
+        CameraRig.MoveCameraAbsolute(
+            CameraRig.transform.position + 100 * Vector3.up,
+            Quaternion.Euler(Vector3.up));
     }
 
     public void EndTurn(GameObject combatant)
@@ -80,10 +118,6 @@ public class CombatSystem : MonoBehaviour
             if (enemy.GetComponent<EnemyCombatant>().IsAlive)
                 return false;
 
-        Debug.Log("!!!!Allies Win!!!!");
-
-        MainCamera.GetComponent<CameraRig>().SetTargetGO(Sield);
-
         return true;
     }
 
@@ -93,7 +127,6 @@ public class CombatSystem : MonoBehaviour
             if (ally.GetComponent<AllyCombatant>().IsAlive)
                 return false;
 
-        Debug.Log("....Enemies Win....");
         return true;
     }
 
@@ -108,7 +141,10 @@ public class CombatSystem : MonoBehaviour
 
         var currentCombatant = Combatants[CurrentCombatantTurn - 1].GetComponent<Combatant>();
 
-        MainCamera.GetComponent<CameraRig>().SetTargetGO(currentCombatant.gameObject);
+        CameraRig.SetTargetGO(currentCombatant.gameObject);
+        CameraRig.SetTransitionSmoothness(2);
+        CameraRig.MoveCameraRelative(CurrentCombatZone.GetComponent<CombatZone>().CameraArea.Offset,
+           Quaternion.Euler(CurrentCombatZone.GetComponent<CombatZone>().CameraArea.Rotation));
 
         currentCombatant.StartTurn();
 

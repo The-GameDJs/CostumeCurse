@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,7 +6,6 @@ public class CameraRig : MonoBehaviour
 {
     private enum CameraPhase { InTransition, NoTransition };
     private CameraPhase CurrentPhase;
-    private Camera MainCamera;
     
     private Timer Timer;
 
@@ -45,7 +44,6 @@ public class CameraRig : MonoBehaviour
         Smoothness = DefaultSmoothness;
 
         Timer = GetComponent<Timer>();
-        MainCamera = GetComponent<Camera>();
         CurrentPhase = CameraPhase.NoTransition;
     }
 
@@ -106,9 +104,11 @@ public class CameraRig : MonoBehaviour
 
     private void InTransitionUpdate()
     {
+        Debug.Log($"InTransitionUpdate {Smoothness}");
+
         if (Timer.IsInProgress())
         {
-            TargetPosition = IsRelativeToTargetGO ?
+            TargetPosition = IsRelativeToTargetGO && TargetGO != null ?
                 TargetGO.transform.position + TargetOffset :
                 TargetPosition;
 
@@ -131,7 +131,7 @@ public class CameraRig : MonoBehaviour
 
     private void NoTransitionUpdate()
     {
-        TargetPosition = IsRelativeToTargetGO ?
+        TargetPosition = IsRelativeToTargetGO && TargetGO != null ?
                         TargetGO.transform.position + TargetOffset :
                         TargetPosition;
 
