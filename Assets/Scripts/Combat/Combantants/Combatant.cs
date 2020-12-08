@@ -7,13 +7,11 @@ using UnityEngine.UI;
 
 public abstract class Combatant : MonoBehaviour
 {
-    [SerializeField]
-    public int TurnPriority;
-    [SerializeField]
-    public int MaxHealthPoints;
-    public int CurrentHealthPoints;
+    [SerializeField] public int TurnPriority;
+    [SerializeField] private int MaxHealthPoints;
+    private int CurrentHealthPoints;
     public int MaxShieldPoints;
-    public int CurrentShieldPoints;
+    private int CurrentShieldPoints;
     protected CombatSystem CombatSystem;
     
     protected static GameObject HealthBarPrefab;

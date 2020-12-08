@@ -14,12 +14,15 @@ public class CombatZone : MonoBehaviour
     private GameObject[] PlayerPositions;
     protected CombatSystem CombatSystem;
 
+    public CameraArea CameraArea;
+
 
     private bool CombatStarted;
 
     public void Start()
     {
         CombatSystem = GameObject.FindGameObjectWithTag("CombatSystem").GetComponent<CombatSystem>();
+        CameraArea = GetComponent<CameraArea>();
         
         if (Players == null)
         {
