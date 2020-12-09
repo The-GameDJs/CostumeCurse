@@ -13,18 +13,22 @@ public class ThunderStorm : Ability
 {
     private enum ThunderstormPhase { Cloud, Strike, Inactive }
 
+    [SerializeField] private GameObject Lightning;
     private static GameObject Thunder;
     private Timer Timer;
 
     private readonly int TotalThunderStrikes = 3;
     private int CurrentThunderStrike = 0;
 
+    [Header("Strike Parameters")]
     private readonly float TimeWindowForStrikes = 3.0f;
     private readonly float GoodStrikeTimeWindow = 1.5f;
     private readonly float PerfectStrikeTimeWindow = 0.5f;
     private readonly float StrikeTimeInterval = 2.0f;
 
+    [Header("Damage Parameters")]
     private int Presses;
+    private readonly float ThunderStormScale = 0.04f;
     private readonly float ThunderStormHeight = 7f;
     private readonly float ThunderCloudDuration = 5.0f;
     private readonly int ThunderCloudMinimumDamage = 10;
@@ -36,8 +40,12 @@ public class ThunderStorm : Ability
     private ThunderstormPhase CurrentPhase = ThunderstormPhase.Inactive;
     private GameObject CurrentVictim;
 
-    private readonly float ThunderCloudGrowthSpeed = 0.05f;
+    private readonly float ThunderCloudGrowthSpeed = 0.02f;
     private readonly float ThunderStrikeGrowthSpeed = 1.0f;
+
+    [Header("Components")]
+    private ParticleSystem particleComponent;
+    private ParticleSystem.MainModule mainModule;
 
     public new void Start()
     {
@@ -45,6 +53,8 @@ public class ThunderStorm : Ability
         if(Thunder == null)
             Thunder = GameObject.Find("Thunderstorm");
         Timer = GetComponent<Timer>();
+        particleComponent = Thunder.GetComponent<ParticleSystem>();
+        mainModule = particleComponent.main;
         Thunder.SetActive(false);
 
         TargetSchema = new TargetSchema(
@@ -78,7 +88,7 @@ public class ThunderStorm : Ability
         {
             float progress = Timer.GetProgress();
 
-            AnimateThunderstrike(progress);
+            //AnimateThunderstrike(progress);
 
             if (Input.GetButtonDown("Action Command"))
             {
@@ -90,11 +100,14 @@ public class ThunderStorm : Ability
 
         if (Timer.IsFinished())
         {
+            GameObject lightning = Instantiate(Lightning, Thunder.transform.position, Thunder.transform.rotation * Quaternion.Euler(180.0f, 0.0f, 0.0f));
+            //Destroy(lightning, 1.0f);W
+            
+
             CurrentPhase = ThunderstormPhase.Inactive;
             Thunder.SetActive(false);
 
-            Attack attack = new Attack((int) EvaluateThunderStrikeInput());
-            CurrentVictim.GetComponent<Combatant>().Defend(attack);
+            StartCoroutine(DamageVictim());
 
             if (CurrentThunderStrike < TotalThunderStrikes)
                 Invoke(nameof(NewThunderStrike), Random.Range(StrikeTimeInterval, 1.5f * StrikeTimeInterval));
@@ -106,16 +119,17 @@ public class ThunderStorm : Ability
     private void AnimateThunderstrike(float progress)
     {        
         if (progress <= TimeWindowForStrikes / 2.0f)
-            Thunder.transform.localScale += Vector3.one * ThunderStrikeGrowthSpeed * Time.deltaTime;
+            Thunder.transform.localScale += Vector3.one * ThunderStrikeGrowthSpeed * ThunderStormScale * Time.deltaTime;
         else
-            Thunder.transform.localScale -= Vector3.one * ThunderStrikeGrowthSpeed * Time.deltaTime;
+            Thunder.transform.localScale -= Vector3.one * ThunderStrikeGrowthSpeed * ThunderStormScale * Time.deltaTime;
 
-        if (WithinPerfectStrikeWindow(progress))
-            Thunder.GetComponent<Renderer>().material.color = Color.red;
-        else if (WithinGoodStrikeWindow(progress))
-            Thunder.GetComponent<Renderer>().material.color = Color.blue;
-        else
-            Thunder.GetComponent<Renderer>().material.color = Color.white;
+
+        //if (WithinPerfectStrikeWindow(progress))
+        //    Thunder.GetComponent<Renderer>().material.color = Color.red;
+        //else if (WithinGoodStrikeWindow(progress))
+        //    Thunder.GetComponent<Renderer>().material.color = Color.blue;
+        //else
+        //    Thunder.GetComponent<Renderer>().material.color = Color.white;
     }
 
     protected override void EndAbility()
@@ -148,12 +162,12 @@ public class ThunderStorm : Ability
         StartThunderStrikePhase();
     }
 
-    private void ThunderCloudMash()
+    private void ThunderCloudMash() // BUILD UP CLOUD MASH WITH CLICK
     {
         if (Input.GetButtonDown("Action Command"))
         {
             Presses++;
-            Thunder.transform.localScale += Vector3.one * ThunderCloudGrowthSpeed;
+            Thunder.transform.localScale += Vector3.one * ThunderCloudGrowthSpeed * ThunderStormScale;
         }
     }
 
@@ -169,7 +183,7 @@ public class ThunderStorm : Ability
 
         Thunder.SetActive(true);
         Thunder.transform.position = transform.position + ThunderStormHeight * Vector3.up;
-        Thunder.transform.localScale = Vector3.one;
+        Thunder.transform.localScale = Vector3.one * ThunderStormScale;
         Thunder.GetComponent<Renderer>().material.color = Color.white;
 
         Timer.StartTimer(ThunderCloudDuration);
@@ -206,7 +220,7 @@ public class ThunderStorm : Ability
         Debug.Log($"New thunderstrike, currently on # {CurrentThunderStrike}");
 
         Thunder.SetActive(true);
-        Thunder.transform.localScale = Vector3.one;
+        Thunder.transform.localScale = Vector3.one * ThunderStormScale;
 
         var possibleVictims = Array.FindAll(TargetedCombatants, combatant => combatant.GetComponent<Combatant>().IsAlive);
 
@@ -252,5 +266,15 @@ public class ThunderStorm : Ability
     {
         return timerValue >= ((TimeWindowForStrikes - PerfectStrikeTimeWindow) / 2.0f) &&
                     timerValue <= ((TimeWindowForStrikes + PerfectStrikeTimeWindow) / 2.0f);
+    }
+
+    private IEnumerator DamageVictim()
+    {
+        yield return new WaitForSeconds(2.0f);
+
+        Attack attack = new Attack((int)EvaluateThunderStrikeInput());
+        CurrentVictim.GetComponent<Combatant>().Defend(attack);
+
+        yield return new WaitForSeconds(1.0f);
     }
 }
