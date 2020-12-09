@@ -16,8 +16,8 @@ namespace Combat.Abilities
         private enum FireballCyclePhase { Normal, UnstableWarning, Unstable };
         private FireballCyclePhase CurrentCyclePhase = FireballCyclePhase.Normal;
 
+        [Header("Scaling")]
         private static GameObject Fireball;
-        private Timer Timer;
         private const float FireballGrowthMinDuration = 3.0f;
         private const float FireballGrowthMaxDuration = 5.0f;
         private const int FireballCycles = 3;
@@ -26,16 +26,24 @@ namespace Combat.Abilities
         private const float FireballUnstableDuration = 2.0f;
 
         private const float FireballHeight = 7f;
-        private float FireballSize = 1.0f;
+        private const float FireballScale = 0.15f;
+        private float TargetFireballSize = 0.15f;
         private const float FireballGrowth = 0.025f;
         private const float FireballShrinkNormal = 0.005f;
         private const float FireballShrinkUnstable = 0.15f;
         private const float FireballScalingSmoothness = 2f;
+        private const float FireballParticleSystemAdjustmentFactor = 0.25f;
         private float FireballScalingElapsedTime = 0;
 
+        [Header("Stats")]
         private const float FireballMaximumDamage = 100;
         private const float FireballMinimumDamage = 10;
         private const float FireballDifficultyCurve = 100;
+
+        [Header("Components")]
+        private Timer Timer;
+        private ParticleSystem particleComponent;
+        private ParticleSystem.MainModule mainModule;
 
         private enum ExpectedDirection { Up, Down, Right, Left};
         private List<ExpectedDirection> ExpectedDirections = new List<ExpectedDirection>();
@@ -48,6 +56,8 @@ namespace Combat.Abilities
             if(Fireball == null)
                 Fireball = GameObject.Find("Fireball");
             Timer = GetComponent<Timer>();
+            particleComponent = Fireball.GetComponent<ParticleSystem>();
+            mainModule = particleComponent.main;
             Fireball.SetActive(false);
 
             TargetSchema = new TargetSchema(
@@ -67,7 +77,7 @@ namespace Combat.Abilities
             float t = 1 / (Mathf.PI / 2) * Mathf.Atan(FireballScalingElapsedTime / FireballScalingSmoothness);
             Fireball.transform.localScale = Vector3.Lerp(
                 Fireball.transform.localScale, 
-                Vector3.one * FireballSize,
+                Vector3.one * TargetFireballSize,
                 t);
             FireballScalingElapsedTime += Time.deltaTime;
 
@@ -133,7 +143,7 @@ namespace Combat.Abilities
                 {
                     CurrentCyclePhase = FireballCyclePhase.UnstableWarning;
                     Timer.StartTimer(FireballUnstablingWarningDuration);
-                    Fireball.GetComponent<Renderer>().material.color = Color.yellow;
+                    mainModule.startColor = Color.yellow;
                     return;
 
                 }
@@ -142,16 +152,15 @@ namespace Combat.Abilities
                 {
                     CurrentCyclePhase = FireballCyclePhase.Unstable;
                     Timer.StartTimer(FireballUnstableDuration);
-                    Fireball.GetComponent<Renderer>().material.color = Color.white;
+                    mainModule.startColor = Color.white;
                     return;
-
                 }
 
                 if (CurrentCyclePhase == FireballCyclePhase.Unstable)
                 {
                     CurrentFireballCycle += 1;
                     CurrentCyclePhase = FireballCyclePhase.Normal;
-                    Fireball.GetComponent<Renderer>().material.color = Color.red;
+                    mainModule.startColor = Color.red;
 
                     Timer.StartTimer(Random.Range(FireballGrowthMinDuration, FireballGrowthMaxDuration));
                     return;
@@ -167,7 +176,7 @@ namespace Combat.Abilities
             float M = FireballMaximumDamage;
             float m = FireballMinimumDamage;
             float d = FireballDifficultyCurve;
-            float s = FireballSize > 1f ? FireballSize * 100 - 100 : 0;
+            float s = TargetFireballSize > 1f ? TargetFireballSize * 100 - 100 : 0;
 
             //// Please refer to https://www.desmos.com/calculator/ca9cqhpsto for curve
             float fireballDamage = (M - m) / (Mathf.PI / 2) * Mathf.Atan(s / d) + m;
@@ -221,7 +230,7 @@ namespace Combat.Abilities
             ExpectedDirections.Remove(currentKey);
             ExpectedDirections.Add(currentKey);
 
-            FireballSize += FireballGrowth;
+            TargetFireballSize += FireballGrowth * FireballParticleSystemAdjustmentFactor;
             FireballScalingElapsedTime = 0;
         }
 
@@ -229,9 +238,11 @@ namespace Combat.Abilities
         {
             Debug.Log("ShrinkFireball");
 
-            FireballSize -= CurrentCyclePhase == FireballCyclePhase.Unstable ? FireballShrinkUnstable : FireballShrinkNormal;
-            if (FireballSize < 0)
-                FireballSize = 0f;
+            TargetFireballSize -= CurrentCyclePhase == FireballCyclePhase.Unstable ? 
+                FireballShrinkUnstable * FireballParticleSystemAdjustmentFactor : 
+                FireballShrinkNormal * FireballParticleSystemAdjustmentFactor;
+            if (TargetFireballSize < 0)
+                TargetFireballSize = 0f;
             FireballScalingElapsedTime = 0;
         }
 
@@ -248,7 +259,8 @@ namespace Combat.Abilities
             Debug.Log("Starting fireball ability");
 
             CurrentDamage = 0;
-            FireballSize = 1f;
+            TargetFireballSize = FireballScale;
+            Fireball.transform.localScale = Vector3.one * TargetFireballSize;
             CurrentFireballCycle = 0;
 
             Animator.SetBool("IsFinishedCasting", false);
@@ -269,7 +281,8 @@ namespace Combat.Abilities
             Fireball.SetActive(true);
             Fireball.transform.position = transform.position + FireballHeight * Vector3.up;
             Fireball.transform.localScale = Vector3.one;
-            Fireball.GetComponent<Renderer>().material.color = Color.red;
+            ParticleSystem.MainModule main = GetComponent<ParticleSystem>().main;
+            mainModule.startColor = Color.red;
 
             ExpectedDirections = new List<ExpectedDirection>
             {
@@ -282,6 +295,11 @@ namespace Combat.Abilities
             CurrentCyclePhase = FireballCyclePhase.Normal;
 
             Timer.StartTimer(Random.Range(FireballGrowthMinDuration, FireballGrowthMaxDuration));
+        }
+
+        private void SetFireColor(Color col)
+        {
+            //colorModule.color = col;
         }
     }
 }
