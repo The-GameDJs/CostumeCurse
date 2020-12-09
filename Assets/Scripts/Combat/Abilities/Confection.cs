@@ -120,6 +120,9 @@ public class Confection : Ability
         base.StartAbility();
         Debug.Log("Started Confection Ability");
         EnableCanvas(BrewCanvas, true);
+        Animator.SetBool("IsFinishedCasting", false);
+        Animator.Play("Base Layer.Casting");
+
         CurrentDamage = 0;
     }
 
@@ -190,6 +193,9 @@ public class Confection : Ability
         //Only deals damage to one enemy
         Attack attack = new Attack(CurrentDamage);
         TargetedCombatants[Random.Range(0, TargetedCombatants.Length)].GetComponent<Combatant>().Defend(attack);
+
+        Animator.SetBool("IsFinishedCasting", true);
+
         CombatSystem.EndTurn(this.GetComponentInParent<Combatant>().gameObject);
     }
 

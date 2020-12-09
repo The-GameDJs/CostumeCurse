@@ -36,6 +36,8 @@ public abstract class Combatant : MonoBehaviour
     public bool IsAlive = true;
     private bool IsInCombat;
 
+    protected Animator Animator;
+
     public void Start()
     {
         CombatSystem = GameObject.FindGameObjectWithTag("CombatSystem").GetComponent<CombatSystem>();
@@ -44,6 +46,7 @@ public abstract class Combatant : MonoBehaviour
             Shield = GameObject.Find("Magic Shield");
             HealthBarPrefab = GameObject.Find("HealthBarPrefab");
             HealthBarUIPanel = GameObject.Find("HealthBarsUI");
+            ShieldBarPrefab = GameObject.Find("ShieldBarPrefab");
         }
         Shield.SetActive(false);
         IsShieldSpawned = false;
@@ -56,6 +59,7 @@ public abstract class Combatant : MonoBehaviour
         RedBar.MaxValue = MaxHealthPoints;
         HealthBar.SetActive(false);
         HealthBarPrefab.SetActive(false);
+        ShieldBarPrefab.SetActive(false);
 
         if (GetComponent<CharacterController>() != null)
         {
@@ -65,7 +69,9 @@ public abstract class Combatant : MonoBehaviour
         {
             CharacterHeight = GetComponent<Collider>().bounds.size.y;
         }
-        
+
+        Animator = GetComponent<Animator>();
+
         CurrentHealthPoints = MaxHealthPoints;
     }
 
@@ -160,9 +166,15 @@ public abstract class Combatant : MonoBehaviour
 
         else
             CurrentHealthPoints -= damage;
-        
+
         if (CurrentHealthPoints <= 0)
-            IsAlive = false;
+            Die();
+    }
+
+    private void Die()
+    {
+        IsAlive = false;
+        Animator.Play("Base Layer.Death");
     }
 
     public void ApplyShield(int shieldHealth)
@@ -206,4 +218,25 @@ public abstract class Combatant : MonoBehaviour
     {
         GetComponentInChildren<Bonk>().DealBonkDamage();
     }
+
+    public void OnDeathAnimationFinish()
+    {
+
+    }
+
+    public void OnHurtFinish()
+    {
+        // Nothing for now....
+    }
+
+    public void OnCastFinish()
+    {
+
+    }
+
+    public void OnShoot()
+    {
+
+    }
+
 }

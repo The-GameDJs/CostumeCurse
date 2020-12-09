@@ -104,8 +104,6 @@ public class CameraRig : MonoBehaviour
 
     private void InTransitionUpdate()
     {
-        Debug.Log($"InTransitionUpdate {Smoothness}");
-
         if (Timer.IsInProgress())
         {
             TargetPosition = IsRelativeToTargetGO && TargetGO != null ?

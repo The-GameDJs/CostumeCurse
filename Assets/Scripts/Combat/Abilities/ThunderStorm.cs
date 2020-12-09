@@ -56,7 +56,10 @@ public class ThunderStorm : Ability
     public new void StartAbility(bool userTargeting = false)
     {
         Presses = 0;
-        
+
+        Animator.SetBool("IsFinishedCasting", false);
+        Animator.Play("Base Layer.Casting");
+
         base.StartAbility();
     }
 
@@ -118,6 +121,8 @@ public class ThunderStorm : Ability
     protected override void EndAbility()
     {
         Thunder.SetActive(false);
+
+        Animator.SetBool("IsFinishedCasting", true);
 
         CombatSystem.EndTurn(this.GetComponentInParent<Combatant>().gameObject);
     }

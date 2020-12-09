@@ -53,6 +53,9 @@ public class MagicShield : Ability
     new public void StartAbility(bool userTargeting = false)
     {
         CorrectInputs = 0;
+        Animator.SetBool("IsFinishedCasting", false);
+        Animator.Play("Base Layer.Casting");
+
         base.StartAbility();
     }
 
@@ -76,6 +79,8 @@ public class MagicShield : Ability
 
         foreach (GameObject target in TargetedCombatants)
             target.GetComponent<Combatant>().ApplyShield(MagicShieldHealth);
+
+        Animator.SetBool("IsFinishedCasting", true);
 
         CombatSystem.EndTurn(this.GetComponentInParent<Combatant>().gameObject);
 

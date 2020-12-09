@@ -105,6 +105,8 @@ public class EnemyCombatant : Combatant
 
     public override void Defend(Attack attack)
     {
+        Animator.Play("Base Layer.Hurt");
+
         TakeDamage(attack.Damage);
     }
 }
