@@ -5,7 +5,7 @@ using UnityEngine;
 public class TargetIndicator : MonoBehaviour
 {
     private MouseSelect MouseSelector;
-    private const float IndicatorScaler = 1.25f;
+    private const float IndicatorScale = 1.25f;
 
     void Start()
     {
@@ -15,10 +15,10 @@ public class TargetIndicator : MonoBehaviour
     void Update()
     {
         if(MouseSelector.SelectedObject != null) {
-			Bounds objBounds = MouseSelector.SelectedObject.GetComponent<Collider>().bounds;
+			Bounds bounds = MouseSelector.SelectedObject.GetComponent<Collider>().bounds;
 
-			transform.position = new Vector3(objBounds.center.x, MouseSelector.SelectedObject.transform.position.y, objBounds.center.z);
-			transform.localScale = objBounds.size * IndicatorScaler;
+			transform.position = new Vector3(bounds.center.x, MouseSelector.SelectedObject.transform.position.y, bounds.center.z);
+			transform.localScale = bounds.size * IndicatorScale;
 		}
     }
 }

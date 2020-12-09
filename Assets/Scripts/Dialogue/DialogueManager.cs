@@ -10,7 +10,7 @@ public class DialogueManager : MonoBehaviour
     private Line ActiveLine;
     private int ActiveLineIndex;
     private GameObject CurrentSpeaker;
-    private const float YOffsetScaler = 1.45f;
+    private const float YOffsetScale = 1.45f;
 
     private bool DisplayDialogueBubble;
 
@@ -69,7 +69,7 @@ public class DialogueManager : MonoBehaviour
     // Displays the bubble on top of the NPC
     void UpdateDialogueBubblePosition()
     {
-        var yOffset = CurrentSpeaker.GetComponent<Collider>().bounds.size.y * YOffsetScaler;
+        var yOffset = CurrentSpeaker.GetComponent<Collider>().bounds.size.y * YOffsetScale;
         Vector3 offsetPos = new Vector3(CurrentSpeaker.transform.position.x, CurrentSpeaker.transform.position.y + yOffset, CurrentSpeaker.transform.position.z);
         Vector3 relativeScreenPosition = Camera.main.WorldToScreenPoint(offsetPos);
         DialogueUI.transform.position = relativeScreenPosition;

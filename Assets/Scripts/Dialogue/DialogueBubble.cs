@@ -21,7 +21,7 @@ public class DialogueBubble : MonoBehaviour
     private Animator ArrowAnim;
     private GameObject Arrow;
     private RectTransform RectTrans;
-    private const float WidthOffsetScaler = 3.0f;
+    private const float WidthOffsetScale = 3.0f;
 
     private float AngleMultiplier = 1.0f;
     private float CurveScale = 5.0f;
@@ -58,7 +58,7 @@ public class DialogueBubble : MonoBehaviour
         }
 
         // Update arrow position
-        Arrow.transform.position = new Vector3(transform.position.x + RectTrans.rect.width / WidthOffsetScaler, transform.position.y, 0);
+        Arrow.transform.position = new Vector3(transform.position.x + RectTrans.rect.width / WidthOffsetScale, transform.position.y, 0);
     }
 
     public void Display(string text)

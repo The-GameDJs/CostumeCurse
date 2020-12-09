@@ -39,22 +39,28 @@ public class MouseSelect : MonoBehaviour
         if (SelectedObject != null && Input.GetButtonDown("Action Command"))
         {
             Debug.Log("Selected target");
-            TargetSelector.ChooseTarget(SelectedObject);
+            
+            if (IsSingleTargetting)
+                TargetSelector.ChooseTarget(SelectedObject);
+
             IsTargetSelected = true;
         }
     }
 
-    void SelectTarget(GameObject obj)
+    void SelectTarget(GameObject target)
     {
-        if (SelectedObject != null)
+        if(target.GetComponent<Combatant>().IsAlive)
         {
-            if (obj == SelectedObject)
-                return;
+            if (SelectedObject != null)
+            {
+                if (target == SelectedObject)
+                    return;
 
-            ClearSelection();
+                ClearSelection();
+            }
+
+            SelectedObject = target;
         }
-
-        SelectedObject = obj;
     }
 
     void ClearSelection()

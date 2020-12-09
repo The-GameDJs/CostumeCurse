@@ -28,8 +28,8 @@ public abstract class Combatant : MonoBehaviour
     private PointsBar BlueBar;
     private Text ShieldText;
 
-    private const float HealthBarYOffsetScaler = 1.25f;
-    private const float ShieldBarYOffsetScaler = 1.45f;
+    private const float HealthBarYOffsetScale = 1.25f;
+    private const float ShieldBarYOffsetScale = 1.45f;
 
     float CharacterHeight;
 
@@ -117,7 +117,7 @@ public abstract class Combatant : MonoBehaviour
 
     private void UpdateHealthBarPosition()
     {
-        Vector3 yOffset = new Vector3 (0, CharacterHeight * HealthBarYOffsetScaler, 0);
+        Vector3 yOffset = new Vector3 (0, CharacterHeight * HealthBarYOffsetScale, 0);
         Vector3 offsetPos = gameObject.transform.position + yOffset;
         Vector3 relativeScreenPosition = Camera.main.WorldToScreenPoint(offsetPos);
         HealthBar.transform.position = relativeScreenPosition;
@@ -125,7 +125,7 @@ public abstract class Combatant : MonoBehaviour
 
     private void UpdateShieldBarPosition()
     {
-        Vector3 yOffset = new Vector3 (0, CharacterHeight * ShieldBarYOffsetScaler, 0);
+        Vector3 yOffset = new Vector3 (0, CharacterHeight * ShieldBarYOffsetScale, 0);
         Vector3 offsetPos = gameObject.transform.position + yOffset;
         Vector3 relativeScreenPosition = Camera.main.WorldToScreenPoint(offsetPos);
         ShieldBar.transform.position = relativeScreenPosition;
