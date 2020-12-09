@@ -17,12 +17,18 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         Canvas = GetComponentInParent<Canvas>();
         RectTransform = GetComponent<RectTransform>();
         CanvasGroup = GetComponent<CanvasGroup>();
-        OriginalPos = RectTransform.localPosition;
+    }
+
+    public void InitializeStartingPosition()
+    {
+        OriginalPos = this.gameObject.transform.position;
     }
 
     public void ResetPosition()
     {
-        RectTransform.localPosition = OriginalPos;
+        Debug.Log("ResetPosition");
+        this.gameObject.transform.position = OriginalPos;
+        GetComponent<CanvasGroup>().blocksRaycasts = true;
         IsInside = false;
     }
 
@@ -34,8 +40,10 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     public void OnDrag(PointerEventData eventData)
     {
         // TODO: possibly snap back to original position ?
-        if(!IsInside) // for sweets/rots
-            RectTransform.anchoredPosition += eventData.delta / Canvas.scaleFactor;
+        if (!IsInside) {
+            Vector2 delta = eventData.delta;
+            this.gameObject.transform.position += new Vector3(delta.x, delta.y, 0);
+        }
     }
 
     public void OnEndDrag(PointerEventData eventData)

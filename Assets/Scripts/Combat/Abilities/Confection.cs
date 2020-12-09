@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.Combat;
+using Assets.Scripts.Combat;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -36,8 +36,8 @@ public class Confection : Ability
     private readonly int BaseDamage = 20;
     private readonly int RottenDamage = -10;
     private readonly int SweetsDamage = 30;
-    private readonly float BakePerfectDamageBonus = 1.15f;
-    private readonly float BakeGoodDamageBonus = 1.05f;
+    private readonly float BakePerfectDamageBonus = 0.15f;
+    private readonly float BakeGoodDamageBonus = 0.05f;
     private int CurrentDamage;
     private Phase CookingAbilityPhase = Phase.Inactive;
 
@@ -49,9 +49,9 @@ public class Confection : Ability
         StartUI();
 
         TargetSchema = new TargetSchema(
-            0,
+            1,
             CombatantType.Enemy,
-            SelectorType.All);
+            SelectorType.Number);
     }
 
     private void StartUI()
@@ -119,11 +119,6 @@ public class Confection : Ability
     {
         base.StartAbility();
         Debug.Log("Started Confection Ability");
-        EnableCanvas(BrewCanvas, true);
-        Animator.SetBool("IsFinishedCasting", false);
-        Animator.Play("Base Layer.Casting");
-
-        CurrentDamage = 0;
     }
 
     private void Update()
@@ -174,7 +169,7 @@ public class Confection : Ability
         Debug.Log($"Brew Complete with candy: {SweetsDropped}");
         Debug.Log($"Brew Complete with rots: {RotsDropped}");
 
-        CurrentDamage = (int) CalculateBrewDamage();
+        CalculateBrewDamage();
         ResetBrewComponents();
         EnableCanvas(BrewCanvas, false);
 
@@ -201,7 +196,14 @@ public class Confection : Ability
 
     protected override void ContinueAbilityAfterTargeting()
     {
-        Debug.Log("Calling ContinueAbility()"); //TODO: This doesn't get called the second time around
+        Debug.Log("Calling ContinueAbility()");
+
+        EnableCanvas(BrewCanvas, true);
+        Animator.SetBool("IsFinishedCasting", false);
+        Animator.Play("Base Layer.Casting");
+
+        CurrentDamage = 0;
+
         StartBrewPhase();
     }
 
@@ -211,7 +213,7 @@ public class Confection : Ability
         SweetsDropped = 0;
         RotsDropped = 0;
 
-        if(BrewCanvas != null)
+        if (BrewCanvas != null)
         {
             //Move canvas to middle of the screen
             Vector3 relativeScreenPosition = Camera.main.WorldToScreenPoint(transform.position);
@@ -221,6 +223,12 @@ public class Confection : Ability
         else
         { 
             Debug.Log("Canvas is Null in StartBrewPhase()"); 
+        }
+
+        DragAndDrop[] allChildren = BrewCanvas.GetComponentsInChildren<DragAndDrop>();
+        foreach (DragAndDrop child in allChildren)
+        {
+            child.InitializeStartingPosition();
         }
 
         Timer.StartTimer(BrewDuration);
@@ -248,28 +256,35 @@ public class Confection : Ability
         Timer.StartTimer(BakeDuration);
     }
 
-    private float CalculateBrewDamage()
+    private void CalculateBrewDamage()
     {
-        CurrentDamage = (SweetsDropped * SweetsDamage) + (RotsDropped * RottenDamage);
-        Mathf.Max(BaseDamage, CurrentDamage);
+        var sweetsBaseDamage = SweetsDropped * SweetsDamage;
+        var rotsBaseDamage = RotsDropped * RottenDamage;
+
+        CurrentDamage = sweetsBaseDamage + rotsBaseDamage;
+        
+        if (CurrentDamage < BaseDamage)
+            CurrentDamage = BaseDamage;
 
         Debug.Log("Damage after Brew " + CurrentDamage);
-        return CurrentDamage;
     }
 
     private void CalculateBakeDamage()
     {
-        if(GoodClicks > 0 || PerfectClicks > 0)
-        {
-            float temp = (GoodClicks * BakeGoodDamageBonus * CurrentDamage) + (PerfectClicks * BakePerfectDamageBonus * CurrentDamage);
-            CurrentDamage = (int) temp;
-        }
+        var bakeDamageMultiplier = 1f;
+        bakeDamageMultiplier += GoodClicks * BakeGoodDamageBonus;
+        bakeDamageMultiplier += PerfectClicks * BakePerfectDamageBonus;
+
+        CurrentDamage = (int) (bakeDamageMultiplier * CurrentDamage);
 
         Debug.Log("Damage after Bake " + CurrentDamage);
     }
 
     private void ResetBrewComponents()
     {
+        foreach (Transform child in BrewCanvas.transform)
+            child.gameObject.SetActive(true);
+
         DragAndDrop[] allChildren = BrewCanvas.GetComponentsInChildren<DragAndDrop>();
         foreach (DragAndDrop child in allChildren)
         {

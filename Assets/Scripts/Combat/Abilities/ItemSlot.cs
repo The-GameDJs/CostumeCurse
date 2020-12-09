@@ -10,15 +10,21 @@ public class ItemSlot : MonoBehaviour, IDropHandler
     private int SweetsDropped = 0;
     private int RotsDropped = 0;
 
+    private Collider2D Collider2D;
+
+    public void Start()
+    {
+        Collider2D = GetComponent<Collider2D>();
+    }
+
     public void OnDrop(PointerEventData eventData)
     {
-        if(eventData.pointerDrag != null)
+        Debug.Log("ON DROP!!");
+        if (eventData.pointerDrag != null)
         {
-            if (eventData.pointerDrag.GetComponent<BoxCollider2D>().IsTouching(GetComponent<BoxCollider2D>()))
-            {
-                eventData.pointerDrag.GetComponent<RectTransform>().anchoredPosition = GetComponent<RectTransform>().anchoredPosition;
-                HandleCookingPot(eventData);
-            }
+            Debug.Log("Dropped object was: " + eventData.pointerDrag.name);
+            Debug.Log("Dropped object pos: " + eventData.pointerDrag.gameObject.transform.position);
+            HandleCookingPot(eventData);
         }
     }
 
@@ -38,6 +44,8 @@ public class ItemSlot : MonoBehaviour, IDropHandler
                 eventData.pointerDrag.GetComponent<DragAndDrop>().SetIsInside(true);
             }
         }
+
+        eventData.pointerDrag.SetActive(false);
     }
 
     public void ResetValues()
