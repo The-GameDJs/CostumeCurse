@@ -84,7 +84,7 @@ public class Confection : Ability
 
     private void EnableCanvas(Canvas canvas, bool enabled)
     {
-        canvas.gameObject.SetActive(true);
+        canvas.gameObject.SetActive(enabled);
         //canvas.enabled = enabled;
         EnableCanvasGroup(canvas, enabled);
     }
@@ -195,6 +195,7 @@ public class Confection : Ability
 
     protected override void ContinueAbilityAfterTargeting()
     {
+        Debug.Log("Calling ContinueAbility()"); //TODO: This doesn't get called the second time around
         StartBrewPhase();
     }
 

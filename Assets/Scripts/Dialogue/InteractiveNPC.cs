@@ -15,7 +15,7 @@ public class InteractiveNPC : MonoBehaviour
     
     private Animator DialogueIndicatorAnim;
     private GameObject DialogueIndicatorUI;
-    private const float IndicatorOffsetScaler = 1.35f;
+    private const float IndicatorOffsetScale = 1.35f;
 
     void Start()
     {
@@ -77,8 +77,8 @@ public class InteractiveNPC : MonoBehaviour
 
     void UpdateDialogueIndicatorPosition()
     {
-        var yOffset = Player.GetComponent<Collider>().bounds.size.y * IndicatorOffsetScaler;
-        var xOffset = Player.GetComponent<Collider>().bounds.size.x * IndicatorOffsetScaler;
+        var yOffset = Player.GetComponent<Collider>().bounds.size.y * IndicatorOffsetScale;
+        var xOffset = Player.GetComponent<Collider>().bounds.size.x * IndicatorOffsetScale;
         Vector3 offsetPos = new Vector3(Player.transform.position.x + xOffset, Player.transform.position.y + yOffset, Player.transform.position.z);
         Vector3 relativeScreenPosition = Camera.main.WorldToScreenPoint(offsetPos);
         DialogueIndicatorUI.transform.position = relativeScreenPosition;
