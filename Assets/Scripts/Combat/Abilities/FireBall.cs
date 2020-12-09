@@ -280,7 +280,7 @@ namespace Combat.Abilities
 
             Fireball.SetActive(true);
             Fireball.transform.position = transform.position + FireballHeight * Vector3.up;
-            Fireball.transform.localScale = Vector3.one;
+            Fireball.transform.localScale = Vector3.one * FireballScale;
             ParticleSystem.MainModule main = GetComponent<ParticleSystem>().main;
             mainModule.startColor = Color.red;
 
