@@ -1327,8 +1327,8 @@ GameObject:
   - component: {fileID: 5565676062077663811}
   - component: {fileID: 445950430552367694}
   m_Layer: 0
-  m_Name: GanielCostumed
-  m_TagString: Untagged
+  m_Name: Ganiel
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1442,9 +1442,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TurnPriority: 1
   MaxHealthPoints: 700
-  CurrentHealthPoints: 700
   MaxShieldPoints: 0
-  CurrentShieldPoints: 0
   IsAlive: 1
   costume: {fileID: 5921640282964799081}
 --- !u!1 &5027994401601085530
@@ -2172,6 +2170,18 @@ PrefabInstance:
       value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 8237115000342722388, guid: e19b05be92dab1b4284a9e5a9c3441f3, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.0447761
+      objectReference: {fileID: 0}
+    - target: {fileID: 8237115000342722388, guid: e19b05be92dab1b4284a9e5a9c3441f3, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.0447761
+      objectReference: {fileID: 0}
+    - target: {fileID: 8237115000342722388, guid: e19b05be92dab1b4284a9e5a9c3441f3, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.0447761
+      objectReference: {fileID: 0}
+    - target: {fileID: 8237115000342722388, guid: e19b05be92dab1b4284a9e5a9c3441f3, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.9383416
       objectReference: {fileID: 0}
@@ -2210,18 +2220,6 @@ PrefabInstance:
     - target: {fileID: 8237115000342722388, guid: e19b05be92dab1b4284a9e5a9c3441f3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8237115000342722388, guid: e19b05be92dab1b4284a9e5a9c3441f3, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.0447761
-      objectReference: {fileID: 0}
-    - target: {fileID: 8237115000342722388, guid: e19b05be92dab1b4284a9e5a9c3441f3, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.0447761
-      objectReference: {fileID: 0}
-    - target: {fileID: 8237115000342722388, guid: e19b05be92dab1b4284a9e5a9c3441f3, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1.0447761
       objectReference: {fileID: 0}
     - target: {fileID: 8244650463296824930, guid: e19b05be92dab1b4284a9e5a9c3441f3, type: 3}
       propertyPath: BakeCanvas

@@ -10,12 +10,15 @@ public abstract class Ability : MonoBehaviour
 
     public TargetSchema TargetSchema;
 
-    public GameObject[] TargetedCombatants;
+    protected GameObject[] TargetedCombatants;
+
+    protected Animator Animator;
 
     public void Start()
     {
         TargetSelector = GameObject.FindGameObjectWithTag("TargetSelector").GetComponent<TargetSelector>();
         CombatSystem = GameObject.FindGameObjectWithTag("CombatSystem").GetComponent<CombatSystem>();
+        Animator = GetComponentInParent<Animator>();
     }
 
     public void StartAbility(bool userTargeting = true)

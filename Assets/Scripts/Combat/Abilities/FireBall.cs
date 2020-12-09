@@ -184,6 +184,8 @@ namespace Combat.Abilities
             
             StartCoroutine(LaunchFireball(victim));
 
+            Animator.SetBool("IsFinishedCasting", true);
+
             CurrentPhase = FireballPhase.Inactive;
         }
 
@@ -248,6 +250,10 @@ namespace Combat.Abilities
             CurrentDamage = 0;
             FireballSize = 1f;
             CurrentFireballCycle = 0;
+
+            Animator.SetBool("IsFinishedCasting", false);
+            Animator.Play("Base Layer.Casting");
+            Debug.Log($"Am I loopy? {Animator.GetCurrentAnimatorStateInfo(0).loop}");
 
             base.StartAbility();
         }

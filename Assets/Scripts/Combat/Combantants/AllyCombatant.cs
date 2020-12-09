@@ -41,11 +41,13 @@ public class AllyCombatant : Combatant
 
     public override void EndTurn()
     {
-        throw new System.NotImplementedException();
+        return;
     }
 
     public override void Defend(Attack attack)
     {
+        Animator.Play("Base Layer.Hurt");
+
         TakeDamage(attack.Damage);
     }
 
