@@ -93,6 +93,7 @@ GameObject:
   - component: {fileID: 4971789867722124430}
   - component: {fileID: 7141494885800368196}
   - component: {fileID: 325529476472972084}
+  - component: {fileID: 3347614819827368214}
   m_Layer: 0
   m_Name: TombDestroyed
   m_TagString: Untagged
@@ -177,3 +178,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.005347593, y: 0.016556695, z: 0.009709855}
   m_Center: {x: -0.000007782578, y: 0.000024809839, z: 0.0034033263}
+--- !u!114 &3347614819827368214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8654603136646379921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6fc9ba6ced1a2443942fa37ddde4ba8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MinDistance: 3.5
+  MinDistanceForCheck: 5
+  Conversation: {fileID: 11400000, guid: 8f8e0380bc8ba1247b89f48be7458a0e, type: 2}

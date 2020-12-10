@@ -11,7 +11,9 @@ public class InteractiveNPC : MonoBehaviour
     public float MinDistanceForCheck = 5f;
     private DialogueManager DialogueManager;
     public Conversation Conversation;
-    private GameObject Player;
+    //private GameObject Player;
+    private GameObject Sield;
+
     
     private Animator DialogueIndicatorAnim;
     private GameObject DialogueIndicatorUI;
@@ -20,7 +22,8 @@ public class InteractiveNPC : MonoBehaviour
     void Start()
     {
         DialogueManager = GameObject.FindGameObjectWithTag("DialogueManager").GetComponent<DialogueManager>();
-        Player = GameObject.FindWithTag("Player");
+        //Player = GameObject.FindWithTag("Player");
+        Sield = GameObject.Find("Sield");
         IsConversationActive = false;
         IsPlayerInRange = false;
         DistanceBetweenPlayer = 0f;
@@ -46,7 +49,7 @@ public class InteractiveNPC : MonoBehaviour
 
     void CheckIfInRange()
     {
-        DistanceBetweenPlayer = Vector3.Distance(Player.transform.position, transform.position);
+        DistanceBetweenPlayer = Vector3.Distance(Sield.transform.position, transform.position);
 
         // Prevents other InteractableNPC objects from checking if not in a
         // minimum check distance
@@ -77,9 +80,9 @@ public class InteractiveNPC : MonoBehaviour
 
     void UpdateDialogueIndicatorPosition()
     {
-        var yOffset = Player.GetComponent<Collider>().bounds.size.y * IndicatorOffsetScale;
-        var xOffset = Player.GetComponent<Collider>().bounds.size.x * IndicatorOffsetScale;
-        Vector3 offsetPos = new Vector3(Player.transform.position.x + xOffset, Player.transform.position.y + yOffset, Player.transform.position.z);
+        var yOffset = Sield.GetComponent<Collider>().bounds.size.y * IndicatorOffsetScale;
+        var xOffset = Sield.GetComponent<Collider>().bounds.size.x * IndicatorOffsetScale;
+        Vector3 offsetPos = new Vector3(Sield.transform.position.x + xOffset, Sield.transform.position.y + yOffset, Sield.transform.position.z);
         Vector3 relativeScreenPosition = Camera.main.WorldToScreenPoint(offsetPos);
         DialogueIndicatorUI.transform.position = relativeScreenPosition;
     }

@@ -235,9 +235,11 @@ GameObject:
   m_Component:
   - component: {fileID: 5803857789881976723}
   - component: {fileID: 6611461568531848488}
-  m_Layer: 11
+  - component: {fileID: 2792684685972210201}
+  - component: {fileID: 4275822991761442816}
+  m_Layer: 0
   m_Name: Ghost
-  m_TagString: Untagged
+  m_TagString: OtherNPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -249,15 +251,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6611461568531848489}
-  m_LocalRotation: {x: -0, y: 0.99181384, z: -0, w: 0.12769249}
-  m_LocalPosition: {x: 804.2012, y: 199.54, z: 634.98645}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3187322280374392589}
   - {fileID: 8046325309716937173}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 165.327, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &6611461568531848488
 Animator:
   serializedVersion: 3
@@ -277,6 +279,35 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &2792684685972210201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6611461568531848489}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6fc9ba6ced1a2443942fa37ddde4ba8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MinDistance: 3.5
+  MinDistanceForCheck: 5
+  Conversation: {fileID: 0}
+--- !u!136 &4275822991761442816
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6611461568531848489}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 1.0768874
+  m_Height: 3.0137482
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.4971085, z: 0}
 --- !u!1 &6814653721840556182
 GameObject:
   m_ObjectHideFlags: 0

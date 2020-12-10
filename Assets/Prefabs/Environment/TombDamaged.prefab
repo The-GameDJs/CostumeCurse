@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4552222678417133087}
   - component: {fileID: 1785757661281073877}
   - component: {fileID: 1782380498456461158}
+  - component: {fileID: 8617867097017279021}
   m_Layer: 0
   m_Name: TombDamaged
   m_TagString: Untagged
@@ -96,6 +97,21 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.005564573, y: 0.01628112, z: 0.015228799}
   m_Center: {x: 0.000039673447, y: -0.00010046005, z: 0.0061627994}
+--- !u!114 &8617867097017279021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 272667139523517184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6fc9ba6ced1a2443942fa37ddde4ba8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MinDistance: 3.5
+  MinDistanceForCheck: 5
+  Conversation: {fileID: 0}
 --- !u!1 &8637815052950496833
 GameObject:
   m_ObjectHideFlags: 0
