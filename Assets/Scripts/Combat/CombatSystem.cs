@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class CombatSystem : MonoBehaviour
 {
@@ -23,7 +26,9 @@ public class CombatSystem : MonoBehaviour
 
     void Start()
     {
-        AssetDatabase.Refresh(); // This will update all animators, fixes a bug with Git! 
+        #if UNITY_EDITOR
+                AssetDatabase.Refresh(); // This will update all animators, fixes a bug with Git! 
+        #endif
 
         MainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         CameraRig = MainCamera.GetComponent<CameraRig>();
