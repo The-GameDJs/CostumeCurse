@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2726746448805026065}
   - component: {fileID: 158661981044485595}
   - component: {fileID: 1555690953263406524}
+  - component: {fileID: 6692174902615184094}
   m_Layer: 0
   m_Name: Sign
   m_TagString: Untagged
@@ -98,6 +99,19 @@ MonoBehaviour:
   MinDistance: 3.5
   MinDistanceForCheck: 5
   Conversation: {fileID: 0}
+--- !u!65 &6692174902615184094
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1815885557325859854}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.0072488138, y: 0.0074551543, z: 0.09768847}
+  m_Center: {x: 0.00003794231, y: -0.00011163697, z: 0.048578605}
 --- !u!1 &7864490134638555471
 GameObject:
   m_ObjectHideFlags: 0

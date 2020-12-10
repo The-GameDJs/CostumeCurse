@@ -80,6 +80,13 @@ public class Player : MonoBehaviour
 
         if (Vector3.Distance(transform.position, TargetPosition) <= 2f)
             return;
+        
+        if (Vector3.Distance(transform.position, TargetPosition) >= 40f)
+        {
+            transform.position = TargetPosition;
+            transform.localRotation = TargetRotation;
+            return;
+        }
 
         CharacterController.SimpleMove(Direction * CatchUpSpeed);
         transform.localRotation = Quaternion.RotateTowards(
