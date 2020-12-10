@@ -3,12 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// aight so what we want? 
-    // if MC, move according to controls
-    // if !MC: 
-        // if outside MC following position, get there quicker than movementspeed
-        // if very near position, normal follow
-
 public class Player : MonoBehaviour
 {
     [SerializeField]
@@ -26,22 +20,24 @@ public class Player : MonoBehaviour
     private Quaternion TargetRotation;
     private Vector3 Direction;
 
+    private CandyCornManager CandyCornManager;
+
     private bool IsMovementDisabled;
 
     private CharacterController CharacterController;
     private Player MainPlayer;
     private Timer Timer;
 
-    // Start is called before the first frame update
     void Start()
     {
         CharacterController = GetComponent<CharacterController>();
+        CandyCornManager = GameObject.FindObjectOfType<CandyCornManager>();
+        Timer = GetComponent<Timer>();
+
         var foundPlayers = GameObject.FindObjectsOfType<Player>();
         MainPlayer = Array.Find(foundPlayers, player => player.IsMainPlayer);
-        Timer = GetComponent<Timer>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (IsMovementDisabled)
