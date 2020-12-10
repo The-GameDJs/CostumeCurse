@@ -12,10 +12,14 @@ public class CombatZone : MonoBehaviour
     private GameObject[] Players;
     [SerializeField]
     private GameObject[] PlayerPositions;
+    [SerializeField]
+    private float MovementTime;
+    private Vector3[] InitalPositionsEnemies;
+    private Vector3[] InitalPositionsPlayers;
+
     protected CombatSystem CombatSystem;
-
     public CameraArea CameraArea;
-
+    private Timer Timer;
 
     private bool CombatStarted;
 
@@ -23,6 +27,7 @@ public class CombatZone : MonoBehaviour
     {
         CombatSystem = GameObject.FindGameObjectWithTag("CombatSystem").GetComponent<CombatSystem>();
         CameraArea = GetComponent<CameraArea>();
+        Timer = GetComponent<Timer>();
         
         if (Players == null)
         {
@@ -33,6 +38,20 @@ public class CombatZone : MonoBehaviour
 
     }
 
+    public void Update()
+    {
+        if(Timer.IsFinished())
+        {
+            Timer.ResetTimer();
+            StartCombat();
+        }
+
+        if (!Timer.IsInProgress())
+            return;
+
+        SetCombatPositionsUpdate();
+    }
+
     void OnTriggerEnter(Collider other)
     {
         if (CombatStarted)
@@ -40,43 +59,70 @@ public class CombatZone : MonoBehaviour
 
         if (other.gameObject.CompareTag("Player"))
         {
-            InitiateCombat();
+            Timer.StartTimer(MovementTime);
+            DisablePlayerMovement();
+            SetInitialCombatPositions();
         }
     }
 
-    private void InitiateCombat()
+    private void SetInitialCombatPositions()
     {
         CombatStarted = true;
+        InitalPositionsEnemies = new Vector3[Enemies.Length];
+        InitalPositionsPlayers = new Vector3[Players.Length];
 
-        SetCombatPositions();
+        for (int i = 0; i < InitalPositionsEnemies.Length; i++)
+            InitalPositionsEnemies[i] = Enemies[i].transform.position;
 
-        CombatSystem.StartCombat(this.gameObject, Players, Enemies);
+        for (int i = 0; i < InitalPositionsPlayers.Length; i++)
+            InitalPositionsPlayers[i] = Players[i].transform.position;
+
     }
 
-    private void SetCombatPositions()
+    private void DisablePlayerMovement()
+    {
+        if (Timer.IsFinished())
+            return;
+
+
+        for (int i = 0; i < PlayerPositions.Length; i++)
+        {
+            GameObject player = Players[i];
+            player.GetComponent<Player>().DisableMovement();
+        }
+    }
+
+    public void SetCombatPositionsUpdate()
     {
         for (int i = 0; i < EnemyPositions.Length; i++)
         {
-            GameObject enemy = Enemies[i];
-            enemy.transform.position = EnemyPositions[i].transform.position;
-            enemy.GetComponent<Combatant>().EnterCombat();
+            Enemies[i].transform.position = Vector3.Lerp(InitalPositionsEnemies[i],
+                                                         EnemyPositions[i].transform.position,
+                                                         Timer.GetProgress() / MovementTime);
+
+            Vector3 direction = (EnemyPositions[i].transform.position - Enemies[i].transform.position).normalized;
+            Enemies[i].transform.rotation = Quaternion.Lerp(Enemies[i].transform.rotation,
+                                                            Quaternion.LookRotation(direction), 
+                                                            Timer.GetProgress() / MovementTime);
         }
 
-        for (int j = 0; j < PlayerPositions.Length; j++)
+        for (int i = 0; i < PlayerPositions.Length; i++)
         {
-            GameObject player = Players[j];
-            player.GetComponent<Combatant>().EnterCombat();
-            player.GetComponent<Player>().DisableMovement();
+            Players[i].transform.position = Vector3.Lerp(InitalPositionsPlayers[i],
+                                                         PlayerPositions[i].transform.position,
+                                                         Timer.GetProgress() / MovementTime);
 
-            player.SetActive(false);
-            player.transform.position = PlayerPositions[j].transform.position;
-            player.SetActive(true);
+            Vector3 direction = (PlayerPositions[i].transform.position - Players[i].transform.position).normalized;
+            Players[i].transform.rotation = Quaternion.Lerp(Players[i].transform.rotation, 
+                                                            Quaternion.LookRotation(direction),
+                                                            Timer.GetProgress() / MovementTime);
         }
     }
 
     public void DestroyCombatZone()
     {
         Debug.Log("Destroying this Combat Zone!");
+        CombatStarted = false;
 
         foreach(GameObject player in Players)
         {
@@ -91,6 +137,16 @@ public class CombatZone : MonoBehaviour
         }
 
         Destroy(gameObject);
+    }
+
+    private void StartCombat()
+    {
+        foreach (var enemy in Enemies)
+            enemy.GetComponent<Combatant>().EnterCombat();
+        foreach (var player in Players)
+            player.GetComponent<Combatant>().EnterCombat();
+
+        CombatSystem.StartCombat(this.gameObject, Players, Enemies);
     }
 
 }
