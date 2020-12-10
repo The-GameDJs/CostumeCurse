@@ -26,7 +26,7 @@ namespace Combat.Abilities
         private const float FireballUnstableDuration = 2.0f;
 
         private const float FireballHeight = 7f;
-        private const float FireballScale = 0.15f;
+        private const float FireballScale = 0.08f;
         private float TargetFireballSize = 0.15f;
         private const float FireballGrowth = 0.025f;
         private const float FireballShrinkNormal = 0.005f;
@@ -295,11 +295,6 @@ namespace Combat.Abilities
             CurrentCyclePhase = FireballCyclePhase.Normal;
 
             Timer.StartTimer(Random.Range(FireballGrowthMinDuration, FireballGrowthMaxDuration));
-        }
-
-        private void SetFireColor(Color col)
-        {
-            //colorModule.color = col;
         }
     }
 }

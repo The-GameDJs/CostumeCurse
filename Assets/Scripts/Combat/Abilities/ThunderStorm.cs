@@ -22,9 +22,14 @@ public class ThunderStorm : Ability
 
     [Header("Strike Parameters")]
     private readonly float TimeWindowForStrikes = 3.0f;
-    private readonly float GoodStrikeTimeWindow = 1.5f;
-    private readonly float PerfectStrikeTimeWindow = 0.5f;
+    private readonly float GoodStrikeTimeWindow = 1.0f;
+    private readonly float PerfectStrikeTimeWindow = 0.7f;
     private readonly float StrikeTimeInterval = 2.0f;
+    private bool ThunderHasAppeared;
+    private float MomentOfActionCommand;
+    private bool ActionCommandPressed;
+
+    private float StartOfStrike;
 
     [Header("Damage Parameters")]
     private int Presses;
@@ -86,34 +91,46 @@ public class ThunderStorm : Ability
     {
         if (Timer.IsInProgress())
         {
+            if (WithinPerfectStrikeWindow(Timer.GetProgress()))
+                Debug.Log($"currently WithinPerfectStrikeWindow");
+            else if (WithinGoodStrikeWindow(Timer.GetProgress()))
+                Debug.Log($"currently WithinGoodStrikeWindow");
+
             float progress = Timer.GetProgress();
 
-            //AnimateThunderstrike(progress);
+            //AnimateThunderstrike(progress); // Keep handy for debugging with colours!
 
-            if (Input.GetButtonDown("Action Command"))
+            if (!ActionCommandPressed && Input.GetButtonDown("Action Command"))
             {
                 Debug.Log("Action Command pressed during Thunderstrike Phase");
+                MomentOfActionCommand = Timer.GetProgress();
+                ActionCommandPressed = true;
+            }
 
-                Timer.StopTimer();
+            if (!ThunderHasAppeared && Timer.GetProgress() >= TimeWindowForStrikes / 2)
+            {
+                SpawnThunderBolt();
+                StartCoroutine(DamageVictim(GoodStrikeTimeWindow / 2));
             }
         }
 
         if (Timer.IsFinished())
         {
-            GameObject lightning = Instantiate(Lightning, Thunder.transform.position, Thunder.transform.rotation * Quaternion.Euler(180.0f, 0.0f, 0.0f));
-            //Destroy(lightning, 1.0f);W
-            
-
             CurrentPhase = ThunderstormPhase.Inactive;
-            Thunder.SetActive(false);
-
-            StartCoroutine(DamageVictim());
 
             if (CurrentThunderStrike < TotalThunderStrikes)
                 Invoke(nameof(NewThunderStrike), Random.Range(StrikeTimeInterval, 1.5f * StrikeTimeInterval));
             else
                 EndAbility();
         }
+    }
+
+    private void SpawnThunderBolt()
+    {
+        StartOfStrike = Time.time;
+        //Time.timeScale = 0.01f;
+        Instantiate(Lightning, Thunder.transform.position, Thunder.transform.rotation * Quaternion.Euler(180.0f, 0.0f, 0.0f));
+        ThunderHasAppeared = true;
     }
 
     private void AnimateThunderstrike(float progress)
@@ -124,12 +141,12 @@ public class ThunderStorm : Ability
             Thunder.transform.localScale -= Vector3.one * ThunderStrikeGrowthSpeed * ThunderStormScale * Time.deltaTime;
 
 
-        //if (WithinPerfectStrikeWindow(progress))
-        //    Thunder.GetComponent<Renderer>().material.color = Color.red;
-        //else if (WithinGoodStrikeWindow(progress))
-        //    Thunder.GetComponent<Renderer>().material.color = Color.blue;
-        //else
-        //    Thunder.GetComponent<Renderer>().material.color = Color.white;
+        if (WithinPerfectStrikeWindow(progress))
+            mainModule.startColor = Color.red;
+        else if (WithinGoodStrikeWindow(progress))
+            mainModule.startColor = Color.blue;
+        else
+            mainModule.startColor = Color.white;
     }
 
     protected override void EndAbility()
@@ -217,6 +234,8 @@ public class ThunderStorm : Ability
     private void NewThunderStrike()
     {
         CurrentThunderStrike++;
+        ThunderHasAppeared = false;
+        ActionCommandPressed = false;
         Debug.Log($"New thunderstrike, currently on # {CurrentThunderStrike}");
 
         Thunder.SetActive(true);
@@ -231,21 +250,22 @@ public class ThunderStorm : Ability
         Thunder.transform.position = CurrentVictim.transform.position + ThunderStormHeight * Vector3.up;
 
         CurrentPhase = ThunderstormPhase.Strike;
-        Timer.StartTimer(TimeWindowForStrikes);
+        Timer.StartTimer(TimeWindowForStrikes); // 10 seconds , at 5 seconds, that is when the stirke appears and is also the perfect frame window. 
     }
 
     // TODO: Implement user feedback
     private float EvaluateThunderStrikeInput()
     {
-        var progress = Timer.GetProgress();
         var damage = CalculateThunderCloudDamage();
 
-        if (WithinPerfectStrikeWindow(progress))
+        if (WithinPerfectStrikeWindow(MomentOfActionCommand))
         {
+            Debug.Log("Perfect Strike");
             damage += ThunderStrikePerfectDamageBonus;
         }
-        else if (WithinGoodStrikeWindow(progress))
+        else if (WithinGoodStrikeWindow(MomentOfActionCommand))
         {
+            Debug.Log("Good Strike");
             damage += ThunderStrikeGoodDamageBonus;
         }
         else
@@ -268,10 +288,11 @@ public class ThunderStorm : Ability
                     timerValue <= ((TimeWindowForStrikes + PerfectStrikeTimeWindow) / 2.0f);
     }
 
-    private IEnumerator DamageVictim()
+    private IEnumerator DamageVictim(float secondsToWait)
     {
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(secondsToWait);
 
+        Thunder.SetActive(false);
         Attack attack = new Attack((int)EvaluateThunderStrikeInput());
         CurrentVictim.GetComponent<Combatant>().Defend(attack);
 
