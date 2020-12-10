@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -54,7 +54,7 @@ public class DialogueManager : MonoBehaviour
     void DisplayLine()
     {
         ActiveLine = Conversation.Lines[ActiveLineIndex];
-        CurrentSpeaker = GameObject.FindWithTag(ActiveLine.Character);
+        CurrentSpeaker = GameObject.Find(ActiveLine.Character);
 
         DialogueUI.Display(ActiveLine.text);
     }

@@ -5,7 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public struct Line
 {
-    [TagSelector]
+    [TextArea(1, 1)]
     public string Character;
 
     [TextArea(2, 5)]
