@@ -1,19 +1,23 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CandyCornManager : MonoBehaviour
 {
     private int TotalCandyCorn;
 
+    private Text CandyCornValue;
+
     void Start()
     {
         TotalCandyCorn = 0;
+        CandyCornValue = GameObject.Find("CandyCornValue").GetComponent<Text>();
     }
 
     void Update()
     {
-        
+        CandyCornValue.text = TotalCandyCorn.ToString("0000");
     }
 
     public int GetTotalCandyCorn()
