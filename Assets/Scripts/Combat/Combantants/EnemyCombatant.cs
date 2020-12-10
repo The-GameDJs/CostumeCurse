@@ -8,6 +8,8 @@ using UnityEngine.UI;
 
 public class EnemyCombatant : Combatant
 {
+    [SerializeField] private int CandyCornValue;
+
     private static GameObject EnemyUIPanel;
     private static GameObject EnemyUITemplate;
     private GameObject EnemyUI;
@@ -16,6 +18,8 @@ public class EnemyCombatant : Combatant
 
     [SerializeField]
     private Ability[] Abilities;
+
+    private CandyCornManager CandyCornManager;
 
     new void Start()
     {
@@ -33,6 +37,8 @@ public class EnemyCombatant : Combatant
         Abilities = GetComponentsInChildren<Ability>();
 
         HideUI();
+
+        CandyCornManager = GameObject.FindObjectOfType<CandyCornManager>();
     }
 
     private new void Update()
@@ -108,5 +114,10 @@ public class EnemyCombatant : Combatant
         Animator.Play("Base Layer.Hurt");
 
         TakeDamage(attack.Damage);
+    }
+
+    private void OnDestroy()
+    {
+        CandyCornManager.AddCandyCorn(CandyCornValue);
     }
 }
