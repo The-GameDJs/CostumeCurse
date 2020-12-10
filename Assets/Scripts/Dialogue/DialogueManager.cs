@@ -14,10 +14,13 @@ public class DialogueManager : MonoBehaviour
 
     private bool DisplayDialogueBubble;
 
+    private CandyCornManager CandyCornManager;
+
     void Start()
     {
         ActiveLineIndex = 0;
         DisplayDialogueBubble = false;
+        CandyCornManager = GameObject.FindObjectOfType<CandyCornManager>();
     }
 
     void Update()
@@ -64,6 +67,9 @@ public class DialogueManager : MonoBehaviour
         DisplayDialogueBubble = false;
         ActiveLineIndex = 0;
         DialogueUI.Close();
+
+        if (!Conversation.IsCandyCornRewardClaimed())
+            CandyCornManager.AddCandyCorn(Conversation.ClaimReward());
     }
 
     // Displays the bubble on top of the NPC
