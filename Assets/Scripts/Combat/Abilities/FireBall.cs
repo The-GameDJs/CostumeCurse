@@ -31,7 +31,7 @@ namespace Combat.Abilities
         private const float FireballHeight = 7f;
         private const float FireballScale = 0.08f;
         private float TargetFireballSize = 0.15f;
-        private const float FireballGrowth = 0.025f;
+        private const float FireballGrowth = 2f;
         private const float FireballShrinkNormal = 0.005f;
         private const float FireballShrinkUnstable = 0.15f;
         private const float FireballScalingSmoothness = 2f;
@@ -45,8 +45,8 @@ namespace Combat.Abilities
 
         [Header("Components")]
         private Timer Timer;
-        private ParticleSystem particleComponent;
-        private ParticleSystem.MainModule mainModule;
+        private ParticleSystem ParticleComponent;
+        private ParticleSystem.MainModule MainModule;
 
         private enum ExpectedDirection { Up, Down, Right, Left};
         private List<ExpectedDirection> ExpectedDirections = new List<ExpectedDirection>();
@@ -59,8 +59,8 @@ namespace Combat.Abilities
             if(Fireball == null)
                 Fireball = GameObject.Find("Fireball");
             Timer = GetComponent<Timer>();
-            particleComponent = Fireball.GetComponent<ParticleSystem>();
-            mainModule = particleComponent.main;
+            ParticleComponent = Fireball.GetComponent<ParticleSystem>();
+            MainModule = ParticleComponent.main;
             Fireball.SetActive(false);
 
             TargetSchema = new TargetSchema(
@@ -146,7 +146,7 @@ namespace Combat.Abilities
                 {
                     CurrentCyclePhase = FireballCyclePhase.UnstableWarning;
                     Timer.StartTimer(FireballUnstablingWarningDuration);
-                    mainModule.startColor = Color.yellow;
+                    MainModule.startColor = Color.yellow;
                     return;
 
                 }
@@ -155,7 +155,7 @@ namespace Combat.Abilities
                 {
                     CurrentCyclePhase = FireballCyclePhase.Unstable;
                     Timer.StartTimer(FireballUnstableDuration);
-                    mainModule.startColor = Color.white;
+                    MainModule.startColor = Color.white;
                     return;
                 }
 
@@ -163,7 +163,7 @@ namespace Combat.Abilities
                 {
                     CurrentFireballCycle += 1;
                     CurrentCyclePhase = FireballCyclePhase.Normal;
-                    mainModule.startColor = Color.red;
+                    MainModule.startColor = Color.red;
 
                     Timer.StartTimer(Random.Range(FireballGrowthMinDuration, FireballGrowthMaxDuration));
                     return;
@@ -243,7 +243,7 @@ namespace Combat.Abilities
             ExpectedDirections.Remove(currentKey);
             ExpectedDirections.Add(currentKey);
 
-            TargetFireballSize += FireballGrowth * FireballParticleSystemAdjustmentFactor;
+            TargetFireballSize += FireballGrowth * FireballParticleSystemAdjustmentFactor * Time.deltaTime;
             FireballScalingElapsedTime = 0;
         }
 
@@ -283,7 +283,6 @@ namespace Combat.Abilities
 
             Animator.SetBool("IsFinishedCasting", false);
             Animator.Play("Base Layer.Casting");
-            Debug.Log($"Am I loopy? {Animator.GetCurrentAnimatorStateInfo(0).loop}");
 
             base.StartAbility();
         }
@@ -299,8 +298,7 @@ namespace Combat.Abilities
             Fireball.SetActive(true);
             Fireball.transform.position = transform.position + FireballHeight * Vector3.up;
             Fireball.transform.localScale = Vector3.one * FireballScale;
-            ParticleSystem.MainModule main = GetComponent<ParticleSystem>().main;
-            mainModule.startColor = Color.red;
+            MainModule.startColor = Color.red;
 
             ExpectedDirections = new List<ExpectedDirection>
             {

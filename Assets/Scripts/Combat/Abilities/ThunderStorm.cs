@@ -49,8 +49,8 @@ public class ThunderStorm : Ability
     private readonly float ThunderStrikeGrowthSpeed = 1.0f;
 
     [Header("Components")]
-    private ParticleSystem particleComponent;
-    private ParticleSystem.MainModule mainModule;
+    private ParticleSystem ParticleComponent;
+    private ParticleSystem.MainModule MainModule;
 
     [SerializeField] private AudioSource LightningStrikeSound;
     [SerializeField] private AudioSource ThunderCloudSound;
@@ -61,8 +61,8 @@ public class ThunderStorm : Ability
         if(Thunder == null)
             Thunder = GameObject.Find("Thunderstorm");
         Timer = GetComponent<Timer>();
-        particleComponent = Thunder.GetComponent<ParticleSystem>();
-        mainModule = particleComponent.main;
+        ParticleComponent = Thunder.GetComponent<ParticleSystem>();
+        MainModule = ParticleComponent.main;
         Thunder.SetActive(false);
 
         TargetSchema = new TargetSchema(
@@ -74,7 +74,6 @@ public class ThunderStorm : Ability
     public new void StartAbility(bool userTargeting = false)
     {
         Presses = 0;
-
         Animator.SetBool("IsFinishedCasting", false);
         Animator.Play("Base Layer.Casting");
 
@@ -153,11 +152,11 @@ public class ThunderStorm : Ability
 
 
         if (WithinPerfectStrikeWindow(progress))
-            mainModule.startColor = Color.red;
+            MainModule.startColor = Color.red;
         else if (WithinGoodStrikeWindow(progress))
-            mainModule.startColor = Color.blue;
+            MainModule.startColor = Color.blue;
         else
-            mainModule.startColor = Color.white;
+            MainModule.startColor = Color.white;
     }
 
     protected override void EndAbility()
