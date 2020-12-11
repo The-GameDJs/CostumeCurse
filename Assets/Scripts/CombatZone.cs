@@ -26,7 +26,7 @@ public class CombatZone : MonoBehaviour
     public void Start()
     {
         CombatSystem = GameObject.FindGameObjectWithTag("CombatSystem").GetComponent<CombatSystem>();
-        CameraArea = GetComponent<CameraArea>();
+        CameraArea = GetComponentInChildren<CameraArea>();
         Timer = GetComponent<Timer>();
         
         if (Players == null)

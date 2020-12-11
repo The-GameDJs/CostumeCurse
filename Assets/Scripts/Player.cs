@@ -66,8 +66,6 @@ public class Player : MonoBehaviour
                 MainPlayer.gameObject.transform.forward * FollowDistance;
 
             Direction = (TargetPosition - transform.position).normalized;
-            Direction = Camera.main.transform.TransformDirection(Direction);
-            Direction.y = 0;
 
             TargetRotation = transform.localRotation;
             TargetRotation = Quaternion.LookRotation(Direction, Vector3.up);

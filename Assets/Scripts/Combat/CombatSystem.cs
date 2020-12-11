@@ -165,12 +165,12 @@ public class CombatSystem : MonoBehaviour
 
         CurrentCombatantTurn = 1;
 
-        Combatants.Sort(SortByTurnPriority); // TODO use case for updating priority?
+        Combatants.Sort(SortByTurnPriority);
 
         foreach (GameObject ally in AllyCombatants)
             ally.transform.LookAt(EnemyCombatants[Random.Range(0, EnemyCombatants.Count)].transform.position);
         foreach (GameObject enemy in EnemyCombatants)
-            enemy.transform.LookAt(AllyCombatants[Random.Range(0, EnemyCombatants.Count)].transform.position);
+            enemy.transform.LookAt(AllyCombatants[Random.Range(0, AllyCombatants.Count)].transform.position);
 
         Combatants[CurrentCombatantTurn - 1].GetComponent<Combatant>().StartTurn();
     }

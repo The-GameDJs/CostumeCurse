@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5732796609668156346}
   - component: {fileID: 5732796609668156344}
   - component: {fileID: 5279039112156295029}
+  - component: {fileID: 4770722490313002532}
   m_Layer: 0
   m_Name: Camera Zone
   m_TagString: Untagged
@@ -95,13 +96,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2e2a1a0fcf785a40afe1aeaec5676f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MainCamera: {fileID: 0}
-  NewOffsetX: 0
-  NewOffsetZ: -20.14
-  NewHeight: 9.6
-  NewRotationX: 15.5
-  NewRotationY: 0
-  NewRotationZ: 0
+  Offset: {x: 0, y: 0, z: 0}
+  Rotation: {x: 0, y: 0, z: 0}
+  TransitionInSmoothness: 0
+  TransitionOutSmoothness: 0
 --- !u!65 &5279039112156295029
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -115,3 +113,15 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4770722490313002532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5732796609668156326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da8bf3d8a093bcd45888dd30a4c57143, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

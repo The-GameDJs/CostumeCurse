@@ -23,7 +23,7 @@ public class CameraArea : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
 
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && other.gameObject.name == "Sield")
         {
             CameraRig.SetTransitionSmoothness(TransitionInSmoothness);
             CameraRig.MoveCameraRelative(Offset, Quaternion.Euler(Rotation));
@@ -32,7 +32,7 @@ public class CameraArea : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && other.gameObject.name == "Sield")
         {
             CameraRig.SetTransitionSmoothness(TransitionOutSmoothness);
             CameraRig.MoveCameraRelative(CameraRig.DefaultOffset,
