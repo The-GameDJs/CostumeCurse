@@ -28,7 +28,7 @@ namespace Combat.Abilities
         private const float FireballHeight = 7f;
         private const float FireballScale = 0.08f;
         private float TargetFireballSize = 0.15f;
-        private const float FireballGrowth = 2f;
+        private const float FireballGrowth = 0.025f;
         private const float FireballShrinkNormal = 0.005f;
         private const float FireballShrinkUnstable = 0.15f;
         private const float FireballScalingSmoothness = 2f;
@@ -230,7 +230,7 @@ namespace Combat.Abilities
             ExpectedDirections.Remove(currentKey);
             ExpectedDirections.Add(currentKey);
 
-            TargetFireballSize += FireballGrowth * FireballParticleSystemAdjustmentFactor * Time.deltaTime;
+            TargetFireballSize += FireballGrowth * FireballParticleSystemAdjustmentFactor;
             FireballScalingElapsedTime = 0;
         }
 
