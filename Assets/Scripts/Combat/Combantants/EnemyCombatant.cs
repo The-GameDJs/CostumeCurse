@@ -10,10 +10,6 @@ public class EnemyCombatant : Combatant
 {
     [SerializeField] private int CandyCornValue;
 
-    private static GameObject EnemyUIPanel;
-    private static GameObject EnemyUITemplate;
-    private GameObject EnemyUI;
-
     private bool DisplayMessage;
 
     [SerializeField]
@@ -24,19 +20,7 @@ public class EnemyCombatant : Combatant
     new void Start()
     {
         base.Start();
-        if(EnemyUIPanel == null)
-        {
-            EnemyUIPanel = GameObject.Find("Enemy UI");
-            EnemyUITemplate = GameObject.Find("DefaultEnemyText");
-            EnemyUITemplate.SetActive(false);
-        }
-        
-        EnemyUI = Instantiate(EnemyUITemplate);
-        EnemyUI.transform.SetParent(EnemyUIPanel.transform);
-
         Abilities = GetComponentsInChildren<Ability>();
-
-        HideUI();
 
         CandyCornManager = GameObject.FindObjectOfType<CandyCornManager>();
     }
@@ -44,30 +28,8 @@ public class EnemyCombatant : Combatant
     private new void Update()
     {
         base.Update();
-
-        UpdateUIPosition();
     }
 
-    private void UpdateUIPosition()
-    {
-        if (DisplayMessage)
-        {
-            Vector3 relativeScreenPosition = Camera.main.WorldToScreenPoint(transform.position);
-            EnemyUI.transform.position = relativeScreenPosition;
-        }
-    }
-
-    private void DisplayUI()
-    {
-        DisplayMessage = true;
-        EnemyUI.SetActive(DisplayMessage);
-    }
-
-    private void HideUI()
-    {
-        DisplayMessage = false;
-        EnemyUI.SetActive(DisplayMessage);
-    }
 
     protected override void TakeTurnWhileDead()
     {
@@ -78,9 +40,6 @@ public class EnemyCombatant : Combatant
 
     protected override void TakeTurnWhileAlive()
     {
-        DisplayUI();
-        EnemyUI.GetComponent<Text>().text = "I Attak!";
-
         Debug.Log(Abilities.Length);
         Abilities[Random.Range(0, Abilities.Length)].StartAbility(false);
     }
@@ -105,8 +64,6 @@ public class EnemyCombatant : Combatant
     {
         // for now do nothing lmao
         CombatSystem.EndTurn(this.gameObject);
-
-        HideUI();
     }
 
     public override void Defend(Attack attack)
