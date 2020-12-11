@@ -22,7 +22,12 @@ public class Confection : Ability
     private ItemSlot CookingPot;
     private SliderHandle SliderScript;
     private Timer Timer;
-    
+
+    [SerializeField] private AudioSource BrewSound;
+    [SerializeField] private AudioSource BakeSound;
+    [SerializeField] private AudioSource SweetCollectedSound;
+    [SerializeField] private AudioSource RottenCollectedSound;
+
     private int SweetsDropped;
     private int RotsDropped;
     private int GoodClicks;
@@ -136,8 +141,20 @@ public class Confection : Ability
         {
             float progress = BrewDuration - Timer.GetProgress();
             TimerText.text =  Mathf.RoundToInt(progress).ToString();
-            SweetsDropped = CookingPot.GetSweetsDropped();
-            RotsDropped = CookingPot.GetRotsDropped();
+
+            var newSweetCount = CookingPot.GetSweetsDropped();
+            if (newSweetCount > SweetsDropped)
+            {
+                SweetCollectedSound.Play();
+                SweetsDropped = newSweetCount;
+            }
+
+            var newRottenCount = CookingPot.GetRotsDropped();
+            if (newRottenCount > RotsDropped)
+            {
+                RottenCollectedSound.Play();
+                RotsDropped = newRottenCount;
+            }
         }
         else
         {
@@ -160,6 +177,9 @@ public class Confection : Ability
             EnableCanvas(BakeCanvas, false);
             CookingAbilityPhase = Phase.Inactive;
             CalculateBakeDamage();
+
+            BakeSound.Play();
+
             EndAbility();
         }
     }
@@ -168,6 +188,8 @@ public class Confection : Ability
     {
         Debug.Log($"Brew Complete with candy: {SweetsDropped}");
         Debug.Log($"Brew Complete with rots: {RotsDropped}");
+
+        BrewSound.Play();
 
         CalculateBrewDamage();
         ResetBrewComponents();

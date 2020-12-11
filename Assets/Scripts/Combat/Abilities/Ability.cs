@@ -17,6 +17,10 @@ public abstract class Ability : MonoBehaviour
 
     private Combatant Combatant;
 
+    [SerializeField] protected AudioSource MissedActionCommandSound;
+    [SerializeField] protected AudioSource GoodActionCommandSound;
+    [SerializeField] protected AudioSource PerfectActionCommandSound;
+
     public void Start()
     {
         TargetSelector = GameObject.FindGameObjectWithTag("TargetSelector").GetComponent<TargetSelector>();

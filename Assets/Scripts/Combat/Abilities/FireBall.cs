@@ -25,6 +25,9 @@ namespace Combat.Abilities
         private const float FireballUnstablingWarningDuration = 1.0f;
         private const float FireballUnstableDuration = 2.0f;
 
+        [SerializeField] private AudioSource FireballGrowSound;
+        [SerializeField] private AudioSource FireballShrinkSound;
+
         private const float FireballHeight = 7f;
         private const float FireballScale = 0.08f;
         private float TargetFireballSize = 0.15f;
@@ -190,7 +193,9 @@ namespace Combat.Abilities
 
             // Deal damage to defender, wait
             GameObject victim = TargetedCombatants[Random.Range(0, TargetedCombatants.Length)];
-            
+
+            FireballGrowSound.Stop();
+
             StartCoroutine(LaunchFireball(victim));
 
             Animator.SetBool("IsFinishedCasting", true);
@@ -226,6 +231,14 @@ namespace Combat.Abilities
         private void GrowFireball()
         {
             Debug.Log("GrowFireball");
+
+            Debug.Log($"Target size is {TargetFireballSize}");
+            FireballGrowSound.volume = Mathf.Clamp(TargetFireballSize, 0.01f, 1f);
+
+            if (!FireballGrowSound.isPlaying)
+                FireballGrowSound.Play();
+
+
             var currentKey = ExpectedDirections[0];
             ExpectedDirections.Remove(currentKey);
             ExpectedDirections.Add(currentKey);
@@ -237,6 +250,11 @@ namespace Combat.Abilities
         private void ShrinkFireball()
         {
             Debug.Log("ShrinkFireball");
+
+            if (FireballGrowSound.isPlaying)
+                FireballGrowSound.Stop();
+
+            MissedActionCommandSound.Play();
 
             TargetFireballSize -= CurrentCyclePhase == FireballCyclePhase.Unstable ? 
                 FireballShrinkUnstable * FireballParticleSystemAdjustmentFactor : 
