@@ -89,6 +89,7 @@ public class CameraRig : MonoBehaviour
 
     void LateUpdate()
     {
+        Debug.Log($"Focused Object: {TargetGO.name}");
         switch(CurrentPhase)
         {
             case CameraPhase.NoTransition:

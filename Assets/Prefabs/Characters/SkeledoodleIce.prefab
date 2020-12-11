@@ -1,5 +1,61 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &149785982297268365
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6457350721396211587}
+  - component: {fileID: 7058699745073083326}
+  - component: {fileID: 3487724428274504075}
+  m_Layer: 0
+  m_Name: EnemyAbilities
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6457350721396211587
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 149785982297268365}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3094732795779198633}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7058699745073083326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 149785982297268365}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3d59d8468d52b84c8e546eb5848c928, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3487724428274504075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 149785982297268365}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6c24458bbc330b42991d046af3fbd56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &592496961703159814
 GameObject:
   m_ObjectHideFlags: 0
@@ -59,7 +115,7 @@ Transform:
   m_LocalScale: {x: 109.00086, y: 109.00086, z: 109.00086}
   m_Children: []
   m_Father: {fileID: 3094732795779198633}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &8590823862683749493
 SkinnedMeshRenderer:
@@ -131,9 +187,11 @@ GameObject:
   - component: {fileID: 3094732795779198633}
   - component: {fileID: 2430083117438727276}
   - component: {fileID: -210474982103452522}
+  - component: {fileID: 1187733023264527749}
+  - component: {fileID: 4900750851634788123}
   m_Layer: 11
   m_Name: SkeledoodleIce
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -149,6 +207,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_Children:
+  - {fileID: 6457350721396211587}
   - {fileID: 7195100715018014833}
   - {fileID: 236780511240447243}
   - {fileID: 3938602781254113615}
@@ -192,6 +251,36 @@ CapsuleCollider:
   m_Height: 6.37
   m_Direction: 1
   m_Center: {x: 0, y: 2.93, z: 0}
+--- !u!114 &1187733023264527749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2430083117438727187}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4616a9634be2df45a4140446909f982, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TurnPriority: 4
+  MaxHealthPoints: 500
+  MaxShieldPoints: 0
+  IsAlive: 1
+  CandyCornValue: 12
+  Abilities: []
+--- !u!114 &4900750851634788123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2430083117438727187}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6c24458bbc330b42991d046af3fbd56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3046522617250438190
 GameObject:
   m_ObjectHideFlags: 0
@@ -344,7 +433,7 @@ Transform:
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
   m_Father: {fileID: 3094732795779198633}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &7872171623688516585
 SkinnedMeshRenderer:
@@ -434,7 +523,7 @@ Transform:
   m_Children:
   - {fileID: 4627745565789996559}
   m_Father: {fileID: 3094732795779198633}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6575431358656026786
 GameObject:
@@ -495,7 +584,7 @@ Transform:
   m_LocalScale: {x: 8.977586, y: 8.977586, z: 8.977586}
   m_Children: []
   m_Father: {fileID: 3094732795779198633}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &6612030155773502715
 SkinnedMeshRenderer:
@@ -585,7 +674,7 @@ Transform:
   m_LocalScale: {x: 8.977585, y: 8.977585, z: 8.977585}
   m_Children: []
   m_Father: {fileID: 3094732795779198633}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &6920951158445948304
 SkinnedMeshRenderer:
@@ -708,7 +797,7 @@ Transform:
   m_LocalScale: {x: 109.00086, y: 109.00086, z: 109.00086}
   m_Children: []
   m_Father: {fileID: 3094732795779198633}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &4315526252377264325
 SkinnedMeshRenderer:
@@ -798,7 +887,7 @@ Transform:
   m_LocalScale: {x: 109.00085, y: 109.00085, z: 109.00085}
   m_Children: []
   m_Father: {fileID: 3094732795779198633}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &8780232168901081931
 SkinnedMeshRenderer:
