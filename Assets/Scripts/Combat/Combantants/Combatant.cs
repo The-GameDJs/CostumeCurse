@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public abstract class Combatant : MonoBehaviour
 {
@@ -17,16 +18,17 @@ public abstract class Combatant : MonoBehaviour
     protected static GameObject HealthBarPrefab;
     protected static GameObject ShieldBarPrefab;
     protected static GameObject HealthBarUIPanel;
+    protected static GameObject ShieldPrefab;
     
-    private static GameObject Shield;
+    private GameObject Shield;
     private GameObject HealthBar;
     private PointsBar RedBar;
-    private Text HealthText;
+    private TMP_Text HealthText;
 
     private bool IsShieldSpawned;
     private GameObject ShieldBar;
     private PointsBar BlueBar;
-    private Text ShieldText;
+    private TMP_Text ShieldText;
 
     private const float HealthBarYOffsetScale = 1.25f;
     private const float ShieldBarYOffsetScale = 1.45f;
@@ -41,25 +43,13 @@ public abstract class Combatant : MonoBehaviour
     public void Start()
     {
         CombatSystem = GameObject.FindGameObjectWithTag("CombatSystem").GetComponent<CombatSystem>();
-        if (Shield == null)
-        {
-            Shield = GameObject.Find("Magic Shield");
-            HealthBarPrefab = GameObject.Find("HealthBarPrefab");
-            HealthBarUIPanel = GameObject.Find("HealthBarsUI");
-            ShieldBarPrefab = GameObject.Find("ShieldBarPrefab");
-        }
-        Shield.SetActive(false);
+        ShieldPrefab = GameObject.Find("MagicShieldPrefab");
+        ShieldBarPrefab = GameObject.Find("ShieldBarPrefab");
+        HealthBarPrefab = GameObject.Find("HealthBarPrefab");
+        HealthBarUIPanel = GameObject.Find("HealthBarsUI");
+
         IsShieldSpawned = false;
         IsInCombat = false;
-
-        HealthBar = Instantiate(HealthBarPrefab);
-        HealthBar.transform.SetParent(HealthBarUIPanel.transform);
-        RedBar = HealthBar.GetComponentInChildren<PointsBar>();
-        HealthText = HealthBar.GetComponentInChildren<Text>();
-        RedBar.MaxValue = MaxHealthPoints;
-        HealthBar.SetActive(false);
-        HealthBarPrefab.SetActive(false);
-        ShieldBarPrefab.SetActive(false);
 
         if (GetComponent<CharacterController>() != null)
         {
@@ -87,6 +77,8 @@ public abstract class Combatant : MonoBehaviour
     private void UpdateHealthBar()
     {
         RedBar.NewValue = CurrentHealthPoints;
+        if (CurrentHealthPoints < 0)
+            CurrentHealthPoints = 0;
         HealthText.text = $"{CurrentHealthPoints} / {MaxHealthPoints}";
         
         UpdateHealthBarPosition();
@@ -113,7 +105,7 @@ public abstract class Combatant : MonoBehaviour
             ShieldBar = Instantiate(ShieldBarPrefab);
             ShieldBar.transform.SetParent(HealthBarUIPanel.transform);
             BlueBar = ShieldBar.GetComponentInChildren<PointsBar>();
-            ShieldText = ShieldBar.GetComponentInChildren<Text>();
+            ShieldText = ShieldBar.GetComponentInChildren<TMP_Text>();
             BlueBar.NewValue = CurrentHealthPoints;
             BlueBar.MaxValue = MaxShieldPoints;
             ShieldText.text = $"{CurrentShieldPoints} / {MaxShieldPoints}";
@@ -181,8 +173,8 @@ public abstract class Combatant : MonoBehaviour
     {
         if (MaxShieldPoints == 0)
         {
-            Shield.transform.position = GameObject.FindGameObjectWithTag("Player").transform.position;
             Shield.SetActive(true);
+            Shield.transform.position = transform.position;
             MaxShieldPoints = shieldHealth;
             CurrentShieldPoints = shieldHealth;
         }
@@ -202,15 +194,14 @@ public abstract class Combatant : MonoBehaviour
 
     public void ExitCombat()
     {
+        DestroyUIInstances();
         IsInCombat = false;
-        HealthBar.SetActive(false);
     }
 
     public void EnterCombat()
     {
+        CreateUIInstances();
         IsInCombat = true;
-
-        HealthBar.SetActive(true);
     }
 
     public void TurnToFaceInCombat(Transform other)
@@ -242,5 +233,49 @@ public abstract class Combatant : MonoBehaviour
     public void OnShoot()
     {
 
+    }
+
+    public void CreateUIInstances()
+    {
+        if (gameObject.tag == "Player")
+        {
+            Shield = Instantiate(ShieldPrefab);
+            Shield.name = gameObject.name + " Shield";
+            Shield.transform.SetParent(GameObject.Find("CombatEffects").transform);
+            Shield.SetActive(false);
+        }
+
+        HealthBar = Instantiate(HealthBarPrefab);
+        HealthBar.transform.SetParent(HealthBarUIPanel.transform);
+        RedBar = HealthBar.GetComponentInChildren<PointsBar>();
+        HealthText = HealthBar.GetComponentInChildren<TMP_Text>();
+        RedBar.MaxValue = MaxHealthPoints;
+
+        HideBarsUI();
+    }
+
+    public void DestroyUIInstances()
+    {
+        Destroy(HealthBar);
+        HealthBar = null;
+        if (IsShieldSpawned)
+        {
+            Destroy(Shield);
+            Shield = null;
+            Destroy(ShieldBar);
+            ShieldBar = null;
+        }
+    }
+
+    public void HideBarsUI() 
+    {
+        HealthBarUIPanel.GetComponent<CanvasGroup>().alpha = 0f;
+        HealthBarUIPanel.GetComponent<CanvasGroup>().blocksRaycasts = false;
+    }
+
+    public void ShowBarsUI() 
+    {
+        HealthBarUIPanel.GetComponent<CanvasGroup>().alpha = 1f;
+        HealthBarUIPanel.GetComponent<CanvasGroup>().blocksRaycasts = true;
     }
 }

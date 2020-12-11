@@ -15,7 +15,7 @@ public class MagicShield : Ability
 
     private readonly float SequenceDuration = 2f;
     private readonly float InputDuration = 5f;
-    private readonly float ArrowPositionHeight = 5f;
+    private readonly float ArrowPositionHeight = 10f;
     private readonly float NextArrowPositionOffsetX = 4f;
     private readonly int MaxButtonsInSequence = 4;
     private Vector3 ArrowStartPosition = Vector3.zero;

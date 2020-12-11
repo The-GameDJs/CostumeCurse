@@ -139,6 +139,11 @@ public class CombatSystem : MonoBehaviour
     {
         Debug.Log($"Starting a new turn");
 
+        foreach (var combatant in Combatants)
+        {
+            combatant.GetComponent<Combatant>().HideBarsUI();
+        }
+
         CurrentCombatantTurn++;
 
         if (CurrentCombatantTurn > Combatants.Count)

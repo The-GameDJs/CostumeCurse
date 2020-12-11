@@ -47,6 +47,12 @@ public class TargetSelector : MonoBehaviour
         CallingAbility = callingAbility;
         CurrentTargetSchema = callingAbility.TargetSchema;
 
+        // Show Bars UI
+        foreach (var combatant in CombatSystem.Combatants)
+        {
+            combatant.GetComponent<Combatant>().ShowBarsUI();
+        }
+
         if (CurrentTargetSchema.SelectorType == SelectorType.All)
         {
             if (CurrentTargetSchema.CombatantType == CombatantType.Enemy)
