@@ -27,6 +27,7 @@ namespace Combat.Abilities
 
         private bool BelongsToAlly;
 
+        [SerializeField] private AudioSource BonkSound;
 
         public new void Start()
         {
@@ -95,6 +96,8 @@ namespace Combat.Abilities
             if (CurrentPhase == Phase.Bonking)
             {
                 Attack attack = new Attack((int)EvaluateBonkDamage());
+
+                BonkSound.Play();
 
                 Victim.GetComponent<Combatant>().Defend(attack);
             }

@@ -52,6 +52,9 @@ public class ThunderStorm : Ability
     private ParticleSystem particleComponent;
     private ParticleSystem.MainModule mainModule;
 
+    [SerializeField] private AudioSource LightningStrikeSound;
+    [SerializeField] private AudioSource ThunderCloudSound;
+
     public new void Start()
     {
         base.Start();
@@ -105,6 +108,13 @@ public class ThunderStorm : Ability
                 Debug.Log("Action Command pressed during Thunderstrike Phase");
                 MomentOfActionCommand = Timer.GetProgress();
                 ActionCommandPressed = true;
+
+                if (WithinPerfectStrikeWindow(Timer.GetProgress()))
+                    PerfectActionCommandSound.Play();
+                else if (WithinGoodStrikeWindow(Timer.GetProgress()))
+                    GoodActionCommandSound.Play();
+                else
+                    MissedActionCommandSound.Play();
             }
 
             if (!ThunderHasAppeared && Timer.GetProgress() >= TimeWindowForStrikes / 2)
@@ -131,6 +141,7 @@ public class ThunderStorm : Ability
         //Time.timeScale = 0.01f;
         Instantiate(Lightning, Thunder.transform.position, Thunder.transform.rotation * Quaternion.Euler(180.0f, 0.0f, 0.0f));
         ThunderHasAppeared = true;
+        LightningStrikeSound.Play();
     }
 
     private void AnimateThunderstrike(float progress)
@@ -175,6 +186,7 @@ public class ThunderStorm : Ability
         Debug.Log($"Thundercloud Complete with presses: {Presses}");
 
         Thunder.SetActive(false);
+        ThunderCloudSound.Stop();
 
         StartThunderStrikePhase();
     }
@@ -185,6 +197,11 @@ public class ThunderStorm : Ability
         {
             Presses++;
             Thunder.transform.localScale += Vector3.one * ThunderCloudGrowthSpeed * ThunderStormScale;
+
+            if (!ThunderCloudSound.isPlaying)
+                ThunderCloudSound.Play();
+
+            ThunderCloudSound.volume = Mathf.Clamp(Presses / 50f, 0.01f, 1f);
         }
     }
 

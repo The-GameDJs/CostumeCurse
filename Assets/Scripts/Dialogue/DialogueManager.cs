@@ -59,6 +59,8 @@ public class DialogueManager : MonoBehaviour
         ActiveLine = Conversation.Lines[ActiveLineIndex];
         CurrentSpeaker = GameObject.Find(ActiveLine.Character);
 
+        CurrentSpeaker.transform.Find("NPCSpeakSound").GetComponent<AudioSource>().Play();
+
         DialogueUI.Display(ActiveLine.text);
     }
 

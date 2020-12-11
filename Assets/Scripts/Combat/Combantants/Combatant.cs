@@ -30,6 +30,8 @@ public abstract class Combatant : MonoBehaviour
     private PointsBar BlueBar;
     private TMP_Text ShieldText;
 
+    [SerializeField] private AudioSource HurtSound;
+
     private const float HealthBarYOffsetScale = 1.25f;
     private const float ShieldBarYOffsetScale = 1.45f;
 
@@ -145,6 +147,8 @@ public abstract class Combatant : MonoBehaviour
 
     protected void TakeDamage(int damage)
     {
+        HurtSound.Play();
+
         if (CurrentShieldPoints > 0)
         {
             CurrentShieldPoints -= damage;

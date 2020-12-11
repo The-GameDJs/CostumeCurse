@@ -13,6 +13,8 @@ public class MagicShield : Ability
     private Queue<GameObject> Directions = new Queue<GameObject>();
     private static GameObject[] Arrows; // 0: Up, 1: Down, 2: Left, 3: Right 
 
+    [SerializeField] private AudioSource MagicShieldSound;
+
     private readonly float SequenceDuration = 2f;
     private readonly float InputDuration = 5f;
     private readonly float ArrowPositionHeight = 10f;
@@ -76,6 +78,8 @@ public class MagicShield : Ability
     protected override void EndAbility()
     {
         Debug.Log($"Magic Shield Total Health: {MagicShieldHealth}");
+
+        MagicShieldSound.Play();
 
         foreach (GameObject target in TargetedCombatants)
             target.GetComponent<Combatant>().ApplyShield(MagicShieldHealth);
@@ -185,6 +189,8 @@ public class MagicShield : Ability
     private void OnCorrectInput()
     {
         Debug.Log("OnCorrectInput");
+
+        PerfectActionCommandSound.Play();
         
         CorrectInputs += 1;
 
@@ -194,6 +200,8 @@ public class MagicShield : Ability
     private void OnIncorrectInput()
     {
         Debug.Log("OnIncorrectInput");
+
+        MissedActionCommandSound.Play();
 
         Sequence.RemoveAt(0);
     }

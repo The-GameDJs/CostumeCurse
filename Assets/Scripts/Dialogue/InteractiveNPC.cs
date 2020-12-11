@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,6 +20,8 @@ public class InteractiveNPC : MonoBehaviour
     private GameObject DialogueIndicatorUI;
     private const float IndicatorOffsetScale = 1.35f;
 
+    private AudioSource NPCSpeakSound;
+
     void Start()
     {
         DialogueManager = GameObject.FindGameObjectWithTag("DialogueManager").GetComponent<DialogueManager>();
@@ -30,6 +33,8 @@ public class InteractiveNPC : MonoBehaviour
 
         DialogueIndicatorUI = GameObject.FindGameObjectWithTag("DialogueIndicator");
         DialogueIndicatorAnim = DialogueIndicatorUI.GetComponent<Animator>();
+
+        NPCSpeakSound = GetComponentInChildren<AudioSource>();
     }
 
     void Update()
