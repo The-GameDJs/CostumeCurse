@@ -213,6 +213,11 @@ public abstract class Combatant : MonoBehaviour
         HealthBar.SetActive(true);
     }
 
+    public void TurnToFaceInCombat(Transform other)
+    {
+        this.transform.LookAt(other, Vector3.up);
+    }
+
     // Due to how the animator event system work, we have no choice but to broadcast this event down :( 
     public void DealBonkDamage()
     {
