@@ -31,11 +31,14 @@ public class TargetSelector : MonoBehaviour
     private GameObject[] CurrentTargetedCombatants;
     private Ability CallingAbility;
     private TargetSchema CurrentTargetSchema;
+    private GameObject SelectTextPrompt;
 
     public void Start()
     {
         MouseSelector = GetComponent<MouseSelect>();
         MouseSelector.enabled = false;
+        SelectTextPrompt = GameObject.Find("CombatTextBox");
+        SelectTextPrompt.SetActive(false);
         CombatSystem = GameObject.FindGameObjectWithTag("CombatSystem").GetComponent<CombatSystem>();
     }
 
@@ -66,6 +69,7 @@ public class TargetSelector : MonoBehaviour
     {
         MouseSelector.enabled = true;
         MouseSelector.IsSingleTargetting = true;
+        SelectTextPrompt.SetActive(true);
         
         while (!MouseSelector.IsTargetSelected)
         {
@@ -75,6 +79,7 @@ public class TargetSelector : MonoBehaviour
                 Debug.Log("Regretting decision");
                 MouseSelector.IsRegrettingDecision = false;
                 CombatSystem.GoBackToAbilitySelect();
+                SelectTextPrompt.SetActive(false);
                 yield break;
             }
             yield return null;
@@ -83,6 +88,7 @@ public class TargetSelector : MonoBehaviour
         MouseSelector.IsSingleTargetting = false;
         MouseSelector.IsTargetSelected = false;
         MouseSelector.enabled = false;
+        SelectTextPrompt.SetActive(false);
 
         ReplyToCallingAbility();
     }
@@ -99,6 +105,7 @@ public class TargetSelector : MonoBehaviour
             Where(combatant => combatant.CompareTag("Enemy") && combatant.GetComponent<Combatant>().IsAlive).ToArray();
 
         MouseSelector.enabled = true;
+        SelectTextPrompt.SetActive(true);
         
         while (!MouseSelector.IsTargetSelected)
         {
@@ -108,10 +115,12 @@ public class TargetSelector : MonoBehaviour
                 Debug.Log("Regretting decision");
                 MouseSelector.IsRegrettingDecision = false;
                 CombatSystem.GoBackToAbilitySelect();
+                SelectTextPrompt.SetActive(false);
                 yield break;
             }
             yield return null;
         }
+        SelectTextPrompt.SetActive(false);
 
         MouseSelector.IsTargetSelected = false;
         MouseSelector.enabled = false;

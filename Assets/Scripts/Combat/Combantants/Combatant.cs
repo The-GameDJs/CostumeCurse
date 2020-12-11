@@ -238,5 +238,4 @@ public abstract class Combatant : MonoBehaviour
     {
 
     }
-
 }

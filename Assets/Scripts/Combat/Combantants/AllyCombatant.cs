@@ -50,9 +50,4 @@ public class AllyCombatant : Combatant
 
         TakeDamage(attack.Damage);
     }
-
-    public void CancelTargeting()
-    {
-        // TODO
-    }
 }
