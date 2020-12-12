@@ -2,6 +2,9 @@
 using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using UnityEngine.SceneManagement;
+using System.Collections;
+using TMPro;
 
 #if UNITY_EDITOR
     using UnityEditor;
@@ -23,6 +26,10 @@ public class CombatSystem : MonoBehaviour
     private GameObject Ganiel;
 
     public bool IsInProgress = false;
+    
+    private CandyCornManager CandyCornManager;
+    private int TotalCandyReward;
+    private GameObject BattleVictoryBanner;
 
     void Start()
     {
@@ -30,11 +37,15 @@ public class CombatSystem : MonoBehaviour
             AssetDatabase.Refresh(); // This will update all animators, fixes a bug with Git! 
         #endif
 
+        BattleVictoryBanner = GameObject.Find("BattleVictoryBanner");
+        BattleVictoryBanner.GetComponent<CanvasGroup>().alpha = 0f;
         MainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         CameraRig = MainCamera.GetComponent<CameraRig>();
 
         Sield = GameObject.Find("Sield");
         Ganiel = GameObject.Find("Sield");
+
+        CandyCornManager = GameObject.FindObjectOfType<CandyCornManager>();
     }
 
     private int SortByTurnPriority(GameObject combatant1, GameObject combatant2)
@@ -54,11 +65,15 @@ public class CombatSystem : MonoBehaviour
     // Called by CombatZone
     public void StartCombat(GameObject CombatZone, GameObject[] allies, GameObject[] enemies)
     {
+        TotalCandyReward = 0;
         IsInProgress = true;
 
         CurrentCombatZone = CombatZone;
         AllyCombatants = allies.ToList();
         EnemyCombatants = enemies.ToList();
+
+        foreach (var enemy in EnemyCombatants)
+            TotalCandyReward += enemy.GetComponent<EnemyCombatant>().GetCandyCornValue();
         
         Combatants = AllyCombatants.Concat(EnemyCombatants).ToList();
 
@@ -78,6 +93,11 @@ public class CombatSystem : MonoBehaviour
     private void OnAllyWin()
     {
         Debug.Log("!!!!Allies Win!!!!");
+        CandyCornManager.AddCandyCorn(TotalCandyReward);
+
+        BattleVictoryBanner.GetComponentInChildren<TMP_Text>().text = "You got " + TotalCandyReward;
+
+        StartCoroutine(ShowVictoryBanner());
 
         CurrentCombatZone.GetComponent<CombatZone>().DestroyCombatZone();
 
@@ -96,14 +116,7 @@ public class CombatSystem : MonoBehaviour
 
     private void OnEnemyWin()
     {
-        Debug.Log("....Enemies Win....");
-
-        CurrentCombatZone.GetComponent<CombatZone>().DestroyCombatZone();
-
-        CameraRig.SetTransitionSmoothness(60);
-        CameraRig.MoveCameraAbsolute(
-            CameraRig.transform.position + 100 * Vector3.up,
-            Quaternion.Euler(Vector3.up));
+        SceneManager.LoadScene("Game_Over");
     }
 
     public void EndTurn(GameObject combatant)
@@ -178,5 +191,12 @@ public class CombatSystem : MonoBehaviour
             enemy.transform.LookAt(AllyCombatants[Random.Range(0, AllyCombatants.Count)].transform.position);
 
         Combatants[CurrentCombatantTurn - 1].GetComponent<Combatant>().StartTurn();
+    }
+
+    private IEnumerator ShowVictoryBanner()
+    {
+        BattleVictoryBanner.GetComponent<CanvasGroup>().alpha = 1f;
+        yield return new WaitForSeconds(2);
+        BattleVictoryBanner.GetComponent<CanvasGroup>().alpha = 0f;
     }
 }

@@ -15,14 +15,12 @@ public class EnemyCombatant : Combatant
     [SerializeField]
     private Ability[] Abilities;
 
-    private CandyCornManager CandyCornManager;
+
 
     new void Start()
     {
         base.Start();
         Abilities = GetComponentsInChildren<Ability>();
-
-        CandyCornManager = GameObject.FindObjectOfType<CandyCornManager>();
     }
 
     private new void Update()
@@ -73,8 +71,8 @@ public class EnemyCombatant : Combatant
         TakeDamage(attack.Damage);
     }
 
-    private void OnDestroy()
+    public int GetCandyCornValue()
     {
-        CandyCornManager.AddCandyCorn(CandyCornValue);
+        return CandyCornValue;
     }
 }

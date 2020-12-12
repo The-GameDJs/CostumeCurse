@@ -34,17 +34,18 @@ public class MagicShield : Ability
         base.Start();
         Timer = GetComponent<Timer>();
 
-        if (Arrows == null)
-        {
-            Arrows = new GameObject[4];
-            Arrows[0] = GameObject.Find("Up Arrow");
-            Arrows[1] = GameObject.Find("Down Arrow");
-            Arrows[2] = GameObject.Find("Left Arrow");
-            Arrows[3] = GameObject.Find("Right Arrow");
-        }
+        Arrows = new GameObject[4];
+        Arrows[0] = GameObject.Find("Up Arrow");
+        Arrows[1] = GameObject.Find("Down Arrow");
+        Arrows[2] = GameObject.Find("Left Arrow");
+        Arrows[3] = GameObject.Find("Right Arrow");
 
         foreach (GameObject arrow in Arrows)
+        {
+            print(arrow);
             arrow.SetActive(false);
+        }
+
 
         TargetSchema = new TargetSchema(
             0,
