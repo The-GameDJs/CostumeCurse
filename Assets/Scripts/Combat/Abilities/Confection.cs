@@ -238,8 +238,7 @@ public class Confection : Ability
         if (BrewCanvas != null)
         {
             //Move canvas to middle of the screen
-            Vector3 relativeScreenPosition = Camera.main.WorldToScreenPoint(transform.position);
-            BrewCanvas.transform.position = relativeScreenPosition;
+            BrewCanvas.transform.position = new Vector3(Screen.width/2f,Screen.height/2f,0f);
             EnableCanvas(BrewCanvas, true);
         }
         else
@@ -265,8 +264,7 @@ public class Confection : Ability
         if(BakeCanvas != null)
         {
             //Move canvas to middle of the screen
-            Vector3 relativeScreenPosition = Camera.main.WorldToScreenPoint(transform.position);
-            BakeCanvas.transform.position = relativeScreenPosition;
+            BakeCanvas.transform.position = new Vector3(Screen.width/2f,Screen.height/2f,0f);
             EnableCanvas(BakeCanvas, true);
             SliderScript.StartSlider();
         }
