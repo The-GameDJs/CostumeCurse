@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class DialogueManager : MonoBehaviour
 {
-    [SerializeField] private Animator animator;
+    [SerializeField] private Animator Animator;
     public DialogueBubble DialogueUI;
     private Conversation Conversation;
 
@@ -100,7 +100,7 @@ public class DialogueManager : MonoBehaviour
 
     IEnumerator LoadLevel(int levelIndex)
     {
-        animator.SetTrigger("Start");
+        Animator.SetTrigger("Start");
 
         yield return new WaitForSeconds(3.0f);
 
