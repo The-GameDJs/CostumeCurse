@@ -112,6 +112,7 @@ public class CombatSystem : MonoBehaviour
             CameraRig.SetTargetGO(Ganiel);
             CameraRig.MoveCameraRelative(CameraRig.DefaultOffset, CameraRig.DefaultRotation);
         }
+
     }
 
     private void OnEnemyWin()
