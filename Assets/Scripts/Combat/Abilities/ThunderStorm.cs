@@ -58,8 +58,7 @@ public class ThunderStorm : Ability
     public new void Start()
     {
         base.Start();
-        if(Thunder == null)
-            Thunder = GameObject.Find("Thunderstorm");
+        Thunder = GameObject.Find("Thunderstorm");
         Timer = GetComponent<Timer>();
         ParticleComponent = Thunder.GetComponent<ParticleSystem>();
         MainModule = ParticleComponent.main;

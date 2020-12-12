@@ -56,8 +56,7 @@ namespace Combat.Abilities
         {
             base.Start();
             
-            if(Fireball == null)
-                Fireball = GameObject.Find("Fireball");
+            Fireball = GameObject.Find("Fireball");
             Timer = GetComponent<Timer>();
             ParticleComponent = Fireball.GetComponent<ParticleSystem>();
             MainModule = ParticleComponent.main;

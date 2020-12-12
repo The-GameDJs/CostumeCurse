@@ -29,13 +29,9 @@ public class CombatZone : MonoBehaviour
         CameraArea = GetComponentInChildren<CameraArea>();
         Timer = GetComponent<Timer>();
         
-        if (Players == null)
-        {
-            Players = new GameObject[2];
-            Players[0] = GameObject.Find("Sield");
-            Players[1] = GameObject.Find("Ganiel");
-        }
-
+        Players = new GameObject[2];
+        Players[0] = GameObject.Find("Sield");
+        Players[1] = GameObject.Find("Ganiel");
     }
 
     public void Update()
