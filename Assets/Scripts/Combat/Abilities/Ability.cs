@@ -6,6 +6,10 @@ using Random = UnityEngine.Random;
 
 public abstract class Ability : MonoBehaviour
 {
+    [SerializeField] private int CandyCornCost;
+    private CandyCornManager CandyCornManager;
+    private GameObject NotEnoughCandiesPrompt;
+
     protected TargetSelector TargetSelector;
     protected CombatSystem CombatSystem;
 
@@ -23,6 +27,9 @@ public abstract class Ability : MonoBehaviour
 
     public void Start()
     {
+        NotEnoughCandiesPrompt = GameObject.Find("NotEnoughCandyText");
+        NotEnoughCandiesPrompt.GetComponent<CanvasGroup>().alpha = 0f;
+        CandyCornManager = GameObject.FindObjectOfType<CandyCornManager>();
         TargetSelector = GameObject.FindGameObjectWithTag("TargetSelector").GetComponent<TargetSelector>();
         CombatSystem = GameObject.FindGameObjectWithTag("CombatSystem").GetComponent<CombatSystem>();
         Animator = GetComponentInParent<Animator>();
@@ -34,12 +41,20 @@ public abstract class Ability : MonoBehaviour
 
     public void StartAbility(bool userTargeting = true)
     {
-        // Hide UI for Allies
-        Costume costume = GetComponentInChildren<Costume>();
-        if (costume)
-            costume.DisplayAbilities(false);
+        if (CandyCornCost <= CandyCornManager.GetTotalCandyCorn())
+        {
+            // Hide UI for Allies
+            Costume costume = GetComponentInChildren<Costume>();
+            if (costume)
+                costume.DisplayAbilities(false);
 
-        TargetSelector.Target(this, userTargeting);
+            TargetSelector.Target(this, userTargeting);
+        }
+        else
+        {
+            StartCoroutine(ShowNotEnoughCandiesPrompt());
+        }
+
     }
 
     protected abstract void ContinueAbilityAfterTargeting();
@@ -47,6 +62,8 @@ public abstract class Ability : MonoBehaviour
     // called by the TargetSelector once it has selected targets
     public void SetTargetedCombatants(GameObject[] targetedCombatants)
     {
+        CandyCornManager.RemoveCandyCorn(CandyCornCost);
+        
         Debug.Log($"Ability about to continue! Got {targetedCombatants.Length} combatnats");
         TargetedCombatants = targetedCombatants;
         
@@ -63,4 +80,11 @@ public abstract class Ability : MonoBehaviour
     }
 
     protected abstract void EndAbility();
+
+    private IEnumerator ShowNotEnoughCandiesPrompt()
+    {
+        NotEnoughCandiesPrompt.GetComponent<CanvasGroup>().alpha = 1f;
+        yield return new WaitForSeconds(1);
+        NotEnoughCandiesPrompt.GetComponent<CanvasGroup>().alpha = 0f;
+    }
 }

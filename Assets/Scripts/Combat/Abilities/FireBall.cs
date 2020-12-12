@@ -260,7 +260,7 @@ namespace Combat.Abilities
                 FireballShrinkUnstable * FireballParticleSystemAdjustmentFactor : 
                 FireballShrinkNormal * FireballParticleSystemAdjustmentFactor;
             if (TargetFireballSize < 0)
-                TargetFireballSize = 0f;
+                TargetFireballSize = 0.2f;
             FireballScalingElapsedTime = 0;
         }
 
