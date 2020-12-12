@@ -12,7 +12,6 @@ public class InteractiveNPC : MonoBehaviour
     public float MinDistanceForCheck = 5f;
     private DialogueManager DialogueManager;
     public Conversation Conversation;
-    //private GameObject Player;
     private GameObject Sield;
 
     
@@ -25,7 +24,6 @@ public class InteractiveNPC : MonoBehaviour
     void Start()
     {
         DialogueManager = GameObject.FindGameObjectWithTag("DialogueManager").GetComponent<DialogueManager>();
-        //Player = GameObject.FindWithTag("Player");
         Sield = GameObject.Find("Sield");
         IsConversationActive = false;
         IsPlayerInRange = false;
