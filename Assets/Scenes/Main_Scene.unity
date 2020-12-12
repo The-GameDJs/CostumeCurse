@@ -7517,10 +7517,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 652125756}
     m_Modifications:
-    - target: {fileID: 4292595803075815099, guid: ed91cc94734486443822a93acc4b9f01, type: 3}
-      propertyPath: HurtSound
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 6543156113162692069, guid: ed91cc94734486443822a93acc4b9f01, type: 3}
       propertyPath: m_Name
       value: SkeledoodleFire
@@ -13205,7 +13201,7 @@ PrefabInstance:
       objectReference: {fileID: 8007653149540863627}
     - target: {fileID: 445950430552367694, guid: ec49ba67b66451342aacf76b17feebaa, type: 3}
       propertyPath: MaxHealthPoints
-      value: 500
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 3550748469504824005, guid: ec49ba67b66451342aacf76b17feebaa, type: 3}
       propertyPath: m_Enabled
@@ -21077,6 +21073,18 @@ PrefabInstance:
       propertyPath: BrewCanvas
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 2121341942659208810, guid: 5ef547a01e5efa34d82a65ab26cfe4d2, type: 3}
+      propertyPath: CandyCornCost
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4240874311502651219, guid: 5ef547a01e5efa34d82a65ab26cfe4d2, type: 3}
+      propertyPath: CandyCornCost
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4598501503844166553, guid: 5ef547a01e5efa34d82a65ab26cfe4d2, type: 3}
+      propertyPath: CandyCornCost
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 6157703694785982094, guid: 5ef547a01e5efa34d82a65ab26cfe4d2, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -21159,24 +21167,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7887312764890489834, guid: 5ef547a01e5efa34d82a65ab26cfe4d2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 78.2
+      value: 86.11
       objectReference: {fileID: 0}
     - target: {fileID: 7887312764890489834, guid: 5ef547a01e5efa34d82a65ab26cfe4d2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 200.9
+      value: 201.3
       objectReference: {fileID: 0}
     - target: {fileID: 7887312764890489834, guid: 5ef547a01e5efa34d82a65ab26cfe4d2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 438.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8454097014992259087, guid: 5ef547a01e5efa34d82a65ab26cfe4d2, type: 3}
-      propertyPath: MaxHealthPoints
-      value: 300
+      value: 425.4
       objectReference: {fileID: 0}
     - target: {fileID: 8454097014992259087, guid: 5ef547a01e5efa34d82a65ab26cfe4d2, type: 3}
       propertyPath: HealthBarUIPanel
       value: 
       objectReference: {fileID: 554313628}
+    - target: {fileID: 8454097014992259087, guid: 5ef547a01e5efa34d82a65ab26cfe4d2, type: 3}
+      propertyPath: MaxHealthPoints
+      value: 300
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ef547a01e5efa34d82a65ab26cfe4d2, type: 3}
 --- !u!4 &1771448410 stripped
@@ -21372,7 +21380,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f5946f66a92aa4f40bced02d529bd6f0, type: 2}
+  - {fileID: 2100000, guid: c181afb7f37d3b84b93fa070735ad642, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -21410,7 +21418,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1798883947}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 677, y: 131.4, z: 567.98}
+  m_LocalPosition: {x: 677, y: 185.3, z: 567.98}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
   m_Father: {fileID: 1876107703}

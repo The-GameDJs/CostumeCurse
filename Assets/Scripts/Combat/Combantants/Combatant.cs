@@ -199,6 +199,7 @@ public abstract class Combatant : MonoBehaviour
     public void ExitCombat()
     {
         DestroyUIInstances();
+        ResetHitpoints();
         IsInCombat = false;
     }
 
@@ -281,5 +282,20 @@ public abstract class Combatant : MonoBehaviour
     {
         HealthBarUIPanel.GetComponent<CanvasGroup>().alpha = 1f;
         HealthBarUIPanel.GetComponent<CanvasGroup>().blocksRaycasts = true;
+    }
+
+    public void ResetHitpoints()
+    {
+        if(CurrentHealthPoints == 0 && !IsAlive)
+        {
+            CurrentHealthPoints = MaxHealthPoints;
+            IsAlive = true;
+            Animator.Play("Base Layer.IdleWalk");
+        }
+
+        else
+        {
+            CurrentHealthPoints = MaxHealthPoints;
+        }
     }
 }

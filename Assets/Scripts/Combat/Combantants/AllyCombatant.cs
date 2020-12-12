@@ -41,7 +41,7 @@ public class AllyCombatant : Combatant
 
     public override void EndTurn()
     {
-        return;
+        CombatSystem.EndTurn(this.gameObject);
     }
 
     public override void Defend(Attack attack)
