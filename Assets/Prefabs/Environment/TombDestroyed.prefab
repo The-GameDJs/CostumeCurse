@@ -113,6 +113,7 @@ Transform:
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children:
   - {fileID: 5508386998204538221}
+  - {fileID: 546178050364493225}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
@@ -193,3 +194,69 @@ MonoBehaviour:
   MinDistance: 3.5
   MinDistanceForCheck: 5
   Conversation: {fileID: 11400000, guid: 8f8e0380bc8ba1247b89f48be7458a0e, type: 2}
+--- !u!1001 &1660806192783550492
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 8309285478536422187}
+    m_Modifications:
+    - target: {fileID: 1195763313182942645, guid: e52bd872108741345bb469cdc8ad045b, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1195763313182942645, guid: e52bd872108741345bb469cdc8ad045b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1195763313182942645, guid: e52bd872108741345bb469cdc8ad045b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1195763313182942645, guid: e52bd872108741345bb469cdc8ad045b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1195763313182942645, guid: e52bd872108741345bb469cdc8ad045b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1195763313182942645, guid: e52bd872108741345bb469cdc8ad045b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1195763313182942645, guid: e52bd872108741345bb469cdc8ad045b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1195763313182942645, guid: e52bd872108741345bb469cdc8ad045b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1195763313182942645, guid: e52bd872108741345bb469cdc8ad045b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1195763313182942645, guid: e52bd872108741345bb469cdc8ad045b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1195763313182942645, guid: e52bd872108741345bb469cdc8ad045b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2023682588148327961, guid: e52bd872108741345bb469cdc8ad045b, type: 3}
+      propertyPath: m_Name
+      value: NPCSpeakSound
+      objectReference: {fileID: 0}
+    - target: {fileID: 2763635617648107894, guid: e52bd872108741345bb469cdc8ad045b, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: c1664153c5cd7084d955cbb49dce4d62, type: 3}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e52bd872108741345bb469cdc8ad045b, type: 3}
+--- !u!4 &546178050364493225 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1195763313182942645, guid: e52bd872108741345bb469cdc8ad045b, type: 3}
+  m_PrefabInstance: {fileID: 1660806192783550492}
+  m_PrefabAsset: {fileID: 0}

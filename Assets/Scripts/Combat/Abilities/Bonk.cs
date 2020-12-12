@@ -18,7 +18,7 @@ namespace Combat.Abilities
         [SerializeField]
         private const float DisengagingDuration = 0.75f;
 
-        private const float Damage = 25;
+        [SerializeField] private float Damage;
 
         private Vector3 InitialPosition;
         private GameObject Victim;

@@ -24,7 +24,7 @@ public class MagicShield : Ability
     private Phase CurrentPhase = Phase.Inactive;
 
     private readonly float MinMagicShieldHealth = 20f;
-    private readonly float ShieldSlope = 100f;
+    private readonly float ShieldSlope = 20f;
     private int CorrectInputs = 0;
     private int ArrowsMoved = 0;
     private int MagicShieldHealth;
