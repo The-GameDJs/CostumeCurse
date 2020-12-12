@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class DialogueManager : MonoBehaviour
 {
+    [SerializeField] private Animator animator;
     public DialogueBubble DialogueUI;
     private Conversation Conversation;
 
@@ -66,6 +68,14 @@ public class DialogueManager : MonoBehaviour
 
     public void CloseDialogue()
     {
+        Debug.Log(CurrentSpeaker.gameObject.name);
+        if (CurrentSpeaker.gameObject.name == "The Witch")
+        {
+            Debug.Log("detected");
+            // crossfade animation;
+            LoadForestLevel();
+        }
+
         DisplayDialogueBubble = false;
         ActiveLineIndex = 0;
         DialogueUI.Close();
@@ -81,5 +91,19 @@ public class DialogueManager : MonoBehaviour
         Vector3 offsetPos = new Vector3(CurrentSpeaker.transform.position.x, CurrentSpeaker.transform.position.y + yOffset, CurrentSpeaker.transform.position.z);
         Vector3 relativeScreenPosition = Camera.main.WorldToScreenPoint(offsetPos);
         DialogueUI.transform.position = relativeScreenPosition;
+    }
+
+    public void LoadForestLevel()
+    {
+        StartCoroutine(LoadLevel(SceneManager.GetActiveScene().buildIndex + 1));
+    }
+
+    IEnumerator LoadLevel(int levelIndex)
+    {
+        animator.SetTrigger("Start");
+
+        yield return new WaitForSeconds(3.0f);
+
+        SceneManager.LoadScene(levelIndex);
     }
 }
