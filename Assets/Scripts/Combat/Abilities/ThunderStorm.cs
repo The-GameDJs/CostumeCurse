@@ -36,10 +36,10 @@ public class ThunderStorm : Ability
     private readonly float ThunderStormScale = 0.04f;
     private readonly float ThunderStormHeight = 7f;
     private readonly float ThunderCloudDuration = 5.0f;
-    private readonly int ThunderCloudMinimumDamage = 10;
-    private readonly int ThunderCloudMaximumDamage = 50;
+    private readonly int ThunderCloudMinimumDamage = 15;
+    private readonly int ThunderCloudMaximumDamage = 30;
     private readonly int ThunderCloudDifficultyCurve = 5;
-    private readonly int ThunderStrikePerfectDamageBonus = 50;
+    private readonly int ThunderStrikePerfectDamageBonus = 40;
     private readonly int ThunderStrikeGoodDamageBonus = 25;
 
     private ThunderstormPhase CurrentPhase = ThunderstormPhase.Inactive;

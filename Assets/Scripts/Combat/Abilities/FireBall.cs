@@ -39,8 +39,8 @@ namespace Combat.Abilities
         private float FireballScalingElapsedTime = 0;
 
         [Header("Stats")]
-        private const float FireballMaximumDamage = 100;
-        private const float FireballMinimumDamage = 10;
+        private const float FireballMaximumDamage = 150;
+        private const float FireballMinimumDamage = 75;
         private const float FireballDifficultyCurve = 100;
 
         [Header("Components")]

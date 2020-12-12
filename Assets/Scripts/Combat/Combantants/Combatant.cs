@@ -11,7 +11,7 @@ public abstract class Combatant : MonoBehaviour
     [SerializeField] public int TurnPriority;
     [SerializeField] private int MaxHealthPoints;
     private int CurrentHealthPoints;
-    public int MaxShieldPoints;
+    private int MaxShieldPoints;
     private int CurrentShieldPoints;
     protected CombatSystem CombatSystem;
     
