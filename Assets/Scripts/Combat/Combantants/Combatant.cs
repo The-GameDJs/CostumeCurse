@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.Combat;
+using Assets.Scripts.Combat;
 using Combat.Abilities;
 using System.Collections;
 using System.Collections.Generic;
@@ -199,7 +199,7 @@ public abstract class Combatant : MonoBehaviour
     public void ExitCombat()
     {
         DestroyUIInstances();
-        ResetHitpoints();
+        ResetPoints();
         IsInCombat = false;
     }
 
@@ -267,6 +267,7 @@ public abstract class Combatant : MonoBehaviour
         {
             Destroy(Shield);
             Shield = null;
+            IsShieldSpawned = false;
             Destroy(ShieldBar);
             ShieldBar = null;
         }
@@ -284,18 +285,12 @@ public abstract class Combatant : MonoBehaviour
         HealthBarUIPanel.GetComponent<CanvasGroup>().blocksRaycasts = true;
     }
 
-    public void ResetHitpoints()
+    public void ResetPoints()
     {
-        if(CurrentHealthPoints == 0 && !IsAlive)
-        {
-            CurrentHealthPoints = MaxHealthPoints;
-            IsAlive = true;
-            Animator.Play("Base Layer.IdleWalk");
-        }
-
-        else
-        {
-            CurrentHealthPoints = MaxHealthPoints;
-        }
+        IsAlive = true;
+        Animator.Play("Base Layer.IdleWalk");
+        CurrentHealthPoints = MaxHealthPoints;
+        CurrentShieldPoints = 0;
+        MaxShieldPoints = 0;
     }
 }
