@@ -4,18 +4,20 @@ using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-// This handles the GameObject that holds DragAndDrop items
-// When a GameObject is dropped on it, it will snap to the center
-public class ItemsBeingDropped : MonoBehaviour, IDropHandler
+public class Clip : MonoBehaviour, IDropHandler
 {
-    private int SweetsDropped = 0;
-    private int RotsDropped = 0;
-
     private Collider2D Collider2D;
+    private bool IsFilled;
+
+    [Header("Bullet Sprites")]
+
+    [SerializeField] public Sprite BulletEmpty;
+    [SerializeField] public Sprite BulletFilled;
 
     public void Start()
     {
         Collider2D = GetComponent<Collider2D>();
+        IsFilled = false;
     }
 
     public void OnDrop(PointerEventData eventData)
@@ -33,36 +35,26 @@ public class ItemsBeingDropped : MonoBehaviour, IDropHandler
     {
         if (!eventData.pointerDrag.GetComponent<DragAndDrop>().GetIsInside())
         {
-            if(eventData.pointerDrag.name == "Sweet")
+            if (eventData.pointerDrag.name == "Bullet" && !IsFilled)
             {
-                SweetsDropped++;
-                Debug.Log("Sweets Dropped:" + SweetsDropped);
+                Debug.Log("Bullet Dropped");
                 eventData.pointerDrag.GetComponent<DragAndDrop>().SetIsInside(true);
-                eventData.pointerDrag.SetActive(false);
-            }
-
-            else if(eventData.pointerDrag.name == "Rotten")
-            {
-                RotsDropped++;
-                eventData.pointerDrag.GetComponent<DragAndDrop>().SetIsInside(true);
+                IsFilled = true;
+                GetComponent<Image>().sprite = BulletFilled;
                 eventData.pointerDrag.SetActive(false);
             }
         }
     }
 
-    public void ResetConfectionValues()
+    public void ResetRevolverValues()
     {
-        SweetsDropped = 0;
-        RotsDropped = 0;
+        IsFilled = false;
+        GetComponent<Image>().sprite = BulletEmpty;
     }
 
-    public int GetSweetsDropped()
+    public bool IsClipFilled()
     {
-        return SweetsDropped;
+        return IsFilled;
     }
 
-    public int GetRotsDropped()
-    {
-        return RotsDropped;
-    }
 }

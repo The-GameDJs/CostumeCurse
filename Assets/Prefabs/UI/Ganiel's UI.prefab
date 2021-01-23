@@ -490,7 +490,7 @@ GameObject:
   - component: {fileID: 6265181809129245113}
   - component: {fileID: 8443129470885577874}
   m_Layer: 5
-  m_Name: TimerText
+  m_Name: ReloadTimerText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -544,7 +544,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: e3265ab4bf004d28a9537516768c1c75, type: 3}
     m_FontSize: 27
     m_FontStyle: 0
     m_BestFit: 0
@@ -569,7 +569,7 @@ GameObject:
   - component: {fileID: 7038588330609525268}
   - component: {fileID: 2206124077314493888}
   - component: {fileID: 8632564432150813458}
-  - component: {fileID: 8005092053261334165}
+  - component: {fileID: 4858718642620233584}
   m_Layer: 5
   m_Name: Clip
   m_TagString: Untagged
@@ -650,7 +650,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 12.85
---- !u!114 &8005092053261334165
+--- !u!114 &4858718642620233584
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -659,9 +659,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 4124798488097345955}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7338e9b47cef1fd4db09e8d545ab9cd8, type: 3}
+  m_Script: {fileID: 11500000, guid: 5d43f8a8b3eabb14fb94c8064d72a951, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BulletEmpty: {fileID: 21300000, guid: 144eb6db9cb34924ab8c284d51e4d3d8, type: 3}
+  BulletFilled: {fileID: 21300000, guid: 9e6b5d5ee5bd66045870a3e980036174, type: 3}
 --- !u!1 &4502084629240335613
 GameObject:
   m_ObjectHideFlags: 0
@@ -1513,7 +1515,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: e3265ab4bf004d28a9537516768c1c75, type: 3}
     m_FontSize: 27
     m_FontStyle: 0
     m_BestFit: 0
@@ -4515,7 +4517,7 @@ GameObject:
   - component: {fileID: 1847646382381799565}
   - component: {fileID: 5244918919585997213}
   - component: {fileID: 5583961445551439115}
-  - component: {fileID: 2715520165910225081}
+  - component: {fileID: 1941999999347527692}
   m_Layer: 5
   m_Name: Clip
   m_TagString: Untagged
@@ -4596,7 +4598,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 12.85
---- !u!114 &2715520165910225081
+--- !u!114 &1941999999347527692
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4605,9 +4607,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 8391755083435703740}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7338e9b47cef1fd4db09e8d545ab9cd8, type: 3}
+  m_Script: {fileID: 11500000, guid: 5d43f8a8b3eabb14fb94c8064d72a951, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BulletEmpty: {fileID: 21300000, guid: 144eb6db9cb34924ab8c284d51e4d3d8, type: 3}
+  BulletFilled: {fileID: 21300000, guid: 9e6b5d5ee5bd66045870a3e980036174, type: 3}
 --- !u!1 &8542518050652581842
 GameObject:
   m_ObjectHideFlags: 0
@@ -4655,7 +4659,7 @@ GameObject:
   - component: {fileID: 3183241352871149371}
   - component: {fileID: 2071125030799674679}
   - component: {fileID: 5066943458637158369}
-  - component: {fileID: 6227495457791862502}
+  - component: {fileID: 5023363698204460324}
   m_Layer: 5
   m_Name: Clip
   m_TagString: Untagged
@@ -4736,7 +4740,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 12.85
---- !u!114 &6227495457791862502
+--- !u!114 &5023363698204460324
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4745,9 +4749,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 8966049889148580346}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7338e9b47cef1fd4db09e8d545ab9cd8, type: 3}
+  m_Script: {fileID: 11500000, guid: 5d43f8a8b3eabb14fb94c8064d72a951, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BulletEmpty: {fileID: 21300000, guid: 144eb6db9cb34924ab8c284d51e4d3d8, type: 3}
+  BulletFilled: {fileID: 21300000, guid: 9e6b5d5ee5bd66045870a3e980036174, type: 3}
 --- !u!1 &9076812273611925289
 GameObject:
   m_ObjectHideFlags: 0
@@ -4760,7 +4766,7 @@ GameObject:
   - component: {fileID: 4797710350159999344}
   - component: {fileID: 8047159916310596110}
   - component: {fileID: 226560009738657221}
-  - component: {fileID: 8917840308091008838}
+  - component: {fileID: 31457103684001258}
   m_Layer: 5
   m_Name: Clip
   m_TagString: Untagged
@@ -4841,7 +4847,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 12.85
---- !u!114 &8917840308091008838
+--- !u!114 &31457103684001258
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4850,6 +4856,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 9076812273611925289}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7338e9b47cef1fd4db09e8d545ab9cd8, type: 3}
+  m_Script: {fileID: 11500000, guid: 5d43f8a8b3eabb14fb94c8064d72a951, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BulletEmpty: {fileID: 21300000, guid: 144eb6db9cb34924ab8c284d51e4d3d8, type: 3}
+  BulletFilled: {fileID: 21300000, guid: 9e6b5d5ee5bd66045870a3e980036174, type: 3}

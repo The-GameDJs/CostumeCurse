@@ -49,6 +49,7 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     public void OnEndDrag(PointerEventData eventData)
     {
         CanvasGroup.blocksRaycasts = true;
+        // gameObject.transform.position = OriginalPos;
     }
 
     public void SetIsInside(bool isInsideSlot)
