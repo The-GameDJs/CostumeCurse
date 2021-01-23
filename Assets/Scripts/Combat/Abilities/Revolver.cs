@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Unity.VisualStudio.Editor;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,13 @@ public class Revolver : Ability
 
     [SerializeField] GameObject Bullet;
     [SerializeField] Canvas ReloadCanvas;
+
+
+
+    [Header("Bullet Sprites")]
+
+    [SerializeField] Sprite BulletEmpty;
+    [SerializeField] Sprite BulletFilled;
 
     public new void Start()
     {
