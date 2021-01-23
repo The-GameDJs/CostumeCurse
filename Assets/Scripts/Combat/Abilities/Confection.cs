@@ -19,7 +19,7 @@ public class Confection : Ability
     private Text TimerText;
     private static CanvasGroup BrewCanvasGroup;
     private static CanvasGroup BakeCanvasGroup;
-    private ItemSlot CookingPot;
+    private ItemsBeingDropped CookingPot;
     private SliderHandle SliderScript;
     private Timer Timer;
 
@@ -67,7 +67,7 @@ public class Confection : Ability
 
     private void StartBrewUI()
     {
-        CookingPot = BrewCanvas.GetComponentInChildren<ItemSlot>();
+        CookingPot = BrewCanvas.GetComponentInChildren<ItemsBeingDropped>();
         TimerText = BrewCanvas.GetComponentInChildren<Text>();
         
         if (BrewCanvasGroup == null)
@@ -313,6 +313,6 @@ public class Confection : Ability
 
         SweetsDropped = 0;
         RotsDropped = 0;
-        CookingPot.ResetValues();
+        CookingPot.ResetConfectionValues();
     }
 }
