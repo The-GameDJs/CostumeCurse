@@ -3,28 +3,32 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Revolver : Ability
 {
     private Timer Timer;
+    private float ReloadDuration = 4f;
+    private bool[] IsReserved;
     private enum RevolverPhase { Load, Shoot, Inactive }
     private RevolverPhase CurrentPhase = RevolverPhase.Inactive;
+    private Stack<DragAndDrop> BulletStuff = new Stack<DragAndDrop>();
 
-    [SerializeField] GameObject Bullet;
     [SerializeField] Canvas ReloadCanvas;
-
-
+    [SerializeField] GameObject[] BulletPositions;
 
     [Header("Bullet Sprites")]
 
-    [SerializeField] Sprite BulletEmpty;
-    [SerializeField] Sprite BulletFilled;
+    [SerializeField] public Sprite BulletEmpty;
+    [SerializeField] public Sprite BulletFilled;
 
     public new void Start()
     {
         base.Start();
         Timer = GetComponent<Timer>();
         ReloadCanvas.gameObject.SetActive(false);
+        IsReserved = new bool[BulletPositions.Length];
+
 
         TargetSchema = new TargetSchema(
             0,
@@ -41,10 +45,10 @@ public class Revolver : Ability
     private void Update()
     {
         if (CurrentPhase == RevolverPhase.Load)
-            RevolverLoadUpdate();
+            ReloadUpdate();
 
         if (CurrentPhase == RevolverPhase.Shoot)
-            RevolverShootUpdate();
+            ShootUpdate();
     }
 
     protected override void ContinueAbilityAfterTargeting()
@@ -54,12 +58,38 @@ public class Revolver : Ability
 
     private void StartReloadPhase()
     {
-        throw new NotImplementedException();
+        DragAndDrop[] bullets = ReloadCanvas.GetComponentsInChildren<DragAndDrop>();
+
+        foreach (DragAndDrop bullet in bullets)
+            BulletStuff.Push(bullet);
+
+        while(BulletStuff.Count != 0)
+        {
+            int randomPosition = Random.Range(0, 8);
+
+            if (!IsReserved[randomPosition])
+            {
+                BulletStuff.Pop().gameObject.transform.position = BulletPositions[randomPosition].transform.position;
+                IsReserved[randomPosition] = true;
+            }
+        }
+
+        ReloadCanvas.gameObject.SetActive(true);
+        CurrentPhase = RevolverPhase.Load;
+        Timer.StartTimer(ReloadDuration);
     }
 
-    private void RevolverShootUpdate()
+    private void ReloadUpdate()
     {
-        throw new NotImplementedException();
+        if(Timer.IsInProgress())
+        {
+            CheckDroppedBullets();
+        }
+    }
+
+    private void CheckDroppedBullets()
+    {
+        
     }
 
     private void StartShootingPhase()
@@ -67,7 +97,7 @@ public class Revolver : Ability
         throw new NotImplementedException();
     }
 
-    private void RevolverLoadUpdate()
+    private void ShootUpdate()
     {
         throw new NotImplementedException();
     }

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1821281448775330582}
   - component: {fileID: 1759414569145425516}
   m_Layer: 5
-  m_Name: Bullet (1)
+  m_Name: Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -255,7 +255,7 @@ GameObject:
   - component: {fileID: 1347777694999607486}
   - component: {fileID: 6378608201132848051}
   m_Layer: 5
-  m_Name: Bullet (2)
+  m_Name: Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -391,7 +391,7 @@ GameObject:
   - component: {fileID: 9054713605039101174}
   - component: {fileID: 4274373375775970960}
   m_Layer: 5
-  m_Name: Bullet (3)
+  m_Name: Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -569,8 +569,9 @@ GameObject:
   - component: {fileID: 7038588330609525268}
   - component: {fileID: 2206124077314493888}
   - component: {fileID: 8632564432150813458}
+  - component: {fileID: 8005092053261334165}
   m_Layer: 5
-  m_Name: Clip3
+  m_Name: Clip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -649,6 +650,18 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 12.85
+--- !u!114 &8005092053261334165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4124798488097345955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7338e9b47cef1fd4db09e8d545ab9cd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4502084629240335613
 GameObject:
   m_ObjectHideFlags: 0
@@ -1008,8 +1021,8 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5118138324407014024}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -269.56586}
-  m_LocalScale: {x: 1.7875, y: 1.7875, z: 1.7875}
+  m_LocalPosition: {x: 0, y: 0, z: 46.222527}
+  m_LocalScale: {x: 1.5525, y: 1.5525, z: 1.5525}
   m_Children:
   - {fileID: 2127962889031549723}
   - {fileID: 259400336780278344}
@@ -1026,12 +1039,12 @@ RectTransform:
   - {fileID: 7374279246189543060}
   - {fileID: 1487456089753757996}
   - {fileID: 7306173796630188}
-  m_Father: {fileID: 5650117169937024852}
-  m_RootOrder: 2
+  m_Father: {fileID: 1040867576025719745}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 3726, y: -206}
+  m_AnchoredPosition: {x: 1482.8223, y: -510.34735}
   m_SizeDelta: {x: 800, y: 450.06995}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &4802617604654684682
@@ -1106,6 +1119,37 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!1 &5589359869587889970
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1040867576025719745}
+  m_Layer: 0
+  m_Name: Revolver UI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1040867576025719745
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5589359869587889970}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 6451123151909796303}
+  m_Father: {fileID: 4805335919054704252}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5650117168264658493
 GameObject:
   m_ObjectHideFlags: 0
@@ -1865,7 +1909,7 @@ RectTransform:
   - {fileID: 192340134312791495}
   - {fileID: 5650117170248726540}
   m_Father: {fileID: 4805335919054704252}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -2659,6 +2703,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5650117169937024852}
+  - {fileID: 1040867576025719745}
   - {fileID: 5650117168934821127}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -3511,7 +3556,6 @@ Transform:
   m_Children:
   - {fileID: 5650117168966652986}
   - {fileID: 5650117169178652661}
-  - {fileID: 6451123151909796303}
   m_Father: {fileID: 4805335919054704252}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4451,8 +4495,9 @@ GameObject:
   - component: {fileID: 1847646382381799565}
   - component: {fileID: 5244918919585997213}
   - component: {fileID: 5583961445551439115}
+  - component: {fileID: 2715520165910225081}
   m_Layer: 5
-  m_Name: Clip4
+  m_Name: Clip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4531,6 +4576,18 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 12.85
+--- !u!114 &2715520165910225081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8391755083435703740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7338e9b47cef1fd4db09e8d545ab9cd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8542518050652581842
 GameObject:
   m_ObjectHideFlags: 0
@@ -4578,8 +4635,9 @@ GameObject:
   - component: {fileID: 3183241352871149371}
   - component: {fileID: 2071125030799674679}
   - component: {fileID: 5066943458637158369}
+  - component: {fileID: 6227495457791862502}
   m_Layer: 5
-  m_Name: Clip1
+  m_Name: Clip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4658,6 +4716,18 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 12.85
+--- !u!114 &6227495457791862502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8966049889148580346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7338e9b47cef1fd4db09e8d545ab9cd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &9076812273611925289
 GameObject:
   m_ObjectHideFlags: 0
@@ -4670,8 +4740,9 @@ GameObject:
   - component: {fileID: 4797710350159999344}
   - component: {fileID: 8047159916310596110}
   - component: {fileID: 226560009738657221}
+  - component: {fileID: 8917840308091008838}
   m_Layer: 5
-  m_Name: Clip2
+  m_Name: Clip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4750,3 +4821,15 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 12.85
+--- !u!114 &8917840308091008838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9076812273611925289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7338e9b47cef1fd4db09e8d545ab9cd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
