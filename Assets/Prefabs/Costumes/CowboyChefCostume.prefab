@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3074916909344742394}
   - component: {fileID: 8275867983878601430}
   - component: {fileID: 8244650463296824930}
+  - component: {fileID: 3062844817910028114}
   m_Layer: 0
   m_Name: CowboyChefCostume
   m_TagString: Untagged
@@ -107,6 +108,23 @@ MonoBehaviour:
   BakeSound: {fileID: 490837043857045222}
   SweetCollectedSound: {fileID: 7624023035816383266}
   RottenCollectedSound: {fileID: 1006026378842062201}
+--- !u!114 &3062844817910028114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2603787283463153765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ab4b2211e7a5d7449e73996ee82320b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CandyCornCost: 0
+  MissedActionCommandSound: {fileID: 0}
+  GoodActionCommandSound: {fileID: 0}
+  PerfectActionCommandSound: {fileID: 0}
+  Bullet: {fileID: 0}
 --- !u!1001 &1244789673672827413
 PrefabInstance:
   m_ObjectHideFlags: 0
