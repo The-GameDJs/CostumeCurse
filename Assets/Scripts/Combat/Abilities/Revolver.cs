@@ -31,7 +31,7 @@ public class Revolver : Ability
 
 
         TargetSchema = new TargetSchema(
-            0,
+            1,
             CombatantType.Enemy,
             SelectorType.Number);
     }
