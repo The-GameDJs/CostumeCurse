@@ -3,6 +3,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class Revolver : Ability
@@ -13,14 +15,10 @@ public class Revolver : Ability
     private enum RevolverPhase { Load, Shoot, Inactive }
     private RevolverPhase CurrentPhase = RevolverPhase.Inactive;
     private Stack<DragAndDrop> BulletStuff = new Stack<DragAndDrop>();
+    private Text ReloadTimerText;
 
     [SerializeField] Canvas ReloadCanvas;
     [SerializeField] GameObject[] BulletPositions;
-
-    [Header("Bullet Sprites")]
-
-    [SerializeField] public Sprite BulletEmpty;
-    [SerializeField] public Sprite BulletFilled;
 
     public new void Start()
     {
@@ -28,7 +26,6 @@ public class Revolver : Ability
         Timer = GetComponent<Timer>();
         ReloadCanvas.gameObject.SetActive(false);
         IsReserved = new bool[BulletPositions.Length];
-
 
         TargetSchema = new TargetSchema(
             1,
@@ -69,13 +66,17 @@ public class Revolver : Ability
 
             if (!IsReserved[randomPosition])
             {
-                BulletStuff.Pop().gameObject.transform.position = BulletPositions[randomPosition].transform.position;
+                DragAndDrop bullet = BulletStuff.Pop();
+                bullet.gameObject.transform.position = BulletPositions[randomPosition].transform.position;
+                bullet.InitializeStartingPosition();
                 IsReserved[randomPosition] = true;
             }
         }
 
         ReloadCanvas.gameObject.SetActive(true);
+        ReloadTimerText = GameObject.Find("ReloadTimerText").GetComponent<Text>();
         CurrentPhase = RevolverPhase.Load;
+        ReloadCanvas.transform.position = new Vector3(Screen.width / 2f, Screen.height / 2f, 0f);
         Timer.StartTimer(ReloadDuration);
     }
 
@@ -83,13 +84,19 @@ public class Revolver : Ability
     {
         if(Timer.IsInProgress())
         {
-            CheckDroppedBullets();
+            float timeRemaining = ReloadDuration - Timer.GetProgress();
+            ReloadTimerText.text = Mathf.RoundToInt(timeRemaining) + "";
+        }
+
+        if(Timer.IsFinished())
+        {
+            EndReloadPhase();
         }
     }
 
-    private void CheckDroppedBullets()
+    private void EndReloadPhase()
     {
-        
+        // TODO: Calculate number of bullets dropped
     }
 
     private void StartShootingPhase()
