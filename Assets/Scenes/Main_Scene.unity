@@ -703,6 +703,11 @@ Transform:
   m_Father: {fileID: 1105241855}
   m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &112464731 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 3066114474422231529, guid: ec49ba67b66451342aacf76b17feebaa, type: 3}
+  m_PrefabInstance: {fileID: 1094398549}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &121573133
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14182,6 +14187,18 @@ PrefabInstance:
       propertyPath: PimpkinSpawnLocations.Array.data[5]
       value: 
       objectReference: {fileID: 663185930}
+    - target: {fileID: 6558649338711182627, guid: ec49ba67b66451342aacf76b17feebaa, type: 3}
+      propertyPath: ReloadSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 99bfb01410020a54ba4dd821711616b8, type: 3}
+    - target: {fileID: 6558649338711182627, guid: ec49ba67b66451342aacf76b17feebaa, type: 3}
+      propertyPath: ReloadSource
+      value: 
+      objectReference: {fileID: 1533047039}
+    - target: {fileID: 6558649338711182627, guid: ec49ba67b66451342aacf76b17feebaa, type: 3}
+      propertyPath: DropClipSource
+      value: 
+      objectReference: {fileID: 112464731}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ec49ba67b66451342aacf76b17feebaa, type: 3}
 --- !u!1001 &1102265056
@@ -20421,6 +20438,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 8002685612168256424, guid: b2353d5ef1033ce4da623b3aa7dc01b7, type: 3}
   m_PrefabInstance: {fileID: 1529160008}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &1533047039 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 2143939655498151170, guid: ec49ba67b66451342aacf76b17feebaa, type: 3}
+  m_PrefabInstance: {fileID: 1094398549}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1552808189 stripped
 GameObject:
@@ -32234,6 +32256,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.7
       objectReference: {fileID: 0}
+    - target: {fileID: 31457103684001258, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
+      propertyPath: DropClipSource
+      value: 
+      objectReference: {fileID: 112464731}
     - target: {fileID: 731468134708096655, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
       propertyPath: m_Name
       value: Bullet
@@ -32262,6 +32288,14 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.7
       objectReference: {fileID: 0}
+    - target: {fileID: 1606232248193133622, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
+      propertyPath: PipmkinDeathSource
+      value: 
+      objectReference: {fileID: 5650117169560658696}
+    - target: {fileID: 1941999999347527692, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
+      propertyPath: DropClipSource
+      value: 
+      objectReference: {fileID: 112464731}
     - target: {fileID: 2136879616962010809, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
       propertyPath: m_Name
       value: Bullet
@@ -32390,6 +32424,14 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 4858718642620233584, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
+      propertyPath: DropClipSource
+      value: 
+      objectReference: {fileID: 112464731}
+    - target: {fileID: 5023363698204460324, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
+      propertyPath: DropClipSource
+      value: 
+      objectReference: {fileID: 112464731}
     - target: {fileID: 5179494541622476745, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
       propertyPath: m_Radius
       value: 42.05
@@ -32410,6 +32452,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Spawn Location 3
       objectReference: {fileID: 0}
+    - target: {fileID: 6449642537604006984, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
+      propertyPath: PipmkinDeathSource
+      value: 
+      objectReference: {fileID: 5650117169560658696}
     - target: {fileID: 7088015954018803322, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
       propertyPath: m_Name
       value: Pimpkin Head
@@ -32430,6 +32476,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Spawn Location 5
       objectReference: {fileID: 0}
+    - target: {fileID: 7653101731165069100, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
+      propertyPath: PipmkinDeathSource
+      value: 
+      objectReference: {fileID: 5650117169560658696}
     - target: {fileID: 7998468750000444865, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.7
@@ -32446,6 +32496,10 @@ PrefabInstance:
       propertyPath: m_Radius
       value: 42.05
       objectReference: {fileID: 0}
+    - target: {fileID: 8152760817684793692, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
+      propertyPath: PipmkinDeathSource
+      value: 
+      objectReference: {fileID: 5650117169560658696}
     - target: {fileID: 8382815303374791853, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
       propertyPath: m_Radius
       value: 42.05
@@ -32515,6 +32569,11 @@ GameObject:
 --- !u!223 &5650117169560658695 stripped
 Canvas:
   m_CorrespondingSourceObject: {fileID: 7472890821147123339, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
+  m_PrefabInstance: {fileID: 5650117169560658686}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &5650117169560658696 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 4844819024866953055, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
   m_PrefabInstance: {fileID: 5650117169560658686}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &5680519943239370856

@@ -21,11 +21,14 @@ public class Revolver : Ability
     private RevolverPhase CurrentPhase = RevolverPhase.Inactive;
     private Stack<DragAndDrop> BulletStuff = new Stack<DragAndDrop>();
     private Text ReloadTimerText;
+    private Text ShootingTimerText;
+    [SerializeField] AudioSource ReloadSource;
 
     [Header("Reload Phase")]
     [SerializeField] Canvas ReloadCanvas;
     [SerializeField] GameObject[] BulletPositions;
     [SerializeField] GameObject[] Clips;
+   
 
     [Header("Shooting Phase")]
     [SerializeField] Canvas ShootingCanvas;
@@ -123,6 +126,7 @@ public class Revolver : Ability
         ResetReloadValues();
 
         Debug.Log($"Total bullets dropped: {TotalBulletsDropped}");
+        ReloadSource.Play();
         Thread.Sleep(500);
         StartShootingPhase();
     }
@@ -148,8 +152,10 @@ public class Revolver : Ability
     {
         ShootingCanvas.gameObject.SetActive(true);
         ShootingCanvas.transform.position = new Vector3(Screen.width / 2f, Screen.height / 2f, 0f);
+        ShootingTimerText = GameObject.Find("ShootingTimerText").GetComponent<Text>();
 
-        for(int i = 0; i < TotalBulletsDropped; i++)
+
+        for (int i = 0; i < TotalBulletsDropped; i++)
             BulletUI[i].SetActive(true);
 
         PimpkinHead[] pimpkins = ShootingCanvas.GetComponentsInChildren<PimpkinHead>();
@@ -164,6 +170,11 @@ public class Revolver : Ability
             if (!IsPimpkinReserved[randomPosition])
             {
                 PimpkinHead pimpkin = Pimpkins.Pop();
+                pimpkin.StartPosition.Set(
+                    PimpkinSpawnLocations[randomPosition].transform.position.x,
+                    PimpkinSpawnLocations[randomPosition].transform.position.y,
+                    PimpkinSpawnLocations[randomPosition].transform.position.z
+                    );
                 pimpkin.gameObject.transform.position = PimpkinSpawnLocations[randomPosition].transform.position;
                 IsPimpkinReserved[randomPosition] = true;
             }
@@ -175,7 +186,12 @@ public class Revolver : Ability
 
     private void ShootUpdate()
     {
-        
+        if (Timer.IsInProgress())
+        {
+            float timeRemaining = ReloadDuration - Timer.GetProgress();
+            ShootingTimerText.text = Mathf.RoundToInt(timeRemaining) + "";
+        }
+
     }
 
     protected override void EndAbility()

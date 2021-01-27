@@ -8,6 +8,7 @@ public class Clip : MonoBehaviour, IDropHandler
 {
     private Collider2D Collider2D;
     private bool IsFilled;
+    [SerializeField] AudioSource DropClipSource;
 
     [Header("Bullet Sprites")]
 
@@ -38,6 +39,7 @@ public class Clip : MonoBehaviour, IDropHandler
             if (eventData.pointerDrag.name == "Bullet" && !IsFilled)
             {
                 Debug.Log("Bullet Dropped");
+                DropClipSource.Play();
                 eventData.pointerDrag.GetComponent<DragAndDrop>().SetIsInside(true);
                 IsFilled = true;
                 GetComponent<Image>().sprite = BulletFilled;
