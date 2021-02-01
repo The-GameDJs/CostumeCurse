@@ -23,6 +23,7 @@ public class Revolver : Ability
     private Text ReloadTimerText;
     private Text ShootingTimerText;
     [SerializeField] AudioSource ReloadSource;
+    [SerializeField] AudioSource ShootSource;
 
     [Header("Reload Phase")]
     [SerializeField] Canvas ReloadCanvas;
@@ -170,11 +171,7 @@ public class Revolver : Ability
             if (!IsPimpkinReserved[randomPosition])
             {
                 PimpkinHead pimpkin = Pimpkins.Pop();
-                pimpkin.StartPosition.Set(
-                    PimpkinSpawnLocations[randomPosition].transform.position.x,
-                    PimpkinSpawnLocations[randomPosition].transform.position.y,
-                    PimpkinSpawnLocations[randomPosition].transform.position.z
-                    );
+                
                 pimpkin.gameObject.transform.position = PimpkinSpawnLocations[randomPosition].transform.position;
                 IsPimpkinReserved[randomPosition] = true;
             }
@@ -186,12 +183,32 @@ public class Revolver : Ability
 
     private void ShootUpdate()
     {
-        if (Timer.IsInProgress())
+        if (TotalBulletsDropped > 0 && Timer.IsInProgress())
         {
             float timeRemaining = ReloadDuration - Timer.GetProgress();
             ShootingTimerText.text = Mathf.RoundToInt(timeRemaining) + "";
+
+            if (Input.GetButtonDown("Action Command"))
+            {
+                BulletUI[TotalBulletsDropped - 1].SetActive(false);
+                TotalBulletsDropped--;
+                ShootSource.Play();
+            }
         }
 
+        else
+        {
+            Debug.Log("Ending Shooting Phase");
+            EndShootingPhase();
+        }
+
+    }
+
+    private void EndShootingPhase()
+    {
+        Debug.Log("Ending Ability");
+        // Reset Values
+        ShootingCanvas.gameObject.SetActive(false);
     }
 
     protected override void EndAbility()

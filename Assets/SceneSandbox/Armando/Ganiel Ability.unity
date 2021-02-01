@@ -1149,6 +1149,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4680181865211112658, guid: b243fff28c4237a4aafa9f8b13d79614, type: 3}
   m_PrefabInstance: {fileID: 136827527}
   m_PrefabAsset: {fileID: 0}
+--- !u!82 &137679267 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 1029410529247352188, guid: ec49ba67b66451342aacf76b17feebaa, type: 3}
+  m_PrefabInstance: {fileID: 1094398549}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &142805783
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13907,6 +13912,10 @@ PrefabInstance:
       propertyPath: DropClipSource
       value: 
       objectReference: {fileID: 112464731}
+    - target: {fileID: 6558649338711182627, guid: ec49ba67b66451342aacf76b17feebaa, type: 3}
+      propertyPath: ShootSource
+      value: 
+      objectReference: {fileID: 137679267}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ec49ba67b66451342aacf76b17feebaa, type: 3}
 --- !u!1001 &1102265056
@@ -31494,9 +31503,25 @@ PrefabInstance:
       propertyPath: DropClipSource
       value: 
       objectReference: {fileID: 112464731}
+    - target: {fileID: 226201900849097722, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -59.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 226201900849097722, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -96.1
+      objectReference: {fileID: 0}
     - target: {fileID: 731468134708096655, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
       propertyPath: m_Name
       value: Bullet
+      objectReference: {fileID: 0}
+    - target: {fileID: 963279844744680252, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 147.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 963279844744680252, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 9.9
       objectReference: {fileID: 0}
     - target: {fileID: 1040867576025719745, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -31542,6 +31567,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Spawn Location 4
       objectReference: {fileID: 0}
+    - target: {fileID: 2538016674378476567, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -67.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2538016674378476567, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 63.9
+      objectReference: {fileID: 0}
     - target: {fileID: 2751598225131616083, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
       propertyPath: m_Name
       value: Spawn Location 6
@@ -31569,6 +31602,14 @@ PrefabInstance:
     - target: {fileID: 4124798488097345955, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
       propertyPath: m_Name
       value: Clip
+      objectReference: {fileID: 0}
+    - target: {fileID: 4257675243880610027, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -65.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4257675243880610027, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 107.9
       objectReference: {fileID: 0}
     - target: {fileID: 4390172903536761120, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
       propertyPath: m_Name
@@ -31670,6 +31711,14 @@ PrefabInstance:
       propertyPath: m_Radius
       value: 42.05
       objectReference: {fileID: 0}
+    - target: {fileID: 5356137123442813364, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -14.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5356137123442813364, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -78.1
+      objectReference: {fileID: 0}
     - target: {fileID: 5650117169299745403, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
       propertyPath: m_Name
       value: Ganiel's UI
@@ -31685,6 +31734,14 @@ PrefabInstance:
     - target: {fileID: 5823209008936102448, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
       propertyPath: m_Name
       value: Spawn Location 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5976147115770414583, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -126.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5976147115770414583, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 2.7
       objectReference: {fileID: 0}
     - target: {fileID: 6449642537604006984, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
       propertyPath: PipmkinDeathSource

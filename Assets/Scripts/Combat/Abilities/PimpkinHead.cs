@@ -8,30 +8,28 @@ public class PimpkinHead : MonoBehaviour
     private bool IsHit;
     private RectTransform PimpkinBody;
     private Vector3 StartingPosition;
+    private int Switch = 0;
+    private float randomIntX;
+    private float randomIntY;
     [SerializeField] AudioSource PipmkinDeathSource;
-
-    public Vector3 StartPosition
-    {
-        get
-        {
-            return StartingPosition;
-        }
-        set
-        {
-            StartingPosition = new Vector3(value.x, value.y, value.z);
-        }
-    }
 
     void Start()
     {
         IsHit = false;
         PimpkinBody = GetComponent<RectTransform>();
-        StartPosition = PimpkinBody.transform.position;
+        randomIntX = Random.Range(-1, 1) + 0.5f; 
+        randomIntY = Random.Range(0, 1) + 0.5f;
     }
 
     void Update()
     {
-        PimpkinBody.transform.position = StartPosition + new Vector3(Mathf.Sin(5f * Time.deltaTime), Mathf.Cos(2f * Time.deltaTime), 0);
+        Switch++;
+        if (Switch % 120 == 0)
+        {
+            randomIntX = Random.Range(-2, 2);
+            randomIntY = Random.Range(0, 2);
+        }
+        PimpkinBody.transform.position += new Vector3(randomIntX, randomIntY, 0);
         /*
         Vector2 apos = mrect.anchoredPosition;
         float xpos = apos.x;
