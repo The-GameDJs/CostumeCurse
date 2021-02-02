@@ -248,9 +248,7 @@ public class Confection : Ability
 
         DragAndDrop[] allChildren = BrewCanvas.GetComponentsInChildren<DragAndDrop>();
         foreach (DragAndDrop child in allChildren)
-        {
             child.InitializeStartingPosition();
-        }
 
         Timer.StartTimer(BrewDuration);
     }

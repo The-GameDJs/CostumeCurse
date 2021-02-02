@@ -17,26 +17,27 @@ public class PimpkinHead : MonoBehaviour
     {
         IsHit = false;
         PimpkinBody = GetComponent<RectTransform>();
+        gameObject.SetActive(true);
         randomIntX = Random.Range(-1, 1) + 0.5f; 
         randomIntY = Random.Range(0, 1) + 0.5f;
     }
 
     void Update()
     {
+        MovePimpkinHead();
+    }
+
+    private void MovePimpkinHead()
+    {
         Switch++;
+
         if (Switch % 120 == 0)
         {
             randomIntX = Random.Range(-2, 2);
             randomIntY = Random.Range(0, 2);
         }
+
         PimpkinBody.transform.position += new Vector3(randomIntX, randomIntY, 0);
-        /*
-        Vector2 apos = mrect.anchoredPosition;
-        float xpos = apos.x;
-        xpos = Mathf.Clamp(xpos, 0, Screen.width - mrect.sizeDelta.x);
-        apos.x = xpos;
-        mrect.anchoredPosition = apos;
-        */
     }
 
     public void DestroyPimpkin()
@@ -49,5 +50,10 @@ public class PimpkinHead : MonoBehaviour
     public void ResetPimpkinValues()
     {
         IsHit = false;
+    }
+
+    public bool GetHit()
+    {
+        return IsHit;
     }
 }
