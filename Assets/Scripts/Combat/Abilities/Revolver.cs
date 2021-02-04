@@ -57,7 +57,7 @@ public class Revolver : Ability
         IsBulletReserved = new bool[BulletPositions.Length];
         IsPimpkinReserved = new bool[PimpkinSpawnLocations.Length];
         BulletUIInReload = ReloadCanvas.GetComponentsInChildren<DragAndDrop>();
-        Pimpkins = ShootingCanvas.GetComponentsInChildren<PimpkinHead>(); // only gets the ones that you didnt hit
+        Pimpkins = ShootingCanvas.GetComponentsInChildren<PimpkinHead>();
 
 
         for (int i = 0; i < BulletUIInShoot.Length; i++)
@@ -138,6 +138,7 @@ public class Revolver : Ability
 
     private void EndReloadPhase()
     {
+        Debug.Log("Ending Reload Phase");
         Timer.ResetTimer();
         ReloadCanvas.gameObject.SetActive(false);
 
@@ -153,10 +154,9 @@ public class Revolver : Ability
         foreach (GameObject c in Clips)
         {
             Clip singleClip = c.GetComponent<Clip>();
+
             if (singleClip.IsClipFilled())
-            {
                 TotalBulletsDropped++;
-            }
 
             singleClip.ResetRevolverValues();
         }
@@ -175,17 +175,19 @@ public class Revolver : Ability
         for (int i = 0; i < TotalBulletsDropped; i++)
             BulletUIInShoot[i].SetActive(true);
 
-
+        Debug.Log($"Total Pimpkins: {Pimpkins.Length}");
         foreach (PimpkinHead pimpkin in Pimpkins)
             PimpkinStack.Push(pimpkin);
 
-        while (PimpkinStack.Count != 0)
-        {
+        Debug.Log($"Pimpkin Stack {PimpkinStack.Count}");
+
+        while(PimpkinStack.Count != 0) {
             int randomPosition = Random.Range(0, 6);
 
             if (!IsPimpkinReserved[randomPosition])
             {
                 PimpkinHead pimpkin = PimpkinStack.Pop();
+                Debug.Log($"Pimpkin Popped: {PimpkinStack.Count} left");
                 pimpkin.gameObject.SetActive(true);
                 
                 pimpkin.gameObject.transform.position = PimpkinSpawnLocations[randomPosition].transform.position;
@@ -232,7 +234,10 @@ public class Revolver : Ability
         BulletsInClip = 0;
 
         for (int i = 0; i < BulletUIInShoot.Length; i++)
+        {
             BulletUIInShoot[i].SetActive(false);
+            IsPimpkinReserved[i] = false;
+        }
 
         Debug.Log($"Total Pimpkins Heads: {Pimpkins.Length}");
 
@@ -260,30 +265,27 @@ public class Revolver : Ability
     {
         // TODO
         float animationTime = 0f;
-        float animationDuration = 2f;
-        Animator.Play("Base Layer.Shoot");
+        float animationDuration = 1.5f;
 
-        yield return null;
-
-
-        /*while (animationTime < animationDuration)
+        while (animationTime < animationDuration)
         {
             animationTime += Time.deltaTime;
-        }*/
-
-
-        // CombatSystem.EndTurn(this.GetComponentInParent<Combatant>().gameObject);
-    }
-
-    protected override void EndAbility()
-    {
-        StartCoroutine(FireGun());
-        TotalPimpkinsHit = 0;
-        Debug.Log($"Revolver Damage total: {CurrentDamage}");
+            Animator.Play("Base Layer.Shoot");
+            yield return null;
+        }
 
         Attack attack = new Attack(CurrentDamage);
         TargetedCombatants[Random.Range(0, TargetedCombatants.Length)].GetComponent<Combatant>().Defend(attack);
 
         CombatSystem.EndTurn(this.GetComponentInParent<Combatant>().gameObject);
+    }
+
+    protected override void EndAbility()
+    {
+        TotalPimpkinsHit = 0;
+        Debug.Log($"Revolver Damage total: {CurrentDamage}");
+
+        StartCoroutine(FireGun());
+
     }
 }
