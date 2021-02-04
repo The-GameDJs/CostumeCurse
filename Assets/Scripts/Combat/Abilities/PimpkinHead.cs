@@ -50,6 +50,8 @@ public class PimpkinHead : MonoBehaviour
     public void ResetPimpkinValues()
     {
         IsHit = false;
+        gameObject.SetActive(true);
+        Switch = 0;
     }
 
     public bool GetHit()
