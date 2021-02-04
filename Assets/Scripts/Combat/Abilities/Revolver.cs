@@ -91,6 +91,7 @@ public class Revolver : Ability
 
     private void StartReloadPhase()
     {
+        Debug.Log("Starting Reload Phase");
         ReloadCanvas.transform.position = new Vector3(Screen.width / 2f, Screen.height / 2f, 0f);
         foreach (DragAndDrop bullet in BulletUIInReload)
             bullet.gameObject.SetActive(true);
@@ -144,7 +145,6 @@ public class Revolver : Ability
 
         Debug.Log($"Total bullets dropped: {TotalBulletsDropped}");
         ReloadSource.Play();
-        Thread.Sleep(500);
         StartShootingPhase();
     }
 
@@ -167,6 +167,7 @@ public class Revolver : Ability
 
     private void StartShootingPhase()
     {
+        Debug.Log("Starting Shooting Phase");
         ShootingCanvas.gameObject.SetActive(true);
         ShootingCanvas.transform.position = new Vector3(Screen.width / 2f, Screen.height / 2f, 0f);
         ShootingTimerText = GameObject.Find("ShootingTimerText").GetComponent<Text>();
@@ -174,9 +175,8 @@ public class Revolver : Ability
         for (int i = 0; i < TotalBulletsDropped; i++)
             BulletUIInShoot[i].SetActive(true);
 
-        PimpkinHead[] pimpkins = ShootingCanvas.GetComponentsInChildren<PimpkinHead>();
 
-        foreach (PimpkinHead pimpkin in pimpkins)
+        foreach (PimpkinHead pimpkin in Pimpkins)
             PimpkinStack.Push(pimpkin);
 
         while (PimpkinStack.Count != 0)
@@ -194,6 +194,7 @@ public class Revolver : Ability
         }
 
         CurrentPhase = RevolverPhase.Shoot;
+        TotalPimpkinsHit = 0;
         BulletsInClip = TotalBulletsDropped;
         Timer.StartTimer(ShootingDuration);
     }
@@ -223,12 +224,13 @@ public class Revolver : Ability
 
     private void EndShootingPhase()
     {
-
         Debug.Log("Ending Ability");
         // Reset Values
         Timer.ResetTimer();
         CurrentPhase = RevolverPhase.Inactive;
         TotalBulletsDropped = 0;
+        BulletsInClip = 0;
+
         for (int i = 0; i < BulletUIInShoot.Length; i++)
             BulletUIInShoot[i].SetActive(false);
 

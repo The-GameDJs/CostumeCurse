@@ -38,6 +38,7 @@ public class MouseSelect : MonoBehaviour
         if (Input.GetButtonDown("Fast Forward"))
         {
             IsRegrettingDecision = true;
+            ClearSelection();
             TargetIndicator.SetActive(false);
         }
 
