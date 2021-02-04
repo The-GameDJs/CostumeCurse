@@ -18,6 +18,8 @@ public class Revolver : Ability
     private int TotalPimpkinsHit = 0;
     private bool[] IsBulletReserved;
     private bool[] IsPimpkinReserved;
+    private DragAndDrop[] BulletUIInReload;
+    private PimpkinHead[] Pimpkins;
 
     private enum RevolverPhase { Load, Shoot, Inactive }
     private RevolverPhase CurrentPhase = RevolverPhase.Inactive;
@@ -41,9 +43,9 @@ public class Revolver : Ability
 
     [Header("Shooting Phase")]
     [SerializeField] Canvas ShootingCanvas;
-    [SerializeField] GameObject[] BulletUI;
+    [SerializeField] GameObject[] BulletUIInShoot;
     [SerializeField] GameObject[] PimpkinSpawnLocations;
-    private Stack<PimpkinHead> Pimpkins = new Stack<PimpkinHead>();
+    private Stack<PimpkinHead> PimpkinStack = new Stack<PimpkinHead>();
 
 
     public new void Start()
@@ -54,9 +56,12 @@ public class Revolver : Ability
         ShootingCanvas.gameObject.SetActive(false);
         IsBulletReserved = new bool[BulletPositions.Length];
         IsPimpkinReserved = new bool[PimpkinSpawnLocations.Length];
+        BulletUIInReload = ReloadCanvas.GetComponentsInChildren<DragAndDrop>();
+        Pimpkins = ShootingCanvas.GetComponentsInChildren<PimpkinHead>(); // only gets the ones that you didnt hit
 
-        for (int i = 0; i < BulletUI.Length; i++)
-            BulletUI[i].SetActive(false);
+
+        for (int i = 0; i < BulletUIInShoot.Length; i++)
+            BulletUIInShoot[i].SetActive(false);
 
         TargetSchema = new TargetSchema(
             1,
@@ -86,9 +91,11 @@ public class Revolver : Ability
 
     private void StartReloadPhase()
     {
-        DragAndDrop[] bullets = ReloadCanvas.GetComponentsInChildren<DragAndDrop>();
         ReloadCanvas.transform.position = new Vector3(Screen.width / 2f, Screen.height / 2f, 0f);
-        SetBulletLocations(bullets);
+        foreach (DragAndDrop bullet in BulletUIInReload)
+            bullet.gameObject.SetActive(true);
+
+        SetBulletLocations(BulletUIInReload);
 
         ReloadCanvas.gameObject.SetActive(true);
         ReloadTimerText = GameObject.Find("ReloadTimerText").GetComponent<Text>();
@@ -108,7 +115,7 @@ public class Revolver : Ability
             if (!IsBulletReserved[randomPosition])
             {
                 DragAndDrop bullet = Bullets.Pop();
-                bullet.gameObject.SetActive(true);
+                bullet.ResetPosition();
                 bullet.gameObject.transform.position = BulletPositions[randomPosition].transform.position;
                 bullet.InitializeStartingPosition();
                 IsBulletReserved[randomPosition] = true;
@@ -164,22 +171,21 @@ public class Revolver : Ability
         ShootingCanvas.transform.position = new Vector3(Screen.width / 2f, Screen.height / 2f, 0f);
         ShootingTimerText = GameObject.Find("ShootingTimerText").GetComponent<Text>();
 
-
         for (int i = 0; i < TotalBulletsDropped; i++)
-            BulletUI[i].SetActive(true);
+            BulletUIInShoot[i].SetActive(true);
 
         PimpkinHead[] pimpkins = ShootingCanvas.GetComponentsInChildren<PimpkinHead>();
 
         foreach (PimpkinHead pimpkin in pimpkins)
-            Pimpkins.Push(pimpkin);
+            PimpkinStack.Push(pimpkin);
 
-        while (Pimpkins.Count != 0)
+        while (PimpkinStack.Count != 0)
         {
             int randomPosition = Random.Range(0, 6);
 
             if (!IsPimpkinReserved[randomPosition])
             {
-                PimpkinHead pimpkin = Pimpkins.Pop();
+                PimpkinHead pimpkin = PimpkinStack.Pop();
                 pimpkin.gameObject.SetActive(true);
                 
                 pimpkin.gameObject.transform.position = PimpkinSpawnLocations[randomPosition].transform.position;
@@ -189,7 +195,6 @@ public class Revolver : Ability
 
         CurrentPhase = RevolverPhase.Shoot;
         BulletsInClip = TotalBulletsDropped;
-        Thread.Sleep(100);
         Timer.StartTimer(ShootingDuration);
     }
 
@@ -202,7 +207,7 @@ public class Revolver : Ability
 
             if (Input.GetButtonDown("Action Command"))
             {
-                BulletUI[BulletsInClip - 1].SetActive(false);
+                BulletUIInShoot[BulletsInClip - 1].SetActive(false);
                 BulletsInClip--;
                 ShootSource.Play();
             }
@@ -221,18 +226,23 @@ public class Revolver : Ability
 
         Debug.Log("Ending Ability");
         // Reset Values
-        ShootingCanvas.gameObject.SetActive(false);
+        Timer.ResetTimer();
         CurrentPhase = RevolverPhase.Inactive;
-        PimpkinHead[] pimpkins = ShootingCanvas.GetComponentsInChildren<PimpkinHead>(); // only gets the ones that you didnt hit
-        Debug.Log($"Total Pimpkins Heads: {pimpkins.Length}");
+        TotalBulletsDropped = 0;
+        for (int i = 0; i < BulletUIInShoot.Length; i++)
+            BulletUIInShoot[i].SetActive(false);
 
-        foreach (PimpkinHead pimpkin in pimpkins)
+        Debug.Log($"Total Pimpkins Heads: {Pimpkins.Length}");
+
+        foreach (PimpkinHead pimpkin in Pimpkins)
         {
             if (pimpkin.GetHit())
                 TotalPimpkinsHit++;
 
             pimpkin.ResetPimpkinValues();
         }
+
+        ShootingCanvas.gameObject.SetActive(false);
         Debug.Log($"Total Pimpkins Hit: {TotalPimpkinsHit}");
         CalculateRevolverDamage();
         EndAbility();
@@ -262,9 +272,6 @@ public class Revolver : Ability
 
         // CombatSystem.EndTurn(this.GetComponentInParent<Combatant>().gameObject);
     }
-
-
-
 
     protected override void EndAbility()
     {
