@@ -13,9 +13,7 @@ public class Revolver : Ability
     private Timer Timer;
     private readonly float ReloadDuration = 5f;
     private readonly float ShootingDuration = 5f;
-    private int TotalBulletsDropped = 0;
     private int BulletsInClip = 0;
-    private int TotalPimpkinsHit = 0;
     private bool[] IsBulletReserved;
     private bool[] IsPimpkinReserved;
     private DragAndDrop[] BulletUIInReload;
@@ -27,10 +25,11 @@ public class Revolver : Ability
     private Text ReloadTimerText;
     private Text ShootingTimerText;
 
-    private int CurrentDamage;
-    private readonly float BaseDamage = 0f;
-
-
+    private float TotalDamage;
+    private readonly float BaseDamage = 5f;
+    private readonly float MaxDamage = 80f;
+    private int TotalPimpkinsHit = 0;
+    private int TotalBulletsDropped = 0;
 
     [SerializeField] AudioSource ReloadSource;
     [SerializeField] AudioSource ShootSource;
@@ -92,16 +91,21 @@ public class Revolver : Ability
     private void StartReloadPhase()
     {
         Debug.Log("Starting Reload Phase");
+        PrepareReloadUI();
+        CurrentPhase = RevolverPhase.Load;
+        Timer.StartTimer(ReloadDuration);
+    }
+
+    private void PrepareReloadUI()
+    {
         ReloadCanvas.transform.position = new Vector3(Screen.width / 2f, Screen.height / 2f, 0f);
         foreach (DragAndDrop bullet in BulletUIInReload)
             bullet.gameObject.SetActive(true);
 
         SetBulletLocations(BulletUIInReload);
-
+        TotalBulletsDropped = 0;
         ReloadCanvas.gameObject.SetActive(true);
         ReloadTimerText = GameObject.Find("ReloadTimerText").GetComponent<Text>();
-        CurrentPhase = RevolverPhase.Load;
-        Timer.StartTimer(ReloadDuration);
     }
 
     private void SetBulletLocations(DragAndDrop[] bullets)
@@ -168,6 +172,16 @@ public class Revolver : Ability
     private void StartShootingPhase()
     {
         Debug.Log("Starting Shooting Phase");
+        PrepareShootingUI();
+
+        CurrentPhase = RevolverPhase.Shoot;
+        TotalPimpkinsHit = 0;
+        BulletsInClip = TotalBulletsDropped;
+        Timer.StartTimer(ShootingDuration);
+    }
+
+    private void PrepareShootingUI()
+    {
         ShootingCanvas.gameObject.SetActive(true);
         ShootingCanvas.transform.position = new Vector3(Screen.width / 2f, Screen.height / 2f, 0f);
         ShootingTimerText = GameObject.Find("ShootingTimerText").GetComponent<Text>();
@@ -181,7 +195,8 @@ public class Revolver : Ability
 
         Debug.Log($"Pimpkin Stack {PimpkinStack.Count}");
 
-        while(PimpkinStack.Count != 0) {
+        while (PimpkinStack.Count != 0)
+        {
             int randomPosition = Random.Range(0, 6);
 
             if (!IsPimpkinReserved[randomPosition])
@@ -189,16 +204,11 @@ public class Revolver : Ability
                 PimpkinHead pimpkin = PimpkinStack.Pop();
                 Debug.Log($"Pimpkin Popped: {PimpkinStack.Count} left");
                 pimpkin.gameObject.SetActive(true);
-                
+
                 pimpkin.gameObject.transform.position = PimpkinSpawnLocations[randomPosition].transform.position;
                 IsPimpkinReserved[randomPosition] = true;
             }
         }
-
-        CurrentPhase = RevolverPhase.Shoot;
-        TotalPimpkinsHit = 0;
-        BulletsInClip = TotalBulletsDropped;
-        Timer.StartTimer(ShootingDuration);
     }
 
     private void ShootUpdate()
@@ -227,10 +237,17 @@ public class Revolver : Ability
     private void EndShootingPhase()
     {
         Debug.Log("Ending Ability");
-        // Reset Values
+
         Timer.ResetTimer();
+        ResetShootingValues();
+        Debug.Log($"Total Pimpkins Hit: {TotalPimpkinsHit}");
+        CalculateRevolverDamage();
+        EndAbility();
+    }
+
+    private void ResetShootingValues()
+    {
         CurrentPhase = RevolverPhase.Inactive;
-        TotalBulletsDropped = 0;
         BulletsInClip = 0;
 
         for (int i = 0; i < BulletUIInShoot.Length; i++)
@@ -250,20 +267,30 @@ public class Revolver : Ability
         }
 
         ShootingCanvas.gameObject.SetActive(false);
-        Debug.Log($"Total Pimpkins Hit: {TotalPimpkinsHit}");
-        CalculateRevolverDamage();
-        EndAbility();
-
     }
 
-    private void CalculateRevolverDamage()
+    private float CalculateRevolverDamage()
     {
-            
+        float b = BaseDamage;
+        float T = TotalBulletsDropped;
+        float P = TotalPimpkinsHit;
+        float M = MaxDamage;
+
+        TotalDamage = b * T + P * b;
+
+        return TotalDamage;
     }
+
+    public void DealRevolverDamage()
+    {
+        int revolverdamage = (int) CalculateRevolverDamage();
+        Attack attack = new Attack(revolverdamage);
+        TargetedCombatants[Random.Range(0, TargetedCombatants.Length)].GetComponent<Combatant>().Defend(attack);
+    }
+
 
     private IEnumerator FireGun()
     {
-        // TODO
         float animationTime = 0f;
         float animationDuration = 1.5f;
 
@@ -274,8 +301,7 @@ public class Revolver : Ability
             yield return null;
         }
 
-        Attack attack = new Attack(CurrentDamage);
-        TargetedCombatants[Random.Range(0, TargetedCombatants.Length)].GetComponent<Combatant>().Defend(attack);
+        
 
         CombatSystem.EndTurn(this.GetComponentInParent<Combatant>().gameObject);
     }
@@ -283,9 +309,8 @@ public class Revolver : Ability
     protected override void EndAbility()
     {
         TotalPimpkinsHit = 0;
-        Debug.Log($"Revolver Damage total: {CurrentDamage}");
+        Debug.Log($"Revolver Damage total: {TotalDamage}");
 
         StartCoroutine(FireGun());
-
     }
 }

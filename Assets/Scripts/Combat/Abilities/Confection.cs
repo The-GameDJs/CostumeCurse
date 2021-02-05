@@ -40,7 +40,7 @@ public class Confection : Ability
     private readonly float BakeDuration = 10.0f;
     private readonly int BaseDamage = 20;
     private readonly int RottenDamage = -10;
-    private readonly int SweetsDamage = 30;
+    private readonly int SweetsDamage = 10;
     private readonly float BakePerfectDamageBonus = 0.15f;
     private readonly float BakeGoodDamageBonus = 0.05f;
     private int CurrentDamage;
