@@ -220,6 +220,11 @@ public abstract class Combatant : MonoBehaviour
         GetComponentInChildren<Bonk>().DealBonkDamage();
     }
 
+    public void DealRevolverDamage()
+    {
+        GetComponentInChildren<Revolver>().DealRevolverDamage();
+    }
+
     public void OnDeathAnimationFinish()
     {
 
@@ -231,11 +236,6 @@ public abstract class Combatant : MonoBehaviour
     }
 
     public void OnCastFinish()
-    {
-
-    }
-
-    public void OnShoot()
     {
 
     }
