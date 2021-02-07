@@ -26,7 +26,8 @@ public class Revolver : Ability
     private Text ShootingTimerText;
 
     private float TotalDamage;
-    private readonly float BaseDamage = 5f;
+    private readonly float BaseBulletDamage = 8f;
+    private readonly float BaseTotalDamage = 20f;
     private readonly float MaxDamage = 80f;
     private int TotalPimpkinsHit = 0;
     private int TotalBulletsDropped = 0;
@@ -271,14 +272,16 @@ public class Revolver : Ability
 
     private float CalculateRevolverDamage()
     {
-        float b = BaseDamage;
+        float b = BaseBulletDamage; // 8
         float T = TotalBulletsDropped;
         float P = TotalPimpkinsHit;
-        float M = MaxDamage;
+        float B = BaseTotalDamage;
 
-        TotalDamage = b * T + P * b;
+        TotalDamage = b * T + P * b + B;
 
-        return TotalDamage;
+        float randomTotalDamage = Random.Range(TotalDamage, TotalDamage + 5);
+
+        return randomTotalDamage;
     }
 
     public void DealRevolverDamage()
@@ -292,7 +295,8 @@ public class Revolver : Ability
     private IEnumerator FireGun()
     {
         float animationTime = 0f;
-        float animationDuration = 1.5f;
+        float animationDuration = 2.5f;
+        Animator.SetBool("IsFinishedShooting", false);
 
         while (animationTime < animationDuration)
         {
@@ -301,7 +305,7 @@ public class Revolver : Ability
             yield return null;
         }
 
-        
+        Animator.SetBool("IsFinishedShooting", true);
 
         CombatSystem.EndTurn(this.GetComponentInParent<Combatant>().gameObject);
     }

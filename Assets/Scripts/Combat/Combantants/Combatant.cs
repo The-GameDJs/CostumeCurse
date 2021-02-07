@@ -220,6 +220,11 @@ public abstract class Combatant : MonoBehaviour
         GetComponentInChildren<Bonk>().DealBonkDamage();
     }
 
+    public void DealConfectionDamage()
+    {
+        GetComponentInChildren<Confection>().DealConfectionDamage();
+    }
+
     public void DealRevolverDamage()
     {
         GetComponentInChildren<Revolver>().DealRevolverDamage();
