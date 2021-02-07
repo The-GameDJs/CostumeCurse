@@ -14,6 +14,7 @@ public class Confection : Ability
 {
     
     private enum Phase { Brew, Bake, Inactive }
+
     [SerializeField] private Canvas BrewCanvas;
     [SerializeField] private Canvas BakeCanvas;
     private Text TimerText;
@@ -43,6 +44,7 @@ public class Confection : Ability
     private readonly int SweetsDamage = 10;
     private readonly float BakePerfectDamageBonus = 0.15f;
     private readonly float BakeGoodDamageBonus = 0.05f;
+    private readonly int RandomDamageRangeOffset = 8;
     private int CurrentDamage;
     private Phase CookingAbilityPhase = Phase.Inactive;
 
@@ -316,7 +318,7 @@ public class Confection : Ability
 
     private int CalculateTotalDamage()
     {
-        CurrentDamage = Random.Range(CurrentDamage, CurrentDamage + 8);
+        CurrentDamage = Random.Range(CurrentDamage, CurrentDamage + RandomDamageRangeOffset);
 
         return CurrentDamage;
     }

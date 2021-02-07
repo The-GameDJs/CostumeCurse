@@ -29,6 +29,7 @@ public class Revolver : Ability
     private readonly float BaseBulletDamage = 8f;
     private readonly float BaseTotalDamage = 20f;
     private readonly float MaxDamage = 80f;
+    private readonly int RandomDamageRangeOffset = 5;
     private int TotalPimpkinsHit = 0;
     private int TotalBulletsDropped = 0;
 
@@ -103,13 +104,13 @@ public class Revolver : Ability
         foreach (DragAndDrop bullet in BulletUIInReload)
             bullet.gameObject.SetActive(true);
 
-        SetBulletLocations(BulletUIInReload);
+        RandomizeBulletSpawnPositions(BulletUIInReload);
         TotalBulletsDropped = 0;
         ReloadCanvas.gameObject.SetActive(true);
         ReloadTimerText = GameObject.Find("ReloadTimerText").GetComponent<Text>();
     }
 
-    private void SetBulletLocations(DragAndDrop[] bullets)
+    private void RandomizeBulletSpawnPositions(DragAndDrop[] bullets)
     {
         foreach (DragAndDrop bullet in bullets)
             Bullets.Push(bullet);
@@ -190,11 +191,13 @@ public class Revolver : Ability
         for (int i = 0; i < TotalBulletsDropped; i++)
             BulletUIInShoot[i].SetActive(true);
 
-        Debug.Log($"Total Pimpkins: {Pimpkins.Length}");
+        RandomizePimpkinHeadSpawns();
+    }
+
+    private void RandomizePimpkinHeadSpawns()
+    {
         foreach (PimpkinHead pimpkin in Pimpkins)
             PimpkinStack.Push(pimpkin);
-
-        Debug.Log($"Pimpkin Stack {PimpkinStack.Count}");
 
         while (PimpkinStack.Count != 0)
         {
@@ -243,7 +246,6 @@ public class Revolver : Ability
         ResetShootingValues();
         Debug.Log($"Total Pimpkins Hit: {TotalPimpkinsHit}");
         CalculateRevolverDamage();
-        StartCoroutine(DelayCanvasRemoval());
         EndAbility();
     }
 
@@ -272,14 +274,14 @@ public class Revolver : Ability
 
     private float CalculateRevolverDamage()
     {
-        float b = BaseBulletDamage; // 8
+        float b = BaseBulletDamage;
         float T = TotalBulletsDropped;
         float P = TotalPimpkinsHit;
         float B = BaseTotalDamage;
 
         TotalDamage = b * T + P * b + B;
 
-        float randomTotalDamage = Random.Range(TotalDamage, TotalDamage + 5);
+        float randomTotalDamage = Random.Range(TotalDamage, TotalDamage + RandomDamageRangeOffset);
 
         return randomTotalDamage;
     }
@@ -291,18 +293,12 @@ public class Revolver : Ability
         TargetedCombatants[Random.Range(0, TargetedCombatants.Length)].GetComponent<Combatant>().Defend(attack);
     }
 
-
-    private IEnumerator DelayCanvasRemoval()
-    {
-        yield return new WaitForSeconds(1f);
-        ShootingCanvas.gameObject.SetActive(false);
-    }
-
     private IEnumerator FireGun()
     {
         float animationTime = 0f;
         float animationDuration = 2.5f;
         Animator.SetBool("IsFinishedShooting", false);
+        ShootingCanvas.gameObject.SetActive(false);
 
         while (animationTime < animationDuration)
         {
