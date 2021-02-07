@@ -201,15 +201,33 @@ public class Confection : Ability
         StartBakePhase();
     }
 
+    public void DealConfectionDamage()
+    {
+        //Only deals damage to one enemy
+        Attack attack = new Attack(CalculateTotalDamage());
+        TargetedCombatants[Random.Range(0, TargetedCombatants.Length)].GetComponent<Combatant>().Defend(attack);
+    }
+
     protected override void EndAbility()
     {
         EnableCanvas(BrewCanvas, false);
         EnableCanvas(BakeCanvas, false);
         Debug.Log($"Confection Damage total: {CurrentDamage}");
+        StartCoroutine(CastConfection());
+    }
 
-        //Only deals damage to one enemy
-        Attack attack = new Attack(CurrentDamage);
-        TargetedCombatants[Random.Range(0, TargetedCombatants.Length)].GetComponent<Combatant>().Defend(attack);
+    private IEnumerator CastConfection()
+    {
+        float animationTime = 0f;
+        float animationDuration = 2.5f;
+        Animator.SetBool("IsFinishedCasting", false);
+
+        while (animationTime < animationDuration)
+        {
+            animationTime += Time.deltaTime;
+            Animator.Play("Base Layer.Casting");
+            yield return null;
+        }
 
         Animator.SetBool("IsFinishedCasting", true);
 
@@ -221,8 +239,6 @@ public class Confection : Ability
         Debug.Log("Calling ContinueAbility()");
 
         EnableCanvas(BrewCanvas, true);
-        Animator.SetBool("IsFinishedCasting", false);
-        Animator.Play("Base Layer.Casting");
 
         CurrentDamage = 0;
 
@@ -296,6 +312,13 @@ public class Confection : Ability
         CurrentDamage = (int) (bakeDamageMultiplier * CurrentDamage);
 
         Debug.Log("Damage after Bake " + CurrentDamage);
+    }
+
+    private int CalculateTotalDamage()
+    {
+        CurrentDamage = Random.Range(CurrentDamage, CurrentDamage + 8);
+
+        return CurrentDamage;
     }
 
     private void ResetBrewComponents()
