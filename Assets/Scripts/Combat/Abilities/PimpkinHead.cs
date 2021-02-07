@@ -42,12 +42,6 @@ public class PimpkinHead : MonoBehaviour
 
     public void DestroyPimpkin()
     {
-        StartCoroutine(StartDestroyPimpkin());
-    }
-
-    private IEnumerator StartDestroyPimpkin()
-    {
-        yield return new WaitForSeconds(0.1f);
         Debug.Log("Hit pimpkin!!!!!");
         PipmkinDeathSource.Play();
         gameObject.SetActive(false);
