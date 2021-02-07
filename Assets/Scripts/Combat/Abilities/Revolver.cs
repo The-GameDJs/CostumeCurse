@@ -243,6 +243,7 @@ public class Revolver : Ability
         ResetShootingValues();
         Debug.Log($"Total Pimpkins Hit: {TotalPimpkinsHit}");
         CalculateRevolverDamage();
+        StartCoroutine(DelayCanvasRemoval());
         EndAbility();
     }
 
@@ -267,7 +268,6 @@ public class Revolver : Ability
             pimpkin.ResetPimpkinValues();
         }
 
-        ShootingCanvas.gameObject.SetActive(false);
     }
 
     private float CalculateRevolverDamage()
@@ -291,6 +291,12 @@ public class Revolver : Ability
         TargetedCombatants[Random.Range(0, TargetedCombatants.Length)].GetComponent<Combatant>().Defend(attack);
     }
 
+
+    private IEnumerator DelayCanvasRemoval()
+    {
+        yield return new WaitForSeconds(1f);
+        ShootingCanvas.gameObject.SetActive(false);
+    }
 
     private IEnumerator FireGun()
     {
