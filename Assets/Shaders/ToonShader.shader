@@ -30,6 +30,10 @@
             HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
+            #pragma multi_compile_fwdbase
+            #pragma multi_compile _ _MAIN_LIGHT_SHADOWS
+            #pragma multi_compile _ _MAIN_LIGHT_SHADOWS_CASCADE
+            #pragma multi_compile _ _SHADOWS_SOFT
 
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
@@ -48,6 +52,7 @@
                 float3 positionWS : TEXCOORD2;
                 half3 worldNormal : NORMAL;
                 float3 viewDir : TEXCOORD1;
+                //SHADOW_COORDS(2)
             };
 
             sampler2D _MainTex;
@@ -91,6 +96,7 @@
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 o.worldNormal = TransformObjectToWorldNormal(v.normal);
                 o.viewDir = GetWorldSpaceViewDir(v.vertex);
+                //TRANSFER_SHADOW(o)
                 return o;
             }
 
@@ -130,5 +136,8 @@
 
             ENDHLSL
         }
+
+        // Shadow casting support
+        UsePass "Legacy Shaders/VertexLit/SHADOWCASTER"
     }
 }
