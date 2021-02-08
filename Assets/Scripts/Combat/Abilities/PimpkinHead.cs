@@ -9,8 +9,8 @@ public class PimpkinHead : MonoBehaviour
     private RectTransform PimpkinBody;
     private Vector3 StartingPosition;
     private int Switch = 0;
-    private float randomIntX;
-    private float randomIntY;
+    private float RandomIntX;
+    private float RandomIntY;
     [SerializeField] AudioSource PipmkinDeathSource;
 
     void Start()
@@ -18,8 +18,8 @@ public class PimpkinHead : MonoBehaviour
         IsHit = false;
         PimpkinBody = GetComponent<RectTransform>();
         gameObject.SetActive(true);
-        randomIntX = Random.Range(-1, 1) + 0.5f; 
-        randomIntY = Random.Range(0, 1) + 0.5f;
+        RandomIntX = Random.Range(-1, 1) + 0.5f; 
+        RandomIntY = Random.Range(0, 1) + 0.5f;
     }
 
     void Update()
@@ -33,11 +33,11 @@ public class PimpkinHead : MonoBehaviour
 
         if (Switch % 120 == 0)
         {
-            randomIntX = Random.Range(-2, 2);
-            randomIntY = Random.Range(0, 2);
+            RandomIntX = Random.Range(-2, 2);
+            RandomIntY = Random.Range(0, 2);
         }
 
-        PimpkinBody.transform.position += new Vector3(randomIntX, randomIntY, 0);
+        PimpkinBody.transform.position += new Vector3(RandomIntX, RandomIntY, 0);
     }
 
     public void DestroyPimpkin()
