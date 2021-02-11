@@ -11,6 +11,7 @@ public class PimpkinHead : MonoBehaviour
     private int Switch = 0;
     private float RandomIntX;
     private float RandomIntY;
+    private float Speed = 300f;
     [SerializeField] AudioSource PipmkinDeathSource;
 
     void Start()
@@ -37,7 +38,7 @@ public class PimpkinHead : MonoBehaviour
             RandomIntY = Random.Range(0, 2);
         }
 
-        PimpkinBody.transform.position += new Vector3(RandomIntX, RandomIntY, 0);
+        PimpkinBody.transform.position += new Vector3(RandomIntX, RandomIntY, 0) * (Speed * Time.deltaTime);
     }
 
     public void DestroyPimpkin()
