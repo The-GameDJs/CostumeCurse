@@ -25,6 +25,15 @@ public class CandyCornManager : MonoBehaviour
         return TotalCandyCorn;
     }
 
+    public void SetCandyCorn(int candyCorn)
+    {
+        Debug.Log($"Set Candy Corn! {candyCorn}");
+        if (candyCorn >= 0)
+            TotalCandyCorn = candyCorn;
+        else
+            Debug.LogWarning("Hey buddy, use RemoveCandyCorn if you want to remove");
+    }
+
     public void AddCandyCorn(int candyCorn)
     {
         Debug.Log($"Adding Candy Corn! {candyCorn}");
