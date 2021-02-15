@@ -3,9 +3,10 @@
         <ui:VisualElement name="Candies">
             <uie:IntegerField label="Candy Corns" value="0" name="CandiesField" style="margin-top: 2px; margin-bottom: 2px;" />
             <ui:VisualElement name="CandiesButtons" style="flex-direction: row;">
-                <ui:Button text="Reset Candy Corns&#10;" display-tooltip-when-elided="true" name="ResetButton" style="flex-shrink: 1; flex-grow: 1;" />
                 <ui:Button text="Add +5&#10;" display-tooltip-when-elided="true" name="AddButton" style="flex-shrink: 1; flex-grow: 1;" />
+                <ui:Button text="Remove -5&#10;" display-tooltip-when-elided="true" name="RemoveButton" style="flex-shrink: 1; flex-grow: 1;" />
             </ui:VisualElement>
+            <ui:Button text="Reset Candy Corns&#10;" display-tooltip-when-elided="true" name="ResetButton" style="flex-shrink: 1; flex-grow: 1;" />
         </ui:VisualElement>
         <ui:VisualElement name="TeleportRoot" style="justify-content: flex-start; align-items: stretch; flex-direction: row; margin-left: 3px; margin-right: 3px; flex-grow: 0; margin-top: 2px; margin-bottom: 2px;">
             <ui:Label text="Teleport Locations" display-tooltip-when-elided="true" style="width: 152px; min-width: auto; flex-grow: 0; justify-content: flex-start; flex-shrink: 0; margin-top: 2px; margin-bottom: 2px;" />
