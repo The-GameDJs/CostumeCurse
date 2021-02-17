@@ -89,6 +89,16 @@ public class Player : MonoBehaviour
             RotationSpeed * Time.deltaTime);
     }
 
+    public Vector3 GetTargetPosition()
+    {
+        return TargetPosition;
+    }
+
+    public Quaternion GetTargetRotation()
+    {
+        return TargetRotation;
+    }
+
     private void UpdateMainCharacterMovement()
     {      
         float horizontalMovement = Input.GetAxis("Horizontal");
