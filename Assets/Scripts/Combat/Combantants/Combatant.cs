@@ -178,7 +178,7 @@ public abstract class Combatant : MonoBehaviour
         if (MaxShieldPoints == 0)
         {
             Shield.SetActive(true);
-            Shield.transform.position = transform.position;
+            Shield.transform.position = transform.position + new Vector3(0.0f, 2.0f, 0.0f);
             MaxShieldPoints = shieldHealth;
             CurrentShieldPoints = shieldHealth;
         }
