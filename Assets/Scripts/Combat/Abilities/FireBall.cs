@@ -37,7 +37,7 @@ namespace Combat.Abilities
         private const float FireballShrinkUnstable = 0.15f;
         private const float FireballScalingSmoothness = 2f;
         private const float FireballParticleSystemAdjustmentFactor = 0.25f;
-        private const float FireballLightSourceAdjustmentFactor = 5.0f;
+        private const float FireballLightSourceAdjustmentFactor = 7.5f;
         private float FireballScalingElapsedTime = 0;
 
         [Header("Stats")]
@@ -310,7 +310,7 @@ namespace Combat.Abilities
             Fireball.transform.localScale = Vector3.one * FireballScale;
             MainModule.startColor = Color.red;
             LightSource.color = Color.red;
-            LightSource.intensity = 10.0f;
+            LightSource.intensity = 15.0f;
 
             ExpectedDirections = new List<ExpectedDirection>
             {
