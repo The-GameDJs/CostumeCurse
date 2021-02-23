@@ -34,6 +34,7 @@ public abstract class Combatant : MonoBehaviour
 
     private const float HealthBarYOffsetScale = 1.25f;
     private const float ShieldBarYOffsetScale = 1.45f;
+    private const float ShieldPositionVerticalOffset = 2.0f;
 
     float CharacterHeight;
 
@@ -178,7 +179,7 @@ public abstract class Combatant : MonoBehaviour
         if (MaxShieldPoints == 0)
         {
             Shield.SetActive(true);
-            Shield.transform.position = transform.position + new Vector3(0.0f, 2.0f, 0.0f);
+            Shield.transform.position = transform.position + new Vector3(0.0f, ShieldPositionVerticalOffset, 0.0f);
             MaxShieldPoints = shieldHealth;
             CurrentShieldPoints = shieldHealth;
         }
