@@ -3960,6 +3960,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6305457262678781503, guid: ca7b19ecab436ff4a8a6bce5cb43b299, type: 3}
+      propertyPath: m_Range
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6305457262678781503, guid: ca7b19ecab436ff4a8a6bce5cb43b299, type: 3}
+      propertyPath: m_Intensity
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ca7b19ecab436ff4a8a6bce5cb43b299, type: 3}
 --- !u!4 &368337557 stripped
@@ -14748,6 +14756,11 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8647470681806588950, guid: 6e8d3d96e4265d1439b4b796ef5982e3, type: 3}
   m_PrefabInstance: {fileID: 8647470682252916588}
   m_PrefabAsset: {fileID: 0}
+--- !u!108 &1075576383 stripped
+Light:
+  m_CorrespondingSourceObject: {fileID: 6305457262678781503, guid: ca7b19ecab436ff4a8a6bce5cb43b299, type: 3}
+  m_PrefabInstance: {fileID: 366875913}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1076349750 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5762135219301666934, guid: d3f3c20174392b84e83f9fce2e3b3a88, type: 3}
@@ -24143,6 +24156,10 @@ PrefabInstance:
       propertyPath: CandyCornCost
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 4240874311502651219, guid: 5ef547a01e5efa34d82a65ab26cfe4d2, type: 3}
+      propertyPath: LightSource
+      value: 
+      objectReference: {fileID: 1075576383}
     - target: {fileID: 4240874311502651219, guid: 5ef547a01e5efa34d82a65ab26cfe4d2, type: 3}
       propertyPath: CandyCornCost
       value: 6
