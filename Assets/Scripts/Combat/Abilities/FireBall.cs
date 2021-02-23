@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.GlobalIllumination;
 using Random = UnityEngine.Random;
 
 namespace Combat.Abilities
@@ -36,6 +37,7 @@ namespace Combat.Abilities
         private const float FireballShrinkUnstable = 0.15f;
         private const float FireballScalingSmoothness = 2f;
         private const float FireballParticleSystemAdjustmentFactor = 0.25f;
+        private const float FireballLightSourceAdjustmentFactor = 3.0f;
         private float FireballScalingElapsedTime = 0;
 
         [Header("Stats")]
@@ -50,6 +52,7 @@ namespace Combat.Abilities
 
         private enum ExpectedDirection { Up, Down, Right, Left};
         private List<ExpectedDirection> ExpectedDirections = new List<ExpectedDirection>();
+        private Light LightSource;
 
 
         public new void Start()
@@ -61,6 +64,7 @@ namespace Combat.Abilities
             ParticleComponent = Fireball.GetComponent<ParticleSystem>();
             MainModule = ParticleComponent.main;
             Fireball.SetActive(false);
+            LightSource = Fireball.transform.GetChild(0).GetComponent<Light>();
 
             TargetSchema = new TargetSchema(
                 1,
@@ -146,6 +150,7 @@ namespace Combat.Abilities
                     CurrentCyclePhase = FireballCyclePhase.UnstableWarning;
                     Timer.StartTimer(FireballUnstablingWarningDuration);
                     MainModule.startColor = Color.yellow;
+                    LightSource.color = Color.yellow;
                     return;
 
                 }
@@ -155,6 +160,7 @@ namespace Combat.Abilities
                     CurrentCyclePhase = FireballCyclePhase.Unstable;
                     Timer.StartTimer(FireballUnstableDuration);
                     MainModule.startColor = Color.white;
+                    LightSource.color = Color.white;
                     return;
                 }
 
@@ -163,6 +169,7 @@ namespace Combat.Abilities
                     CurrentFireballCycle += 1;
                     CurrentCyclePhase = FireballCyclePhase.Normal;
                     MainModule.startColor = Color.red;
+                    LightSource.color = Color.red;
 
                     Timer.StartTimer(Random.Range(FireballGrowthMinDuration, FireballGrowthMaxDuration));
                     return;
@@ -243,6 +250,7 @@ namespace Combat.Abilities
             ExpectedDirections.Add(currentKey);
 
             TargetFireballSize += FireballGrowth * FireballParticleSystemAdjustmentFactor;
+            LightSource.intensity += FireballGrowth * FireballLightSourceAdjustmentFactor;
             FireballScalingElapsedTime = 0;
         }
 
@@ -258,6 +266,9 @@ namespace Combat.Abilities
             TargetFireballSize -= CurrentCyclePhase == FireballCyclePhase.Unstable ? 
                 FireballShrinkUnstable * FireballParticleSystemAdjustmentFactor : 
                 FireballShrinkNormal * FireballParticleSystemAdjustmentFactor;
+            LightSource.intensity -= CurrentCyclePhase == FireballCyclePhase.Unstable ?
+                FireballShrinkUnstable * FireballLightSourceAdjustmentFactor :
+                FireballShrinkNormal * FireballLightSourceAdjustmentFactor;
             if (TargetFireballSize < 0)
                 TargetFireballSize = 0.2f;
             FireballScalingElapsedTime = 0;
