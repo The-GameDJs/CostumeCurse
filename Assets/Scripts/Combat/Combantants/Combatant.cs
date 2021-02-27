@@ -223,7 +223,7 @@ public abstract class Combatant : MonoBehaviour
 
     public void DealConfectionDamage()
     {
-        GetComponentInChildren<Confection>().DealConfectionDamage();
+        GetComponentInChildren<Confection>().ThrowConfectionCastingAtEnemy();
     }
 
     public void DealRevolverDamage()
