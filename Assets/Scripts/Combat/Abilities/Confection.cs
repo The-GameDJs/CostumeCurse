@@ -48,8 +48,18 @@ public class Confection : Ability
     private int CurrentDamage;
     private Phase CookingAbilityPhase = Phase.Inactive;
 
+    private GameObject Ganiel;
+    private GameObject ConfectionMixObject;
+    private ConfectionVfx ConfectionMixVfx;
+    private GameObject Target;
+    [SerializeField]
+    private float ConfectionMixVfxVerticalOffset;
+
     public new void Start()
     {
+        Ganiel = GameObject.Find("Ganiel");
+        ConfectionMixObject = GameObject.Find("ConfectionPowerMove");
+        ConfectionMixVfx = ConfectionMixObject.GetComponent<ConfectionVfx>();
         base.Start();
         Timer = GetComponent<Timer>();
         
@@ -203,11 +213,16 @@ public class Confection : Ability
         StartBakePhase();
     }
 
-    public void DealConfectionDamage()
+    public IEnumerator DealConfectionDamage()
     {
         //Only deals damage to one enemy
         Attack attack = new Attack(CalculateTotalDamage());
-        TargetedCombatants[Random.Range(0, TargetedCombatants.Length)].GetComponent<Combatant>().Defend(attack);
+        Target.GetComponent<Combatant>().Defend(attack);
+
+        yield return new WaitForSeconds(1.0f);
+
+        ConfectionMixVfx.ResetVfx();
+        CombatSystem.EndTurn(this.GetComponentInParent<Combatant>().gameObject);
     }
 
     protected override void EndAbility()
@@ -215,7 +230,16 @@ public class Confection : Ability
         EnableCanvas(BrewCanvas, false);
         EnableCanvas(BakeCanvas, false);
         Debug.Log($"Confection Damage total: {CurrentDamage}");
+        SwitchConfectionMixParticleSystemsState();
+        var enemySelection = Random.Range(0, TargetedCombatants.Length);
+        Target = TargetedCombatants[enemySelection];
+        ConfectionMixVfx.SetTarget(Target);
         StartCoroutine(CastConfection());
+    }
+
+    public void ThrowConfectionCastingAtEnemy()
+    {
+        ConfectionMixVfx.StartMoving();
     }
 
     private IEnumerator CastConfection()
@@ -223,6 +247,7 @@ public class Confection : Ability
         float animationTime = 0f;
         float animationDuration = 2.5f;
         Animator.SetBool("IsFinishedCasting", false);
+        ConfectionMixObject.transform.position = Ganiel.transform.position + new Vector3(0.0f, ConfectionMixVfxVerticalOffset, 0.0f);
 
         while (animationTime < animationDuration)
         {
@@ -232,8 +257,6 @@ public class Confection : Ability
         }
 
         Animator.SetBool("IsFinishedCasting", true);
-
-        CombatSystem.EndTurn(this.GetComponentInParent<Combatant>().gameObject);
     }
 
     protected override void ContinueAbilityAfterTargeting()
@@ -337,5 +360,21 @@ public class Confection : Ability
         SweetsDropped = 0;
         RotsDropped = 0;
         CookingPot.ResetConfectionValues();
+    }
+
+    public void SwitchConfectionMixParticleSystemsState(bool activate = true)
+    {
+        var systems = ConfectionMixObject.GetComponentsInChildren<ParticleSystem>();
+        foreach (var particleSystem in systems)
+        {
+            if (activate)
+            {
+                particleSystem.Play();
+            }
+            else
+            {
+                particleSystem.Stop();
+            }
+        }
     }
 }
