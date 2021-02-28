@@ -4,11 +4,18 @@ using static UnityEngine.ParticleSystem;
 public class ConfectionVfx : MonoBehaviour
 {
     [SerializeField]
+    private ParticleSystem[] MixParticles;
+
+    [SerializeField]
+    private ParticleSystem explosionParticles;
+
+    [SerializeField]
     private float Speed;
+
     [SerializeField]
     private float TargetVerticalOffset;
-    private bool IsMoving;
 
+    private bool IsMoving;
     private Confection GanielConfection;
     private GameObject Target;
 
@@ -29,9 +36,8 @@ public class ConfectionVfx : MonoBehaviour
     {
         if (other.gameObject.Equals(Target))
         {
-            Debug.Log("Im in");
             IsMoving = false;
-            GanielConfection.SwitchConfectionMixParticleSystemsState(false);
+            SwitchConfectionMixParticleSystemsState(false);
             StartCoroutine(GanielConfection.DealConfectionDamage());
         }
     }
@@ -54,5 +60,25 @@ public class ConfectionVfx : MonoBehaviour
     public void ResetVfx()
     {
         gameObject.transform.position = new Vector3(0.0f, 0.0f, 0.0f);
+    }
+
+    public void SwitchConfectionMixParticleSystemsState(bool activate = true)
+    {
+        foreach (var particleSystem in MixParticles)
+        {
+            if (activate)
+            {
+                particleSystem.Play();
+            }
+            else
+            {
+                particleSystem.Stop();
+            }
+        }
+    }
+
+    public void ExplodeConfectionMix()
+    {
+        explosionParticles.Play();
     }
 }
