@@ -218,6 +218,7 @@ public class Confection : Ability
         //Only deals damage to one enemy
         Attack attack = new Attack(CalculateTotalDamage());
         Target.GetComponent<Combatant>().Defend(attack);
+        ConfectionMixVfx.ExplodeConfectionMix();
 
         yield return new WaitForSeconds(1.0f);
 
@@ -230,7 +231,7 @@ public class Confection : Ability
         EnableCanvas(BrewCanvas, false);
         EnableCanvas(BakeCanvas, false);
         Debug.Log($"Confection Damage total: {CurrentDamage}");
-        SwitchConfectionMixParticleSystemsState();
+        ConfectionMixVfx.SwitchConfectionMixParticleSystemsState();
         var enemySelection = Random.Range(0, TargetedCombatants.Length);
         Target = TargetedCombatants[enemySelection];
         ConfectionMixVfx.SetTarget(Target);
@@ -360,21 +361,5 @@ public class Confection : Ability
         SweetsDropped = 0;
         RotsDropped = 0;
         CookingPot.ResetConfectionValues();
-    }
-
-    public void SwitchConfectionMixParticleSystemsState(bool activate = true)
-    {
-        var systems = ConfectionMixObject.GetComponentsInChildren<ParticleSystem>();
-        foreach (var particleSystem in systems)
-        {
-            if (activate)
-            {
-                particleSystem.Play();
-            }
-            else
-            {
-                particleSystem.Stop();
-            }
-        }
     }
 }
