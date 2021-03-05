@@ -232,8 +232,7 @@ public class Confection : Ability
         EnableCanvas(BakeCanvas, false);
         Debug.Log($"Confection Damage total: {CurrentDamage}");
         ConfectionMixVfx.SwitchConfectionMixParticleSystemsState();
-        var enemySelection = Random.Range(0, TargetedCombatants.Length);
-        Target = TargetedCombatants[enemySelection];
+        Target = TargetedCombatants[0];
         ConfectionMixVfx.SetTarget(Target);
         StartCoroutine(CastConfection());
     }
