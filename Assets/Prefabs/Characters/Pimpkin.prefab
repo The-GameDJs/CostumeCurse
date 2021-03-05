@@ -673,6 +673,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5381742666500563699}
   - component: {fileID: 6406255230222109277}
+  - component: {fileID: 2317543514568878556}
   - component: {fileID: 2100965863242697726}
   m_Layer: 0
   m_Name: EnemyAbilities
@@ -716,6 +717,23 @@ MonoBehaviour:
   PerfectActionCommandSound: {fileID: 3709853738538560891}
   Damage: 30
   BonkSound: {fileID: 3246320262238245364}
+--- !u!114 &2317543514568878556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8193608420468877457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e7b2c3d85b626f478382409bee473e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CandyCornCost: 0
+  MissedActionCommandSound: {fileID: 0}
+  GoodActionCommandSound: {fileID: 0}
+  PerfectActionCommandSound: {fileID: 0}
+  Damage: 40
 --- !u!114 &2100965863242697726
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -883,14 +901,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 975f4c15c27022747bf4eec015ac635a, type: 3}
---- !u!4 &7931739826040528108 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5078788582608503438, guid: 975f4c15c27022747bf4eec015ac635a, type: 3}
-  m_PrefabInstance: {fileID: 2911656419868958306}
-  m_PrefabAsset: {fileID: 0}
 --- !u!82 &2471009427842474824 stripped
 AudioSource:
   m_CorrespondingSourceObject: {fileID: 730288948143160618, guid: 975f4c15c27022747bf4eec015ac635a, type: 3}
+  m_PrefabInstance: {fileID: 2911656419868958306}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7931739826040528108 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5078788582608503438, guid: 975f4c15c27022747bf4eec015ac635a, type: 3}
   m_PrefabInstance: {fileID: 2911656419868958306}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4706185091448697438
