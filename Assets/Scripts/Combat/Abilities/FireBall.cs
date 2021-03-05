@@ -291,9 +291,6 @@ namespace Combat.Abilities
             Fireball.transform.localScale = Vector3.one * TargetFireballSize;
             CurrentFireballCycle = 0;
 
-            Animator.SetBool("IsFinishedCasting", false);
-            Animator.Play("Base Layer.Casting");
-
             base.StartAbility();
         }
         protected override void ContinueAbilityAfterTargeting()
@@ -306,6 +303,8 @@ namespace Combat.Abilities
             this.CurrentPhase = FireballPhase.Growth;
 
             Fireball.SetActive(true);
+            Animator.SetBool("IsFinishedCasting", false);
+            Animator.Play("Base Layer.Casting");
             Fireball.transform.position = transform.position + FireballHeight * Vector3.up;
             Fireball.transform.localScale = Vector3.one * FireballScale;
             MainModule.startColor = Color.red;

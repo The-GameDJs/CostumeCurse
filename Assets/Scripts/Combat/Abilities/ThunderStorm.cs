@@ -69,7 +69,6 @@ public class ThunderStorm : Ability
     {
         Presses = 0;
         Animator.SetBool("IsFinishedCasting", false);
-        Animator.Play("Base Layer.Casting");
 
         base.StartAbility();
     }
@@ -209,6 +208,7 @@ public class ThunderStorm : Ability
         CurrentPhase = ThunderstormPhase.Cloud;
 
         Thunder.SetActive(true);
+        Animator.Play("Base Layer.Casting");
         Thunder.transform.position = transform.position + ThunderStormHeight * Vector3.up;
         Thunder.transform.localScale = Vector3.one * ThunderStormScale;
         Thunder.GetComponent<Renderer>().material.color = Color.white;
