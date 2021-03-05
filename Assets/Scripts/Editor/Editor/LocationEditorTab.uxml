@@ -1,0 +1,13 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <ui:VisualElement>
+        <ui:VisualElement style="flex-direction: column; margin-top: 3px; margin-bottom: 3px;">
+            <ui:Label text="Teleport Player to Location" display-tooltip-when-elided="true" style="margin-right: 0; margin-top: 2px; margin-bottom: 2px;" />
+            <ui:Foldout text="Foldout" style="color: rgba(212, 212, 212, 255); width: auto; flex-grow: 1; background-color: rgb(46, 46, 46); -unity-text-align: upper-left; flex-wrap: nowrap; flex-direction: column; justify-content: flex-start; align-items: stretch; white-space: normal;" />
+        </ui:VisualElement>
+        <ui:VisualElement style="flex-direction: column; margin-top: 3px; margin-bottom: 3px;">
+            <ui:Label text="Teleport Player to Coordinates" display-tooltip-when-elided="true" style="margin-right: 0; margin-top: 2px; margin-bottom: 2px;" />
+            <uie:Vector3Field label="Coordinates" />
+        </ui:VisualElement>
+        <ui:Button text="Reload" display-tooltip-when-elided="true" name="ReloadButton" />
+    </ui:VisualElement>
+</ui:UXML>
