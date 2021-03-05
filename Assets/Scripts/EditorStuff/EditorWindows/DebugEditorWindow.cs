@@ -2,8 +2,6 @@
 using UnityEditor;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
-using System;
-using NUnit.Framework;
 using System.Collections.Generic;
 
 public class DebugEditorWindow : EditorWindow
@@ -70,7 +68,7 @@ public class DebugEditorWindow : EditorWindow
     private void InitializeUxmlTemplate()
     {
         rootVisualElement.Clear();
-        var template = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Scripts/Debug/Editor/DebugEditorView.uxml");
+        var template = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Scripts/EditorStuff/EditorWindows/DebugEditorView.uxml");
         template.CloneTree(rootVisualElement);
     }
 
