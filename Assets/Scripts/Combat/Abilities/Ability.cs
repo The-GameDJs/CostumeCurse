@@ -19,7 +19,7 @@ public abstract class Ability : MonoBehaviour
 
     protected Animator Animator;
 
-    private Combatant Combatant;
+    protected Combatant Combatant;
 
     [SerializeField] protected AudioSource MissedActionCommandSound;
     [SerializeField] protected AudioSource GoodActionCommandSound;
