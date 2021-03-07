@@ -30,6 +30,7 @@ public class Revolver : Ability
     private readonly float BaseTotalDamage = 20f;
     private readonly float MaxDamage = 80f;
     private readonly int RandomDamageRangeOffset = 5;
+    private readonly float BulletTargetHeightOffset = 3.0f;
     private int TotalPimpkinsHit = 0;
     private int TotalBulletsDropped = 0;
 
@@ -47,6 +48,8 @@ public class Revolver : Ability
     [SerializeField] GameObject[] BulletUIInShoot;
     [SerializeField] GameObject[] PimpkinSpawnLocations;
     private Stack<PimpkinHead> PimpkinStack = new Stack<PimpkinHead>();
+    [SerializeField] GameObject Bullet;
+    private Transform RevolverNozzle;
 
 
     public new void Start()
@@ -59,6 +62,7 @@ public class Revolver : Ability
         IsPimpkinReserved = new bool[PimpkinSpawnLocations.Length];
         BulletUIInReload = ReloadCanvas.GetComponentsInChildren<DragAndDrop>();
         Pimpkins = ShootingCanvas.GetComponentsInChildren<PimpkinHead>();
+        RevolverNozzle = GameObject.Find("RevolverNozzle").transform;
 
 
         for (int i = 0; i < BulletUIInShoot.Length; i++)
@@ -286,11 +290,30 @@ public class Revolver : Ability
         return randomTotalDamage;
     }
 
+    public void ShootBulletFromRevolver()
+    {
+        GameObject go = Instantiate(Bullet, RevolverNozzle.transform.position, RevolverNozzle.transform.rotation);
+        var bullet = go.GetComponent<Bullet>();
+        bullet.SetTarget(TargetedCombatants[0]);
+        Vector3 direction = (TargetedCombatants[0].transform.position + new Vector3(0f, BulletTargetHeightOffset, 0f) - RevolverNozzle.position).normalized;
+        bullet.GetRigidBody().velocity = direction * bullet.GetSpeed();
+    }
+
+
     public void DealRevolverDamage()
+    {
+        StartCoroutine(FinishRevolverDamage());
+    }
+
+    private IEnumerator FinishRevolverDamage()
     {
         int revolverdamage = (int) CalculateRevolverDamage();
         Attack attack = new Attack(revolverdamage);
-        TargetedCombatants[Random.Range(0, TargetedCombatants.Length)].GetComponent<Combatant>().Defend(attack);
+        TargetedCombatants[0].GetComponent<Combatant>().Defend(attack);
+
+        yield return new WaitForSeconds(1.0f);
+
+        CombatSystem.EndTurn(this.GetComponentInParent<Combatant>().gameObject);
     }
 
     private IEnumerator FireGun()
@@ -308,8 +331,6 @@ public class Revolver : Ability
         }
 
         Animator.SetBool("IsFinishedShooting", true);
-
-        CombatSystem.EndTurn(this.GetComponentInParent<Combatant>().gameObject);
     }
 
     protected override void EndAbility()
@@ -317,6 +338,7 @@ public class Revolver : Ability
         TotalPimpkinsHit = 0;
         Debug.Log($"Revolver Damage total: {TotalDamage}");
 
+        
         StartCoroutine(FireGun());
     }
 }

@@ -228,7 +228,7 @@ public abstract class Combatant : MonoBehaviour
 
     public void DealRevolverDamage()
     {
-        GetComponentInChildren<Revolver>().DealRevolverDamage();
+        GetComponentInChildren<Revolver>().ShootBulletFromRevolver();
     }
 
     public void OnDeathAnimationFinish()
