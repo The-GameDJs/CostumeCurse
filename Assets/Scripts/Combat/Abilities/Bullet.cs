@@ -5,10 +5,16 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     [SerializeField]
+    private TrailRenderer BulletTrail;
+
+    [SerializeField]
     private Rigidbody BulletRigidbody;
 
     [SerializeField]
     private float BulletSpeed;
+
+    [SerializeField]
+    private GameObject GunshotImpact;
 
     private Revolver GanielRevolver;
     private GameObject Target;
@@ -44,7 +50,18 @@ public class Bullet : MonoBehaviour
 
     private void DestroyBullet()
     {
+        Instantiate(GunshotImpact, gameObject.transform.position, gameObject.transform.rotation * Quaternion.Euler(90f, 0f, 0f));
         GanielRevolver.DealRevolverDamage();
         Destroy(gameObject);
+    }
+
+    private void OnDestroy()
+    {
+        BulletTrail.transform.parent = null;
+        BulletTrail.autodestruct = true;
+        BulletTrail = null;
+        BulletRigidbody = null;
+        GanielRevolver = null;
+        Target = null;
     }
 }

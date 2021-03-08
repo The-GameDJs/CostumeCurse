@@ -43,13 +43,16 @@ public class Revolver : Ability
     [SerializeField] GameObject[] Clips;
    
 
-    [Header("Shooting Phase")]
+    [Header("Shooting Pimpkin Phase")]
     [SerializeField] Canvas ShootingCanvas;
     [SerializeField] GameObject[] BulletUIInShoot;
     [SerializeField] GameObject[] PimpkinSpawnLocations;
     private Stack<PimpkinHead> PimpkinStack = new Stack<PimpkinHead>();
+
+    [Header("Shooting Battle Phase")]
     [SerializeField] GameObject Bullet;
     private Transform RevolverNozzle;
+    [SerializeField] private ParticleSystem Gunshot;
 
 
     public new void Start()
@@ -295,8 +298,10 @@ public class Revolver : Ability
         GameObject go = Instantiate(Bullet, RevolverNozzle.transform.position, RevolverNozzle.transform.rotation);
         var bullet = go.GetComponent<Bullet>();
         bullet.SetTarget(TargetedCombatants[0]);
-        Vector3 direction = (TargetedCombatants[0].transform.position + new Vector3(0f, BulletTargetHeightOffset, 0f) - RevolverNozzle.position).normalized;
+        Vector3 direction = (TargetedCombatants[0].gameObject.transform.position + new Vector3(0f, BulletTargetHeightOffset, 0f) - RevolverNozzle.position).normalized;
         bullet.GetRigidBody().velocity = direction * bullet.GetSpeed();
+        Gunshot.Play();
+        ShootSource.Play();
     }
 
 
@@ -322,6 +327,7 @@ public class Revolver : Ability
         float animationDuration = 2.5f;
         Animator.SetBool("IsFinishedShooting", false);
         ShootingCanvas.gameObject.SetActive(false);
+        ReloadSource.Play();
 
         while (animationTime < animationDuration)
         {

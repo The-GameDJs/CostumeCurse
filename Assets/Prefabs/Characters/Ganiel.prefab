@@ -1538,6 +1538,7 @@ Transform:
   m_LocalScale: {x: 0.99999994, y: 1.0000001, z: 1.0000001}
   m_Children:
   - {fileID: 1923504539270743450}
+  - {fileID: 5547147664939100799}
   m_Father: {fileID: 3284617183374808761}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 81.54008, y: -29.275421, z: -69.5282}
@@ -2254,6 +2255,73 @@ AudioSource:
   m_CorrespondingSourceObject: {fileID: 7706896390144645908, guid: 54cc15887c4ab7b44bd2433c8f7731c1, type: 3}
   m_PrefabInstance: {fileID: 758568978071098880}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2484077910020701633
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 3849985972906672208}
+    m_Modifications:
+    - target: {fileID: 7963026991689013171, guid: eafe2b02d1d14724eb57702bd2511df8, type: 3}
+      propertyPath: m_Name
+      value: GunShotParticleSystem
+      objectReference: {fileID: 0}
+    - target: {fileID: 7963026991689013182, guid: eafe2b02d1d14724eb57702bd2511df8, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7963026991689013182, guid: eafe2b02d1d14724eb57702bd2511df8, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7963026991689013182, guid: eafe2b02d1d14724eb57702bd2511df8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 7963026991689013182, guid: eafe2b02d1d14724eb57702bd2511df8, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.0063
+      objectReference: {fileID: 0}
+    - target: {fileID: 7963026991689013182, guid: eafe2b02d1d14724eb57702bd2511df8, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 7963026991689013182, guid: eafe2b02d1d14724eb57702bd2511df8, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 7963026991689013182, guid: eafe2b02d1d14724eb57702bd2511df8, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7963026991689013182, guid: eafe2b02d1d14724eb57702bd2511df8, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7963026991689013182, guid: eafe2b02d1d14724eb57702bd2511df8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 7963026991689013182, guid: eafe2b02d1d14724eb57702bd2511df8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7963026991689013182, guid: eafe2b02d1d14724eb57702bd2511df8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: eafe2b02d1d14724eb57702bd2511df8, type: 3}
+--- !u!4 &5547147664939100799 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7963026991689013182, guid: eafe2b02d1d14724eb57702bd2511df8, type: 3}
+  m_PrefabInstance: {fileID: 2484077910020701633}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &5547147664939100784 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 7963026991689013169, guid: eafe2b02d1d14724eb57702bd2511df8, type: 3}
+  m_PrefabInstance: {fileID: 2484077910020701633}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5475024459888464882
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2343,6 +2411,10 @@ PrefabInstance:
       propertyPath: Bullet
       value: 
       objectReference: {fileID: 6263177036649527553, guid: c0e08e21adbdf874aa33d15a8c29b573, type: 3}
+    - target: {fileID: 3062844817910028114, guid: e19b05be92dab1b4284a9e5a9c3441f3, type: 3}
+      propertyPath: Gunshot
+      value: 
+      objectReference: {fileID: 5547147664939100784}
     - target: {fileID: 3062844817910028114, guid: e19b05be92dab1b4284a9e5a9c3441f3, type: 3}
       propertyPath: Clips.Array.data[0]
       value: 
