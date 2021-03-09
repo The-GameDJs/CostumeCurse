@@ -10,6 +10,8 @@ public class InteractiveNPC : MonoBehaviour
     private DialogueManager DialogueManager;
     public Conversation Conversation;
     private GameObject Sield;
+    private readonly float TurnSmoothness = 30f;
+    [SerializeField] bool IsNPC;
 
     
     private Animator DialogueIndicatorAnim;
@@ -43,6 +45,16 @@ public class InteractiveNPC : MonoBehaviour
         else if (Input.GetButtonDown("Action Command") && IsPlayerInRange)
         {
             IsConversationActive = true;
+            if (IsNPC)
+            {
+                Debug.Log("Look Rotation");
+                var lookPosition = Sield.transform.position - gameObject.transform.position;
+                lookPosition.y = 0;
+                lookPosition.z = 0;
+                var npcRotation = Quaternion.LookRotation(lookPosition, Vector3.up);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, npcRotation, Time.deltaTime * TurnSmoothness);
+            }
+
             DialogueManager.StartDialogue(Conversation);
         }
     }
