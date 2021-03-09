@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts.Combat;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Combat.Abilities
 {
@@ -16,7 +17,10 @@ namespace Combat.Abilities
         private enum Phase { Inactive, Supercharge }
         private Phase CurrentPhase = Phase.Inactive;
 
-        [SerializeField] private float Damage;
+        private readonly float BaseDamage = 40f;
+        private float Damage;
+
+        [SerializeField] private AudioSource SpinSound;
 
 
         public new void Start()
@@ -50,6 +54,7 @@ namespace Combat.Abilities
             CurrentPhase = Phase.Supercharge;
             Timer.ResetTimer();
             Animator.Play("Base Layer.Ability");
+            SpinSound.Play();
             StartCoroutine(DelaySuperchargeDamage());
         }
 
@@ -57,12 +62,17 @@ namespace Combat.Abilities
         {
             StopAllCoroutines();
             Timer.StopTimer();
-
+            
             Debug.Log($"Supercharge Damage total: {Damage}");
 
             CurrentPhase = Phase.Inactive;
 
             CombatSystem.EndTurn(this.GetComponentInParent<Combatant>().gameObject);
+        }
+
+        private float CalculateDamage()
+        {
+            return Random.Range(BaseDamage, BaseDamage + 10);
         }
 
         IEnumerator DelaySuperchargeDamage()
@@ -75,6 +85,7 @@ namespace Combat.Abilities
         {
             if (CurrentPhase == Phase.Supercharge)
             {
+                Damage = CalculateDamage();
                 Attack attack = new Attack((int)Damage);
 
                 Victim.GetComponent<Combatant>().Defend(attack);
