@@ -10,7 +10,8 @@ public class InteractiveNPC : MonoBehaviour
     private DialogueManager DialogueManager;
     public Conversation Conversation;
     private GameObject Sield;
-    private readonly float TurnSmoothness = 30f;
+    private readonly float TurnSmoothness = 5f;
+    private Vector3 LookPosition;
     [SerializeField] bool IsNPC;
 
     
@@ -38,6 +39,9 @@ public class InteractiveNPC : MonoBehaviour
     {
         CheckIfInRange();
 
+        if(IsNPC && IsConversationActive)
+            RotateNPC();
+
         if (IsConversationActive && Input.GetButtonDown("Action Command"))
         {
             IsConversationActive = DialogueManager.AdvanceConversation();
@@ -45,18 +49,19 @@ public class InteractiveNPC : MonoBehaviour
         else if (Input.GetButtonDown("Action Command") && IsPlayerInRange)
         {
             IsConversationActive = true;
-            if (IsNPC)
-            {
-                Debug.Log("Look Rotation");
-                var lookPosition = Sield.transform.position - gameObject.transform.position;
-                lookPosition.y = 0;
-                lookPosition.z = 0;
-                var npcRotation = Quaternion.LookRotation(lookPosition, Vector3.up);
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, npcRotation, Time.deltaTime * TurnSmoothness);
-            }
 
+            if (IsNPC)
+                LookPosition = Sield.transform.position - gameObject.transform.position;
+     
             DialogueManager.StartDialogue(Conversation);
         }
+    }
+
+    private void RotateNPC()
+    {
+        var npcRotation = Quaternion.LookRotation(LookPosition, Vector3.up);
+        Vector3 rotation = Quaternion.Lerp(gameObject.transform.rotation, npcRotation, Time.deltaTime * TurnSmoothness).eulerAngles;
+        gameObject.transform.rotation = Quaternion.Euler(0, rotation.y, 0);
     }
 
     void CheckIfInRange()
