@@ -109,7 +109,7 @@ public abstract class Combatant : MonoBehaviour
             ShieldBar.transform.SetParent(HealthBarUIPanel.transform);
             BlueBar = ShieldBar.GetComponentInChildren<PointsBar>();
             ShieldText = ShieldBar.GetComponentInChildren<TMP_Text>();
-            BlueBar.NewValue = CurrentHealthPoints;
+            BlueBar.NewValue = CurrentShieldPoints;
             BlueBar.MaxValue = MaxShieldPoints;
             ShieldText.text = $"{CurrentShieldPoints} / {MaxShieldPoints}";
         }
@@ -180,6 +180,7 @@ public abstract class Combatant : MonoBehaviour
         {
             Shield.SetActive(true);
             Shield.transform.position = gameObject.transform.position + new Vector3(0.0f, ShieldPositionVerticalOffset, 0.0f);
+            Shield.transform.SetParent(gameObject.transform);
             MaxShieldPoints = shieldHealth;
             CurrentShieldPoints = shieldHealth;
         }
