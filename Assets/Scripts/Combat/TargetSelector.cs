@@ -141,11 +141,11 @@ public class TargetSelector : MonoBehaviour
         GameObject[] allies = CombatSystem.Combatants.
           Where(combatant => combatant.CompareTag("Player") && combatant.GetComponent<Combatant>().IsAlive).ToArray();
 
-        if (userTargeting)
+        /*if (userTargeting)
         {
             // TODO highlight each enemy, wait for user selection
             Thread.Sleep(500); // Fake the UI selection
-        }
+        }*/
 
         CurrentTargetedCombatants = allies;
 

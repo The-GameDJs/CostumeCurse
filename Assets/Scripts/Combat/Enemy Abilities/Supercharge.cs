@@ -46,6 +46,7 @@ namespace Combat.Abilities
         protected override void ContinueAbilityAfterTargeting()
         {
             Victim = TargetedCombatants[UnityEngine.Random.Range(0, TargetedCombatants.Length)];
+            FaceAllyInCombat(Victim);
             StartSupercharge();
         }
 

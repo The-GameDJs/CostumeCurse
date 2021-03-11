@@ -15,6 +15,10 @@ public abstract class Ability : MonoBehaviour
 
     public TargetSchema TargetSchema;
 
+    // Not used right now, but wanted to do a smooth rotation somehow...which is possible but it would be heavy due to how it is structured right now (the GetComponent functions we call every rotation)
+    private enum Phase { Inactive, StartFacingEachOther };
+    private Phase CurrentPhase;
+
     protected GameObject[] TargetedCombatants;
 
     protected Animator Animator;
@@ -33,6 +37,7 @@ public abstract class Ability : MonoBehaviour
         TargetSelector = GameObject.FindGameObjectWithTag("TargetSelector").GetComponent<TargetSelector>();
         CombatSystem = GameObject.FindGameObjectWithTag("CombatSystem").GetComponent<CombatSystem>();
         Animator = GetComponentInParent<Animator>();
+        CurrentPhase = Phase.Inactive;
         if (GetComponent<Combatant>() != null)
             Combatant = GetComponent<Combatant>();
         else
@@ -57,6 +62,7 @@ public abstract class Ability : MonoBehaviour
 
     }
 
+
     protected abstract void ContinueAbilityAfterTargeting();
 
     // called by the TargetSelector once it has selected targets
@@ -64,19 +70,29 @@ public abstract class Ability : MonoBehaviour
     {
         CandyCornManager.RemoveCandyCorn(CandyCornCost);
         
-        Debug.Log($"Ability about to continue! Got {targetedCombatants.Length} combatnats");
+        Debug.Log($"Ability about to continue! Got {targetedCombatants.Length} {targetedCombatants.GetType()}");
         TargetedCombatants = targetedCombatants;
+        Debug.Log($"Should be targetting {TargetedCombatants[0].GetType()}");
         
-        FaceEachOtherInCombat();
+        if(TargetedCombatants[0].TryGetComponent(out EnemyCombatant e)) // Kinda heavy on performance, but I am not sure how to check the class without getting the component
+            FaceEnemyInCombat();
 
         ContinueAbilityAfterTargeting();
     }
 
-    private void FaceEachOtherInCombat()
+    private void FaceEnemyInCombat()
     {
-        var facedOpponent = TargetedCombatants[Random.Range(0, TargetedCombatants.Length)];
+        Debug.Log("Ally is facing its target!");
+        var facedOpponent = TargetedCombatants[0]; // For now, since ally abilities only ever have 1 target, we can just hardcode this
         facedOpponent.GetComponent<Combatant>().TurnToFaceInCombat(this.gameObject.transform);
         Combatant.TurnToFaceInCombat(facedOpponent.gameObject.transform);
+    }
+
+    public void FaceAllyInCombat(GameObject allyTarget)
+    {
+        Debug.Log("Enemy is facing its target!");
+        allyTarget.GetComponent<Combatant>().TurnToFaceInCombat(this.gameObject.transform);
+        Combatant.TurnToFaceInCombat(allyTarget.gameObject.transform);
     }
 
     protected abstract void EndAbility();

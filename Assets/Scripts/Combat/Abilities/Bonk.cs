@@ -157,7 +157,7 @@ namespace Combat.Abilities
         protected override void ContinueAbilityAfterTargeting()
         {
             Victim = TargetedCombatants[Random.Range(0, TargetedCombatants.Length)];
-
+            FaceAllyInCombat(Victim);
             InitialPosition = transform.position;
 
             Vector3 selfToVictimVector = Victim.gameObject.transform.position - InitialPosition;
