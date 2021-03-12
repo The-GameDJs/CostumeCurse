@@ -1,12 +1,9 @@
 ﻿using Assets.Scripts.Combat;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
-using System.Threading;
 
 public class Revolver : Ability
 {

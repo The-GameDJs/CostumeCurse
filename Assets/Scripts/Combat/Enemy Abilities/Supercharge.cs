@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using Assets.Scripts.Combat;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -11,7 +9,6 @@ namespace Combat.Abilities
     {
         Timer Timer;
         private GameObject Victim;
-        Animator Animator;
         private readonly float SuperchargeDuration = 2.0f;
         private readonly float EndOfTurnDelay = 2.0f;
         private enum Phase { Inactive, Supercharge }
@@ -54,7 +51,7 @@ namespace Combat.Abilities
         {
             CurrentPhase = Phase.Supercharge;
             Timer.ResetTimer();
-            Animator.Play("Base Layer.Ability");
+            Animator.Play("Base Layer.Supercharge");
             SpinSound.Play();
             StartCoroutine(DelaySuperchargeDamage());
         }

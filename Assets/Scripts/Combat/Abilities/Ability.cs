@@ -1,8 +1,5 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public abstract class Ability : MonoBehaviour
 {
@@ -16,8 +13,8 @@ public abstract class Ability : MonoBehaviour
     public TargetSchema TargetSchema;
 
     // Not used right now, but wanted to do a smooth rotation somehow...which is possible but it would be heavy due to how it is structured right now (the GetComponent functions we call every rotation)
-    private enum Phase { Inactive, StartFacingEachOther };
-    private Phase CurrentPhase;
+   // private enum Phase { Inactive, StartFacingEachOther };
+   // private Phase CurrentPhase;
 
     protected GameObject[] TargetedCombatants;
 
@@ -37,7 +34,7 @@ public abstract class Ability : MonoBehaviour
         TargetSelector = GameObject.FindGameObjectWithTag("TargetSelector").GetComponent<TargetSelector>();
         CombatSystem = GameObject.FindGameObjectWithTag("CombatSystem").GetComponent<CombatSystem>();
         Animator = GetComponentInParent<Animator>();
-        CurrentPhase = Phase.Inactive;
+        //CurrentPhase = Phase.Inactive;
         if (GetComponent<Combatant>() != null)
             Combatant = GetComponent<Combatant>();
         else
