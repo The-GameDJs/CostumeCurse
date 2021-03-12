@@ -1,12 +1,7 @@
 using Assets.Scripts.Combat;
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel.Design;
 using System.Threading;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UIElements;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
