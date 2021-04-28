@@ -237,9 +237,40 @@ Transform:
   m_LocalRotation: {x: 0.7071068, y: 0.00000019949607, z: 0.00000019949604, w: 0.7071067}
   m_LocalPosition: {x: 0.01432008, y: -0.00296051, z: 0.017456807}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 8146397718025511466}
   m_Father: {fileID: 4072876972552700955}
   m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 89.9802, y: 0.000032851618, z: 0}
+--- !u!1 &3033487928059355909
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8146397718025511466}
+  m_Layer: 11
+  m_Name: Fingers
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8146397718025511466
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3033487928059355909}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.01086, z: -0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2106894735601313823}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3043789603062162564
 GameObject:
@@ -359,7 +390,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4072876972552700955}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 89.9802, y: 0.000046051664, z: 0}
 --- !u!1 &6345226055948896005
 GameObject:
   m_ObjectHideFlags: 0
@@ -479,7 +510,7 @@ Transform:
   - {fileID: 1743208046660672840}
   m_Father: {fileID: 7919874063240748250}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -72.70993, y: 3.3330154, z: 3.3330002}
 --- !u!1 &6573785633647641032
 GameObject:
   m_ObjectHideFlags: 0
@@ -512,7 +543,7 @@ Transform:
   - {fileID: 326233891936571942}
   m_Father: {fileID: 1743208046660672840}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 16.98304, y: -23.266882, z: -6.5881133}
 --- !u!1 &6601964425071464907
 GameObject:
   m_ObjectHideFlags: 0
@@ -542,7 +573,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4072876972552700955}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -1.5523291, y: 34.02521, z: 4.4589996}
 --- !u!1 &7052308436909837672
 GameObject:
   m_ObjectHideFlags: 0
@@ -735,6 +766,8 @@ MonoBehaviour:
   GoodActionCommandSound: {fileID: 0}
   PerfectActionCommandSound: {fileID: 0}
   SpinSound: {fileID: 8984666352539079305}
+  PumpkinCharge: {fileID: 299600054940794961, guid: b470c9ae3c320d94393f619ffe93e881, type: 3}
+  PimpkinFingers: {fileID: 8146397718025511466}
 --- !u!114 &2100965863242697726
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -777,7 +810,7 @@ Transform:
   - {fileID: 6443667431228593548}
   m_Father: {fileID: 1250274657431489604}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -89.98021, y: 179.99998, z: 0}
 --- !u!1001 &1135610809292898930
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1036,14 +1069,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 75ce3e83ee0f746468e1c129593e1093, type: 3}
---- !u!4 &9162000539368100575 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4497491381856559233, guid: 75ce3e83ee0f746468e1c129593e1093, type: 3}
-  m_PrefabInstance: {fileID: 4706185091448697438}
-  m_PrefabAsset: {fileID: 0}
 --- !u!82 &3709853738538560891 stripped
 AudioSource:
   m_CorrespondingSourceObject: {fileID: 8229121288006213413, guid: 75ce3e83ee0f746468e1c129593e1093, type: 3}
+  m_PrefabInstance: {fileID: 4706185091448697438}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &9162000539368100575 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4497491381856559233, guid: 75ce3e83ee0f746468e1c129593e1093, type: 3}
   m_PrefabInstance: {fileID: 4706185091448697438}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7017655014102854904

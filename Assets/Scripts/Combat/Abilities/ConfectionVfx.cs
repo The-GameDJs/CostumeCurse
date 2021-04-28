@@ -7,7 +7,7 @@ public class ConfectionVfx : MonoBehaviour
     private ParticleSystem[] MixParticles;
 
     [SerializeField]
-    private ParticleSystem explosionParticles;
+    private ParticleSystem ExplosionParticles;
 
     [SerializeField]
     private float Speed;
@@ -79,6 +79,6 @@ public class ConfectionVfx : MonoBehaviour
 
     public void ExplodeConfectionMix()
     {
-        explosionParticles.Play();
+        ExplosionParticles.Play();
     }
 }

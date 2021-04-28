@@ -11,6 +11,7 @@ namespace Combat.Abilities
         private GameObject Victim;
         private readonly float SuperchargeDuration = 2.0f;
         private readonly float EndOfTurnDelay = 2.0f;
+        private readonly float ChargeTargetHeightOffset = 2.0f;
         private enum Phase { Inactive, Supercharge }
         private Phase CurrentPhase = Phase.Inactive;
 
@@ -18,6 +19,11 @@ namespace Combat.Abilities
         private float Damage;
 
         [SerializeField] private AudioSource SpinSound;
+
+        [Header("Shooting Battle Phase")]
+        [SerializeField] GameObject PimpkinCharge;
+        [SerializeField] Transform PimpkinFingers;
+        private PimpkinCharge CurrentCharge;
 
 
         public new void Start()
@@ -53,7 +59,6 @@ namespace Combat.Abilities
             Timer.ResetTimer();
             Animator.Play("Base Layer.Supercharge");
             SpinSound.Play();
-            StartCoroutine(DelaySuperchargeDamage());
         }
 
         protected override void EndAbility()
@@ -73,13 +78,23 @@ namespace Combat.Abilities
             return Random.Range(BaseDamage, BaseDamage + 10);
         }
 
-        IEnumerator DelaySuperchargeDamage()
+        public void SpawnPimpkinFireball()
         {
-            yield return new WaitForSeconds(SuperchargeDuration);
-            DealSuperchargeDamage();
+            GameObject go = Instantiate(PimpkinCharge, PimpkinFingers.transform.position, PimpkinFingers.transform.rotation);
+            go.transform.SetParent(PimpkinFingers);
+            CurrentCharge = go.GetComponent<PimpkinCharge>();
+            CurrentCharge.SetTarget(TargetedCombatants[0]);
+            CurrentCharge.SetComponent(this);
         }
 
-        private void DealSuperchargeDamage()
+        public void ThrowChargeAtTarget()
+        {
+            PimpkinFingers.SetParent(null);
+            Vector3 direction = (TargetedCombatants[0].gameObject.transform.position + new Vector3(0f, ChargeTargetHeightOffset, 0f) - PimpkinFingers.position).normalized;
+            CurrentCharge.GetRigidBody().velocity = direction * CurrentCharge.GetSpeed();
+        }
+
+        public void DealSuperchargeDamage()
         {
             if (CurrentPhase == Phase.Supercharge)
             {

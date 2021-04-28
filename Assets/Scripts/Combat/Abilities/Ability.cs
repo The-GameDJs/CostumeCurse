@@ -70,8 +70,7 @@ public abstract class Ability : MonoBehaviour
         Debug.Log($"Ability about to continue! Got {targetedCombatants.Length} {targetedCombatants.GetType()}");
         TargetedCombatants = targetedCombatants;
         Debug.Log($"Should be targetting {TargetedCombatants[0].GetType()}");
-        
-        if(TargetedCombatants[0].TryGetComponent(out EnemyCombatant e)) // Kinda heavy on performance, but I am not sure how to check the class without getting the component
+        if (TargetedCombatants[0].TryGetComponent(out EnemyCombatant _)) // Kinda heavy on performance, but I am not sure how to check the class without getting the component
             FaceEnemyInCombat();
 
         ContinueAbilityAfterTargeting();
