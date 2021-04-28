@@ -18,7 +18,7 @@ public class Revolver : Ability
 
     private enum RevolverPhase { Load, Shoot, Inactive }
     private RevolverPhase CurrentPhase = RevolverPhase.Inactive;
-    private Stack<DragAndDrop> Bullets = new Stack<DragAndDrop>();
+    private readonly Stack<DragAndDrop> Bullets = new Stack<DragAndDrop>();
     private Text ReloadTimerText;
     private Text ShootingTimerText;
 
@@ -44,7 +44,7 @@ public class Revolver : Ability
     [SerializeField] Canvas ShootingCanvas;
     [SerializeField] GameObject[] BulletUIInShoot;
     [SerializeField] GameObject[] PimpkinSpawnLocations;
-    private Stack<PimpkinHead> PimpkinStack = new Stack<PimpkinHead>();
+    private readonly Stack<PimpkinHead> PimpkinStack = new Stack<PimpkinHead>();
 
     [Header("Shooting Battle Phase")]
     [SerializeField] GameObject Bullet;

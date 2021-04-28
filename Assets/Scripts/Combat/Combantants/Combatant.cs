@@ -234,6 +234,11 @@ public abstract class Combatant : MonoBehaviour
         GetComponentInChildren<Revolver>().ShootBulletFromRevolver();
     }
 
+    public void DealSuperchargeDamage()
+    {
+        GetComponentInChildren<Supercharge>().ThrowChargeAtTarget();
+    }
+
     public void OnDeathAnimationFinish()
     {
 
@@ -251,7 +256,7 @@ public abstract class Combatant : MonoBehaviour
 
     public void CreateUIInstances()
     {
-        if (gameObject.tag == "Player")
+        if (gameObject.CompareTag("Player"))
         {
             Shield = Instantiate(ShieldPrefab);
             Shield.name = gameObject.name + " Shield";
