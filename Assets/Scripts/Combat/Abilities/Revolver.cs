@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Combat;
 using System.Collections;
 using System.Collections.Generic;
+using Combat.Abilities;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;

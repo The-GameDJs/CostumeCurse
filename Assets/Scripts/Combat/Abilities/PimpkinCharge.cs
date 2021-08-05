@@ -1,61 +1,62 @@
-using Combat.Abilities;
-using System.Collections;
-using System.Collections.Generic;
+using Combat.Enemy_Abilities;
 using UnityEngine;
 
-public class PimpkinCharge : MonoBehaviour
+namespace Combat.Abilities
 {
-    [SerializeField]
-    private Rigidbody ChargeRigidbody;
-
-    [SerializeField]
-    private float ChargeSpeed;
-
-    [SerializeField]
-    private GameObject GunshotImpact;
-
-    private Supercharge PimpkinSupercharge;
-    private GameObject Target;
-
-    public void SetTarget(GameObject target)
+    public class PimpkinCharge : MonoBehaviour
     {
-        Target = target;
-    }
+        [SerializeField]
+        private Rigidbody ChargeRigidbody;
 
-    public void SetComponent(Supercharge charge)
-    {
-        PimpkinSupercharge = charge;
-    }
+        [SerializeField]
+        private float ChargeSpeed;
 
-    public Rigidbody GetRigidBody()
-    {
-        return ChargeRigidbody;
-    }
+        [SerializeField]
+        private GameObject GunshotImpact;
 
-    public float GetSpeed()
-    {
-        return ChargeSpeed;
-    }
+        private Supercharge PimpkinSupercharge;
+        private GameObject Target;
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.Equals(Target))
+        public void SetTarget(GameObject target)
         {
-            DestroyCharge();
+            Target = target;
         }
-    }
 
-    private void DestroyCharge()
-    {
-        PimpkinSupercharge.DealSuperchargeDamage();
-        Destroy(gameObject);
-    }
+        public void SetComponent(Supercharge charge)
+        {
+            PimpkinSupercharge = charge;
+        }
 
-    private void OnDestroy()
-    {
-        ChargeRigidbody = null;
-        PimpkinSupercharge = null;
-        Target = null;
-    }
+        public Rigidbody GetRigidBody()
+        {
+            return ChargeRigidbody;
+        }
 
+        public float GetSpeed()
+        {
+            return ChargeSpeed;
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.gameObject.Equals(Target))
+            {
+                DestroyCharge();
+            }
+        }
+
+        private void DestroyCharge()
+        {
+            PimpkinSupercharge.DealSuperchargeDamage();
+            Destroy(gameObject);
+        }
+
+        private void OnDestroy()
+        {
+            ChargeRigidbody = null;
+            PimpkinSupercharge.EmptyCurrentCharge();
+            Target = null;
+        }
+
+    }
 }

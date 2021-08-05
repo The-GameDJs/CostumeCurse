@@ -1,17 +1,18 @@
 using System.Collections;
 using Assets.Scripts.Combat;
+using Combat.Abilities;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace Combat.Abilities
+namespace Combat.Enemy_Abilities
 {
     public class Supercharge : Ability
     {
         Timer Timer;
         private GameObject Victim;
-        private readonly float SuperchargeDuration = 2.0f;
-        private readonly float EndOfTurnDelay = 2.0f;
-        private readonly float ChargeTargetHeightOffset = 2.0f;
+        private const float EndOfTurnDelay = 2.0f;
+        private const float ChargeTargetHeightOffset = 2.0f;
+
         private enum Phase { Inactive, Supercharge }
         private Phase CurrentPhase = Phase.Inactive;
 
@@ -21,9 +22,9 @@ namespace Combat.Abilities
         [SerializeField] private AudioSource SpinSound;
 
         [Header("Shooting Battle Phase")]
-        [SerializeField] GameObject PimpkinCharge;
-        [SerializeField] Transform PimpkinFingers;
-        private PimpkinCharge CurrentCharge;
+        [SerializeField] private GameObject PimpkinCharge;
+        [SerializeField] private Transform PimpkinFingers;
+        private PimpkinCharge CurrentCharge = null;
 
 
         public new void Start()
@@ -48,7 +49,7 @@ namespace Combat.Abilities
 
         protected override void ContinueAbilityAfterTargeting()
         {
-            Victim = TargetedCombatants[UnityEngine.Random.Range(0, TargetedCombatants.Length)];
+            Victim = TargetedCombatants[Random.Range(0, TargetedCombatants.Length)];
             FaceAllyInCombat(Victim);
             StartSupercharge();
         }
@@ -57,7 +58,8 @@ namespace Combat.Abilities
         {
             CurrentPhase = Phase.Supercharge;
             Timer.ResetTimer();
-            Animator.Play("Base Layer.Supercharge");
+            SpawnPimpkinFireball();
+            Animator.Play($"Base Layer.Supercharge");
             SpinSound.Play();
         }
 
@@ -78,11 +80,11 @@ namespace Combat.Abilities
             return Random.Range(BaseDamage, BaseDamage + 10);
         }
 
-        public void SpawnPimpkinFireball()
+        private void SpawnPimpkinFireball()
         {
-            GameObject go = Instantiate(PimpkinCharge, PimpkinFingers.transform.position, PimpkinFingers.transform.rotation);
+            var go = Instantiate(PimpkinCharge, PimpkinFingers.position, PimpkinFingers.rotation);
             go.transform.SetParent(PimpkinFingers);
-            CurrentCharge = go.GetComponent<PimpkinCharge>();
+            CurrentCharge = go.gameObject.GetComponent<PimpkinCharge>();
             CurrentCharge.SetTarget(TargetedCombatants[0]);
             CurrentCharge.SetComponent(this);
         }
@@ -90,26 +92,32 @@ namespace Combat.Abilities
         public void ThrowChargeAtTarget()
         {
             PimpkinFingers.SetParent(null);
-            Vector3 direction = (TargetedCombatants[0].gameObject.transform.position + new Vector3(0f, ChargeTargetHeightOffset, 0f) - PimpkinFingers.position).normalized;
+            var direction = (TargetedCombatants[0].gameObject.transform.position + new Vector3(0f, ChargeTargetHeightOffset, 0f) - PimpkinFingers.position).normalized;
             CurrentCharge.GetRigidBody().velocity = direction * CurrentCharge.GetSpeed();
         }
 
         public void DealSuperchargeDamage()
         {
-            if (CurrentPhase == Phase.Supercharge)
+            if (CurrentPhase != Phase.Supercharge)
             {
-                Damage = CalculateDamage();
-                Attack attack = new Attack((int)Damage);
-
-                Victim.GetComponent<Combatant>().Defend(attack);
-                StartCoroutine(DelayEndOfTurn());
+                return;
             }
+            Damage = CalculateDamage();
+            Attack attack = new Attack((int)Damage);
+
+            Victim.GetComponent<Combatant>().Defend(attack);
+            StartCoroutine(DelayEndOfTurn());
         }
 
         IEnumerator DelayEndOfTurn()
         {
             yield return new WaitForSeconds(EndOfTurnDelay);
             EndAbility();
+        }
+
+        public void EmptyCurrentCharge()
+        {
+            CurrentCharge = null;
         }
     }
 }

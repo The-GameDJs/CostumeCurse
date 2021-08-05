@@ -1,5 +1,6 @@
 using Assets.Scripts.Combat;
 using Combat.Abilities;
+using Combat.Enemy_Abilities;
 using UnityEngine;
 using TMPro;
 

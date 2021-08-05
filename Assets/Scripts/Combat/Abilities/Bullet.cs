@@ -1,67 +1,69 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+namespace Combat.Abilities
 {
-    [SerializeField]
-    private TrailRenderer BulletTrail;
-
-    [SerializeField]
-    private Rigidbody BulletRigidbody;
-
-    [SerializeField]
-    private float BulletSpeed;
-
-    [SerializeField]
-    private GameObject GunshotImpact;
-
-    private Revolver GanielRevolver;
-    private GameObject Target;
-
-    // Start is called before the first frame update
-    void Start()
+    public class Bullet : MonoBehaviour
     {
-        GanielRevolver = GameObject.Find("Ganiel").GetComponentInChildren<Revolver>();
-    }
+        [SerializeField]
+        private TrailRenderer BulletTrail;
 
-    public void SetTarget(GameObject target)
-    {
-        Target = target;
-    }
+        [SerializeField]
+        private Rigidbody BulletRigidbody;
 
-    public Rigidbody GetRigidBody()
-    {
-        return BulletRigidbody;
-    }
+        [SerializeField]
+        private float BulletSpeed;
 
-    public float GetSpeed()
-    {
-        return BulletSpeed;
-    }
+        [SerializeField]
+        private GameObject GunshotImpact;
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.Equals(Target))
+        private Revolver GanielRevolver;
+        private GameObject Target;
+
+        // Start is called before the first frame update
+        void Start()
         {
-            DestroyBullet();
+            GanielRevolver = GameObject.Find("Ganiel").GetComponentInChildren<Revolver>();
         }
-    }
 
-    private void DestroyBullet()
-    {
-        Instantiate(GunshotImpact, gameObject.transform.position, gameObject.transform.rotation * Quaternion.Euler(90f, 0f, 0f));
-        GanielRevolver.DealRevolverDamage();
-        Destroy(gameObject);
-    }
+        public void SetTarget(GameObject target)
+        {
+            Target = target;
+        }
 
-    private void OnDestroy()
-    {
-        BulletTrail.transform.parent = null;
-        BulletTrail.autodestruct = true;
-        BulletTrail = null;
-        BulletRigidbody = null;
-        GanielRevolver = null;
-        Target = null;
+        public Rigidbody GetRigidBody()
+        {
+            return BulletRigidbody;
+        }
+
+        public float GetSpeed()
+        {
+            return BulletSpeed;
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.gameObject.Equals(Target))
+            {
+                DestroyBullet();
+            }
+        }
+
+        private void DestroyBullet()
+        {
+            var obj = gameObject;
+            Instantiate(GunshotImpact, obj.transform.position, obj.transform.rotation * Quaternion.Euler(90f, 0f, 0f));
+            GanielRevolver.DealRevolverDamage();
+            Destroy(gameObject);
+        }
+
+        private void OnDestroy()
+        {
+            BulletTrail.transform.parent = null;
+            BulletTrail.autodestruct = true;
+            BulletTrail = null;
+            BulletRigidbody = null;
+            GanielRevolver = null;
+            Target = null;
+        }
     }
 }
