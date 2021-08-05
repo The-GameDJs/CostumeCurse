@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6096336104640861405}
   - component: {fileID: 8554981111326877884}
+  - component: {fileID: 657857016662799855}
   - component: {fileID: 1765968868083557285}
   m_Layer: 0
   m_Name: EnemyAbilities
@@ -53,6 +54,23 @@ MonoBehaviour:
   PerfectActionCommandSound: {fileID: 1620082914404509089}
   Damage: 69
   BonkSound: {fileID: 5272878725251670740}
+--- !u!114 &657857016662799855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6165989078364966097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0695a7fa9b477634b9a105d7db1d0471, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CandyCornCost: 0
+  MissedActionCommandSound: {fileID: 0}
+  GoodActionCommandSound: {fileID: 0}
+  PerfectActionCommandSound: {fileID: 0}
+  SkelemusicSound: {fileID: 5272878725251670740}
 --- !u!114 &1765968868083557285
 MonoBehaviour:
   m_ObjectHideFlags: 0
