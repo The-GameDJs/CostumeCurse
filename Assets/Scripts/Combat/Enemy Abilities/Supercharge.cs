@@ -49,7 +49,7 @@ namespace Combat.Enemy_Abilities
 
         protected override void ContinueAbilityAfterTargeting()
         {
-            Victim = TargetedCombatants[Random.Range(0, TargetedCombatants.Length)];
+            Victim = TargetedCombatants[0];
             FaceAllyInCombat(Victim);
             StartSupercharge();
         }
@@ -65,6 +65,7 @@ namespace Combat.Enemy_Abilities
 
         protected override void EndAbility()
         {
+            Victim.GetComponent<Player>().SetFire(false);
             StopAllCoroutines();
             Timer.StopTimer();
             
