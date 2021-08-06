@@ -1,3 +1,4 @@
+using System;
 using Combat.Enemy_Abilities;
 using UnityEngine;
 
@@ -47,6 +48,7 @@ namespace Combat.Abilities
 
         private void DestroyCharge()
         {
+            Target.GetComponent<Player>().SetFire(true);
             PimpkinSupercharge.DealSuperchargeDamage();
             Destroy(gameObject);
         }
