@@ -15,7 +15,7 @@ public class MagicShield : Ability
     [SerializeField] private AudioSource MagicShieldSound;
 
     private readonly float SequenceDuration = 2f;
-    private readonly float InputDuration = 5f;
+    private readonly float InputDuration = 2.5f;
     private readonly float ArrowPositionHeight = 8f;
     private readonly float NextArrowPositionOffsetX = 4f;
     private readonly int MaxButtonsInSequence = 4;
