@@ -3,8 +3,7 @@ using Assets.Scripts.Combat;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace Combat.Abilities
-{
+
     public class Skelemusic : Ability
     {
         Timer Timer;
@@ -16,16 +15,21 @@ namespace Combat.Abilities
 
         private readonly float BaseDamage = 40f;
         private float Damage;
+        
+        private GameObject MusicalNotesObject;
+        private MusicalNotes MusicalNotesVfx;
+        private GameObject Target;
 
         [SerializeField] private AudioSource SkelemusicSound;
-
-
+        [SerializeField] private float MusicalNotesVfxVerticalOffset;
+        
         public new void Start()
         {
             base.Start();
             Timer = GetComponent<Timer>();
             Animator = GetComponentInParent<Animator>();
-
+            MusicalNotesObject = GameObject.Find("MusicalNotesPowerMove");
+            MusicalNotesVfx = MusicalNotesObject.GetComponent<MusicalNotes>();
 
             TargetSchema = new TargetSchema(
                 1,
@@ -42,7 +46,7 @@ namespace Combat.Abilities
 
         protected override void ContinueAbilityAfterTargeting()
         {
-            Victim = TargetedCombatants[UnityEngine.Random.Range(0, TargetedCombatants.Length)];
+            Victim = TargetedCombatants[0];
             FaceAllyInCombat(Victim);
             StartSkelemusic();
         }
@@ -51,9 +55,18 @@ namespace Combat.Abilities
         {
             CurrentPhase = Phase.Skelemusic;
             Timer.ResetTimer();
+            SetMusicalNotesOnEnemy();
             Animator.Play("Base Layer.Skelemusic");
             SkelemusicSound.Play();
-            StartCoroutine(DelaySkelemusicDamage());
+            //StartCoroutine(DelaySkeleMusicDamage());
+        }
+
+        private void SetMusicalNotesOnEnemy()
+        {
+            MusicalNotesObject.transform.position = Combatant.transform.position + new Vector3(0.0f, MusicalNotesVfxVerticalOffset, 0.0f);
+            MusicalNotesVfx.SwitchMusicalNotesParticleSystemsState();
+            Target = TargetedCombatants[0];
+            MusicalNotesVfx.SetTarget(Target);
         }
 
         protected override void EndAbility()
@@ -62,7 +75,6 @@ namespace Combat.Abilities
             Timer.StopTimer();
 
             Debug.Log($"Skelemusic Damage total: {Damage}");
-
             CurrentPhase = Phase.Inactive;
 
             CombatSystem.EndTurn(this.GetComponentInParent<Combatant>().gameObject);
@@ -73,10 +85,20 @@ namespace Combat.Abilities
             return Random.Range(BaseDamage, BaseDamage + 10);
         }
 
-        IEnumerator DelaySkelemusicDamage()
+        IEnumerator DelaySkeleMusicDamage()
         {
             yield return new WaitForSeconds(SkelemusicDuration);
             DealSkelemusicDamage();
+        }
+
+        public void DealDamage()
+        {
+            DealSkelemusicDamage();
+        }
+
+        public void ThrowMusicalNotesAtTarget()
+        {
+            MusicalNotesVfx.StartMoving();
         }
 
         private void DealSkelemusicDamage()
@@ -97,4 +119,3 @@ namespace Combat.Abilities
             EndAbility();
         }
     }
-}

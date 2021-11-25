@@ -240,6 +240,11 @@ public abstract class Combatant : MonoBehaviour
         GetComponentInChildren<Supercharge>().ThrowChargeAtTarget();
     }
 
+    public void DealMusicalNotesDamage()
+    {
+        GetComponentInChildren<Skelemusic>().ThrowMusicalNotesAtTarget();
+    }
+
     public void OnDeathAnimationFinish()
     {
 

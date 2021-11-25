@@ -1,13 +1,14 @@
+using Combat.Abilities;
 using UnityEngine;
 
-public class ConfectionVfx : MonoBehaviour
+public class MusicalNotes : MonoBehaviour
 {
     [SerializeField]
     private ParticleSystem[] MixParticles;
 
     [SerializeField]
-    private ParticleSystem ExplosionParticles;
-
+    private ParticleSystem explosionParticles;
+    
     [SerializeField]
     private float Speed;
 
@@ -15,53 +16,48 @@ public class ConfectionVfx : MonoBehaviour
     private float TargetVerticalOffset;
 
     private bool IsMoving;
-    private Confection GanielConfection;
+    private Skelemusic SkeletonMusicAbility;
     private GameObject Target;
-
-    private void Start()
-    {
-        GanielConfection = GameObject.Find("Ganiel").GetComponentInChildren<Confection>();
-    }
-
+    
     private void Update()
     {
         if (IsMoving && Target != null)
         {
-            CastConfectionMixVfx();
+            CastMusicalNotesVfx();
         }
     }
-
+    
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.Equals(Target))
         {
             IsMoving = false;
-            SwitchConfectionMixParticleSystemsState(false);
-            StartCoroutine(GanielConfection.DealConfectionDamage());
+            SwitchMusicalNotesParticleSystemsState(false);
+            SkeletonMusicAbility.DealDamage();
         }
     }
-
+    
     public void SetTarget(GameObject target)
     {
         Target = target;
     }
 
-    private void CastConfectionMixVfx()
+    private void CastMusicalNotesVfx()
     {
         transform.position = Vector3.Lerp(transform.position, Target.transform.position + new Vector3(0.0f, TargetVerticalOffset, 0.0f), Speed * Time.deltaTime);
     }
-
+    
     public void StartMoving()
     {
         IsMoving = true;
     }
-
+    
     public void ResetVfx()
     {
         gameObject.transform.position = new Vector3(0.0f, 0.0f, 0.0f);
     }
-
-    public void SwitchConfectionMixParticleSystemsState(bool activate = true)
+    
+    public void SwitchMusicalNotesParticleSystemsState(bool activate = true)
     {
         foreach (var particleSystem in MixParticles)
         {
@@ -75,9 +71,9 @@ public class ConfectionVfx : MonoBehaviour
             }
         }
     }
-
-    public void ExplodeConfectionMix()
+    
+    public void ExplodeCandies()
     {
-        ExplosionParticles.Play();
+        explosionParticles.Play();
     }
 }
