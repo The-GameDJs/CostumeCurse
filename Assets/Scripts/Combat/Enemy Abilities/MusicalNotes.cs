@@ -1,4 +1,4 @@
-using Combat.Abilities;
+using System;
 using UnityEngine;
 
 public class MusicalNotes : MonoBehaviour
@@ -8,6 +8,9 @@ public class MusicalNotes : MonoBehaviour
 
     [SerializeField]
     private ParticleSystem explosionParticles;
+
+    [SerializeField]
+    private Light emission;
     
     [SerializeField]
     private float Speed;
@@ -18,7 +21,7 @@ public class MusicalNotes : MonoBehaviour
     private bool IsMoving;
     private Skelemusic SkeletonMusicAbility;
     private GameObject Target;
-    
+
     private void Update()
     {
         if (IsMoving && Target != null)
@@ -34,12 +37,19 @@ public class MusicalNotes : MonoBehaviour
             IsMoving = false;
             SwitchMusicalNotesParticleSystemsState(false);
             SkeletonMusicAbility.DealSkelemusicDamage();
+            ExplodeCandies();
+            SetLight(false);
         }
     }
 
     public void SetAbility(Skelemusic ability)
     {
         SkeletonMusicAbility = ability;
+    }
+
+    public void SetLight(bool isActive = true)
+    {
+        emission.gameObject.SetActive(isActive);
     }
     
     public void SetTarget(GameObject target)
@@ -60,6 +70,7 @@ public class MusicalNotes : MonoBehaviour
     public void ResetVfx()
     {
         gameObject.transform.position = new Vector3(0.0f, 0.0f, 0.0f);
+        emission.gameObject.SetActive(false);
     }
     
     public void SwitchMusicalNotesParticleSystemsState(bool activate = true)
@@ -76,8 +87,8 @@ public class MusicalNotes : MonoBehaviour
             }
         }
     }
-    
-    public void ExplodeCandies()
+
+    private void ExplodeCandies()
     {
         explosionParticles.Play();
     }
