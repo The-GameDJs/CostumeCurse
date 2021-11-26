@@ -33,8 +33,13 @@ public class MusicalNotes : MonoBehaviour
         {
             IsMoving = false;
             SwitchMusicalNotesParticleSystemsState(false);
-            SkeletonMusicAbility.DealDamage();
+            SkeletonMusicAbility.DealSkelemusicDamage();
         }
+    }
+
+    public void SetAbility(Skelemusic ability)
+    {
+        SkeletonMusicAbility = ability;
     }
     
     public void SetTarget(GameObject target)
