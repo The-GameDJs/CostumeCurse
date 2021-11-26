@@ -58,7 +58,6 @@ using Random = UnityEngine.Random;
             SetMusicalNotesOnEnemy();
             Animator.Play("Base Layer.Skelemusic");
             SkelemusicSound.Play();
-            //StartCoroutine(DelaySkeleMusicDamage());
         }
 
         private void SetMusicalNotesOnEnemy()
@@ -66,6 +65,7 @@ using Random = UnityEngine.Random;
             Target = TargetedCombatants[0];
             MusicalNotesVfx.SetTarget(Target);
             MusicalNotesVfx.SetAbility(this);
+            MusicalNotesVfx.SetLight();
             MusicalNotesObject.transform.position = Combatant.transform.position + new Vector3(0.0f, MusicalNotesVfxVerticalOffset, 0.0f);
             MusicalNotesVfx.SwitchMusicalNotesParticleSystemsState();
         }
