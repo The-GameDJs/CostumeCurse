@@ -63,10 +63,11 @@ using Random = UnityEngine.Random;
 
         private void SetMusicalNotesOnEnemy()
         {
-            MusicalNotesObject.transform.position = Combatant.transform.position + new Vector3(0.0f, MusicalNotesVfxVerticalOffset, 0.0f);
-            MusicalNotesVfx.SwitchMusicalNotesParticleSystemsState();
             Target = TargetedCombatants[0];
             MusicalNotesVfx.SetTarget(Target);
+            MusicalNotesVfx.SetAbility(this);
+            MusicalNotesObject.transform.position = Combatant.transform.position + new Vector3(0.0f, MusicalNotesVfxVerticalOffset, 0.0f);
+            MusicalNotesVfx.SwitchMusicalNotesParticleSystemsState();
         }
 
         protected override void EndAbility()
@@ -77,6 +78,7 @@ using Random = UnityEngine.Random;
             Debug.Log($"Skelemusic Damage total: {Damage}");
             CurrentPhase = Phase.Inactive;
 
+            MusicalNotesVfx.ResetVfx();
             CombatSystem.EndTurn(this.GetComponentInParent<Combatant>().gameObject);
         }
 
@@ -85,23 +87,12 @@ using Random = UnityEngine.Random;
             return Random.Range(BaseDamage, BaseDamage + 10);
         }
 
-        IEnumerator DelaySkeleMusicDamage()
-        {
-            yield return new WaitForSeconds(SkelemusicDuration);
-            DealSkelemusicDamage();
-        }
-
-        public void DealDamage()
-        {
-            DealSkelemusicDamage();
-        }
-
         public void ThrowMusicalNotesAtTarget()
         {
             MusicalNotesVfx.StartMoving();
         }
 
-        private void DealSkelemusicDamage()
+        public void DealSkelemusicDamage()
         {
             if (CurrentPhase == Phase.Skelemusic)
             {
