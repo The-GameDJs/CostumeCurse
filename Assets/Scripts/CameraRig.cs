@@ -27,8 +27,9 @@ public class CameraRig : MonoBehaviour
     // Defaults
     [SerializeField]
     public Vector3 DefaultOffset;
-    public Quaternion DefaultRotation =
-        Quaternion.identity;
+    public Quaternion DefaultRotation = Quaternion.identity;
+    public Vector3 DefaultBossOffset;
+    public Vector3 DefaultBossRotation; // Used Euler for Boss, since we need to know exact angles!
     [SerializeField]
     private readonly float DefaultSmoothness = 5f;
 

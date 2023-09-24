@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using Assets.Scripts.Combat;
 using Combat.Abilities;
 using Combat.Enemy_Abilities;
@@ -40,6 +42,7 @@ public abstract class Combatant : MonoBehaviour
     private bool IsInCombat;
 
     [SerializeField] protected Animator Animator;
+    public bool isBoss;
 
     public void Start()
     {
@@ -174,6 +177,11 @@ public abstract class Combatant : MonoBehaviour
     private void Die()
     {
         IsAlive = false;
+        if (isBoss)
+        {
+            CombatSystem.IsBossDead = isBoss;
+            CombatSystem.EndTurn(gameObject);
+        }
         Animator.Play("Base Layer.Death");
     }
 
@@ -252,7 +260,7 @@ public abstract class Combatant : MonoBehaviour
 
     public void OnDeathAnimationFinish()
     {
-
+        
     }
 
     public void OnHurtFinish()

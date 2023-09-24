@@ -985,6 +985,7 @@ MonoBehaviour:
   AllyCombatants: []
   EnemyCombatants: []
   IsInProgress: 0
+  IsBossDead: 0
 --- !u!4 &128004871
 Transform:
   m_ObjectHideFlags: 0
@@ -1776,7 +1777,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4292595803075815099, guid: ed91cc94734486443822a93acc4b9f01, type: 3}
       propertyPath: MaxHealthPoints
-      value: 330
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6543156113162692069, guid: ed91cc94734486443822a93acc4b9f01, type: 3}
       propertyPath: m_Name
@@ -26918,7 +26919,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1239470138316297385, guid: f7d0dfae34d21a54e9b70029ef3b38a3, type: 3}
       propertyPath: MaxHealthPoints
-      value: 240
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1250274657431489604, guid: f7d0dfae34d21a54e9b70029ef3b38a3, type: 3}
       propertyPath: m_RootOrder
@@ -31804,6 +31805,10 @@ PrefabInstance:
     - target: {fileID: 6224367744026201577, guid: 52410c22701794f4fa39e79a5e78d240, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6455420524000755089, guid: 52410c22701794f4fa39e79a5e78d240, type: 3}
+      propertyPath: MaxHealthPoints
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 52410c22701794f4fa39e79a5e78d240, type: 3}
@@ -37011,6 +37016,34 @@ PrefabInstance:
     - target: {fileID: 7870359103648208778, guid: 7d69d0de1e40fda4e94be6819589947c, type: 3}
       propertyPath: m_Name
       value: Main Camera
+      objectReference: {fileID: 0}
+    - target: {fileID: 7870359103648208790, guid: 7d69d0de1e40fda4e94be6819589947c, type: 3}
+      propertyPath: Smoothness
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7870359103648208790, guid: 7d69d0de1e40fda4e94be6819589947c, type: 3}
+      propertyPath: DefaultBossOffset.y
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7870359103648208790, guid: 7d69d0de1e40fda4e94be6819589947c, type: 3}
+      propertyPath: DefaultBossOffset.z
+      value: -30
+      objectReference: {fileID: 0}
+    - target: {fileID: 7870359103648208790, guid: 7d69d0de1e40fda4e94be6819589947c, type: 3}
+      propertyPath: DefaultBossRotation.w
+      value: 0.99767905
+      objectReference: {fileID: 0}
+    - target: {fileID: 7870359103648208790, guid: 7d69d0de1e40fda4e94be6819589947c, type: 3}
+      propertyPath: DefaultBossRotation.x
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7870359103648208790, guid: 7d69d0de1e40fda4e94be6819589947c, type: 3}
+      propertyPath: DefaultBossRotation.y
+      value: -36
+      objectReference: {fileID: 0}
+    - target: {fileID: 7870359103648208790, guid: 7d69d0de1e40fda4e94be6819589947c, type: 3}
+      propertyPath: DefaultBossRotation.z
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7870359103648208791, guid: 7d69d0de1e40fda4e94be6819589947c, type: 3}
       propertyPath: m_RenderPostProcessing
