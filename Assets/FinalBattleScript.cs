@@ -5,8 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class FinalBattleScript : MonoBehaviour
 {
-    void OnDestroy()
+    /*void OnDestroy()
     {
         SceneManager.LoadScene("Game_Victory");
-    }
+    }*/
 }

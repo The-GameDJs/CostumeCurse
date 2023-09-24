@@ -26,6 +26,7 @@ public class CombatSystem : MonoBehaviour
     private GameObject Ganiel;
 
     public bool IsInProgress = false;
+    public bool IsBossDead;
     
     private CandyCornManager CandyCornManager;
     private int TotalCandyReward;
@@ -95,22 +96,34 @@ public class CombatSystem : MonoBehaviour
         Debug.Log("!!!!Allies Win!!!!");
         CandyCornManager.AddCandyCorn(TotalCandyReward);
 
-        BattleVictoryBanner.GetComponentInChildren<TMP_Text>().text = "You got " + TotalCandyReward;
-
-        StartCoroutine(ShowVictoryBanner());
-
-        CurrentCombatZone.GetComponent<CombatZone>().DestroyCombatZone();
-
-        if (Sield != null)
+        // If it's not the boss that died, return to normal gameplay win
+        if (!IsBossDead)
         {
-            CameraRig.SetTargetGO(Sield);
-            CameraRig.MoveCameraRelative(CameraRig.DefaultOffset, CameraRig.DefaultRotation);
+            BattleVictoryBanner.GetComponentInChildren<TMP_Text>().text = "You got " + TotalCandyReward;
+
+            StartCoroutine(ShowVictoryBanner());
+
+            CurrentCombatZone.GetComponent<CombatZone>().DestroyCombatZone();
+
+            if (Sield != null)
+            {
+                CameraRig.SetTargetGO(Sield);
+                CameraRig.MoveCameraRelative(CameraRig.DefaultOffset, CameraRig.DefaultRotation);
+            }
+
+            else if (Ganiel != null)
+            {
+                CameraRig.SetTargetGO(Ganiel);
+                CameraRig.MoveCameraRelative(CameraRig.DefaultOffset, CameraRig.DefaultRotation);
+            }
         }
-
-        else if (Ganiel != null)
+        // If boss died, play boss death scenario and return to menu
+        else
         {
-            CameraRig.SetTargetGO(Ganiel);
-            CameraRig.MoveCameraRelative(CameraRig.DefaultOffset, CameraRig.DefaultRotation);
+            Debug.Log("!!!!Boss Died!!!!");
+            // Move camera to boss
+            CameraRig.SetTargetGO(EnemyCombatants.Find(c => c.TryGetComponent<EnemyCombatant>(out var boss) && boss.isBoss));
+            CameraRig.MoveCameraRelative(CameraRig.DefaultBossOffset, Quaternion.Euler(CameraRig.DefaultBossRotation));
         }
 
     }
@@ -125,7 +138,7 @@ public class CombatSystem : MonoBehaviour
         Debug.Log($"A Combantant has finished their turn!");
 
         // TODO maybe a state would be useful after all?
-        if (AlliesWon() || EnemiesWon())
+        if (AlliesWon() || EnemiesWon() || IsBossDead)
             EndCombat();
         else 
             StartNextTurn();
