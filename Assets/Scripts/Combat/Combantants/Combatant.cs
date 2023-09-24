@@ -39,7 +39,7 @@ public abstract class Combatant : MonoBehaviour
     public bool IsAlive = true;
     private bool IsInCombat;
 
-    protected Animator Animator;
+    [SerializeField] protected Animator Animator;
 
     public void Start()
     {
@@ -61,7 +61,12 @@ public abstract class Combatant : MonoBehaviour
             CharacterHeight = GetComponent<Collider>().bounds.size.y;
         }
 
-        Animator = GetComponent<Animator>();
+        if (!Animator)
+        {
+            // For combatants that have their animator in their parent object
+            Animator = GetComponent<Animator>();
+            // For combatants that have it in their FBX model, attach reference to serialized object
+        }
 
         CurrentHealthPoints = MaxHealthPoints;
     }
