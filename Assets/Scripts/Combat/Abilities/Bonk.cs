@@ -1,4 +1,5 @@
 using Assets.Scripts.Combat;
+using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -25,6 +26,8 @@ namespace Combat.Abilities
         private bool BelongsToAlly;
 
         [SerializeField] private AudioSource BonkSound;
+
+        [SerializeField] private GameObject Model;
 
         public new void Start()
         {
@@ -117,11 +120,19 @@ namespace Combat.Abilities
         {
             CurrentPhase = Phase.Bonking;
 
-            var animator = GetComponentInParent<Animator>();
+            if (!Animator)
+            {
+                // See Ability script for more info!
+                Animator = GetComponentInParent<Animator>();
+            }
 
-            animator.Play("Base Layer.Bonk");
+            if (Model)
+            {
+                Model.transform.Rotate(-90f, 0f, 0f);
+            }
+            Animator.Play("Base Layer.Bonk");
 
-            Timer.StartTimer(animator.GetCurrentAnimatorStateInfo(0).length);
+            Timer.StartTimer(Animator.GetCurrentAnimatorStateInfo(0).length);
         }
 
         private void StartDisengagingPhase()

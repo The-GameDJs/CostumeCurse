@@ -12,12 +12,17 @@ public class EnemyCombatant : Combatant
     [SerializeField]
     private Ability[] Abilities;
 
+    [SerializeField] private GameObject Model;
+
 
 
     new void Start()
     {
         base.Start();
-        Abilities = GetComponentsInChildren<Ability>();
+        if (Abilities.Length == 0)
+        {
+            Abilities = GetComponentsInChildren<Ability>();
+        }
     }
 
     private new void Update()
@@ -63,6 +68,10 @@ public class EnemyCombatant : Combatant
 
     public override void Defend(Attack attack)
     {
+        if (Model)
+        {
+            Model.transform.Rotate(-90f, 0f, 0f);
+        }
         Animator.Play("Base Layer.Hurt");
 
         TakeDamage(attack.Damage);
