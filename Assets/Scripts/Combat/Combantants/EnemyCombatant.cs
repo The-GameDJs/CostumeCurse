@@ -68,10 +68,7 @@ public class EnemyCombatant : Combatant
 
     public override void Defend(Attack attack)
     {
-        if (Model)
-        {
-            Model.transform.Rotate(-90f, 0f, 0f);
-        }
+        RotateModel();
         Animator.Play("Base Layer.Hurt");
 
         TakeDamage(attack.Damage);
@@ -80,5 +77,13 @@ public class EnemyCombatant : Combatant
     public int GetCandyCornValue()
     {
         return CandyCornValue;
+    }
+
+    public void RotateModel()
+    {
+        if (Model)
+        {
+            Model.transform.Rotate(-90f, 0f, 0f);
+        }
     }
 }

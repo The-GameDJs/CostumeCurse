@@ -48,6 +48,11 @@ public abstract class Ability : MonoBehaviour
 
     public void StartAbility(bool userTargeting = true)
     {
+        // Sometimes the manager is not assigned. Find it again!
+        if (!CandyCornManager)
+        {
+            CandyCornManager = FindObjectOfType<CandyCornManager>();
+        }
         if (CandyCornCost <= CandyCornManager.GetTotalCandyCorn())
         {
             // Hide UI for Allies
@@ -55,6 +60,11 @@ public abstract class Ability : MonoBehaviour
             if (costume)
                 costume.DisplayAbilities(false);
 
+            // Find target selector because it keeps being null!
+            if (!TargetSelector)
+            {
+                TargetSelector = FindObjectOfType<TargetSelector>();
+            }
             TargetSelector.Target(this, userTargeting);
         }
         else
