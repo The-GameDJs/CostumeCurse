@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts.Combat;
@@ -5,11 +6,22 @@ using Combat.Abilities;
 using Combat.Enemy_Abilities;
 using UnityEngine;
 using TMPro;
+using UnityEngine.Serialization;
 
 public abstract class Combatant : MonoBehaviour
 {
     [SerializeField] public int TurnPriority;
     [SerializeField] private int MaxHealthPoints;
+
+    [SerializeField] private ParticleSystem[] FireBurns;
+
+    public enum FireType
+    {
+        eOrangeFire,
+        eRedFire,
+        ePurpleFire
+    }
+    
     private int CurrentHealthPoints;
     private int MaxShieldPoints;
     private int CurrentShieldPoints;
@@ -325,5 +337,31 @@ public abstract class Combatant : MonoBehaviour
         CurrentHealthPoints = MaxHealthPoints;
         CurrentShieldPoints = 0;
         MaxShieldPoints = 0;
+    }
+    
+    public void SetFire(bool isOnFire, FireType fire)
+    {
+        var flame = SelectFlame(fire);
+        switch (isOnFire)
+        {
+            case true:
+                flame.Play();
+                break;
+            default:
+                flame.Stop();
+                break;
+        }
+    }
+
+    ParticleSystem SelectFlame(FireType fire)
+    {
+        return fire switch
+        {
+            // FireBurns are in alphabetical order, so do the same for the conditions!
+            FireType.eOrangeFire => FireBurns[0],
+            FireType.ePurpleFire => FireBurns[1],
+            FireType.eRedFire => FireBurns[2],
+            _ => throw new ArgumentOutOfRangeException(nameof(fire), fire, null)
+        };
     }
 }

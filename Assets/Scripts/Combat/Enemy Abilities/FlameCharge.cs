@@ -69,7 +69,7 @@ namespace Combat.Abilities
 
         private void DestroyCharge()
         {
-            Target.GetComponent<Player>().SetFire(true);
+            Target.GetComponent<Combatant>().SetFire(true, Combatant.FireType.ePurpleFire);
             ChargeAbility.DealSuperchargeDamage();
             FlameParticleSystem.Stop();
             transform.position = Vector3.zero;

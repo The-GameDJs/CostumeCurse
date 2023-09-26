@@ -65,7 +65,7 @@ namespace Combat.Enemy_Abilities
 
         protected override void EndAbility()
         {
-            Victim.GetComponent<Player>().SetFire(false);
+            Victim.GetComponent<Combatant>().SetFire(false, Combatant.FireType.eOrangeFire);
             StopAllCoroutines();
             Timer.StopTimer();
             
