@@ -10,6 +10,7 @@ namespace Combat.Abilities
 {
     public class FireBall : Ability
     {
+        private const float EndOfTurnDelay = 2.0f;
         private int CurrentDamage;
         
         private enum FireballPhase { Growth, Inactive }
@@ -228,8 +229,11 @@ namespace Combat.Abilities
             Fireball.SetActive(false);
 
             Attack attack = new Attack(CurrentDamage);
-            target.GetComponent<Combatant>()
-                    .Defend(attack);
+            var combatant = target.GetComponent<Combatant>();
+            combatant.Defend(attack);
+            combatant.SetFire(true, Combatant.FireType.eRedFire);
+            yield return new WaitForSeconds(EndOfTurnDelay);
+            combatant.SetFire(false, Combatant.FireType.eRedFire);
 
             CombatSystem.EndTurn(this.GetComponentInParent<Combatant>().gameObject);
         }

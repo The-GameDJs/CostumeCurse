@@ -28,4 +28,9 @@ public class BossAnimationHelper : MonoBehaviour
     {
         ActivateChargeUpReleaseAction?.Invoke(true);
     }
+    
+    public void DealBonkDamage()
+    {
+        BossCombatant.DealBonkDamage();
+    }
 }

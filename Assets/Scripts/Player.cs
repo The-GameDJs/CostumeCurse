@@ -15,8 +15,6 @@ public class Player : MonoBehaviour
     private float FollowDistance = 5f;
     [SerializeField]
     private float CatchUpSpeed = 2f; // ? TODO
-    [SerializeField]
-    private ParticleSystem PlayerBurn;
 
     private Vector3 TargetPosition;
     private Quaternion TargetRotation;
@@ -130,18 +128,5 @@ public class Player : MonoBehaviour
         GetComponent<CharacterController>().enabled = false;
         GetComponent<Player>().enabled = false;
         IsMovementDisabled = true;
-    }
-
-    public void SetFire(bool isOnFire)
-    {
-        switch (isOnFire)
-        {
-            case true:
-                PlayerBurn.Play();
-                break;
-            default:
-                PlayerBurn.Stop();
-                break;
-        }
     }
 }

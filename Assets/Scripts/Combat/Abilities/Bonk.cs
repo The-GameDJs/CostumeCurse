@@ -126,9 +126,10 @@ namespace Combat.Abilities
                 Animator = GetComponentInParent<Animator>();
             }
 
-            if (Model)
+            // Fix animation issue for models with rotated animations, specifically the Boss
+            if (Combatant is EnemyCombatant enemy)
             {
-                Model.transform.Rotate(-90f, 0f, 0f);
+                enemy.RotateModel();
             }
             Animator.Play("Base Layer.Bonk");
 

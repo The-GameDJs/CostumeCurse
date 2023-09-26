@@ -6,8 +6,7 @@ using UnityEngine;
 
 public class AllyCombatant : Combatant
 {
-    [SerializeField]
-    Costume costume;
+    [SerializeField] Costume costume;
 
     new public void Start()
     {

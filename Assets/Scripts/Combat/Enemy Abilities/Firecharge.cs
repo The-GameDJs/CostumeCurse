@@ -89,12 +89,12 @@ namespace Combat.Enemy_Abilities
                 enemy.RotateModel();
             }
             Animator.Play($"Base Layer.Thrust");
-            //ChargeSound.Play();
+            ChargeSound.Play();
         }
 
         protected override void EndAbility()
         {
-            Victim.GetComponent<Player>().SetFire(false);
+            Victim.GetComponent<Combatant>().SetFire(false, Combatant.FireType.ePurpleFire);
             StopAllCoroutines();
             Timer.StopTimer();
             

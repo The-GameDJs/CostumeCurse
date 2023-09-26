@@ -33,11 +33,6 @@ public abstract class Ability : MonoBehaviour
         CandyCornManager = GameObject.FindObjectOfType<CandyCornManager>();
         TargetSelector = GameObject.FindGameObjectWithTag("TargetSelector").GetComponent<TargetSelector>();
         CombatSystem = GameObject.FindGameObjectWithTag("CombatSystem").GetComponent<CombatSystem>();
-        if (!Animator)
-        {
-            // See combatant animator code for more info!
-            Animator = GetComponentInChildren<Animator>();
-        }
 
         //CurrentPhase = Phase.Inactive;
         if (GetComponent<Combatant>() != null)

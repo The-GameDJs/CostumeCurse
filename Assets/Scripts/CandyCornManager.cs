@@ -6,12 +6,11 @@ using TMPro;
 
 public class CandyCornManager : MonoBehaviour
 {
-    private int TotalCandyCorn;
+    [SerializeField] private int TotalCandyCorn;
     private TMP_Text CandyCornValue;
 
     void Start()
     {
-        TotalCandyCorn = 0;
         CandyCornValue = GameObject.Find("CandyCornValue").GetComponent<TMP_Text>();
     }
 

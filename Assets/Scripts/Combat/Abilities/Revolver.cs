@@ -296,7 +296,10 @@ public class Revolver : Ability
         GameObject go = Instantiate(Bullet, RevolverNozzle.transform.position, RevolverNozzle.transform.rotation);
         var bullet = go.GetComponent<Bullet>();
         bullet.SetTarget(TargetedCombatants[0]);
-        Vector3 direction = (TargetedCombatants[0].gameObject.transform.position + new Vector3(0f, BulletTargetHeightOffset, 0f) - RevolverNozzle.position).normalized;
+        var offset = TargetedCombatants[0].GetComponent<Combatant>().isBoss
+            ? BulletTargetHeightOffset * 4
+            : BulletTargetHeightOffset;
+        Vector3 direction = (TargetedCombatants[0].gameObject.transform.position + new Vector3(0f, offset, 0f) - RevolverNozzle.position).normalized;
         bullet.GetRigidBody().velocity = direction * bullet.GetSpeed();
         Gunshot.Play();
         ShootSource.Play();
