@@ -215,7 +215,7 @@ public class Confection : Ability
         Target.GetComponent<Combatant>().Defend(attack);
         ConfectionMixVfx.ExplodeConfectionMix();
 
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(1.5f);
 
         ConfectionMixVfx.ResetVfx();
         CombatSystem.EndTurn(this.GetComponentInParent<Combatant>().gameObject);

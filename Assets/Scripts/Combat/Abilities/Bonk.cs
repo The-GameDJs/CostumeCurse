@@ -14,7 +14,7 @@ namespace Combat.Abilities
         [SerializeField]
         private const float ApproachingDuration = 1.25f;
         [SerializeField]
-        private const float DisengagingDuration = 0.75f;
+        private const float DisengagingDuration = 1.0f;
 
         [SerializeField] private float Damage;
 
