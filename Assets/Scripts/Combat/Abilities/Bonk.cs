@@ -21,7 +21,7 @@ namespace Combat.Abilities
         private Vector3 InitialPosition;
         private GameObject Victim;
         private Vector3 AttackingPosition;
-        private readonly float SpaceBetweenBonk = 2.5f;
+        [SerializeField] private float SpaceBetweenBonk = 2.5f;
 
         private bool BelongsToAlly;
 
