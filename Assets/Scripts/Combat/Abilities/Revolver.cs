@@ -317,7 +317,7 @@ public class Revolver : Ability
         Attack attack = new Attack(revolverdamage);
         TargetedCombatants[0].GetComponent<Combatant>().Defend(attack);
 
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(1.5f);
 
         CombatSystem.EndTurn(this.GetComponentInParent<Combatant>().gameObject);
     }
