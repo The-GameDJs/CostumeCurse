@@ -209,6 +209,7 @@ public class ThunderStorm : Ability
 
         Thunder.SetActive(true);
         Animator.Play("Base Layer.Casting");
+        
         Thunder.transform.position = transform.position + ThunderStormHeight * Vector3.up;
         Thunder.transform.localScale = Vector3.one * ThunderStormScale;
         Thunder.GetComponent<Renderer>().material.color = Color.white;
@@ -257,7 +258,15 @@ public class ThunderStorm : Ability
             possibleVictims[Random.Range(0, possibleVictims.Length)] :
             TargetedCombatants[Random.Range(0, possibleVictims.Length)];
 
-        Thunder.transform.position = CurrentVictim.transform.position + ThunderStormHeight * Vector3.up;
+        var heightMultiplier = 1.0f;
+        // Set Thunderstorm a little higher for boss, since he's much taller
+        if (CurrentVictim 
+            && CurrentVictim.TryGetComponent<Combatant>(out var combatantVictim)
+            && combatantVictim.isBoss)
+        {
+            heightMultiplier = 3.0f;
+        }
+        Thunder.transform.position = CurrentVictim.transform.position + ThunderStormHeight * heightMultiplier * Vector3.up;
 
         CurrentPhase = ThunderstormPhase.Strike;
         Timer.StartTimer(TimeWindowForStrikes); // 10 seconds , at 5 seconds, that is when the stirke appears and is also the perfect frame window. 
