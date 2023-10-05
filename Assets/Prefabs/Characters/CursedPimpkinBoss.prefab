@@ -6570,7 +6570,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2554431779949343133}
   - component: {fileID: 1197810650334214142}
-  - component: {fileID: 1662084155749641769}
+  - component: {fileID: 900477167259403999}
+  - component: {fileID: 3138403718479418869}
   m_Layer: 11
   m_Name: EnemyAbilities
   m_TagString: Untagged
@@ -6604,7 +6605,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6c24458bbc330b42991d046af3fbd56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1662084155749641769
+--- !u!114 &900477167259403999
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6613,7 +6614,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7105424638173811427}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 055174948a0446d4b8151aef5bf1ae06, type: 3}
+  m_Script: {fileID: 11500000, guid: d3d59d8468d52b84c8e546eb5848c928, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   CandyCornCost: 0
@@ -6621,12 +6622,32 @@ MonoBehaviour:
   MissedActionCommandSound: {fileID: 0}
   GoodActionCommandSound: {fileID: 0}
   PerfectActionCommandSound: {fileID: 0}
-  LightningStrike: {fileID: 0}
-  ThunderCloudOffsetPosition: {x: -7, y: 20, z: 0}
-  ThunderCloud: {fileID: 0}
-  ThunderCloudParticles: {fileID: 0}
-  LightningStrikeSound: {fileID: 0}
-  ThunderCloudSound: {fileID: 0}
+  Damage: 35
+  SpaceBetweenBonk: 15
+  BonkSound: {fileID: 2494755633505995695}
+  Model: {fileID: 3600303136737800759}
+--- !u!114 &3138403718479418869
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7105424638173811427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e152033241e1afa41a3b87be5ccbf85b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CandyCornCost: 0
+  Animator: {fileID: 1948406375637748093}
+  MissedActionCommandSound: {fileID: 0}
+  GoodActionCommandSound: {fileID: 0}
+  PerfectActionCommandSound: {fileID: 0}
+  BaseDamage: 60
+  ChargeSound: {fileID: 8588563200515552386}
+  ThrowSound: {fileID: 8588563200515552386}
+  FlameChargeObject: {fileID: 0}
+  ThrowPoint: {fileID: 4749842422719022364}
 --- !u!1 &7958051087887817131
 GameObject:
   m_ObjectHideFlags: 0
@@ -7062,6 +7083,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4554415555352178527, guid: fd356904afc8ab141a75cdaeddee8216, type: 3}
   m_PrefabInstance: {fileID: 314626112409363577}
   m_PrefabAsset: {fileID: 0}
+--- !u!82 &8588563200515552386 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 8317429922024935675, guid: fd356904afc8ab141a75cdaeddee8216, type: 3}
+  m_PrefabInstance: {fileID: 314626112409363577}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1634588550621764301
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7404,14 +7430,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e3f308351b90f4741a2cad911c9254af, type: 3}
---- !u!198 &989380423480151782 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 5681238580424344661, guid: e3f308351b90f4741a2cad911c9254af, type: 3}
-  m_PrefabInstance: {fileID: 4858588105045871283}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7063547545793820284 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2408281424561831119, guid: e3f308351b90f4741a2cad911c9254af, type: 3}
+  m_PrefabInstance: {fileID: 4858588105045871283}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &989380423480151782 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 5681238580424344661, guid: e3f308351b90f4741a2cad911c9254af, type: 3}
   m_PrefabInstance: {fileID: 4858588105045871283}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6004363090551330493
@@ -7542,6 +7568,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 498216296952261000, guid: 6b06022c14a62d544a138376cfaf9dc5, type: 3}
   m_PrefabInstance: {fileID: 7506612935845092739}
   m_PrefabAsset: {fileID: 0}
+--- !u!82 &2494755633505995695 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 5382927138596951596, guid: 6b06022c14a62d544a138376cfaf9dc5, type: 3}
+  m_PrefabInstance: {fileID: 7506612935845092739}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7839941105957536881
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7603,14 +7634,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 54cc15887c4ab7b44bd2433c8f7731c1, type: 3}
---- !u!82 &448518877758545765 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 7706896390144645908, guid: 54cc15887c4ab7b44bd2433c8f7731c1, type: 3}
-  m_PrefabInstance: {fileID: 7839941105957536881}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5383562091557316431 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2772899979522302782, guid: 54cc15887c4ab7b44bd2433c8f7731c1, type: 3}
+  m_PrefabInstance: {fileID: 7839941105957536881}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &448518877758545765 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 7706896390144645908, guid: 54cc15887c4ab7b44bd2433c8f7731c1, type: 3}
   m_PrefabInstance: {fileID: 7839941105957536881}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8127903185660021230
