@@ -1,28 +1,26 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 
 namespace Combat.Enemy_Abilities
 {
     public class CandyStorm : Ability
     {
-        private enum CandyStormPhase { Cloud, Strike, Inactive }
+        private enum CandyStormPhase { Cloud, Inactive }
         [SerializeField] private GameObject LightningStrike;
         [SerializeField] private Vector3 ThunderCloudOffsetPosition;
         private Timer Timer;
+        [SerializeField] private CandyCornManager CandyCornManagerComponent;
         
         private CandyStormPhase CurrentPhase = CandyStormPhase.Inactive;
-        private Combatant Target;
+        private GameObject Target;
 
         [Header("Cloud Components")]
-        [SerializeField] private GameObject ThunderCloud;
-        [SerializeField] private ParticleSystem ThunderCloudParticles;
-        [SerializeField] private GameObject ThunderCandyCluster;
-        [SerializeField] private ParticleSystem ThunderCandyClusterParticles;
-        [SerializeField] private ParticleSystem ThunderSprinkerClusterParticles;
-        private ParticleSystem.MainModule MainModule;
+        [SerializeField] private CandyStormVfx ThunderCandyClusterVfx;
 
         [Header("Collecting Phase")]
         [SerializeField] private Canvas CollectionCanvas;
@@ -30,8 +28,10 @@ namespace Combat.Enemy_Abilities
         [SerializeField] private RectTransform CandyCornSpawnerAnchor;
         [SerializeField] private GameObject[] CandyCornSpawners;
         [SerializeField] private GameObject SieldHatObject;
+        [SerializeField] private Transform SieldHatReset;
         [SerializeField] private GameObject CandyCornPrefab;
         [SerializeField] private float CatchingDuration;
+        [SerializeField] private float HatMovementSpeed;
         [SerializeField] private Text CandyCornCollectedCounterText;
         [SerializeField] private Text CollectingTimerText;
         private int TotalCandiesCollected = 0;
@@ -46,12 +46,13 @@ namespace Combat.Enemy_Abilities
         void Start()
         {
             Timer = GetComponent<Timer>();
-            ThunderCloud.SetActive(false);
-            
+
             TargetSchema = new TargetSchema(
                 0,
                 CombatantType.Ally,
                 SelectorType.All);
+
+            BossAnimationHelper.DealCandyStormDamageAction += OnDealCandyStormDamage;
         }
         
         public new void StartAbility(bool userTargeting = false)
@@ -66,9 +67,7 @@ namespace Combat.Enemy_Abilities
         {
             if (CurrentPhase == CandyStormPhase.Cloud)
                 CandyCloudUpdate();
-
-            if (CurrentPhase == CandyStormPhase.Strike)
-                CandyStrikeUpdate();
+            
         }
 
         private void CandyCloudUpdate()
@@ -82,8 +81,24 @@ namespace Combat.Enemy_Abilities
                     var go = Instantiate(CandyCornPrefab, CandyCornSpawners[randomInt].transform.position,
                         Quaternion.identity,
                         CandyCornSpawnerAnchor);
+                    var candyCornDropComponent = go.GetComponent<CandyCornStormDrop>();
+                    candyCornDropComponent.SetCandyStormComponents(this, SieldHatObject.GetComponent<RectTransform>());
                     CandyCornDropCountdown = 0.0f;
                 }
+
+                // Move Sield's Hat to catch candy
+                if (Input.GetButton("Left"))
+                {
+                    SieldHatObject.transform.Translate(new Vector3(Time.deltaTime * HatMovementSpeed, 0.0f, 0.0f));
+                }
+                if (Input.GetButton("Right"))
+                {
+                    SieldHatObject.transform.Translate(new Vector3(Time.deltaTime * -HatMovementSpeed, 0.0f, 0.0f));
+                }
+                
+                // Set Catching Timer text field
+                float timeRemaining = CatchingDuration - Timer.GetProgress();
+                CollectingTimerText.text = Mathf.RoundToInt(timeRemaining) + "";
             }
 
             if (Timer.IsFinished())
@@ -92,33 +107,23 @@ namespace Combat.Enemy_Abilities
             }
         }
 
-        private void CandyStrikeUpdate()
+        public void CatchCandy()
         {
-            
+            TotalCandiesCollected++;
+            CandyCornCollectedCounterText.text = TotalCandiesCollected.ToString();
         }
 
         protected override void ContinueAbilityAfterTargeting()
         {
             Debug.Log("Starting Cloud Summoning Phase");
-            ThunderCloud.SetActive(true);
-            ThunderCloud.transform.position = transform.position + ThunderCloudOffsetPosition;
-            ThunderCandyCluster.SetActive(true);
-            ThunderCandyCluster.transform.position = transform.position + ThunderCloudOffsetPosition;
+            ThunderCandyClusterVfx.gameObject.SetActive(true);
+            ThunderCandyClusterVfx.transform.position = transform.position + ThunderCloudOffsetPosition;
+            
             
             Animator.Play("Base Layer.Summon");
             
-            if (!ThunderCloudParticles.isPlaying)
-            {
-                ThunderCloudParticles.Play();
-            }
-            if (!ThunderCandyClusterParticles.isPlaying)
-            {
-                ThunderCandyClusterParticles.Play();
-            }
-            if (!ThunderSprinkerClusterParticles.isPlaying)
-            {
-                ThunderSprinkerClusterParticles.Play();
-            }
+            ThunderCandyClusterVfx.SwitchVfxActivation();
+            ThunderCandyClusterVfx.SwitchCloudStormParticleSystemsState();
 
             StartCoroutine(PrepareCollectionUI());
         }
@@ -141,18 +146,52 @@ namespace Combat.Enemy_Abilities
         {
             Debug.Log("Ending Cloud Phase");
             Timer.ResetTimer();
+            CandyCornManagerComponent.AddCandyCorn(TotalCandiesCollected);
+            ResetCloudPhaseValues();
+            
             CollectionCanvas.gameObject.SetActive(false);
+
+            StartCoroutine(StartStrikingPhase());
+        }
+
+        private void ResetCloudPhaseValues()
+        {
+            SieldHatObject.transform.position = SieldHatReset.position;
+            TotalCandiesCollected = 0;
+            CandyCornCollectedCounterText.text = "0";
+            CollectingTimerText.text = "0";
+        }
+
+        private IEnumerator StartStrikingPhase()
+        {
+            Debug.Log("Starting Striking Phase");
+            yield return new WaitForSeconds(1.0f);
+            CurrentPhase = CandyStormPhase.Inactive;
+            EndAbility();
+        }
+
+        private void OnDealCandyStormDamage()
+        {
+            ThunderCandyClusterVfx.StartMoving();
         }
 
         protected override void EndAbility()
         {
-            ThunderCloudParticles.Stop();
-            ThunderCloud.transform.position = Vector3.zero;
-            ThunderCloud.SetActive(false);
+            //ThunderCloudParticles.Stop();
+            //ThunderCloud.transform.position = Vector3.zero;
+            //ThunderCloud.SetActive(false);
+            
+            Target = TargetedCombatants[0];
+            ThunderCandyClusterVfx.SetTarget(Target);
+            Animator.Play("Base Layer.Throw");
+            //Animator.SetBool("IsFinishedCasting", true);
 
-            Animator.SetBool("IsFinishedCasting", true);
+            //CombatSystem.EndTurn(this.GetComponentInParent<Combatant>().gameObject);
+        }
 
-            CombatSystem.EndTurn(this.GetComponentInParent<Combatant>().gameObject);
+        private void OnDestroy()
+        {
+            BossAnimationHelper.DealCandyStormDamageAction -= OnDealCandyStormDamage;
         }
     }
 }

@@ -5,8 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class BossAnimationHelper : MonoBehaviour
 {
+    [SerializeField] private Animator Animator;
     [SerializeField] private Combatant BossCombatant;
     public static Action<bool> ActivateChargeUpReleaseAction;
+    public static Action DealCandyStormDamageAction;
 
     public void ReturnToOriginalRotation()
     {
@@ -28,9 +30,20 @@ public class BossAnimationHelper : MonoBehaviour
     {
         ActivateChargeUpReleaseAction?.Invoke(true);
     }
+
+    public void DealCandyStormDamage()
+    {
+        DealCandyStormDamageAction?.Invoke();
+    }
     
     public void DealBonkDamage()
     {
         BossCombatant.DealBonkDamage();
     }
+
+    public void SetCastingToFalse()
+    {
+        Animator.SetBool("IsFinishedCasting", true);
+    }
+    
 }
