@@ -4,11 +4,12 @@ using UnityEngine;
 public abstract class Ability : MonoBehaviour
 {
     [SerializeField] private int CandyCornCost;
-    private CandyCornManager CandyCornManager;
+    protected CandyCornManager CandyCornManager;
     private GameObject NotEnoughCandiesPrompt;
 
     protected TargetSelector TargetSelector;
     protected CombatSystem CombatSystem;
+    protected CameraRig CameraRigSystem;
 
     public TargetSchema TargetSchema;
 
@@ -33,6 +34,7 @@ public abstract class Ability : MonoBehaviour
         CandyCornManager = GameObject.FindObjectOfType<CandyCornManager>();
         TargetSelector = GameObject.FindGameObjectWithTag("TargetSelector").GetComponent<TargetSelector>();
         CombatSystem = GameObject.FindGameObjectWithTag("CombatSystem").GetComponent<CombatSystem>();
+        CameraRigSystem = GameObject.FindObjectOfType<CameraRig>();
 
         //CurrentPhase = Phase.Inactive;
         if (GetComponent<Combatant>() != null)

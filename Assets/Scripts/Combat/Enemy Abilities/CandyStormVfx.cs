@@ -18,7 +18,7 @@ public class CandyStormVfx : MonoBehaviour
     [Header("Movement")]
     [SerializeField] private float MovementSpeed;
     [SerializeField] private float TargetVerticalOffset;
-    private CandyStorm CandyStormAbility;
+    [SerializeField] private CandyStorm CandyStormAbility;
     private bool IsMoving;
     private GameObject Target;
 
@@ -36,7 +36,7 @@ public class CandyStormVfx : MonoBehaviour
         {
             IsMoving = false;
             SwitchCloudStormParticleSystemsState(false);
-            //StartCoroutine(CandyStormAbility.DealCandyStormDamage());
+            StartCoroutine(CandyStormAbility.DealCandyStormDamage());
         }
     }
 
@@ -45,8 +45,8 @@ public class CandyStormVfx : MonoBehaviour
         CloudObject.SetActive(activate);
         CandyObject.SetActive(activate);
     }
-    
-    public void SetTarget(GameObject target)
+
+    public void SetComponents(GameObject target)
     {
         Target = target;
     }
@@ -59,6 +59,7 @@ public class CandyStormVfx : MonoBehaviour
     public void ResetVfx()
     {
         gameObject.transform.position = new Vector3(0.0f, 0.0f, 0.0f);
+        SwitchCloudStormParticleSystemsState(false);
     }
 
     private void StrikeCandyStormVfx()
@@ -82,7 +83,7 @@ public class CandyStormVfx : MonoBehaviour
         }
     }
 
-    public void ExplodeConfectionMix()
+    public void ExplodeCandyStormMix()
     {
         ExplosionParticles.Play();
     }
