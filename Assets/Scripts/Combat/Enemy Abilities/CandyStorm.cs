@@ -39,10 +39,11 @@ namespace Combat.Enemy_Abilities
         private float CandyCornDropCountdown;
 
         [Header("Audio Components")]
-        [SerializeField] private AudioSource LightningStrikeSound;
-        [SerializeField] private AudioSource ThunderCloudSound;
-        
-        
+        [SerializeField] private AudioSource CandyStormNoiseSound;
+        [SerializeField] private AudioSource CandyStormThunderSound;
+        [SerializeField] private AudioSource CandyCollectingSound;
+
+
         // Start is called before the first frame update
         void Start()
         {
@@ -59,8 +60,6 @@ namespace Combat.Enemy_Abilities
         
         public new void StartAbility(bool userTargeting = false)
         {
-            Animator.SetBool("IsFinishedCasting", false);
-
             base.StartAbility();
         }
         
@@ -89,11 +88,12 @@ namespace Combat.Enemy_Abilities
                 }
 
                 // Move Sield's Hat to catch candy
-                if (Input.GetButton("Left"))
+                var sieldHatRectTransform = SieldHatObject.GetComponent<RectTransform>();
+                if (Input.GetButton("Left") && sieldHatRectTransform.localPosition.x >= -145f)
                 {
                     SieldHatObject.transform.Translate(new Vector3(Time.deltaTime * HatMovementSpeed, 0.0f, 0.0f));
                 }
-                if (Input.GetButton("Right"))
+                if (Input.GetButton("Right") && sieldHatRectTransform.localPosition.x <= 145f)
                 {
                     SieldHatObject.transform.Translate(new Vector3(Time.deltaTime * -HatMovementSpeed, 0.0f, 0.0f));
                 }
@@ -113,6 +113,7 @@ namespace Combat.Enemy_Abilities
         {
             TotalCandiesCollected++;
             CandyCornCollectedCounterText.text = TotalCandiesCollected.ToString();
+            CandyCollectingSound.Play();
         }
 
         protected override void ContinueAbilityAfterTargeting()
@@ -121,8 +122,18 @@ namespace Combat.Enemy_Abilities
             ThunderCandyClusterVfx.gameObject.SetActive(true);
             ThunderCandyClusterVfx.transform.position = transform.position + ThunderCloudOffsetPosition;
             
-            
+            Animator.SetBool("IsFinishedCasting", false);
             Animator.Play("Base Layer.Summon");
+
+            if (!CandyStormNoiseSound.isPlaying)
+            {
+                CandyStormNoiseSound.Play();
+            }
+
+            if (!CandyStormThunderSound.isPlaying)
+            {
+                CandyStormThunderSound.Play();
+            }
             
             ThunderCandyClusterVfx.SwitchVfxActivation();
             ThunderCandyClusterVfx.SwitchCloudStormParticleSystemsState();
@@ -149,9 +160,9 @@ namespace Combat.Enemy_Abilities
             Debug.Log("Ending Cloud Phase");
             Timer.ResetTimer();
             CandyCornManager.AddCandyCorn(TotalCandiesCollected);
-            //ResetCloudPhaseValues();
-            
+
             CollectionCanvas.gameObject.SetActive(false);
+            //CandyCollectingSound.Play();
 
             StartCoroutine(StartStrikingPhase());
         }
@@ -178,10 +189,21 @@ namespace Combat.Enemy_Abilities
             ThunderCandyClusterVfx.StartMoving();
             CameraRigSystem.SetTargetGO(Target);
             CameraRigSystem.MoveCameraRelative(CameraRigSystem.DefaultOffset, CameraRigSystem.DefaultRotation);
+            Animator.SetBool("IsFinishedCasting", true);
         }
 
         public IEnumerator DealCandyStormDamage()
         {
+            if (CandyStormNoiseSound.isPlaying)
+            {
+                CandyStormNoiseSound.Stop();
+            }
+
+            if (CandyStormThunderSound.isPlaying)
+            {
+                CandyStormThunderSound.Stop();
+            }
+            
             var damage = BaseDamage - TotalCandiesCollected;
             Debug.Log("Damage after Collecting " + damage);
             Attack attack = new Attack(damage);
@@ -196,16 +218,9 @@ namespace Combat.Enemy_Abilities
 
         protected override void EndAbility()
         {
-            //ThunderCloudParticles.Stop();
-            //ThunderCloud.transform.position = Vector3.zero;
-            //ThunderCloud.SetActive(false);
-            
             Target = TargetedCombatants[0];
             ThunderCandyClusterVfx.SetComponents(Target);
             Animator.Play("Base Layer.Throw");
-            //Animator.SetBool("IsFinishedCasting", true);
-
-            //CombatSystem.EndTurn(this.GetComponentInParent<Combatant>().gameObject);
         }
 
         private void OnDestroy()
