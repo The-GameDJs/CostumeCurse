@@ -25,8 +25,7 @@ public class CameraArea : MonoBehaviour
 
         if (other.CompareTag("Player") && other.gameObject.name == "Sield")
         {
-            CameraRig.SetTransitionSmoothness(TransitionInSmoothness);
-            CameraRig.MoveCameraRelative(Offset, Quaternion.Euler(Rotation));
+            SetCameraMovement(TransitionInSmoothness, Offset, Quaternion.Euler(Rotation));
         }
     }
 
@@ -34,10 +33,14 @@ public class CameraArea : MonoBehaviour
     {
         if (other.CompareTag("Player") && other.gameObject.name == "Sield")
         {
-            CameraRig.SetTransitionSmoothness(TransitionOutSmoothness);
-            CameraRig.MoveCameraRelative(CameraRig.DefaultOffset,
-                CameraRig.DefaultRotation);
+            SetCameraMovement(TransitionOutSmoothness, CameraRig.DefaultOffset, CameraRig.DefaultRotation);
         }
+    }
+
+    private void SetCameraMovement(float transitionSmoothness, Vector3 offset, Quaternion rotation)
+    {
+        CameraRig.SetTransitionSmoothness(transitionSmoothness);
+        CameraRig.MoveCameraRelative(offset, rotation);
     }
 
     public void OnDestroy()
