@@ -43,7 +43,7 @@ public class BossAnimationHelper : MonoBehaviour
 
     public void SetCastingToFalse()
     {
-        Animator.SetBool("IsFinishedCasting", true);
+        Animator.SetBool("IsFinishedCasting", false);
     }
 
 }
