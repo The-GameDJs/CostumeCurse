@@ -15,6 +15,8 @@ namespace Combat.Enemy_Abilities
 
         private enum Phase { Inactive, Supercharge }
         private Phase CurrentPhase = Phase.Inactive;
+        public enum PimpkinType { Pimpkin, DarkPimpkin}
+        [SerializeField] private PimpkinType PimpkinEnemyType;
 
         private readonly float BaseDamage = 40f;
         private float Damage;
@@ -24,7 +26,7 @@ namespace Combat.Enemy_Abilities
         [Header("Shooting Battle Phase")]
         [SerializeField] private GameObject PimpkinCharge;
         [SerializeField] private Transform PimpkinFingers;
-        private PimpkinCharge CurrentCharge = null;
+        private PimpkinCharge CurrentCharge;
 
 
         public new void Start()
@@ -38,6 +40,11 @@ namespace Combat.Enemy_Abilities
                 1,
                 CombatantType.Ally,
                 SelectorType.Number);
+        }
+
+        public PimpkinType GetPimpkinType()
+        {
+            return PimpkinEnemyType;
         }
 
         public new void StartAbility(bool userTargeting = false)
@@ -65,7 +72,15 @@ namespace Combat.Enemy_Abilities
 
         protected override void EndAbility()
         {
-            Victim.GetComponent<Combatant>().SetFire(false, Combatant.FireType.eOrangeFire);
+            // Set Player on fire depending on supercharge's pimpkin type
+            if (GetPimpkinType() == Supercharge.PimpkinType.Pimpkin)
+            {
+                Victim.GetComponent<Combatant>().SetFire(false, Combatant.FireType.eOrangeFire);
+            }
+            else if (GetPimpkinType() == Supercharge.PimpkinType.DarkPimpkin)
+            {
+                Victim.GetComponent<Combatant>().SetFire(false, Combatant.FireType.ePurpleFire);
+            }
             StopAllCoroutines();
             Timer.StopTimer();
             
@@ -83,16 +98,20 @@ namespace Combat.Enemy_Abilities
 
         private void SpawnPimpkinFireball()
         {
-            var go = Instantiate(PimpkinCharge, PimpkinFingers.position, PimpkinFingers.rotation);
-            go.transform.SetParent(PimpkinFingers);
-            CurrentCharge = go.gameObject.GetComponent<PimpkinCharge>();
-            CurrentCharge.SetTarget(TargetedCombatants[0]);
-            CurrentCharge.SetComponent(this);
+            CurrentCharge = Instantiate(PimpkinCharge,
+                                        PimpkinFingers.position, 
+                                        PimpkinFingers.rotation, PimpkinFingers)
+                                        .GetComponent<PimpkinCharge>();
+            CurrentCharge.transform.localScale = Vector3.one / 100f; // CHECK FOR ORANGE PIMPKIN!
+            CurrentCharge.SetComponents(this, Victim);
         }
 
         public void ThrowChargeAtTarget()
         {
-            PimpkinFingers.SetParent(null);
+            // Juuuuust in case above statement has failed fails
+            if (!CurrentCharge) CurrentCharge = FindObjectOfType<PimpkinCharge>();
+                
+            CurrentCharge.transform.SetParent(null);
             var direction = (TargetedCombatants[0].gameObject.transform.position + new Vector3(0f, ChargeTargetHeightOffset, 0f) - PimpkinFingers.position).normalized;
             CurrentCharge.GetRigidBody().velocity = direction * CurrentCharge.GetSpeed();
         }
