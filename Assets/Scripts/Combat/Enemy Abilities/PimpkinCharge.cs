@@ -18,14 +18,10 @@ namespace Combat.Abilities
         private Supercharge PimpkinSupercharge;
         private GameObject Target;
 
-        public void SetTarget(GameObject target)
-        {
-            Target = target;
-        }
-
-        public void SetComponent(Supercharge charge)
+        public void SetComponents(Supercharge charge, GameObject target)
         {
             PimpkinSupercharge = charge;
+            Target = target;
         }
 
         public Rigidbody GetRigidBody()
@@ -40,7 +36,7 @@ namespace Combat.Abilities
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject.Equals(Target))
+            if (other.gameObject.Equals(Target) && !transform.parent)
             {
                 DestroyCharge();
             }
@@ -48,17 +44,21 @@ namespace Combat.Abilities
 
         private void DestroyCharge()
         {
-            Target.GetComponent<Combatant>().SetFire(true, Combatant.FireType.eOrangeFire);
+            // Set Player on fire depending on supercharge's pimpkin type
+            if (PimpkinSupercharge.GetPimpkinType() == Supercharge.PimpkinType.Pimpkin)
+            {
+                Target.GetComponent<Combatant>().SetFire(true, Combatant.FireType.eOrangeFire);
+            }
+            else if (PimpkinSupercharge.GetPimpkinType() == Supercharge.PimpkinType.DarkPimpkin)
+            {
+                Target.GetComponent<Combatant>().SetFire(true, Combatant.FireType.ePurpleFire);
+            }
             PimpkinSupercharge.DealSuperchargeDamage();
+            
+            PimpkinSupercharge.EmptyCurrentCharge();
+            ChargeRigidbody = null;
+            Target = null;
             Destroy(gameObject);
         }
-
-        private void OnDestroy()
-        {
-            ChargeRigidbody = null;
-            PimpkinSupercharge.EmptyCurrentCharge();
-            Target = null;
-        }
-
     }
 }

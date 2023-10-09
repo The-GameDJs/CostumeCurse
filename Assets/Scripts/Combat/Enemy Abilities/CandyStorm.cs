@@ -171,6 +171,8 @@ namespace Combat.Enemy_Abilities
 
         private void ResetCloudPhaseValues()
         {
+            Target.GetComponent<Combatant>().SetFire(false, Combatant.FireType.ePurpleFire);
+            Target = null;
             ThunderCandyClusterVfx.ResetVfx();
             SieldHatObject.transform.position = SieldHatReset.position;
             TotalCandiesCollected = 0;
