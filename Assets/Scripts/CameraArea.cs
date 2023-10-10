@@ -22,7 +22,6 @@ public class CameraArea : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-
         if (other.CompareTag("Player") && other.gameObject.name == "Sield")
         {
             SetCameraMovement(TransitionInSmoothness, Offset, Quaternion.Euler(Rotation));

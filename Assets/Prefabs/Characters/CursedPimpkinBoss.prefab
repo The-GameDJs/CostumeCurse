@@ -62,7 +62,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TurnPriority: 4
-  MaxHealthPoints: 450
+  MaxHealthPoints: 580
   FireBurns:
   - {fileID: 1472896413115883271}
   - {fileID: 989380423480151782}
@@ -7121,6 +7121,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SpinSound
       objectReference: {fileID: 0}
+    - target: {fileID: 8317429922024935675, guid: fd356904afc8ab141a75cdaeddee8216, type: 3}
+      propertyPath: m_Pitch
+      value: 0.85
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fd356904afc8ab141a75cdaeddee8216, type: 3}
 --- !u!4 &4281038792145455910 stripped
@@ -7821,7 +7825,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7706896390144645908, guid: 54cc15887c4ab7b44bd2433c8f7731c1, type: 3}
       propertyPath: m_Pitch
-      value: 0.64
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 7706896390144645908, guid: 54cc15887c4ab7b44bd2433c8f7731c1, type: 3}
       propertyPath: m_audioClip

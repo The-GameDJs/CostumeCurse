@@ -42,7 +42,10 @@ public class CameraRig : MonoBehaviour
         InitialRotation = TargetRotation = DefaultRotation;
         this.transform.position = InitialPosition;
         this.transform.rotation = InitialRotation;
-        Smoothness = DefaultSmoothness;
+        if (Smoothness != 0.0f)
+        {
+            Smoothness = DefaultSmoothness;
+        }
 
         Timer = GetComponent<Timer>();
         CurrentPhase = CameraPhase.NoTransition;
@@ -81,6 +84,12 @@ public class CameraRig : MonoBehaviour
     public void SetTargetGO(GameObject targetObject)
     {
         TargetGO = targetObject;
+    }
+
+    public void MoveCameraToSelectedTarget(GameObject target, float extraOffset = 0.0f)
+    {
+        TargetGO = target;
+        MoveCameraRelative(DefaultOffset + new Vector3(0.0f, extraOffset, 0.0f), DefaultRotation);
     }
 
     public void SetTransitionSmoothness(float transitionSmoothness)
