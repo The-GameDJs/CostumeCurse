@@ -9361,7 +9361,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2073623385548047215, guid: 1cdff3e909802d7459165aab27df9d07, type: 3}
       propertyPath: Offset.x
-      value: 20
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 2073623385548047215, guid: 1cdff3e909802d7459165aab27df9d07, type: 3}
       propertyPath: Offset.y
@@ -9369,7 +9369,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2073623385548047215, guid: 1cdff3e909802d7459165aab27df9d07, type: 3}
       propertyPath: Offset.z
-      value: -30
+      value: -25
       objectReference: {fileID: 0}
     - target: {fileID: 2073623385548047215, guid: 1cdff3e909802d7459165aab27df9d07, type: 3}
       propertyPath: Rotation.x
@@ -9377,7 +9377,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2073623385548047215, guid: 1cdff3e909802d7459165aab27df9d07, type: 3}
       propertyPath: Rotation.y
-      value: -40
+      value: -35
       objectReference: {fileID: 0}
     - target: {fileID: 2073623385548047215, guid: 1cdff3e909802d7459165aab27df9d07, type: 3}
       propertyPath: Rotation.z
@@ -16234,17 +16234,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1330957620812175028, guid: 7dcb516f7f9a8aa49b14354df2c553bb, type: 3}
   m_PrefabInstance: {fileID: 1122506283}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1122745088 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1122745088, guid: 52410c22701794f4fa39e79a5e78d240, type: 3}
-  m_PrefabInstance: {fileID: 466248515470835414}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 055174948a0446d4b8151aef5bf1ae06, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1123176966
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20310,8 +20299,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: PimpkinBossMinion (1)
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 6406255230222109277, guid: dbaa9fb54d119dc44ba442af9cb48ef1, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dbaa9fb54d119dc44ba442af9cb48ef1, type: 3}
 --- !u!1001 &1373207138
 PrefabInstance:
@@ -20786,8 +20774,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: PimpkinBossMinion
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 6406255230222109277, guid: dbaa9fb54d119dc44ba442af9cb48ef1, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dbaa9fb54d119dc44ba442af9cb48ef1, type: 3}
 --- !u!4 &1405288609 stripped
 Transform:
@@ -32003,6 +31990,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0.4437996
       objectReference: {fileID: 0}
+    - target: {fileID: 448518877758545765, guid: 52410c22701794f4fa39e79a5e78d240, type: 3}
+      propertyPath: m_Pitch
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 519917423433733260, guid: 52410c22701794f4fa39e79a5e78d240, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: -0.5528818
@@ -32038,6 +32029,10 @@ PrefabInstance:
     - target: {fileID: 1710308509611591275, guid: 52410c22701794f4fa39e79a5e78d240, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -0.026025414
+      objectReference: {fileID: 0}
+    - target: {fileID: 2494755633505995695, guid: 52410c22701794f4fa39e79a5e78d240, type: 3}
+      propertyPath: m_Pitch
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 3138403718479418869, guid: 52410c22701794f4fa39e79a5e78d240, type: 3}
       propertyPath: FlameChargeObject
@@ -32246,6 +32241,10 @@ PrefabInstance:
     - target: {fileID: 8583676138415002843, guid: 52410c22701794f4fa39e79a5e78d240, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -20.603033
+      objectReference: {fileID: 0}
+    - target: {fileID: 8588563200515552386, guid: 52410c22701794f4fa39e79a5e78d240, type: 3}
+      propertyPath: m_Pitch
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 8616632789521780984, guid: 52410c22701794f4fa39e79a5e78d240, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -37229,7 +37228,7 @@ PrefabInstance:
     - target: {fileID: 7413002251339949247, guid: c0dc18de08d7ef54fb3ba8215441a5a0, type: 3}
       propertyPath: CandyStormAbility
       value: 
-      objectReference: {fileID: 1122745088}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c0dc18de08d7ef54fb3ba8215441a5a0, type: 3}
 --- !u!1 &7428409076623179274
@@ -37638,7 +37637,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7870359103648208790, guid: 7d69d0de1e40fda4e94be6819589947c, type: 3}
       propertyPath: Smoothness
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7870359103648208790, guid: 7d69d0de1e40fda4e94be6819589947c, type: 3}
       propertyPath: DefaultBossOffset.y

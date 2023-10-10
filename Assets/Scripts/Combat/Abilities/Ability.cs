@@ -10,6 +10,7 @@ public abstract class Ability : MonoBehaviour
     protected TargetSelector TargetSelector;
     protected CombatSystem CombatSystem;
     protected CameraRig CameraRigSystem;
+    public CameraRig GetCameraRigSystem => CameraRigSystem;
 
     public TargetSchema TargetSchema;
 

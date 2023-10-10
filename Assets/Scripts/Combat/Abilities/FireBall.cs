@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Experimental.GlobalIllumination;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace Combat.Abilities
@@ -41,7 +42,9 @@ namespace Combat.Abilities
         private const float FireballLightSourceAdjustmentFactor = 7.5f;
         private float FireballScalingElapsedTime = 0;
 
-        [Header("Stats")]
+        [FormerlySerializedAs("BulletTargetHeightOffset")]
+        [Header("Properties")] 
+        [SerializeField] private float FireballTargetHeightOffset;
         private const float FireballMaximumDamage = 150;
         private const float FireballMinimumDamage = 75;
         private const float FireballDifficultyCurve = 100;
@@ -215,12 +218,16 @@ namespace Combat.Abilities
             float launchDuration = 1f;
             float elapsedTime = 0;
             Vector3 origin = Fireball.transform.position;
+            var offset = TargetedCombatants[0].GetComponent<Combatant>().isBoss
+                ? FireballTargetHeightOffset * 4
+                : FireballTargetHeightOffset;
+            CameraRigSystem.MoveCameraToSelectedTarget(target, offset);
 
             while (elapsedTime < launchDuration)
             {
                 Fireball.transform.position = Vector3.Lerp(
                     origin, 
-                    target.transform.position,
+                    target.transform.position + new Vector3(0.0f, offset, 0.0f),
                     elapsedTime / launchDuration);
                 elapsedTime += Time.deltaTime;
                 yield return null;

@@ -23,6 +23,16 @@ public class CandyStormVfx : MonoBehaviour
     private bool IsMoving;
     private GameObject Target;
 
+
+    private void Start()
+    {
+        // Make sure it is assigned on the inspector!
+        if (!CandyStormAbility)
+        {
+            CandyStormAbility = FindObjectOfType<CandyStorm>();
+        }
+    }
+
     private void Update()
     {
         if (IsMoving && Target)

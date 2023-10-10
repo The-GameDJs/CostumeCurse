@@ -47,8 +47,7 @@ public class Confection : Ability
     private GameObject ConfectionMixObject;
     private ConfectionVfx ConfectionMixVfx;
     private GameObject Target;
-    [SerializeField]
-    private float ConfectionMixVfxVerticalOffset;
+    [SerializeField] private float ConfectionMixVfxVerticalOffset;
 
     public new void Start()
     {
@@ -242,7 +241,12 @@ public class Confection : Ability
         float animationTime = 0f;
         float animationDuration = 2.5f;
         Animator.SetBool("IsFinishedCasting", false);
+        var offset = TargetedCombatants[0].GetComponent<Combatant>().isBoss
+            ? ConfectionMixVfxVerticalOffset * 2
+            : ConfectionMixVfxVerticalOffset;
+
         ConfectionMixObject.transform.position = Ganiel.transform.position + new Vector3(0.0f, ConfectionMixVfxVerticalOffset, 0.0f);
+        CameraRigSystem.MoveCameraToSelectedTarget(Target, offset);
 
         while (animationTime < animationDuration)
         {

@@ -114,6 +114,8 @@ namespace Combat.Enemy_Abilities
             CurrentCharge.transform.SetParent(null);
             var direction = (TargetedCombatants[0].gameObject.transform.position + new Vector3(0f, ChargeTargetHeightOffset, 0f) - PimpkinFingers.position).normalized;
             CurrentCharge.GetRigidBody().velocity = direction * CurrentCharge.GetSpeed();
+            
+            CameraRigSystem.MoveCameraToSelectedTarget(Victim);
         }
 
         public void DealSuperchargeDamage()
