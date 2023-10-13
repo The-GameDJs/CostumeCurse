@@ -1,5 +1,6 @@
 using Assets.Scripts.Combat;
 using System.Collections;
+using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
@@ -48,16 +49,22 @@ public class Confection : Ability
     private ConfectionVfx ConfectionMixVfx;
     private GameObject Target;
     [SerializeField] private float ConfectionMixVfxVerticalOffset;
+    [SerializeField] private GameObject[] IngredientTypes;
+    [SerializeField] private GameObject[] IngredientSpawnLocations;
+    private bool[] IsIngredientReserved;
+    private readonly Stack<GameObject> IngredientStack = new Stack<GameObject>();
 
     public new void Start()
     {
+        base.Start();
         Ganiel = GameObject.Find("Ganiel");
         ConfectionMixObject = GameObject.Find("ConfectionPowerMove");
         ConfectionMixVfx = ConfectionMixObject.GetComponent<ConfectionVfx>();
-        base.Start();
         Timer = GetComponent<Timer>();
         
         StartUI();
+
+        IsIngredientReserved = new bool[IngredientSpawnLocations.Length];
 
         TargetSchema = new TargetSchema(
             1,
@@ -286,11 +293,38 @@ public class Confection : Ability
             Debug.Log("Canvas is Null in StartBrewPhase()"); 
         }
 
-        DragAndDrop[] allChildren = BrewCanvas.GetComponentsInChildren<DragAndDrop>();
-        foreach (DragAndDrop child in allChildren)
-            child.InitializeStartingPosition();
+        foreach (var ingredient in IngredientTypes)
+        {
+            ingredient.GetComponent<DragAndDrop>().InitializeStartingPosition();
+        }
+
+        RandomizeIngredientSpawns();
 
         Timer.StartTimer(BrewDuration);
+    }
+
+    private void RandomizeIngredientSpawns()
+    {
+        foreach (var ingredient in IngredientTypes)
+        {
+            IngredientStack.Push(ingredient);
+        }
+
+        while (IngredientStack.Count != 0)
+        {
+            int randomPosition = Random.Range(0, IngredientSpawnLocations.Length);
+
+            if (!IsIngredientReserved[randomPosition])
+            {
+                var ingredient = IngredientStack.Pop();
+                Debug.Log($"Ingredient Popped: {IngredientStack.Count} left");
+                ingredient.gameObject.SetActive(true);
+
+                ingredient.GetComponent<RectTransform>().position = 
+                    IngredientSpawnLocations[randomPosition].GetComponent<RectTransform>().position;
+                IsIngredientReserved[randomPosition] = true;
+            }
+        }
     }
 
     private void StartBakePhase()
@@ -347,13 +381,10 @@ public class Confection : Ability
 
     private void ResetBrewComponents()
     {
-        foreach (Transform child in BrewCanvas.transform)
-            child.gameObject.SetActive(true);
-
-        DragAndDrop[] allChildren = BrewCanvas.GetComponentsInChildren<DragAndDrop>();
-        foreach (DragAndDrop child in allChildren)
+        foreach (var ingredient in IngredientTypes)
         {
-            child.ResetPosition();
+            ingredient.SetActive(true);
+            ingredient.GetComponent<DragAndDrop>().ResetPosition();
         }
 
         SweetsDropped = 0;
