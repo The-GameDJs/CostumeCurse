@@ -123,6 +123,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &32680 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6900393825410745516, guid: 32fa5399bbdb9f0429d6bd40c2437bd2, type: 3}
+  m_PrefabInstance: {fileID: 3344147706551358311}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4697854
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11086,6 +11091,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7870359103648208777, guid: 7d69d0de1e40fda4e94be6819589947c, type: 3}
   m_PrefabInstance: {fileID: 7870359103265332102}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &800808777 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7120392636200631354, guid: 32fa5399bbdb9f0429d6bd40c2437bd2, type: 3}
+  m_PrefabInstance: {fileID: 3344147706551358311}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &804032799
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13492,6 +13502,11 @@ Transform:
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6543156113162692069, guid: ed91cc94734486443822a93acc4b9f01, type: 3}
   m_PrefabInstance: {fileID: 959502088}
+  m_PrefabAsset: {fileID: 0}
+--- !u!223 &963489079 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 71796279272386620, guid: 32fa5399bbdb9f0429d6bd40c2437bd2, type: 3}
+  m_PrefabInstance: {fileID: 3344147706551358311}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &963614063 stripped
 Transform:
@@ -17461,6 +17476,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6703086825455112006, guid: 738f97bd4edc08f46bf8c18eefe14908, type: 3}
   m_PrefabInstance: {fileID: 1171937727}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1172084726 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6868919363738065215, guid: 32fa5399bbdb9f0429d6bd40c2437bd2, type: 3}
+  m_PrefabInstance: {fileID: 3344147706551358311}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1172087606
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20981,6 +21001,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6703086825455112006, guid: 738f97bd4edc08f46bf8c18eefe14908, type: 3}
   m_PrefabInstance: {fileID: 1374784921}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1374925346 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8490202947707230195, guid: 32fa5399bbdb9f0429d6bd40c2437bd2, type: 3}
+  m_PrefabInstance: {fileID: 3344147706551358311}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1376808090
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24189,6 +24214,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dc9d22b5a5ea75f4f92451464d260bb7, type: 3}
+--- !u!1 &1658335840 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1467177511099168878, guid: 32fa5399bbdb9f0429d6bd40c2437bd2, type: 3}
+  m_PrefabInstance: {fileID: 3344147706551358311}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1665661991 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6917805810791803028, guid: e266ca512c90051488aae56f02220f95, type: 3}
@@ -25395,6 +25425,34 @@ PrefabInstance:
       propertyPath: CandyCornCost
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 2121341942659208810, guid: 5ef547a01e5efa34d82a65ab26cfe4d2, type: 3}
+      propertyPath: Arrows.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2121341942659208810, guid: 5ef547a01e5efa34d82a65ab26cfe4d2, type: 3}
+      propertyPath: MagicShieldCanvas
+      value: 
+      objectReference: {fileID: 963489079}
+    - target: {fileID: 2121341942659208810, guid: 5ef547a01e5efa34d82a65ab26cfe4d2, type: 3}
+      propertyPath: SequenceArrowsGroup
+      value: 
+      objectReference: {fileID: 32680}
+    - target: {fileID: 2121341942659208810, guid: 5ef547a01e5efa34d82a65ab26cfe4d2, type: 3}
+      propertyPath: Arrows.Array.data[0]
+      value: 
+      objectReference: {fileID: 1658335840}
+    - target: {fileID: 2121341942659208810, guid: 5ef547a01e5efa34d82a65ab26cfe4d2, type: 3}
+      propertyPath: Arrows.Array.data[1]
+      value: 
+      objectReference: {fileID: 800808777}
+    - target: {fileID: 2121341942659208810, guid: 5ef547a01e5efa34d82a65ab26cfe4d2, type: 3}
+      propertyPath: Arrows.Array.data[2]
+      value: 
+      objectReference: {fileID: 1172084726}
+    - target: {fileID: 2121341942659208810, guid: 5ef547a01e5efa34d82a65ab26cfe4d2, type: 3}
+      propertyPath: Arrows.Array.data[3]
+      value: 
+      objectReference: {fileID: 1374925346}
     - target: {fileID: 2249674856687288453, guid: 5ef547a01e5efa34d82a65ab26cfe4d2, type: 3}
       propertyPath: playOnAwake
       value: 0
@@ -34996,6 +35054,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2100020779333497184, guid: 32fa5399bbdb9f0429d6bd40c2437bd2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5838998639540139683, guid: 32fa5399bbdb9f0429d6bd40c2437bd2, type: 3}
+      propertyPath: m_PresetInfoIsWorld
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6128566196424625912, guid: 32fa5399bbdb9f0429d6bd40c2437bd2, type: 3}
