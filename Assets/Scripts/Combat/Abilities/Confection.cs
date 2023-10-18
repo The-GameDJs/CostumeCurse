@@ -49,10 +49,10 @@ public class Confection : Ability
     private ConfectionVfx ConfectionMixVfx;
     private GameObject Target;
     [SerializeField] private float ConfectionMixVfxVerticalOffset;
-    [SerializeField] private GameObject[] IngredientTypes;
-    [SerializeField] private GameObject[] IngredientSpawnLocations;
+    [SerializeField] private DragAndDrop[] IngredientTypes;
+    [SerializeField] private Transform[] IngredientSpawnLocations;
     private bool[] IsIngredientReserved;
-    private readonly Stack<GameObject> IngredientStack = new Stack<GameObject>();
+    private readonly Stack<DragAndDrop> IngredientStack = new Stack<DragAndDrop>();
 
     public new void Start()
     {
@@ -292,12 +292,7 @@ public class Confection : Ability
         { 
             Debug.Log("Canvas is Null in StartBrewPhase()"); 
         }
-
-        foreach (var ingredient in IngredientTypes)
-        {
-            ingredient.GetComponent<DragAndDrop>().InitializeStartingPosition();
-        }
-
+        
         RandomizeIngredientSpawns();
 
         Timer.StartTimer(BrewDuration);
@@ -322,6 +317,7 @@ public class Confection : Ability
 
                 ingredient.GetComponent<RectTransform>().position = 
                     IngredientSpawnLocations[randomPosition].GetComponent<RectTransform>().position;
+                ingredient.InitializeStartingPosition();
                 IsIngredientReserved[randomPosition] = true;
             }
         }
@@ -383,10 +379,23 @@ public class Confection : Ability
     {
         foreach (var ingredient in IngredientTypes)
         {
-            ingredient.SetActive(true);
-            ingredient.GetComponent<DragAndDrop>().ResetPosition();
+            ingredient.ResetPosition();
+            ingredient.gameObject.SetActive(false);
         }
 
+        for (var i = 0; i < IngredientSpawnLocations.Length; ++i)
+        {
+            if (IsIngredientReserved[i])
+            {
+                IsIngredientReserved[i] = false;
+            }
+        }
+
+        if (IngredientStack.Count > 0)
+        {
+            IngredientStack.Clear();
+        }
+        
         SweetsDropped = 0;
         RotsDropped = 0;
         CookingPot.ResetConfectionValues();
