@@ -10,16 +10,19 @@ public class MagicShield : Ability
     private Timer Timer;
     private List<Button> Sequence = new List<Button>();
     private Queue<GameObject> Directions = new Queue<GameObject>();
-    private static GameObject[] Arrows; // 0: Up, 1: Down, 2: Left, 3: Right 
 
+    [SerializeField] private Canvas MagicShieldCanvas;
+    [SerializeField] private GameObject SequenceArrowsGroup;
+    [SerializeField] private GameObject InputSequenceGroup;
+    [SerializeField] private GameObject[] Arrows; // 0: Up, 1: Down, 2: Left, 3: Right 
     [SerializeField] private AudioSource MagicShieldSound;
 
+    private Vector3 InitialCanvasPosition;
     private readonly float SequenceDuration = 2f;
     private readonly float InputDuration = 2.5f;
     private readonly float ArrowPositionHeight = 8f;
     private readonly float NextArrowPositionOffsetX = 4f;
     private readonly int MaxButtonsInSequence = 4;
-    private Vector3 ArrowStartPosition = Vector3.zero;
     private Phase CurrentPhase = Phase.Inactive;
 
     private readonly float MinMagicShieldHealth = 20f;
@@ -32,19 +35,10 @@ public class MagicShield : Ability
     {
         base.Start();
         Timer = GetComponent<Timer>();
-
-        Arrows = new GameObject[4];
-        Arrows[0] = GameObject.Find("Up Arrow");
-        Arrows[1] = GameObject.Find("Down Arrow");
-        Arrows[2] = GameObject.Find("Left Arrow");
-        Arrows[3] = GameObject.Find("Right Arrow");
-
-        foreach (GameObject arrow in Arrows)
-        {
-            print(arrow);
-            arrow.SetActive(false);
-        }
-
+        MagicShieldCanvas.gameObject.SetActive(false);
+        InitialCanvasPosition = MagicShieldCanvas.transform.position;
+        SetCanvas(false);
+        SequenceArrowsGroup.SetActive(false);
 
         TargetSchema = new TargetSchema(
             0,
@@ -52,7 +46,14 @@ public class MagicShield : Ability
             SelectorType.All);
     }
 
-    new public void StartAbility(bool userTargeting = false)
+    private void SetCanvas(bool isActive)
+    {
+        MagicShieldCanvas.gameObject.SetActive(isActive);
+        MagicShieldCanvas.GetComponent<CanvasGroup>().alpha = isActive ? 1.0f : 0.0f;
+        MagicShieldCanvas.transform.position = isActive ? new Vector3(Screen.width/2f,Screen.height/2f,0f) : InitialCanvasPosition;
+    }
+
+    public new void StartAbility(bool userTargeting = false)
     {
         CorrectInputs = 0;
         Animator.SetBool("IsFinishedCasting", false);
@@ -79,6 +80,7 @@ public class MagicShield : Ability
     {
         Debug.Log($"Magic Shield Total Health: {MagicShieldHealth}");
 
+        SetCanvas(false);
         MagicShieldSound.Play();
 
         foreach (GameObject target in TargetedCombatants)
@@ -101,13 +103,13 @@ public class MagicShield : Ability
             Button randomButton = (Button)buttons.GetValue(Random.Range(0, buttons.Length));
             Sequence.Add(randomButton);
         }
-
-        ArrowStartPosition = new Vector3(-NextArrowPositionOffsetX, ArrowPositionHeight, 0)
-            + transform.parent.transform.position;
+        
+        SetCanvas(true);
+        SequenceArrowsGroup.SetActive(true);
+        
         Debug.Log("Sequence Appearing!");
         Timer.StartTimer(SequenceDuration);
         CurrentPhase = Phase.SequencePhase;
-          
     }
 
     private void SequencePhaseUpdate()
@@ -117,34 +119,31 @@ public class MagicShield : Ability
         {
             Button button = Sequence[0];
             Sequence.RemoveAt(0);
-            GameObject direction;
+            var directionRectTransform = Arrows[ArrowsMoved].GetComponent<RectTransform>();
 
             switch (button)
             {
                 case Button.Up:
-                    direction = Instantiate(Arrows[0]);
+                    directionRectTransform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
                     break;
                 case Button.Down:
-                    direction = Instantiate(Arrows[1]);
+                    directionRectTransform.rotation = Quaternion.Euler(0.0f, 0.0f, 180.0f);
                     break;
                 case Button.Left:
-                    direction = Instantiate(Arrows[2]);
+                    directionRectTransform.rotation = Quaternion.Euler(0.0f, 0.0f, 90.0f);
                     break;
                 case Button.Right:
-                    direction = Instantiate(Arrows[3]);
+                    directionRectTransform.rotation = Quaternion.Euler(0.0f, 0.0f, 270.0f);
                     break;
                 default:
-                    direction = Instantiate(Arrows[0]);
+                    directionRectTransform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
                     break;
             }
-
-            direction.transform.localPosition = ArrowStartPosition;
+            
             Sequence.Add(button);
-            ArrowStartPosition += new Vector3(NextArrowPositionOffsetX, 0, 0);
-            direction.SetActive(true);
+            //directionRectTransform.gameObject.SetActive(true);
             ArrowsMoved++;
-            Directions.Enqueue(direction);
-
+            Directions.Enqueue(directionRectTransform.gameObject);
         }
 
         if (Timer.IsFinished())
@@ -156,9 +155,12 @@ public class MagicShield : Ability
 
     private void EndSequencePhase()
     {
-        foreach (GameObject arrow in Directions) {
-            Destroy(arrow);
+        foreach (GameObject arrow in Directions)
+        {
+            arrow.transform.rotation = Quaternion.identity;
+            //arrow.SetActive(false);
         }
+        SequenceArrowsGroup.SetActive(false);
         Directions.Clear();
         StartInputPhase();
     }
