@@ -9,6 +9,9 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     private RectTransform RectTransform;
     private CanvasGroup CanvasGroup;
     private Canvas Canvas;
+    public enum DropType { None, Bullet, Sweet, Veggie}
+    [SerializeField] private DropType DropTypeEnum;
+    public DropType DropTypeEnumPublic => DropTypeEnum;
 
     private void Start()
     {
@@ -19,13 +22,13 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     public void InitializeStartingPosition()
     {
-        OriginalPos = this.gameObject.transform.position;
+        OriginalPos = transform.position;
     }
 
     public void ResetPosition()
     {
-        Debug.Log("ResetPosition");
-        this.gameObject.transform.position = OriginalPos;
+        Debug.Log($"ResetPosition for DragAndDrop {gameObject.name}");
+        gameObject.transform.position = OriginalPos;
         GetComponent<CanvasGroup>().blocksRaycasts = true;
         IsInside = false;
     }
@@ -38,9 +41,10 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     public void OnDrag(PointerEventData eventData)
     {
         // TODO: possibly snap back to original position ?
-        if (!IsInside) {
+        if (!IsInside)
+        {
             Vector2 delta = eventData.delta;
-            this.gameObject.transform.position += new Vector3(delta.x, delta.y, 0);
+            gameObject.transform.position += new Vector3(delta.x, delta.y, 0.0f);
         }
     }
 

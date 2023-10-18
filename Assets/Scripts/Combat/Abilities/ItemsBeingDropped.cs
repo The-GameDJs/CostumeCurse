@@ -31,22 +31,20 @@ public class ItemsBeingDropped : MonoBehaviour, IDropHandler
 
     private void HandleDroppedItems(PointerEventData eventData)
     {
-        if (!eventData.pointerDrag.GetComponent<DragAndDrop>().GetIsInside())
+        if (eventData.pointerDrag.TryGetComponent<DragAndDrop>(out var dropItem) && !dropItem.GetIsInside())
         {
-            if(eventData.pointerDrag.name == "Sweet")
+            if(dropItem.DropTypeEnumPublic == DragAndDrop.DropType.Sweet)
             {
                 SweetsDropped++;
                 Debug.Log("Sweets Dropped:" + SweetsDropped);
-                eventData.pointerDrag.GetComponent<DragAndDrop>().SetIsInside(true);
-                eventData.pointerDrag.SetActive(false);
             }
 
-            else if(eventData.pointerDrag.name == "Rotten")
+            else if(dropItem.DropTypeEnumPublic == DragAndDrop.DropType.Veggie)
             {
                 RotsDropped++;
-                eventData.pointerDrag.GetComponent<DragAndDrop>().SetIsInside(true);
-                eventData.pointerDrag.SetActive(false);
             }
+            eventData.pointerDrag.GetComponent<DragAndDrop>().SetIsInside(true);
+            eventData.pointerDrag.SetActive(false);
         }
     }
 
