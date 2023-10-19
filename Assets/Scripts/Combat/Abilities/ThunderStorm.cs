@@ -29,7 +29,7 @@ public class ThunderStorm : Ability
     [Header("Damage Parameters")]
     private int Presses;
     private readonly float ThunderStormScale = 0.04f;
-    private readonly float ThunderStormHeight = 7f;
+    private readonly float ThunderStormHeight = 8f;
     private readonly float ThunderCloudDuration = 5.0f;
     private readonly int ThunderCloudMinimumDamage = 15;
     private readonly int ThunderCloudMaximumDamage = 30;
@@ -120,7 +120,8 @@ public class ThunderStorm : Ability
         {
             CurrentPhase = ThunderstormPhase.Inactive;
 
-            if (CurrentThunderStrike < TotalThunderStrikes)
+            var possibleVictims = Array.FindAll(TargetedCombatants, combatant => combatant.GetComponent<Combatant>().IsAlive).Length;
+            if (CurrentThunderStrike < TotalThunderStrikes && possibleVictims > 0)
                 Invoke(nameof(NewThunderStrike), Random.Range(StrikeTimeInterval, 1.5f * StrikeTimeInterval));
             else
                 EndAbility();
