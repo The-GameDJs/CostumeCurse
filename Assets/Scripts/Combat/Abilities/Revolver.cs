@@ -52,6 +52,8 @@ public class Revolver : Ability
     private Transform RevolverNozzle;
     [SerializeField] private ParticleSystem Gunshot;
 
+    private bool isCoroutineWaiting = false;
+
 
     public new void Start()
     {
@@ -234,17 +236,21 @@ public class Revolver : Ability
                 ShootSource.Play();
             }
         }
-
         else
         {
             Debug.Log("Ending Shooting Phase");
-            EndShootingPhase();
+            if (!isCoroutineWaiting)
+            {
+                StartCoroutine(EndShootingPhase());
+            }
         }
 
     }
 
-    private void EndShootingPhase()
+    private IEnumerator EndShootingPhase()
     {
+        isCoroutineWaiting = true;
+        yield return new WaitForSeconds(0.5f);
         Debug.Log("Ending Ability");
 
         Timer.ResetTimer();
@@ -252,6 +258,7 @@ public class Revolver : Ability
         Debug.Log($"Total Pimpkins Hit: {TotalPimpkinsHit}");
         CalculateRevolverDamage();
         EndAbility();
+        isCoroutineWaiting = false;
     }
 
     private void ResetShootingValues()

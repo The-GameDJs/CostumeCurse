@@ -43,8 +43,8 @@ public class PimpkinHead : MonoBehaviour
     {
         Debug.Log("Hit pimpkin!!!!!");
         PipmkinDeathSource.Play();
-        gameObject.SetActive(false);
         IsHit = true;
+        gameObject.SetActive(false);
     }
 
     public void ResetPimpkinValues()
