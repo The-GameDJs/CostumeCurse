@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class MagicShield : Ability
@@ -13,12 +15,12 @@ public class MagicShield : Ability
 
     [SerializeField] private Canvas MagicShieldCanvas;
     [SerializeField] private GameObject SequenceArrowsGroup;
-    [SerializeField] private GameObject InputSequenceGroup;
-    [SerializeField] private GameObject[] Arrows; // 0: Up, 1: Down, 2: Left, 3: Right 
+    [SerializeField] private GameObject[] Arrows; // 0: Up, 1: Down, 2: Left, 3: Right
     [SerializeField] private AudioSource MagicShieldSound;
 
     private Vector3 InitialCanvasPosition;
-    private readonly float SequenceDuration = 2f;
+    private readonly float SequenceDuration = 2.5f;
+    private float SequenceCountdown = 0.0f;
     private readonly float InputDuration = 2.5f;
     private readonly float ArrowPositionHeight = 8f;
     private readonly float NextArrowPositionOffsetX = 4f;
@@ -38,7 +40,6 @@ public class MagicShield : Ability
         MagicShieldCanvas.gameObject.SetActive(false);
         InitialCanvasPosition = MagicShieldCanvas.transform.position;
         SetCanvas(false);
-        SequenceArrowsGroup.SetActive(false);
 
         TargetSchema = new TargetSchema(
             0,
@@ -79,6 +80,13 @@ public class MagicShield : Ability
     protected override void EndAbility()
     {
         Debug.Log($"Magic Shield Total Health: {MagicShieldHealth}");
+        
+        foreach (var arrow in Arrows)
+        {
+            arrow.GetComponent<Image>().color = Color.cyan;
+            arrow.transform.rotation = Quaternion.identity;
+            arrow.SetActive(false);
+        }
 
         SetCanvas(false);
         MagicShieldSound.Play();
@@ -103,10 +111,17 @@ public class MagicShield : Ability
             Button randomButton = (Button)buttons.GetValue(Random.Range(0, buttons.Length));
             Sequence.Add(randomButton);
         }
+
+        foreach (var arrow in Arrows)
+        {
+            if (arrow.activeSelf)
+            {
+                arrow.SetActive(false);
+            }
+        }
         
         SetCanvas(true);
-        SequenceArrowsGroup.SetActive(true);
-        
+
         Debug.Log("Sequence Appearing!");
         Timer.StartTimer(SequenceDuration);
         CurrentPhase = Phase.SequencePhase;
@@ -114,36 +129,27 @@ public class MagicShield : Ability
 
     private void SequencePhaseUpdate()
     {
-
-        if (Timer.IsInProgress() && ArrowsMoved < MaxButtonsInSequence)
+        if (Timer.IsInProgress() && ArrowsMoved < MaxButtonsInSequence && SequenceCountdown >= 0.5f)
         {
             Button button = Sequence[0];
             Sequence.RemoveAt(0);
+            Arrows[ArrowsMoved].SetActive(true);
+            Arrows[ArrowsMoved].GetComponent<Image>().color = Color.cyan;
             var directionRectTransform = Arrows[ArrowsMoved].GetComponent<RectTransform>();
 
-            switch (button)
+            directionRectTransform.rotation = button switch
             {
-                case Button.Up:
-                    directionRectTransform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
-                    break;
-                case Button.Down:
-                    directionRectTransform.rotation = Quaternion.Euler(0.0f, 0.0f, 180.0f);
-                    break;
-                case Button.Left:
-                    directionRectTransform.rotation = Quaternion.Euler(0.0f, 0.0f, 90.0f);
-                    break;
-                case Button.Right:
-                    directionRectTransform.rotation = Quaternion.Euler(0.0f, 0.0f, 270.0f);
-                    break;
-                default:
-                    directionRectTransform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
-                    break;
-            }
-            
+                Button.Up => Quaternion.Euler(0.0f, 0.0f, 0.0f),
+                Button.Down => Quaternion.Euler(0.0f, 0.0f, 180.0f),
+                Button.Left => Quaternion.Euler(0.0f, 0.0f, 90.0f),
+                Button.Right => Quaternion.Euler(0.0f, 0.0f, 270.0f),
+                _ => Quaternion.Euler(0.0f, 0.0f, 0.0f)
+            };
+
             Sequence.Add(button);
-            //directionRectTransform.gameObject.SetActive(true);
             ArrowsMoved++;
             Directions.Enqueue(directionRectTransform.gameObject);
+            SequenceCountdown = 0.0f;
         }
 
         if (Timer.IsFinished())
@@ -151,16 +157,18 @@ public class MagicShield : Ability
             ArrowsMoved = 0;
             EndSequencePhase();
         }
+        
+        SequenceCountdown += Time.deltaTime;
     }
 
     private void EndSequencePhase()
     {
+        SequenceCountdown = 0.0f;
         foreach (GameObject arrow in Directions)
         {
             arrow.transform.rotation = Quaternion.identity;
-            //arrow.SetActive(false);
+            arrow.SetActive(false);
         }
-        SequenceArrowsGroup.SetActive(false);
         Directions.Clear();
         StartInputPhase();
     }
@@ -197,6 +205,8 @@ public class MagicShield : Ability
         CorrectInputs += 1;
 
         Sequence.RemoveAt(0);
+        
+        Arrows[ArrowsMoved].GetComponent<Image>().color = Color.cyan;
     }
 
     private void OnIncorrectInput()
@@ -206,6 +216,8 @@ public class MagicShield : Ability
         MissedActionCommandSound.Play();
 
         Sequence.RemoveAt(0);
+        
+        Arrows[ArrowsMoved].GetComponent<Image>().color = Color.red;
     }
 
     private void CheckUserInputs()
@@ -223,32 +235,44 @@ public class MagicShield : Ability
                     OnCorrectInput();
                 else
                     OnIncorrectInput();
+                Arrows[ArrowsMoved].transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
                 break;
             case Button.Down:
                 if (Input.GetButtonDown("Down"))
                     OnCorrectInput();
                 else
                     OnIncorrectInput();
+                Arrows[ArrowsMoved].transform.rotation = Quaternion.Euler(0.0f, 0.0f, 180.0f);
                 break;
             case Button.Left:
                 if (Input.GetButtonDown("Left"))
                     OnCorrectInput();
                 else
                     OnIncorrectInput();
+                Arrows[ArrowsMoved].transform.rotation = Quaternion.Euler(0.0f, 0.0f, 90.0f);
                 break;
             case Button.Right:
                 if (Input.GetButtonDown("Right"))
                     OnCorrectInput();
                 else
                     OnIncorrectInput();
+                Arrows[ArrowsMoved].transform.rotation = Quaternion.Euler(0.0f, 0.0f, 270.0f);
                 break;
             default:
                 break;
         }
+        Arrows[ArrowsMoved].SetActive(true);
+        ArrowsMoved++;
 
         if (Sequence.Count == 0)
             EndInputPhase();
 
+    }
+
+    private IEnumerator InitializeEndAbilityPhase()
+    {
+        yield return new WaitForSeconds(1.0f);
+        EndAbility();
     }
 
     private void EndInputPhase()
@@ -267,9 +291,10 @@ public class MagicShield : Ability
             Debug.Log($"Correct inputs: {CorrectInputs} / 4");
         }
 
+        ArrowsMoved = 0;
+        
         MagicShieldHealth = CalculateMagicShieldHealth();
-        EndAbility();
-
+        StartCoroutine(InitializeEndAbilityPhase());
     }
 
     private int CalculateMagicShieldHealth()
