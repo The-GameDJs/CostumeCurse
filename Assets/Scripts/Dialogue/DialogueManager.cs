@@ -82,6 +82,12 @@ public class DialogueManager : MonoBehaviour
 
         if (!Conversation.IsCandyCornRewardClaimed() && Conversation.HasCandyCornReward())
             CandyCornManager.AddCandyCorn(Conversation.ClaimReward());
+        
+        if (FindObjectOfType<EpilogueInteraction>() != null)
+        {
+            var epilogue = FindObjectOfType<EpilogueInteraction>();
+            StartCoroutine(epilogue.MovePlayersAWayFromScreen());
+        }
     }
 
     // Displays the bubble on top of the NPC
