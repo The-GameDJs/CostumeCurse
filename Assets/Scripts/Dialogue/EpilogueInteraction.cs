@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -22,6 +23,7 @@ public class EpilogueInteraction : MonoBehaviour
     public float ScrollSpeed;
 
     public Animator CrossfadeAnimator;
+    public TextMeshProUGUI CandyCollectedScore;
 
     void Start()
     {
@@ -34,6 +36,8 @@ public class EpilogueInteraction : MonoBehaviour
 
         //NPCSpeakSound = GetComponentInChildren<AudioSource>();
         StartCoroutine(ActivateConversation());
+
+        CandyCollectedScore.text = $"Candy Corn Collected: {PlayerPrefs.GetInt("CandyCollected", 0)}";
     }
 
     private IEnumerator ActivateConversation()
@@ -73,7 +77,7 @@ public class EpilogueInteraction : MonoBehaviour
 
         ArePlayersMoving = false;
         
-        yield return new WaitForSeconds(83f);
+        yield return new WaitForSeconds(80f);
         
         AreCreditsRolling = false;
         
@@ -81,6 +85,7 @@ public class EpilogueInteraction : MonoBehaviour
 
         yield return new WaitForSeconds(3.0f);
 
+        PlayerPrefs.SetInt("CandyCollected", 0);
         SceneManager.LoadScene("Title_Screen");
     }
 }

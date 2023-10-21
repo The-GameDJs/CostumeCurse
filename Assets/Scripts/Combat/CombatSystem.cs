@@ -46,7 +46,7 @@ public class CombatSystem : MonoBehaviour
         Sield = GameObject.Find("Sield");
         Ganiel = GameObject.Find("Sield");
 
-        CandyCornManager = GameObject.FindObjectOfType<CandyCornManager>();
+        CandyCornManager = FindObjectOfType<CandyCornManager>();
     }
 
     private int SortByTurnPriority(GameObject combatant1, GameObject combatant2)
@@ -124,6 +124,7 @@ public class CombatSystem : MonoBehaviour
             // Move camera to boss
             CameraRig.SetTargetGO(EnemyCombatants.Find(c => c.TryGetComponent<EnemyCombatant>(out var boss) && boss.isBoss));
             CameraRig.MoveCameraRelative(CameraRig.DefaultBossOffset, Quaternion.Euler(CameraRig.DefaultBossRotation));
+            PlayerPrefs.SetInt("CandyCollected", CandyCornManager.GetTotalCandyCorn());
         }
 
     }
