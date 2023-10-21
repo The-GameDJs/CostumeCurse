@@ -73,14 +73,14 @@ public class DialogueManager : MonoBehaviour
         {
             Debug.Log("detected");
             // crossfade animation;
-            LoadForestLevel();
+            LoadNextGameLevel();
         }
 
         DisplayDialogueBubble = false;
         ActiveLineIndex = 0;
         DialogueUI.Close();
 
-        if (!Conversation.IsCandyCornRewardClaimed())
+        if (!Conversation.IsCandyCornRewardClaimed() && Conversation.HasCandyCornReward())
             CandyCornManager.AddCandyCorn(Conversation.ClaimReward());
     }
 
@@ -93,7 +93,7 @@ public class DialogueManager : MonoBehaviour
         DialogueUI.transform.position = relativeScreenPosition;
     }
 
-    public void LoadForestLevel()
+    public void LoadNextGameLevel()
     {
         StartCoroutine(LoadLevel(SceneManager.GetActiveScene().buildIndex + 1));
     }

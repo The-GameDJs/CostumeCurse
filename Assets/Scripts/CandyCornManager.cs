@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class CandyCornManager : MonoBehaviour
 {
@@ -11,12 +12,19 @@ public class CandyCornManager : MonoBehaviour
 
     void Start()
     {
-        CandyCornValue = GameObject.Find("CandyCornValue").GetComponent<TMP_Text>();
+        string sceneName = SceneManager.GetActiveScene().name;
+        if (sceneName == "Main_Scene")
+        {
+            CandyCornValue = GameObject.Find("CandyCornValue").GetComponent<TMP_Text>();
+        }
     }
 
     void Update()
     {
-        CandyCornValue.text = TotalCandyCorn.ToString("0000");
+        if (CandyCornValue)
+        {
+            CandyCornValue.text = TotalCandyCorn.ToString("0000");
+        }
     }
 
     public int GetTotalCandyCorn()
