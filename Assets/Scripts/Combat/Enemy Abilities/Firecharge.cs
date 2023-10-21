@@ -60,7 +60,7 @@ namespace Combat.Enemy_Abilities
             isReleasingFirecharge = isFireChargeReleased;
             FlameCharge.SetAttached(!isReleasingFirecharge);
             
-            var direction = (TargetedCombatants[0].gameObject.transform.position + new Vector3(0f, ChargeTargetHeightOffset, 0f) - ThrowPoint.position).normalized;
+            var direction = (Victim.gameObject.transform.position + new Vector3(0f, ChargeTargetHeightOffset, 0f) - ThrowPoint.position).normalized;
             FlameCharge.GetRigidBody().velocity = direction * FlameCharge.GetSpeed();
             
             CameraRigSystem.MoveCameraToSelectedTarget(Victim);
@@ -75,7 +75,7 @@ namespace Combat.Enemy_Abilities
 
         protected override void ContinueAbilityAfterTargeting()
         {
-            Victim = TargetedCombatants[0];
+            Victim = TargetedCombatants[Random.Range(0, TargetedCombatants.Length)];
             FaceAllyInCombat(Victim);
             StartFireCharge();
         }
@@ -111,7 +111,7 @@ namespace Combat.Enemy_Abilities
         {
             FlameCharge = FlameChargeObject.GetComponent<FlameCharge>();
             FlameCharge.SetAttached(true);
-            FlameCharge.SetTarget(TargetedCombatants[0]);
+            FlameCharge.SetTarget(Victim);
             FlameCharge.SetComponent(this);
             FlameCharge.transform.localScale = Vector3.zero;
             FlameCharge.EnableEffect();

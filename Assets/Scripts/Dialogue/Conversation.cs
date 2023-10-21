@@ -41,4 +41,8 @@ public class Conversation : ScriptableObject
         return CandyCornReward;
     }
 
+    public bool HasCandyCornReward()
+    {
+        return CandyCornReward > 0;
+    }
 }

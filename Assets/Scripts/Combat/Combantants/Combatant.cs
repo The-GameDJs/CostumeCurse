@@ -193,6 +193,7 @@ public abstract class Combatant : MonoBehaviour
         {
             CombatSystem.IsBossDead = isBoss;
             CombatSystem.EndTurn(gameObject);
+            SetFire(true, FireType.ePurpleFire);
         }
         Animator.Play("Base Layer.Death");
     }

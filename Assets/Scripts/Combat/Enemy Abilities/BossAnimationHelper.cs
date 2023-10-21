@@ -7,12 +7,18 @@ public class BossAnimationHelper : MonoBehaviour
 {
     [SerializeField] private Animator Animator;
     [SerializeField] private Combatant BossCombatant;
+    [SerializeField] private Animator CrossfadeAnimator;
     public static Action<bool> ActivateChargeUpReleaseAction;
     public static Action DealCandyStormDamageAction;
 
     public void ReturnToOriginalRotation()
     {
         transform.Rotate(90f, 0f, 0f);
+    }
+
+    public void StartCrossfadeAnimation()
+    {
+        CrossfadeAnimator.SetTrigger("Start");
     }
 
     public void EndDeathAnimation()

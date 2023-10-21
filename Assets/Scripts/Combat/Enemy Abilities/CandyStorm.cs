@@ -222,7 +222,7 @@ namespace Combat.Enemy_Abilities
 
         protected override void EndAbility()
         {
-            Target = TargetedCombatants[0];
+            Target = TargetedCombatants[Random.Range(0, TargetedCombatants.Length)];
             ThunderCandyClusterVfx.SetComponents(Target);
             Animator.Play("Base Layer.Throw");
             Animator.SetBool("IsFinishedCasting", true);

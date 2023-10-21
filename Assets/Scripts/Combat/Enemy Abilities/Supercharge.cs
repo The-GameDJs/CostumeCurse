@@ -56,7 +56,7 @@ namespace Combat.Enemy_Abilities
 
         protected override void ContinueAbilityAfterTargeting()
         {
-            Victim = TargetedCombatants[0];
+            Victim = TargetedCombatants[Random.Range(0, TargetedCombatants.Length)];
             FaceAllyInCombat(Victim);
             StartSupercharge();
         }
@@ -112,7 +112,7 @@ namespace Combat.Enemy_Abilities
             if (!CurrentCharge) CurrentCharge = FindObjectOfType<PimpkinCharge>();
                 
             CurrentCharge.transform.SetParent(null);
-            var direction = (TargetedCombatants[0].gameObject.transform.position + new Vector3(0f, ChargeTargetHeightOffset, 0f) - PimpkinFingers.position).normalized;
+            var direction = (Victim.gameObject.transform.position + new Vector3(0f, ChargeTargetHeightOffset, 0f) - PimpkinFingers.position).normalized;
             CurrentCharge.GetRigidBody().velocity = direction * CurrentCharge.GetSpeed();
             
             CameraRigSystem.MoveCameraToSelectedTarget(Victim);

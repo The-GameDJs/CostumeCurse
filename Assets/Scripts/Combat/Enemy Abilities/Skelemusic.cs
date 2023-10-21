@@ -18,7 +18,6 @@ using Random = UnityEngine.Random;
         
         private GameObject MusicalNotesObject;
         private MusicalNotes MusicalNotesVfx;
-        private GameObject Target;
 
         [SerializeField] private AudioSource SkelemusicSound;
         [SerializeField] private float MusicalNotesVfxVerticalOffset;
@@ -46,7 +45,7 @@ using Random = UnityEngine.Random;
 
         protected override void ContinueAbilityAfterTargeting()
         {
-            Victim = TargetedCombatants[0];
+            Victim = TargetedCombatants[Random.Range(0, TargetedCombatants.Length)];
             FaceAllyInCombat(Victim);
             StartSkelemusic();
         }
@@ -62,8 +61,7 @@ using Random = UnityEngine.Random;
 
         private void SetMusicalNotesOnEnemy()
         {
-            Target = TargetedCombatants[0];
-            MusicalNotesVfx.SetTarget(Target);
+            MusicalNotesVfx.SetTarget(Victim);
             MusicalNotesVfx.SetAbility(this);
             MusicalNotesVfx.SetLight();
             MusicalNotesObject.transform.position = Combatant.transform.position + new Vector3(0.0f, MusicalNotesVfxVerticalOffset, 0.0f);
@@ -90,6 +88,7 @@ using Random = UnityEngine.Random;
         public void ThrowMusicalNotesAtTarget()
         {
             MusicalNotesVfx.StartMoving();
+            CameraRigSystem.MoveCameraToSelectedTarget(Victim);
         }
 
         public void DealSkelemusicDamage()
