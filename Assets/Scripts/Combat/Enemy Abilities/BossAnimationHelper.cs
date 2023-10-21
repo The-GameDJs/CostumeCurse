@@ -8,6 +8,7 @@ public class BossAnimationHelper : MonoBehaviour
     [SerializeField] private Animator Animator;
     [SerializeField] private Combatant BossCombatant;
     [SerializeField] private Animator CrossfadeAnimator;
+    [SerializeField] private AudioSource MusicSound;
     public static Action<bool> ActivateChargeUpReleaseAction;
     public static Action DealCandyStormDamageAction;
 
@@ -28,8 +29,9 @@ public class BossAnimationHelper : MonoBehaviour
 
     public IEnumerator EndGame()
     {
-        yield return new WaitForSeconds(1.0f);
-        SceneManager.LoadScene("Game_Victory");
+        MusicSound.Stop();
+        yield return new WaitForSeconds(3.0f);
+        SceneManager.LoadScene("Epilogue_Scene");
     }
 
     public void ActivateFireChargeRelease()

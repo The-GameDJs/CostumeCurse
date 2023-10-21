@@ -54,6 +54,7 @@ public abstract class Combatant : MonoBehaviour
     private bool IsInCombat;
 
     [SerializeField] protected Animator Animator;
+    [SerializeField] protected AudioSource DeathAudioSource;
     public bool isBoss;
 
     public void Start()
@@ -166,8 +167,6 @@ public abstract class Combatant : MonoBehaviour
 
     protected void TakeDamage(int damage)
     {
-        HurtSound.Play();
-
         if (CurrentShieldPoints > 0)
         {
             CurrentShieldPoints -= damage;
@@ -184,6 +183,13 @@ public abstract class Combatant : MonoBehaviour
 
         if (CurrentHealthPoints <= 0)
             Die();
+
+        if (CurrentHealthPoints <= 0 && isBoss && DeathAudioSource)
+        {
+            DeathAudioSource.Play();
+            return;
+        }
+        HurtSound.Play();
     }
 
     private void Die()

@@ -16620,7 +16620,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -1887}
+  m_AnchoredPosition: {x: 0, y: -1806.3}
   m_SizeDelta: {x: 686.3, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &580214400
@@ -32316,50 +32316,6 @@ Transform:
   m_Father: {fileID: 691574780}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1136848046
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1136848047}
-  - component: {fileID: 1136848048}
-  m_Layer: 0
-  m_Name: CandyCornManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1136848047
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1136848046}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1855592388}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1136848048
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1136848046}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 557d2fb70bb24e646a85c8c198366bc1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TotalCandyCorn: 0
 --- !u!1 &1137701068
 GameObject:
   m_ObjectHideFlags: 0
@@ -52225,7 +52181,6 @@ Transform:
   m_Children:
   - {fileID: 277532769}
   - {fileID: 565209359}
-  - {fileID: 1136848047}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -63112,7 +63067,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Candies Collected: 100'
+  m_text: 'Candy Corn Collected: 100'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 93416bd1cd4c44c488f1de547868f752, type: 2}
   m_sharedMaterial: {fileID: 883901213575197334, guid: 93416bd1cd4c44c488f1de547868f752, type: 2}
@@ -63197,8 +63152,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 30, y: -39.8}
-  m_SizeDelta: {x: 189.48648, y: 50}
+  m_AnchoredPosition: {x: 34.2, y: -39.8}
+  m_SizeDelta: {x: 210.3, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &8647470681563831438
 GameObject:
@@ -63264,7 +63219,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 126.2, y: 10.198006}
+  m_AnchoredPosition: {x: 146.6, y: 10.198006}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &8647470681611324530
@@ -63487,6 +63442,7 @@ MonoBehaviour:
   CreditsPanelRectTransform: {fileID: 8647470681276728693}
   ScrollSpeed: 65
   CrossfadeAnimator: {fileID: 1122062209814595851}
+  CandyCollectedScore: {fileID: 8647470681563831436}
 --- !u!136 &8905781921679342472
 CapsuleCollider:
   m_ObjectHideFlags: 0
