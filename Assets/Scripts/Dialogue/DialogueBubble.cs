@@ -22,7 +22,6 @@ public class DialogueBubble : MonoBehaviour
     private GameObject Arrow;
     private RectTransform RectTrans;
     private const float WidthOffsetScale = 3.0f;
-    [SerializeField] private RectTransform NamePanel;
     [SerializeField] private TextMeshProUGUI NameTextField;
 
     private float AngleMultiplier = 1.0f;
@@ -61,22 +60,15 @@ public class DialogueBubble : MonoBehaviour
 
         // Update arrow position
         Arrow.transform.position = new Vector3(transform.position.x + RectTrans.rect.width / WidthOffsetScale, transform.position.y, 0);
-        if (NamePanel.gameObject.activeSelf)
-        {
-            NamePanel.transform.position = new Vector3(transform.position.x, transform.position.y + RectTrans.rect.height * 2.5f, 0);
-        }
+        NameTextField.transform.position = new Vector3(transform.position.x, transform.position.y + RectTrans.rect.height * 2.4f, 0.0f);
     }
 
-    public void Display(string text, string name)
+    public void Display(string text, string name, bool isHumanoid)
     {
-        NamePanel.gameObject.SetActive(true);
-        NameTextField.text = $"{name}";
-        
-        var width = 20.0f + (name.Length) * 10.0f;
-        NamePanel.sizeDelta = new Vector2(width, NamePanel.sizeDelta.y);
-
         ArrowAnim.SetBool("Open", false);
         Group.alpha = 1;
+        NameTextField.gameObject.SetActive(true);
+        NameTextField.text = isHumanoid ? $"{name}" : $"";
         CurrentText = text;
         StopAllCoroutines();
         StartCoroutine(DisplayText());
@@ -85,9 +77,9 @@ public class DialogueBubble : MonoBehaviour
 
     public void Close()
     {
-        NamePanel.gameObject.SetActive(false);
         ArrowAnim.SetBool("Open", false);
         Group.alpha = 0;
+        NameTextField.gameObject.SetActive(false);
         StopAllCoroutines();
     }
 

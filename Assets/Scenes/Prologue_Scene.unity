@@ -7128,7 +7128,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 28dbea52e91d3a746a49a39be1fa4f78, type: 2}
     - target: {fileID: 6145943445623741017, guid: 7098c76d72cec464fa57ebb571cfc1a0, type: 3}
       propertyPath: m_Name
-      value: Car with Dialogue
+      value: Funky Car
       objectReference: {fileID: 0}
     - target: {fileID: 6145943445623741017, guid: 7098c76d72cec464fa57ebb571cfc1a0, type: 3}
       propertyPath: m_TagString
@@ -7783,6 +7783,10 @@ PrefabInstance:
     - target: {fileID: 2974114005092324392, guid: 35aa5c540ec4bb744ab3ba99a37d2c2b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6077763542712710447, guid: 35aa5c540ec4bb744ab3ba99a37d2c2b, type: 3}
+      propertyPath: IsNPC
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6077763542712710447, guid: 35aa5c540ec4bb744ab3ba99a37d2c2b, type: 3}
       propertyPath: Conversation
@@ -9125,6 +9129,10 @@ PrefabInstance:
     - target: {fileID: 2291809027854241175, guid: 06c1e5a0384db9648bd4987eeb6d72bd, type: 3}
       propertyPath: m_Name
       value: Toph
+      objectReference: {fileID: 0}
+    - target: {fileID: 6439967878007489095, guid: 06c1e5a0384db9648bd4987eeb6d72bd, type: 3}
+      propertyPath: IsNPC
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6439967878007489095, guid: 06c1e5a0384db9648bd4987eeb6d72bd, type: 3}
       propertyPath: Conversation
@@ -33962,6 +33970,10 @@ PrefabInstance:
       value: George
       objectReference: {fileID: 0}
     - target: {fileID: 6439967878007489095, guid: 06c1e5a0384db9648bd4987eeb6d72bd, type: 3}
+      propertyPath: IsNPC
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6439967878007489095, guid: 06c1e5a0384db9648bd4987eeb6d72bd, type: 3}
       propertyPath: Conversation
       value: 
       objectReference: {fileID: 11400000, guid: 6772cb7dae2250541803ab1b1f0e71be, type: 2}
@@ -41043,9 +41055,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 642466335}
     m_Modifications:
     - target: {fileID: 2792684685972210201, guid: dc9d22b5a5ea75f4f92451464d260bb7, type: 3}
+      propertyPath: IsNPC
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2792684685972210201, guid: dc9d22b5a5ea75f4f92451464d260bb7, type: 3}
       propertyPath: Conversation
       value: 
       objectReference: {fileID: 11400000, guid: ce65fce7406944b478e25c85305836cc, type: 2}
+    - target: {fileID: 4275822991761442816, guid: dc9d22b5a5ea75f4f92451464d260bb7, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5803857789881976723, guid: dc9d22b5a5ea75f4f92451464d260bb7, type: 3}
       propertyPath: m_RootOrder
       value: 9
@@ -45099,6 +45119,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 642466335}
     m_Modifications:
+    - target: {fileID: 4761854062038785744, guid: d0042b42d225c4640b148a29b2aaac9b, type: 3}
+      propertyPath: IsNPC
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4761854062038785744, guid: d0042b42d225c4640b148a29b2aaac9b, type: 3}
       propertyPath: Conversation
       value: 
@@ -51629,6 +51653,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 642466335}
     m_Modifications:
+    - target: {fileID: -1686871658635690672, guid: 357d9d22491fe49449567ad41089f397, type: 3}
+      propertyPath: IsNPC
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: -1686871658635690672, guid: 357d9d22491fe49449567ad41089f397, type: 3}
       propertyPath: Conversation
       value: 
@@ -58418,6 +58446,10 @@ PrefabInstance:
       value: Bobby
       objectReference: {fileID: 0}
     - target: {fileID: 8825006202064576019, guid: 490a32d5e9bf7ad47871842a132ecf83, type: 3}
+      propertyPath: IsNPC
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8825006202064576019, guid: 490a32d5e9bf7ad47871842a132ecf83, type: 3}
       propertyPath: Conversation
       value: 
       objectReference: {fileID: 11400000, guid: e0bdef72fbf4f964ba315f3b97a6685f, type: 2}
@@ -59772,6 +59804,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 642466335}
     m_Modifications:
     - target: {fileID: -5923177592733833401, guid: 38bcdd9f2e8f0c440850d430630ae6ec, type: 3}
+      propertyPath: IsNPC
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -5923177592733833401, guid: 38bcdd9f2e8f0c440850d430630ae6ec, type: 3}
       propertyPath: Conversation
       value: 
       objectReference: {fileID: 11400000, guid: ad70ede7b4569cb4eb8ed2b47b153509, type: 2}
@@ -60709,6 +60745,10 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8825006202064576019, guid: 490a32d5e9bf7ad47871842a132ecf83, type: 3}
+      propertyPath: IsNPC
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8825006202064576019, guid: 490a32d5e9bf7ad47871842a132ecf83, type: 3}
       propertyPath: Conversation
       value: 
       objectReference: {fileID: 11400000, guid: 96da0b6a40671c246aa1987017334d05, type: 2}
@@ -61352,7 +61392,7 @@ MonoBehaviour:
   MinDistance: 3.5
   MinDistanceForCheck: 5
   Conversation: {fileID: 11400000, guid: c6f72117b5f01b644bbfd3cab1bd36b7, type: 2}
-  IsNPC: 0
+  IsNPC: 1
 --- !u!1 &2035084556
 GameObject:
   m_ObjectHideFlags: 0
@@ -64633,6 +64673,10 @@ PrefabInstance:
     - target: {fileID: 2222832251781598245, guid: 31b0977e1aedd6b49982fd20f45343d7, type: 3}
       propertyPath: m_Center.y
       value: 2.7250571
+      objectReference: {fileID: 0}
+    - target: {fileID: 3298720667282161036, guid: 31b0977e1aedd6b49982fd20f45343d7, type: 3}
+      propertyPath: IsNPC
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3298720667282161036, guid: 31b0977e1aedd6b49982fd20f45343d7, type: 3}
       propertyPath: Conversation

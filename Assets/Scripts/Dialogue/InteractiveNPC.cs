@@ -13,6 +13,7 @@ public class InteractiveNPC : MonoBehaviour
     private readonly float TurnSmoothness = 5f;
     private Vector3 LookPosition;
     [SerializeField] bool IsNPC;
+    public bool IsInteractiveNPC => IsNPC;
 
     
     private Animator DialogueIndicatorAnim;
