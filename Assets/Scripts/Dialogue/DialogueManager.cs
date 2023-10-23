@@ -63,7 +63,12 @@ public class DialogueManager : MonoBehaviour
 
         CurrentSpeaker.transform.Find("NPCSpeakSound").GetComponent<AudioSource>().Play();
 
-        DialogueUI.Display(ActiveLine.text, CurrentSpeaker.name);
+        bool isHumanoid = true;
+        if (CurrentSpeaker.TryGetComponent<InteractiveNPC>(out var interactiveNPC))
+        {
+            isHumanoid = interactiveNPC.IsInteractiveNPC;
+        }
+        DialogueUI.Display(ActiveLine.text, CurrentSpeaker.name, isHumanoid);
     }
 
     public void CloseDialogue()
