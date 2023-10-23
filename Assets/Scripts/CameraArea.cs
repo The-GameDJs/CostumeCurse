@@ -12,12 +12,16 @@ public class CameraArea : MonoBehaviour
     GameObject MainCamera;
     CameraRig CameraRig;
     private CombatSystem CombatSystem;
+    public bool isMainScene;
 
     void Start()
     {
         MainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         CameraRig = MainCamera.GetComponent<CameraRig>();
-        CombatSystem = GameObject.FindGameObjectWithTag("CombatSystem").GetComponent<CombatSystem>();
+        if (isMainScene)
+        {
+            CombatSystem = GameObject.FindGameObjectWithTag("CombatSystem").GetComponent<CombatSystem>();
+        }
     }
 
     private void OnTriggerEnter(Collider other)

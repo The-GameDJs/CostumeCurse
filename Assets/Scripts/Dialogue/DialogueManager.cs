@@ -63,7 +63,7 @@ public class DialogueManager : MonoBehaviour
 
         CurrentSpeaker.transform.Find("NPCSpeakSound").GetComponent<AudioSource>().Play();
 
-        DialogueUI.Display(ActiveLine.text);
+        DialogueUI.Display(ActiveLine.text, CurrentSpeaker.name);
     }
 
     public void CloseDialogue()
