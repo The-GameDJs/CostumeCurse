@@ -175,11 +175,16 @@ public abstract class Combatant : MonoBehaviour
                 MaxShieldPoints = 0;
                 int leftoverDmg = -1 * CurrentShieldPoints;
                 CurrentHealthPoints -= leftoverDmg;
+                RedBar.PlayDamageTextField(damage);
             }
+            BlueBar.PlayDamageTextField(damage);
         }
 
         else
+        {
             CurrentHealthPoints -= damage;
+            RedBar.PlayDamageTextField(damage);
+        }
 
         if (CurrentHealthPoints <= 0)
             Die();
