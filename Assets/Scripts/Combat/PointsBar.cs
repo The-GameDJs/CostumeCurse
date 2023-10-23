@@ -1,8 +1,11 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class PointsBar : MonoBehaviour
-{   
+{
+    public Animator DamageTextAnimator;
+    public TextMeshProUGUI DamageTextField;
     public Image BarUI;
     private float CurrentValue;
     public float NewValue;
@@ -22,5 +25,13 @@ public class PointsBar : MonoBehaviour
     void LateUpdate()
     {
         CurrentValue = Mathf.Lerp(CurrentValue, NewValue, Time.deltaTime * Speed);
+    }
+
+    public void PlayDamageTextField(int damage)
+    {
+        DamageTextField.gameObject.SetActive(true);
+        DamageTextField.text = $"-{damage.ToString()}";
+        DamageTextAnimator.enabled = true;
+        DamageTextAnimator.Play("Move");
     }
 }

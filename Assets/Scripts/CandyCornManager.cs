@@ -8,6 +8,8 @@ using UnityEngine.SceneManagement;
 public class CandyCornManager : MonoBehaviour
 {
     [SerializeField] private int TotalCandyCorn;
+    [SerializeField] private Animator CandyCornCollectedAnimator;
+    [SerializeField] private TextMeshProUGUI CandyCornCollectedTextField;
     private TMP_Text CandyCornValue;
 
     void Start()
@@ -45,7 +47,10 @@ public class CandyCornManager : MonoBehaviour
     {
         Debug.Log($"Adding Candy Corn! {candyCorn}");
         if (candyCorn >= 0)
+        {
+            PlayCandyAmountAnimation(candyCorn, true);
             TotalCandyCorn += candyCorn;
+        }
         else
             Debug.LogWarning("Hey buddy, use RemoveCandyCorn if you want to remove");
     }
@@ -53,8 +58,31 @@ public class CandyCornManager : MonoBehaviour
     public void RemoveCandyCorn(int candyCorn)
     {
         if (candyCorn >= 0)
+        {
+            PlayCandyAmountAnimation(candyCorn, false);
             TotalCandyCorn -= candyCorn;
+        }
         else
             Debug.LogWarning("Hey buddy, candyCorn passed here should be positive");
+    }
+
+    private void PlayCandyAmountAnimation(int candyAmount, bool isCollecting)
+    {
+        if (candyAmount <= 0) return;
+        
+        CandyCornCollectedTextField.gameObject.SetActive(true);
+        if (isCollecting)
+        {
+            CandyCornCollectedTextField.text = $"+{candyAmount.ToString()}";
+            CandyCornCollectedTextField.color = Color.green;
+        }
+        else
+        {
+            CandyCornCollectedTextField.text = $"-{candyAmount.ToString()}";
+            CandyCornCollectedTextField.color = Color.red;
+        }
+
+        CandyCornCollectedAnimator.enabled = true;
+        CandyCornCollectedAnimator.Play("Collect");
     }
 }
