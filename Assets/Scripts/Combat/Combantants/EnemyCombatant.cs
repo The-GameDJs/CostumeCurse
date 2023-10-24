@@ -30,7 +30,12 @@ public class EnemyCombatant : Combatant
         base.Update();
     }
 
-
+    public new void ExitCombat()
+    {
+        base.ExitCombat();
+        Animator.Play("Base Layer.Idle");
+    }
+    
     protected override void TakeTurnWhileDead()
     {
         // TODO add some dead idling animation? 

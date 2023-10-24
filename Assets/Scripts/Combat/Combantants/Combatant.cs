@@ -345,7 +345,6 @@ public abstract class Combatant : MonoBehaviour
     public void ResetPoints()
     {
         IsAlive = true;
-        Animator.Play("Base Layer.IdleWalk");
         CurrentHealthPoints = MaxHealthPoints;
         CurrentShieldPoints = 0;
         MaxShieldPoints = 0;

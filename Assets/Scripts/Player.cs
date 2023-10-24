@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
 {
     [SerializeField]
     private bool IsMainPlayer = false;
+    public bool GetIsMainPlayer => IsMainPlayer;
     [SerializeField]
     private float MovementSpeed = 1f;
     [SerializeField]
@@ -15,6 +16,7 @@ public class Player : MonoBehaviour
     private float FollowDistance = 5f;
     [SerializeField]
     private float CatchUpSpeed = 2f; // ? TODO
+    [SerializeField] private Collider PlayerCollider;
 
     private Vector3 TargetPosition;
     private Quaternion TargetRotation;
@@ -128,5 +130,10 @@ public class Player : MonoBehaviour
         GetComponent<CharacterController>().enabled = false;
         GetComponent<Player>().enabled = false;
         IsMovementDisabled = true;
+    }
+
+    public void SetColliderVisibility(bool isActive)
+    {
+        PlayerCollider.enabled = isActive;
     }
 }

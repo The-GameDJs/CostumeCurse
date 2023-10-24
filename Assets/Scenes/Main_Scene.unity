@@ -8112,6 +8112,18 @@ PrefabInstance:
       propertyPath: Enemies.Array.data[0]
       value: 
       objectReference: {fileID: 368549088}
+    - target: {fileID: 7874941042238849913, guid: ff38e3e739b1404409dd82ff06c9f469, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.06
+      objectReference: {fileID: 0}
+    - target: {fileID: 7874941042238849913, guid: ff38e3e739b1404409dd82ff06c9f469, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.2051
+      objectReference: {fileID: 0}
+    - target: {fileID: 7874941042238849913, guid: ff38e3e739b1404409dd82ff06c9f469, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1.931
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ff38e3e739b1404409dd82ff06c9f469, type: 3}
 --- !u!4 &612271929 stripped
@@ -15962,7 +15974,7 @@ PrefabInstance:
       objectReference: {fileID: 5650117169560658697}
     - target: {fileID: 445950430552367694, guid: ec49ba67b66451342aacf76b17feebaa, type: 3}
       propertyPath: MaxHealthPoints
-      value: 300
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1070968612503828290, guid: ec49ba67b66451342aacf76b17feebaa, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -16046,15 +16058,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5226253233174535603, guid: ec49ba67b66451342aacf76b17feebaa, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 91.536
+      value: 377.75
       objectReference: {fileID: 0}
     - target: {fileID: 5226253233174535603, guid: ec49ba67b66451342aacf76b17feebaa, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 199.763
+      value: 207.014
       objectReference: {fileID: 0}
     - target: {fileID: 5226253233174535603, guid: ec49ba67b66451342aacf76b17feebaa, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 420.782
+      value: 618.80005
       objectReference: {fileID: 0}
     - target: {fileID: 5226253233174535603, guid: ec49ba67b66451342aacf76b17feebaa, type: 3}
       propertyPath: m_LocalRotation.w
@@ -19448,7 +19460,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 557d2fb70bb24e646a85c8c198366bc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TotalCandyCorn: 0
+  TotalCandyCorn: 20
   CandyCornCollectedAnimator: {fileID: 1816936315}
   CandyCornCollectedTextField: {fileID: 1816936311}
 --- !u!1001 &1253561414
@@ -19566,6 +19578,18 @@ PrefabInstance:
       propertyPath: Enemies.Array.data[0]
       value: 
       objectReference: {fileID: 673437148}
+    - target: {fileID: 7874941042238849913, guid: ff38e3e739b1404409dd82ff06c9f469, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.3881
+      objectReference: {fileID: 0}
+    - target: {fileID: 7874941042238849913, guid: ff38e3e739b1404409dd82ff06c9f469, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.5424
+      objectReference: {fileID: 0}
+    - target: {fileID: 7874941042238849913, guid: ff38e3e739b1404409dd82ff06c9f469, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 2.4697
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ff38e3e739b1404409dd82ff06c9f469, type: 3}
 --- !u!4 &1253561415 stripped
@@ -25755,15 +25779,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7887312764890489834, guid: 5ef547a01e5efa34d82a65ab26cfe4d2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 96.656
+      value: 382.87
       objectReference: {fileID: 0}
     - target: {fileID: 7887312764890489834, guid: 5ef547a01e5efa34d82a65ab26cfe4d2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 199.739
+      value: 206.99
       objectReference: {fileID: 0}
     - target: {fileID: 7887312764890489834, guid: 5ef547a01e5efa34d82a65ab26cfe4d2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 416.75198
+      value: 614.77
       objectReference: {fileID: 0}
     - target: {fileID: 7887312764890489834, guid: 5ef547a01e5efa34d82a65ab26cfe4d2, type: 3}
       propertyPath: m_LocalRotation.w
@@ -25795,7 +25819,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8454097014992259087, guid: 5ef547a01e5efa34d82a65ab26cfe4d2, type: 3}
       propertyPath: MaxHealthPoints
-      value: 300
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8454097014992259087, guid: 5ef547a01e5efa34d82a65ab26cfe4d2, type: 3}
       propertyPath: HealthBarUIPanel
@@ -32394,6 +32418,18 @@ PrefabInstance:
     - target: {fileID: 6234478468744931377, guid: ec99cd52c802137439dd30358a539d6c, type: 3}
       propertyPath: m_LocalScale.z
       value: 1.21
+      objectReference: {fileID: 0}
+    - target: {fileID: 6494650085204401779, guid: ec99cd52c802137439dd30358a539d6c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.311
+      objectReference: {fileID: 0}
+    - target: {fileID: 6494650085204401779, guid: ec99cd52c802137439dd30358a539d6c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.1206
+      objectReference: {fileID: 0}
+    - target: {fileID: 6494650085204401779, guid: ec99cd52c802137439dd30358a539d6c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -2.746
       objectReference: {fileID: 0}
     - target: {fileID: 6916443783815926120, guid: ec99cd52c802137439dd30358a539d6c, type: 3}
       propertyPath: Enemies.Array.data[0]

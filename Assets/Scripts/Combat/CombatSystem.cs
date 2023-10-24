@@ -32,6 +32,7 @@ public class CombatSystem : MonoBehaviour
     private CandyCornManager CandyCornManager;
     private int TotalCandyReward;
     private GameObject BattleVictoryBanner;
+    private int InitialCandyCornNumber;
 
     void Start()
     {
@@ -67,6 +68,7 @@ public class CombatSystem : MonoBehaviour
     // Called by CombatZone
     public void StartCombat(GameObject CombatZone, GameObject[] allies, GameObject[] enemies)
     {
+        InitialCandyCornNumber = CandyCornManager.GetTotalCandyCorn();
         TotalCandyReward = 0;
         IsInProgress = true;
 
@@ -88,8 +90,6 @@ public class CombatSystem : MonoBehaviour
             OnEnemyWin();
         else
             OnAllyWin();
-
-        IsInProgress = false;
     }
 
     private void OnAllyWin()
@@ -127,17 +127,58 @@ public class CombatSystem : MonoBehaviour
             CameraRig.MoveCameraRelative(CameraRig.DefaultBossOffset, Quaternion.Euler(CameraRig.DefaultBossRotation));
             PlayerPrefs.SetInt("CandyCollected", CandyCornManager.GetTotalCandyCorn());
         }
-
+        IsInProgress = false;
     }
 
     private void OnEnemyWin()
     {
-        SceneManager.LoadScene("Game_Over");
+        Debug.Log("!!!!Enemies Win!!!!");
+        var combatZone = CurrentCombatZone.GetComponent<CombatZone>();
+        combatZone.SetCombatColliderVisibility(false);
+
+        if (Sield != null)
+        {
+            Sield.transform.position = combatZone.CheckpointPosition.position;
+            Sield.GetComponent<Player>().SetColliderVisibility(false);
+            CameraRig.SetTransitionSmoothness(2.0f);
+            CameraRig.SetTargetGO(Sield);
+            CameraRig.MoveCameraRelative(CameraRig.DefaultOffset, CameraRig.DefaultRotation);
+        }
+        if (Ganiel != null)
+        {
+            //Ganiel.transform.position = Sield.GetComponent<Player>().GetTargetPosition();
+        }
+
+        for (int i = 0; i < combatZone.GetEnemies.Length; ++i)
+        {
+            var enemies = CurrentCombatZone.GetComponent<CombatZone>().GetEnemies;
+            enemies[i].transform.position = combatZone.EnemiesInitialPosition[i];
+            enemies[i].transform.rotation = combatZone.EnemiesInitialRotation[i];
+        }
+        
+        combatZone.DestroyCombatZone(false);
+        
+        var candyDifference = InitialCandyCornNumber - CandyCornManager.GetTotalCandyCorn();
+        if (candyDifference > 0)
+        {
+            CandyCornManager.AddCandyCorn(candyDifference);
+        }
+        else if (candyDifference < 0)
+        {
+            CandyCornManager.RemoveCandyCorn(-candyDifference); // double negate value to properly subtract in function
+        }
+        CandyCornManager.AddCandyCorn(InitialCandyCornNumber - CandyCornManager.GetTotalCandyCorn());
+        InitialCandyCornNumber = 0;
+        CurrentCombatZone = null;
+
+        IsInProgress = false;
+        Sield.GetComponent<Player>().SetColliderVisibility(true);
+        combatZone.SetCombatColliderVisibility(true);
     }
 
     public void EndTurn(GameObject combatant)
     {
-        Debug.Log($"A Combantant has finished their turn!");
+        Debug.Log($"{Combatants[CurrentCombatantTurn-1]} has finished their turn!");
 
         // TODO maybe a state would be useful after all?
         if (AlliesWon() || EnemiesWon() || IsBossDead)
@@ -180,11 +221,9 @@ public class CombatSystem : MonoBehaviour
 
         var currentCombatant = Combatants[CurrentCombatantTurn - 1].GetComponent<Combatant>();
 
-        currentCombatant.StartTurn();
-        
         CameraRig.SetTargetGO(currentCombatant.gameObject);
         CameraRig.SetTransitionSmoothness(2);
-        if (currentCombatant is EnemyCombatant enemy && enemy.isBoss && enemy.GetComponentInChildren<CandyStorm>().GetCandyCornPhase == CandyStorm.CandyStormPhase.Cloud)
+        if (currentCombatant is EnemyCombatant { isBoss: true } enemy && enemy.GetComponentInChildren<CandyStorm>().GetCandyCornPhase == CandyStorm.CandyStormPhase.Cloud)
         {
             CameraRig.MoveCameraRelative(CurrentCombatZone.GetComponent<CombatZone>().CameraArea.Offset,
                 Quaternion.Euler(CurrentCombatZone.GetComponent<CombatZone>().CameraArea.Rotation + new Vector3(-15.0f, -5.0f, 0.0f)));
@@ -194,6 +233,8 @@ public class CombatSystem : MonoBehaviour
             CameraRig.MoveCameraRelative(CurrentCombatZone.GetComponent<CombatZone>().CameraArea.Offset,
                 Quaternion.Euler(CurrentCombatZone.GetComponent<CombatZone>().CameraArea.Rotation));
         }
+        
+        currentCombatant.StartTurn();
     }
 
     public void GoBackToAbilitySelect()
