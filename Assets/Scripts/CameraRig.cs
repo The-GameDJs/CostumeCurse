@@ -86,10 +86,11 @@ public class CameraRig : MonoBehaviour
         TargetGO = targetObject;
     }
 
-    public void MoveCameraToSelectedTarget(GameObject target, float extraOffset = 0.0f)
+    public void MoveCameraToSelectedTarget(GameObject target, float extraOffset = 0.0f, float extraRotOffset = 0.0f)
     {
         TargetGO = target;
-        MoveCameraRelative(DefaultOffset + new Vector3(0.0f, extraOffset, 0.0f), DefaultRotation);
+        MoveCameraRelative(DefaultOffset + new Vector3(0.0f, extraOffset, 0.0f),
+            DefaultRotation * Quaternion.Euler(extraRotOffset, 0.0f, 0.0f));
     }
 
     public void SetTransitionSmoothness(float transitionSmoothness)

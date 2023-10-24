@@ -4,6 +4,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using Combat.Enemy_Abilities;
 using TMPro;
 
 #if UNITY_EDITOR
@@ -179,12 +180,20 @@ public class CombatSystem : MonoBehaviour
 
         var currentCombatant = Combatants[CurrentCombatantTurn - 1].GetComponent<Combatant>();
 
+        currentCombatant.StartTurn();
+        
         CameraRig.SetTargetGO(currentCombatant.gameObject);
         CameraRig.SetTransitionSmoothness(2);
-        CameraRig.MoveCameraRelative(CurrentCombatZone.GetComponent<CombatZone>().CameraArea.Offset,
-           Quaternion.Euler(CurrentCombatZone.GetComponent<CombatZone>().CameraArea.Rotation));
-
-        currentCombatant.StartTurn();
+        if (currentCombatant is EnemyCombatant enemy && enemy.isBoss && enemy.GetComponentInChildren<CandyStorm>().GetCandyCornPhase == CandyStorm.CandyStormPhase.Cloud)
+        {
+            CameraRig.MoveCameraRelative(CurrentCombatZone.GetComponent<CombatZone>().CameraArea.Offset,
+                Quaternion.Euler(CurrentCombatZone.GetComponent<CombatZone>().CameraArea.Rotation + new Vector3(-15.0f, -5.0f, 0.0f)));
+        }
+        else
+        {
+            CameraRig.MoveCameraRelative(CurrentCombatZone.GetComponent<CombatZone>().CameraArea.Offset,
+                Quaternion.Euler(CurrentCombatZone.GetComponent<CombatZone>().CameraArea.Rotation));
+        }
     }
 
     public void GoBackToAbilitySelect()
