@@ -7,6 +7,7 @@ public class CombatZone : MonoBehaviour
 {
     [SerializeField]
     private GameObject[] Enemies;
+    public GameObject[] GetEnemies => Enemies;
     [SerializeField]
     private GameObject[] EnemyPositions;
     private GameObject[] Players;
@@ -14,11 +15,17 @@ public class CombatZone : MonoBehaviour
     private GameObject[] PlayerPositions;
     [SerializeField]
     private float MovementTime;
-    private Vector3[] InitalPositionsEnemies;
+
+    public Vector3[] EnemiesInitialPosition { get; private set; }
+    public Quaternion[] EnemiesInitialRotation { get; private set; }
+
     private Vector3[] InitalPositionsPlayers;
 
     protected CombatSystem CombatSystem;
     public CameraArea CameraArea;
+    [SerializeField] private Transform CheckpointResetPosition;
+    [SerializeField] private Collider CombatCollider;
+    public Transform CheckpointPosition => CheckpointResetPosition;
     private Timer Timer;
 
     private bool CombatStarted;
@@ -28,6 +35,7 @@ public class CombatZone : MonoBehaviour
         CombatSystem = GameObject.FindGameObjectWithTag("CombatSystem").GetComponent<CombatSystem>();
         CameraArea = GetComponentInChildren<CameraArea>();
         Timer = GetComponent<Timer>();
+        //CheckpointResetPosition.parent = null;
         
         Players = new GameObject[2];
         Players[0] = GameObject.Find("Sield");
@@ -50,10 +58,9 @@ public class CombatZone : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (CombatStarted)
-            return;
-
-        if (other.gameObject.CompareTag("Player"))
+        if (CombatStarted) return;
+        
+        if (other.gameObject.TryGetComponent<Player>(out var player) && player.GetIsMainPlayer)
         {
             Timer.StartTimer(MovementTime);
             DisablePlayerMovement();
@@ -64,11 +71,15 @@ public class CombatZone : MonoBehaviour
     private void SetInitialCombatPositions()
     {
         CombatStarted = true;
-        InitalPositionsEnemies = new Vector3[Enemies.Length];
+        EnemiesInitialPosition = new Vector3[Enemies.Length];
+        EnemiesInitialRotation = new Quaternion[Enemies.Length];
         InitalPositionsPlayers = new Vector3[Players.Length];
 
-        for (int i = 0; i < InitalPositionsEnemies.Length; i++)
-            InitalPositionsEnemies[i] = Enemies[i].transform.position;
+        for (int i = 0; i < EnemiesInitialPosition.Length; i++)
+            EnemiesInitialPosition[i] = Enemies[i].transform.position;
+        
+        for (int i = 0; i < EnemiesInitialRotation.Length; i++)
+            EnemiesInitialRotation[i] = Enemies[i].transform.rotation;
 
         for (int i = 0; i < InitalPositionsPlayers.Length; i++)
             InitalPositionsPlayers[i] = Players[i].transform.position;
@@ -92,7 +103,7 @@ public class CombatZone : MonoBehaviour
     {
         for (int i = 0; i < EnemyPositions.Length; i++)
         {
-            Enemies[i].transform.position = Vector3.Lerp(InitalPositionsEnemies[i],
+            Enemies[i].transform.position = Vector3.Lerp(EnemiesInitialPosition[i],
                                                          EnemyPositions[i].transform.position,
                                                          Timer.GetProgress() / MovementTime);
 
@@ -115,24 +126,31 @@ public class CombatZone : MonoBehaviour
         }
     }
 
-    public void DestroyCombatZone()
+    public void DestroyCombatZone(bool isAllyWin = true)
     {
-        Debug.Log("Destroying this Combat Zone!");
+        var message = isAllyWin ? "Destroying this Combat Zone!" : "Resetting this Combat Zone!";
+        Debug.Log(message);
         CombatStarted = false;
 
-        foreach(GameObject player in Players)
+        foreach (var player in Players)
         {
-            player.GetComponent<Combatant>().ExitCombat();
+            player.GetComponent<AllyCombatant>().ExitCombat();
             player.GetComponent<Player>().EnableMovement();
         }
 
-        foreach (GameObject enemy in Enemies)
+        foreach (var enemy in Enemies)
         {
-            enemy.GetComponent<Combatant>().ExitCombat();
-            Destroy(enemy);
+            enemy.GetComponent<EnemyCombatant>().ExitCombat();
+            if (isAllyWin)
+            {
+                Destroy(enemy);
+            }
         }
 
-        Destroy(gameObject);
+        if (isAllyWin)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void StartCombat()
@@ -145,4 +163,8 @@ public class CombatZone : MonoBehaviour
         CombatSystem.StartCombat(this.gameObject, Players, Enemies);
     }
 
+    public void SetCombatColliderVisibility(bool isActive)
+    {
+        CombatCollider.enabled = isActive;
+    }
 }

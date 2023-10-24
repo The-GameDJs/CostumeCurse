@@ -8,22 +8,23 @@ public class AllyCombatant : Combatant
 {
     [SerializeField] Costume costume;
 
-    new public void Start()
+    public new void Start()
     {
         base.Start();
 
         costume.DisplayAbilities(false);
     }
 
-    new public void Update()
+    public new void Update()
     {
         base.Update();
     }
 
-    new public void ExitCombat()
+    public new void ExitCombat()
     {
         base.ExitCombat();
         GetComponentInChildren<Costume>().DisplayAbilities(false);
+        Animator.Play("Base Layer.IdleWalk");
     }
 
     protected override void TakeTurnWhileDead()
