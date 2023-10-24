@@ -115,6 +115,7 @@ namespace Combat.Enemy_Abilities
             var direction = (Victim.gameObject.transform.position + new Vector3(0f, ChargeTargetHeightOffset, 0f) - PimpkinFingers.position).normalized;
             CurrentCharge.GetRigidBody().velocity = direction * CurrentCharge.GetSpeed();
             
+            CameraRigSystem.SetTransitionSmoothness(2.0f);
             CameraRigSystem.MoveCameraToSelectedTarget(Victim);
         }
 

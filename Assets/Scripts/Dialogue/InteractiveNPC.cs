@@ -21,6 +21,7 @@ public class InteractiveNPC : MonoBehaviour
     private const float IndicatorOffsetScale = 1.35f;
 
     private AudioSource NPCSpeakSound;
+    public AudioSource NPCSpeakSoundSource => NPCSpeakSound;
 
     void Start()
     {

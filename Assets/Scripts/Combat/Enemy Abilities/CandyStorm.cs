@@ -11,12 +11,13 @@ namespace Combat.Enemy_Abilities
 {
     public class CandyStorm : Ability
     {
-        private enum CandyStormPhase { Cloud, Inactive }
+        public enum CandyStormPhase { Cloud, Inactive }
         [SerializeField] private GameObject LightningStrike;
         [SerializeField] private Vector3 ThunderCloudOffsetPosition;
         private Timer Timer;
 
         private CandyStormPhase CurrentPhase = CandyStormPhase.Inactive;
+        public CandyStormPhase GetCandyCornPhase => CurrentPhase;
         private GameObject Target;
 
         [Header("Cloud Components")]
@@ -68,7 +69,6 @@ namespace Combat.Enemy_Abilities
         {
             if (CurrentPhase == CandyStormPhase.Cloud)
                 CandyCloudUpdate();
-            
         }
 
         private void CandyCloudUpdate()
@@ -192,6 +192,7 @@ namespace Combat.Enemy_Abilities
         {
             Animator.SetBool("IsFinishedCasting", true);
             ThunderCandyClusterVfx.StartMoving();
+            CameraRigSystem.SetTransitionSmoothness(2.0f);
             CameraRigSystem.MoveCameraToSelectedTarget(Target);
         }
 
