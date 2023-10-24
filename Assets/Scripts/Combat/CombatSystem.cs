@@ -32,6 +32,8 @@ public class CombatSystem : MonoBehaviour
     private CandyCornManager CandyCornManager;
     private int TotalCandyReward;
     private GameObject BattleVictoryBanner;
+    private TextMeshProUGUI BattleBannerTitleText;
+    private TextMeshProUGUI BattleBannerText;
     private int InitialCandyCornNumber;
 
     void Start()
@@ -41,6 +43,9 @@ public class CombatSystem : MonoBehaviour
         #endif
 
         BattleVictoryBanner = GameObject.Find("BattleVictoryBanner");
+        // Hacky way. CHANGE PREFAB NAMES BEFORE CHANGING THIS!
+        BattleBannerTitleText = BattleVictoryBanner.transform.Find("Image").GetComponentInChildren<TextMeshProUGUI>();
+        BattleBannerText = BattleVictoryBanner.transform.Find("Panel").GetComponentInChildren<TextMeshProUGUI>();
         BattleVictoryBanner.GetComponent<CanvasGroup>().alpha = 0f;
         MainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         CameraRig = MainCamera.GetComponent<CameraRig>();
@@ -100,9 +105,7 @@ public class CombatSystem : MonoBehaviour
         // If it's not the boss that died, return to normal gameplay win
         if (!IsBossDead)
         {
-            BattleVictoryBanner.GetComponentInChildren<TMP_Text>().text = "You got " + TotalCandyReward;
-
-            StartCoroutine(ShowVictoryBanner());
+            StartCoroutine(ShowVictoryBanner(true, TotalCandyReward));
 
             CurrentCombatZone.GetComponent<CombatZone>().DestroyCombatZone();
 
@@ -168,6 +171,7 @@ public class CombatSystem : MonoBehaviour
             CandyCornManager.RemoveCandyCorn(-candyDifference); // double negate value to properly subtract in function
         }
         CandyCornManager.AddCandyCorn(InitialCandyCornNumber - CandyCornManager.GetTotalCandyCorn());
+        StartCoroutine(ShowVictoryBanner(false, Mathf.Abs(candyDifference)));
         InitialCandyCornNumber = 0;
         CurrentCombatZone = null;
 
@@ -258,8 +262,19 @@ public class CombatSystem : MonoBehaviour
         Combatants[CurrentCombatantTurn - 1].GetComponent<Combatant>().StartTurn();
     }
 
-    private IEnumerator ShowVictoryBanner()
+    private IEnumerator ShowVictoryBanner(bool isVictory, int candyDisplay)
     {
+        if (isVictory)
+        {
+            BattleBannerTitleText.text = $"Victory!";
+            BattleBannerText.text = $"You won {candyDisplay}";
+        }
+        else
+        {
+            BattleBannerTitleText.text = $"Defeat!";
+            BattleBannerText.text = $"Returned {candyDisplay}";
+        }
+        
         BattleVictoryBanner.GetComponent<CanvasGroup>().alpha = 1f;
         yield return new WaitForSeconds(2);
         BattleVictoryBanner.GetComponent<CanvasGroup>().alpha = 0f;
