@@ -193,7 +193,7 @@ namespace Combat.Enemy_Abilities
             Animator.SetBool("IsFinishedCasting", true);
             ThunderCandyClusterVfx.StartMoving();
             CameraRigSystem.SetTransitionSmoothness(2.0f);
-            CameraRigSystem.MoveCameraToSelectedTarget(Target);
+            CameraRigSystem.MoveCameraToSelectedTarget(Target, 0.0f,5.0f);
         }
 
         public IEnumerator DealCandyStormDamage()

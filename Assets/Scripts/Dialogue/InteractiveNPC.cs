@@ -12,6 +12,7 @@ public class InteractiveNPC : MonoBehaviour
     private GameObject Sield;
     private readonly float TurnSmoothness = 5f;
     private Vector3 LookPosition;
+    private Quaternion InitialRotation;
     [SerializeField] bool IsNPC;
     public bool IsInteractiveNPC => IsNPC;
 
@@ -36,6 +37,8 @@ public class InteractiveNPC : MonoBehaviour
 
         if (!NPCSpeakSound)
             NPCSpeakSound = GetComponentInChildren<AudioSource>();
+
+        InitialRotation = transform.rotation;
     }
 
     void Update()
@@ -44,9 +47,6 @@ public class InteractiveNPC : MonoBehaviour
         if (IsNPC && gameObject.TryGetComponent<Witch>(out var witch) && witch.IsSummoning()) return;
         
         CheckIfInRange();
-
-        if(IsNPC && IsConversationActive)
-            RotateNPC();
 
         if (IsConversationActive && Input.GetButtonDown("Action Command"))
         {
@@ -61,12 +61,21 @@ public class InteractiveNPC : MonoBehaviour
      
             DialogueManager.StartDialogue(Conversation);
         }
+        
+        if (IsNPC && IsConversationActive)
+            RotateNPC(LookPosition);
+        
+        if (IsNPC && !IsConversationActive && Mathf.Abs(transform.rotation.eulerAngles.y - InitialRotation.eulerAngles.y) >= 0.1f)
+        {
+            var rotation = Quaternion.Lerp(gameObject.transform.rotation, InitialRotation, Time.deltaTime * TurnSmoothness).eulerAngles;
+            gameObject.transform.rotation = Quaternion.Euler(0, rotation.y, 0);
+        }
     }
 
-    private void RotateNPC()
+    private void RotateNPC(Vector3 lookPosition)
     {
-        var npcRotation = Quaternion.LookRotation(LookPosition, Vector3.up);
-        Vector3 rotation = Quaternion.Lerp(gameObject.transform.rotation, npcRotation, Time.deltaTime * TurnSmoothness).eulerAngles;
+        var npcRotation = Quaternion.LookRotation(lookPosition, Vector3.up);
+        var rotation = Quaternion.Lerp(gameObject.transform.rotation, npcRotation, Time.deltaTime * TurnSmoothness).eulerAngles;
         gameObject.transform.rotation = Quaternion.Euler(0, rotation.y, 0);
     }
 
@@ -108,6 +117,11 @@ public class InteractiveNPC : MonoBehaviour
         Vector3 offsetPos = new Vector3(Sield.transform.position.x + xOffset, Sield.transform.position.y + yOffset, Sield.transform.position.z);
         Vector3 relativeScreenPosition = Camera.main.WorldToScreenPoint(offsetPos);
         DialogueIndicatorUI.transform.position = relativeScreenPosition;
+    }
+
+    public void ResetRotation()
+    {
+        
     }
 
     public void ActivateWitchSummoning()

@@ -157,6 +157,10 @@ public class CombatSystem : MonoBehaviour
             var enemies = CurrentCombatZone.GetComponent<CombatZone>().GetEnemies;
             enemies[i].transform.position = combatZone.EnemiesInitialPosition[i];
             enemies[i].transform.rotation = combatZone.EnemiesInitialRotation[i];
+            if (enemies[i].TryGetComponent<Combatant>(out var enemyCombatant) && !enemyCombatant.IsAlive)
+            {
+                enemies[i].GetComponent<Animator>().Play("Idle");
+            }
         }
         
         combatZone.DestroyCombatZone(false);

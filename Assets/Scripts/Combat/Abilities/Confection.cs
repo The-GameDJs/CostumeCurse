@@ -187,14 +187,20 @@ public class Confection : Ability
         }
         else
         {
-            EnableCanvas(BakeCanvas, false);
-            CookingAbilityPhase = Phase.Inactive;
-            CalculateBakeDamage();
-
-            BakeSound.Play();
-
-            EndAbility();
+            StartCoroutine(EndBakeUpdate());
         }
+    }
+
+    private IEnumerator EndBakeUpdate()
+    {
+        yield return new WaitForSeconds(1.0f);
+        EnableCanvas(BakeCanvas, false);
+        CookingAbilityPhase = Phase.Inactive;
+        CalculateBakeDamage();
+
+        BakeSound.Play();
+
+        EndAbility();
     }
 
     private void EndBrewPhase()
