@@ -20,7 +20,11 @@ public class SliderHandle : MonoBehaviour
     private int PerfectClicks;
     private bool Arrived = false;
 
-    private enum Click { None, Miss, Good, Perfect } 
+    private enum Click { None, Miss, Good, Perfect }
+
+    [SerializeField] private AudioSource PerfectSource;
+    [SerializeField] private AudioSource GoodSource;
+    [SerializeField] private AudioSource MissSource;
 
     public void Start()
     {
@@ -49,15 +53,18 @@ public class SliderHandle : MonoBehaviour
                 if(SliderCollider.IsTouching(PerfectCollider))
                 {
                     PerfectClicks++;
+                    PerfectSource.Play();
                     Debug.Log("Perfect Hit");
                 }
                 else if(SliderCollider.IsTouching(GoodCollider))
                 {
                     GoodClicks++;
+                    GoodSource.Play();
                     Debug.Log("Good Hit");
                 }
                 else
                 {
+                    MissSource.Play();
                     Debug.Log("Missed Hit");
                 }
 

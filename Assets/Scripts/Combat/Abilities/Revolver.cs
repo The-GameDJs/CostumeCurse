@@ -1,8 +1,11 @@
 ﻿using Assets.Scripts.Combat;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Combat.Abilities;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -34,6 +37,7 @@ public class Revolver : Ability
 
     [SerializeField] AudioSource ReloadSource;
     [SerializeField] AudioSource ShootSource;
+    [SerializeField] AudioSource MissSource;
 
     [Header("Reload Phase")]
     [SerializeField] Canvas ReloadCanvas;
@@ -234,6 +238,7 @@ public class Revolver : Ability
                 BulletUIInShoot[BulletsInClip - 1].SetActive(false);
                 BulletsInClip--;
                 ShootSource.Play();
+                CheckForPimpkinHeadClick();
             }
         }
         else
@@ -347,6 +352,36 @@ public class Revolver : Ability
         Animator.SetBool("IsFinishedShooting", true);
     }
 
+    private void CheckForPimpkinHeadClick()
+    {
+        var eventData = new PointerEventData(EventSystem.current)
+        {
+            position = Input.mousePosition
+        };
+
+        // Create a list to store raycast results.
+        var raycastResults = new List<RaycastResult>();
+
+        // Raycast into the UI system.
+        EventSystem.current.RaycastAll(eventData, raycastResults);
+
+        PimpkinHead head = null;
+        // Check if any UI button elements of type PimpkinHead were hit.
+        foreach (var result in raycastResults.Where(result => result.gameObject.GetComponentInParent<Button>() && result.gameObject.GetComponentInParent<PimpkinHead>()))
+        {
+            head = result.gameObject.GetComponentInParent<PimpkinHead>();
+            Debug.Log("Pimpkin Head Hit! " + result.gameObject.name);
+        }
+
+        if (!head) StartCoroutine(StartPlayingMissBulletSound());
+    }
+
+    private IEnumerator StartPlayingMissBulletSound()
+    {
+        yield return new WaitForSeconds(0.3f);
+        MissSource.Play();
+    }
+    
     protected override void EndAbility()
     {
         TotalPimpkinsHit = 0;
