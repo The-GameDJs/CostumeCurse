@@ -26,6 +26,13 @@ public class SliderHandle : MonoBehaviour
     [SerializeField] private AudioSource GoodSource;
     [SerializeField] private AudioSource MissSource;
 
+    private bool isBaking;
+    public bool IsBaking
+    {
+        get => isBaking;
+        set => isBaking = value;
+    }
+
     public void Start()
     {
         HitTransform = HitArea.GetComponent<RectTransform>();
@@ -41,6 +48,8 @@ public class SliderHandle : MonoBehaviour
 
     private void Update()
     {
+        if (!isBaking) return;
+        
         if(Clicks != MaxClicks)
         {
             if(!Arrived)

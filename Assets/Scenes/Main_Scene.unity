@@ -9762,6 +9762,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 652125756}
     m_Modifications:
+    - target: {fileID: 4292595803075815099, guid: ed91cc94734486443822a93acc4b9f01, type: 3}
+      propertyPath: CandyCornValue
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 6543156113162692069, guid: ed91cc94734486443822a93acc4b9f01, type: 3}
       propertyPath: m_Name
       value: SkeledoodleFire
@@ -10581,6 +10585,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 652125756}
     m_Modifications:
+    - target: {fileID: 1239470138316297385, guid: f7d0dfae34d21a54e9b70029ef3b38a3, type: 3}
+      propertyPath: CandyCornValue
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 1250274657431489604, guid: f7d0dfae34d21a54e9b70029ef3b38a3, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -11753,6 +11761,28 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7870359103648208777, guid: 7d69d0de1e40fda4e94be6819589947c, type: 3}
   m_PrefabInstance: {fileID: 7870359103265332102}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &800467038 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 654954714210485862, guid: e10dbff1f962c2e4a921187f8408ac27, type: 3}
+  m_PrefabInstance: {fileID: 500700365}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &800467039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 800467038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6fc9ba6ced1a2443942fa37ddde4ba8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MinDistance: 3.5
+  MinDistanceForCheck: 5
+  Conversation: {fileID: 11400000, guid: f3514bc63a071004993e43fe8ced72a8, type: 2}
+  IsNPC: 0
+  NPCSpeakSound: {fileID: 0}
 --- !u!1 &800808777 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7120392636200631354, guid: 32fa5399bbdb9f0429d6bd40c2437bd2, type: 3}
@@ -16425,15 +16455,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5226253233174535603, guid: ec49ba67b66451342aacf76b17feebaa, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1268.05
+      value: 92.57
       objectReference: {fileID: 0}
     - target: {fileID: 5226253233174535603, guid: ec49ba67b66451342aacf76b17feebaa, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 206.684
+      value: 199.893
       objectReference: {fileID: 0}
     - target: {fileID: 5226253233174535603, guid: ec49ba67b66451342aacf76b17feebaa, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 369.18002
+      value: 418.97
       objectReference: {fileID: 0}
     - target: {fileID: 5226253233174535603, guid: ec49ba67b66451342aacf76b17feebaa, type: 3}
       propertyPath: m_LocalRotation.w
@@ -17436,6 +17466,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 652125756}
     m_Modifications:
+    - target: {fileID: 1239470138316297385, guid: f7d0dfae34d21a54e9b70029ef3b38a3, type: 3}
+      propertyPath: CandyCornValue
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 1250274657431489604, guid: f7d0dfae34d21a54e9b70029ef3b38a3, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -25912,7 +25946,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2073623385548047215, guid: 1cdff3e909802d7459165aab27df9d07, type: 3}
       propertyPath: Rotation.y
-      value: 85
+      value: 95
       objectReference: {fileID: 0}
     - target: {fileID: 2628495292410659079, guid: 1cdff3e909802d7459165aab27df9d07, type: 3}
       propertyPath: m_LocalScale.x
@@ -26226,15 +26260,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7887312764890489834, guid: 5ef547a01e5efa34d82a65ab26cfe4d2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1273.17
+      value: 97.689995
       objectReference: {fileID: 0}
     - target: {fileID: 7887312764890489834, guid: 5ef547a01e5efa34d82a65ab26cfe4d2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 206.66
+      value: 199.869
       objectReference: {fileID: 0}
     - target: {fileID: 7887312764890489834, guid: 5ef547a01e5efa34d82a65ab26cfe4d2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 365.15
+      value: 414.93997
       objectReference: {fileID: 0}
     - target: {fileID: 7887312764890489834, guid: 5ef547a01e5efa34d82a65ab26cfe4d2, type: 3}
       propertyPath: m_LocalRotation.w
@@ -35706,6 +35740,10 @@ PrefabInstance:
       value: Magic Tree
       objectReference: {fileID: 0}
     - target: {fileID: 6767380969206447438, guid: 984d6e9598836ce4eb5df9f5fd2d14fb, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6767380969206447438, guid: 984d6e9598836ce4eb5df9f5fd2d14fb, type: 3}
       propertyPath: LeafMaterials.Array.size
       value: 14
       objectReference: {fileID: 0}
@@ -37108,7 +37146,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4736080547664208649}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c6fc9ba6ced1a2443942fa37ddde4ba8, type: 3}
   m_Name: 

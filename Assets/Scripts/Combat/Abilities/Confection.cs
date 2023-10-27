@@ -185,7 +185,7 @@ public class Confection : Ability
             if(Clicks == MaxClicks) //TODO!!
                 Timer.StopTimer();
         }
-        else
+        else if (Timer.IsFinished())
         {
             StartCoroutine(EndBakeUpdate());
         }
@@ -193,12 +193,14 @@ public class Confection : Ability
 
     private IEnumerator EndBakeUpdate()
     {
+        Timer.ResetTimer();
+        SliderScript.IsBaking = false;
         yield return new WaitForSeconds(1.0f);
         EnableCanvas(BakeCanvas, false);
         CookingAbilityPhase = Phase.Inactive;
         CalculateBakeDamage();
 
-        BakeSound.Play();
+        //BakeSound.Play();
 
         EndAbility();
     }
@@ -340,6 +342,7 @@ public class Confection : Ability
             //Move canvas to middle of the screen
             BakeCanvas.transform.position = new Vector3(Screen.width/2f,Screen.height/2f,0f);
             EnableCanvas(BakeCanvas, true);
+            SliderScript.IsBaking = true;
             SliderScript.StartSlider();
         }
         else

@@ -5,7 +5,11 @@ using UnityEngine;
 public class LostTree : MonoBehaviour
 {
     [SerializeField] private Renderer[] LeafMaterials;
+    [SerializeField] float ColorRangeOffset;
     private float[] InitialIntensityTimes;
+    private Color[] OriginalColors;
+    
+    // VERY COMPUTATIONALLY EXPENSIVE. DEACTIVATE COMPONENT ON INSPECTOR FOR BETTER PERFORMANCE.
     
     // Start is called before the first frame update
     void Start()
@@ -22,9 +26,11 @@ public class LostTree : MonoBehaviour
     private void InitializeMaterialEmissivity()
     {
         InitialIntensityTimes = new float[LeafMaterials.Length];
+        OriginalColors = new Color[LeafMaterials.Length];
         for (var i = 0; i < InitialIntensityTimes.Length; i++)
         {
-            InitialIntensityTimes[i] = Random.Range(0.0f, 3.0f);
+            InitialIntensityTimes[i] = Random.Range(0.0f, ColorRangeOffset);
+            OriginalColors[i] = LeafMaterials[i].material.GetColor("_EmissionColor");
             LeafMaterials[i].material.EnableKeyword("_EMISSION");
             LeafMaterials[i].material.globalIlluminationFlags = MaterialGlobalIlluminationFlags.RealtimeEmissive;
             LeafMaterials[i].UpdateGIMaterials();
@@ -35,12 +41,11 @@ public class LostTree : MonoBehaviour
     {
         for (var i = 0; i < LeafMaterials.Length; i++)
         {
-            if (LeafMaterials[i].material.HasProperty("_Emission"))
+            if (LeafMaterials[i].material.HasProperty("_EmissionColor"))
             {
-                var color = LeafMaterials[i].material.GetColor("_EmissionColor");
-                var intensity = 1.5f * Mathf.Cos(Time.time + InitialIntensityTimes[i]) + 3.0f;
-                LeafMaterials[i].material.SetColor("_EmissionColor", color * intensity);
-                DynamicGI.SetEmissive(LeafMaterials[i], color);
+                var intensity = (ColorRangeOffset / 2.0f) * Mathf.Cos(Time.time + InitialIntensityTimes[i]) + ColorRangeOffset;
+                LeafMaterials[i].material.SetColor("_EmissionColor", OriginalColors[i] * intensity);
+                DynamicGI.SetEmissive(LeafMaterials[i], OriginalColors[i] * intensity);
                 DynamicGI.UpdateEnvironment();
             }
         }
