@@ -45,8 +45,8 @@ namespace Combat.Abilities
         [FormerlySerializedAs("BulletTargetHeightOffset")]
         [Header("Properties")] 
         [SerializeField] private float FireballTargetHeightOffset;
-        private const float FireballMaximumDamage = 150;
-        private const float FireballMinimumDamage = 75;
+        private const float FireballMaximumDamage = 200;
+        private const float FireballMinimumDamage = 100;
         private const float FireballDifficultyCurve = 100;
 
         [Header("Components")]

@@ -24,10 +24,10 @@ public class Revolver : Ability
     private Text ShootingTimerText;
 
     private float TotalDamage;
-    private readonly float BaseBulletDamage = 8f;
-    private readonly float BaseTotalDamage = 20f;
+    private readonly float BaseBulletDamage = 10f;
+    private readonly float BaseTotalDamage = 10f;
     private readonly float MaxDamage = 80f;
-    private readonly int RandomDamageRangeOffset = 5;
+    private readonly int RandomDamageRangeOffset = 10;
     private readonly float BulletTargetHeightOffset = 3.0f;
     private int TotalPimpkinsHit = 0;
     private int TotalBulletsDropped = 0;
@@ -320,7 +320,7 @@ public class Revolver : Ability
 
     private IEnumerator FinishRevolverDamage()
     {
-        int revolverdamage = (int) CalculateRevolverDamage();
+        int revolverdamage = (int) TotalDamage;
         Attack attack = new Attack(revolverdamage);
         TargetedCombatants[0].GetComponent<Combatant>().Defend(attack);
 

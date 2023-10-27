@@ -189,6 +189,7 @@ MonoBehaviour:
   HurtSound: {fileID: 835379672242534380}
   IsAlive: 1
   Animator: {fileID: 0}
+  DeathAudioSource: {fileID: 0}
   isBoss: 0
   CandyCornValue: 10
   Abilities: []
@@ -758,7 +759,7 @@ MonoBehaviour:
   MissedActionCommandSound: {fileID: 6761658371545900535}
   GoodActionCommandSound: {fileID: 2471009427842474824}
   PerfectActionCommandSound: {fileID: 3709853738538560891}
-  Damage: 30
+  Damage: 50
   SpaceBetweenBonk: 2.5
   BonkSound: {fileID: 3246320262238245364}
   Model: {fileID: 0}
@@ -779,6 +780,9 @@ MonoBehaviour:
   MissedActionCommandSound: {fileID: 0}
   GoodActionCommandSound: {fileID: 0}
   PerfectActionCommandSound: {fileID: 0}
+  PimpkinEnemyType: 0
+  BaseDamage: 50
+  OffsetDamage: 15
   SpinSound: {fileID: 8984666352539079305}
   PimpkinCharge: {fileID: 3929749599336943662, guid: 8f7567b44789e294ab884bc6665744c2, type: 3}
   PimpkinFingers: {fileID: 8146397718025511466}

@@ -18,7 +18,8 @@ namespace Combat.Enemy_Abilities
         public enum PimpkinType { Pimpkin, DarkPimpkin}
         [SerializeField] private PimpkinType PimpkinEnemyType;
 
-        private readonly float BaseDamage = 40f;
+        [SerializeField] private float BaseDamage = 40f;
+        [SerializeField] private float OffsetDamage = 10f;
         private float Damage;
 
         [SerializeField] private AudioSource SpinSound;
@@ -93,7 +94,7 @@ namespace Combat.Enemy_Abilities
 
         private float CalculateDamage()
         {
-            return Random.Range(BaseDamage, BaseDamage + 10);
+            return Random.Range(BaseDamage, BaseDamage + OffsetDamage);
         }
 
         private void SpawnPimpkinFireball()

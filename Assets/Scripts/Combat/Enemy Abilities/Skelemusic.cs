@@ -13,7 +13,8 @@ using Random = UnityEngine.Random;
         private enum Phase { Inactive, Skelemusic }
         private Phase CurrentPhase = Phase.Inactive;
 
-        private readonly float BaseDamage = 40f;
+        [SerializeField] private float BaseDamage = 40f;
+        [SerializeField] private float OffsetDamage = 10f;
         private float Damage;
         
         private GameObject MusicalNotesObject;
@@ -82,7 +83,7 @@ using Random = UnityEngine.Random;
 
         private float CalculateDamage()
         {
-            return Random.Range(BaseDamage, BaseDamage + 10);
+            return Random.Range(BaseDamage, BaseDamage + OffsetDamage);
         }
 
         public void ThrowMusicalNotesAtTarget()
