@@ -20,7 +20,7 @@ public class InteractiveNPC : MonoBehaviour
     private GameObject DialogueIndicatorUI;
     private const float IndicatorOffsetScale = 1.35f;
 
-    private AudioSource NPCSpeakSound;
+    [SerializeField] private AudioSource NPCSpeakSound;
     public AudioSource NPCSpeakSoundSource => NPCSpeakSound;
 
     void Start()
@@ -34,11 +34,15 @@ public class InteractiveNPC : MonoBehaviour
         DialogueIndicatorUI = GameObject.FindGameObjectWithTag("DialogueIndicator");
         DialogueIndicatorAnim = DialogueIndicatorUI.GetComponent<Animator>();
 
-        NPCSpeakSound = GetComponentInChildren<AudioSource>();
+        if (!NPCSpeakSound)
+            NPCSpeakSound = GetComponentInChildren<AudioSource>();
     }
 
     void Update()
     {
+        // If the NPC is the witch and they are currently summoning, don't update anymore
+        if (IsNPC && gameObject.TryGetComponent<Witch>(out var witch) && witch.IsSummoning()) return;
+        
         CheckIfInRange();
 
         if(IsNPC && IsConversationActive)
@@ -104,5 +108,10 @@ public class InteractiveNPC : MonoBehaviour
         Vector3 offsetPos = new Vector3(Sield.transform.position.x + xOffset, Sield.transform.position.y + yOffset, Sield.transform.position.z);
         Vector3 relativeScreenPosition = Camera.main.WorldToScreenPoint(offsetPos);
         DialogueIndicatorUI.transform.position = relativeScreenPosition;
+    }
+
+    public void ActivateWitchSummoning()
+    {
+        gameObject.GetComponent<Witch>().ActivateWitchSummoning();
     }
 }

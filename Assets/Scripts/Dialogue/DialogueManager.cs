@@ -76,8 +76,7 @@ public class DialogueManager : MonoBehaviour
         Debug.Log(CurrentSpeaker.gameObject.name);
         if (CurrentSpeaker.gameObject.name == "The Witch")
         {
-            Debug.Log("detected");
-            // crossfade animation;
+            CurrentSpeaker.GetComponent<InteractiveNPC>().ActivateWitchSummoning();
             LoadNextGameLevel();
         }
 
@@ -111,9 +110,9 @@ public class DialogueManager : MonoBehaviour
 
     IEnumerator LoadLevel(int levelIndex)
     {
+        yield return new WaitForSeconds(1.0f);
         Animator.SetTrigger("Start");
-
-        yield return new WaitForSeconds(3.0f);
+        yield return new WaitForSeconds(2.0f);
 
         SceneManager.LoadScene(levelIndex);
     }

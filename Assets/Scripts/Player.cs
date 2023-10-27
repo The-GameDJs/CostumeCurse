@@ -16,6 +16,8 @@ public class Player : MonoBehaviour
     private float FollowDistance = 5f;
     [SerializeField]
     private float CatchUpSpeed = 2f; // ? TODO
+
+    private float CurrentCatchUpSpeed;
     [SerializeField] private Collider PlayerCollider;
 
     private Vector3 TargetPosition;
@@ -38,6 +40,7 @@ public class Player : MonoBehaviour
 
         var foundPlayers = GameObject.FindObjectsOfType<Player>();
         MainPlayer = Array.Find(foundPlayers, player => player.IsMainPlayer);
+        CurrentCatchUpSpeed = CatchUpSpeed;
     }
 
     void Update()
@@ -74,9 +77,13 @@ public class Player : MonoBehaviour
             TargetRotation.x = TargetRotation.z = 0;
         }
 
-        if (Vector3.Distance(transform.position, TargetPosition) <= 2f)
-            return;
-        
+        // Decelerate Second Player when it approaches the target position
+        if (Vector3.Distance(transform.position, TargetPosition) <= 4f)
+        {
+            var distance = Vector3.Distance(transform.position, TargetPosition);
+            CurrentCatchUpSpeed = (CatchUpSpeed / 2) * distance - CatchUpSpeed;
+        }
+
         if (Vector3.Distance(transform.position, TargetPosition) >= 40f)
         {
             transform.position = TargetPosition;
@@ -84,7 +91,7 @@ public class Player : MonoBehaviour
             return;
         }
 
-        CharacterController.SimpleMove(Direction * CatchUpSpeed);
+        CharacterController.SimpleMove(Direction * CurrentCatchUpSpeed);
         transform.localRotation = Quaternion.RotateTowards(
             transform.localRotation,
             TargetRotation,
