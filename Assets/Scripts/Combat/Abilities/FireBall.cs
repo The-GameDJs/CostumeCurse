@@ -23,7 +23,7 @@ namespace Combat.Abilities
         private static GameObject Fireball;
         private const float FireballGrowthMinDuration = 3.0f;
         private const float FireballGrowthMaxDuration = 5.0f;
-        private const int FireballCycles = 3;
+        private const int FireballCycles = 2;
         private int CurrentFireballCycle = 0;
         private const float FireballUnstablingWarningDuration = 1.0f;
         private const float FireballUnstableDuration = 2.0f;
@@ -45,8 +45,8 @@ namespace Combat.Abilities
         [FormerlySerializedAs("BulletTargetHeightOffset")]
         [Header("Properties")] 
         [SerializeField] private float FireballTargetHeightOffset;
-        private const float FireballMaximumDamage = 200;
-        private const float FireballMinimumDamage = 100;
+        private const float FireballMaximumDamage = 150;
+        private const float FireballMinimumDamage = 50;
         private const float FireballDifficultyCurve = 100;
 
         [Header("Components")]
@@ -189,7 +189,7 @@ namespace Combat.Abilities
             float M = FireballMaximumDamage;
             float m = FireballMinimumDamage;
             float d = FireballDifficultyCurve;
-            float s = TargetFireballSize > 1f ? TargetFireballSize * 100 - 100 : 0;
+            float s = TargetFireballSize > 0.5f ? TargetFireballSize * 100 - 100 : 0;
 
             //// Please refer to https://www.desmos.com/calculator/ca9cqhpsto for curve
             float fireballDamage = (M - m) / (Mathf.PI / 2) * Mathf.Atan(s / d) + m;

@@ -35,7 +35,7 @@ public class ThunderStorm : Ability
     private readonly int ThunderCloudMaximumDamage = 30;
     private readonly int ThunderCloudDifficultyCurve = 10;
     private readonly int ThunderStrikePerfectDamageBonus = 40;
-    private readonly int ThunderStrikeGoodDamageBonus = 25;
+    private readonly int ThunderStrikeGoodDamageBonus = 20;
 
     private ThunderstormPhase CurrentPhase = ThunderstormPhase.Inactive;
     private GameObject CurrentVictim;
@@ -46,6 +46,7 @@ public class ThunderStorm : Ability
     [Header("Components")]
     private ParticleSystem ParticleComponent;
     private ParticleSystem.MainModule MainModule;
+    private float InitialCloudSize;
 
     [SerializeField] private AudioSource LightningStrikeSound;
     [SerializeField] private AudioSource ThunderCloudSound;
@@ -57,6 +58,8 @@ public class ThunderStorm : Ability
         Timer = GetComponent<Timer>();
         ParticleComponent = Thunder.GetComponent<ParticleSystem>();
         MainModule = ParticleComponent.main;
+        InitialCloudSize = ParticleComponent.transform.localScale.magnitude;
+        
         Thunder.SetActive(false);
 
         TargetSchema = new TargetSchema(
@@ -93,7 +96,7 @@ public class ThunderStorm : Ability
 
             float progress = Timer.GetProgress();
 
-            //AnimateThunderstrike(progress); // Keep handy for debugging with colours!
+            AnimateThunderstrike(progress); // Keep handy for debugging with colours!
 
             if (!ActionCommandPressed && Input.GetButtonDown("Action Command"))
             {
@@ -146,11 +149,11 @@ public class ThunderStorm : Ability
 
 
         if (WithinPerfectStrikeWindow(progress))
-            MainModule.startColor = Color.red;
-        else if (WithinGoodStrikeWindow(progress))
-            MainModule.startColor = Color.blue;
-        else
             MainModule.startColor = Color.white;
+        else if (WithinGoodStrikeWindow(progress))
+            MainModule.startColor = Color.gray;
+        else
+            MainModule.startColor = Color.gray;
     }
 
     protected override void EndAbility()
@@ -293,6 +296,7 @@ public class ThunderStorm : Ability
             Debug.Log("Missed Strike");
         }
 
+        MomentOfActionCommand = 0.0f;
         return damage;
     }
 
@@ -313,6 +317,7 @@ public class ThunderStorm : Ability
         yield return new WaitForSeconds(secondsToWait);
 
         Thunder.SetActive(false);
+        ParticleComponent.transform.localScale = Vector3.one * InitialCloudSize;
         Attack attack = new Attack((int)EvaluateThunderStrikeInput());
         CurrentVictim.GetComponent<Combatant>().Defend(attack);
 

@@ -74,19 +74,19 @@ public class DialogueManager : MonoBehaviour
     public void CloseDialogue()
     {
         Debug.Log(CurrentSpeaker.gameObject.name);
-        if (CurrentSpeaker.gameObject.name == "The Witch")
+        if (CurrentSpeaker.gameObject.name == "The Witch" && ActiveLineIndex == Conversation.Lines.Length)
         {
             CurrentSpeaker.GetComponent<InteractiveNPC>().ActivateWitchSummoning();
             LoadNextGameLevel();
         }
 
+        if (!Conversation.IsCandyCornRewardClaimed() && Conversation.HasCandyCornReward() && ActiveLineIndex == Conversation.Lines.Length)
+            CandyCornManager.AddCandyCorn(Conversation.ClaimReward());
+        
         DisplayDialogueBubble = false;
         ActiveLineIndex = 0;
         DialogueUI.Close();
 
-        if (!Conversation.IsCandyCornRewardClaimed() && Conversation.HasCandyCornReward())
-            CandyCornManager.AddCandyCorn(Conversation.ClaimReward());
-        
         if (FindObjectOfType<EpilogueInteraction>() != null)
         {
             var epilogue = FindObjectOfType<EpilogueInteraction>();

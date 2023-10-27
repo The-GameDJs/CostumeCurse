@@ -4089,6 +4089,10 @@ PrefabInstance:
       propertyPath: HurtSound
       value: 
       objectReference: {fileID: 7706896390144645908, guid: 54cc15887c4ab7b44bd2433c8f7731c1, type: 3}
+    - target: {fileID: 1187733023264527749, guid: 7b3957bb1aac5a24798058681815ee41, type: 3}
+      propertyPath: CandyCornValue
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 2430083117438727187, guid: 7b3957bb1aac5a24798058681815ee41, type: 3}
       propertyPath: m_Name
       value: SkeledoodleIce
@@ -8470,6 +8474,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1293920569}
     m_Modifications:
+    - target: {fileID: 1239470138316297385, guid: f7d0dfae34d21a54e9b70029ef3b38a3, type: 3}
+      propertyPath: CandyCornValue
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 1250274657431489604, guid: f7d0dfae34d21a54e9b70029ef3b38a3, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -16455,15 +16463,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5226253233174535603, guid: ec49ba67b66451342aacf76b17feebaa, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 92.57
+      value: 93.15
       objectReference: {fileID: 0}
     - target: {fileID: 5226253233174535603, guid: ec49ba67b66451342aacf76b17feebaa, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 199.893
+      value: 199.978
       objectReference: {fileID: 0}
     - target: {fileID: 5226253233174535603, guid: ec49ba67b66451342aacf76b17feebaa, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 418.97
+      value: 418.07
       objectReference: {fileID: 0}
     - target: {fileID: 5226253233174535603, guid: ec49ba67b66451342aacf76b17feebaa, type: 3}
       propertyPath: m_LocalRotation.w
@@ -19827,7 +19835,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 557d2fb70bb24e646a85c8c198366bc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TotalCandyCorn: 0
+  TotalCandyCorn: 50
   CandyCornCollectedAnimator: {fileID: 1816936315}
   CandyCornCollectedTextField: {fileID: 1816936311}
 --- !u!1001 &1253561414
@@ -20201,6 +20209,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1293920569}
     m_Modifications:
+    - target: {fileID: 1187733023264527749, guid: 7b3957bb1aac5a24798058681815ee41, type: 3}
+      propertyPath: CandyCornValue
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 2430083117438727187, guid: 7b3957bb1aac5a24798058681815ee41, type: 3}
       propertyPath: m_Name
       value: SkeledoodleIce
@@ -22328,6 +22340,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 108446904}
     m_Modifications:
+    - target: {fileID: 1239470138316297385, guid: f7d0dfae34d21a54e9b70029ef3b38a3, type: 3}
+      propertyPath: CandyCornValue
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 1250274657431489604, guid: f7d0dfae34d21a54e9b70029ef3b38a3, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -26260,15 +26276,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7887312764890489834, guid: 5ef547a01e5efa34d82a65ab26cfe4d2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 97.689995
+      value: 98.27
       objectReference: {fileID: 0}
     - target: {fileID: 7887312764890489834, guid: 5ef547a01e5efa34d82a65ab26cfe4d2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 199.869
+      value: 199.954
       objectReference: {fileID: 0}
     - target: {fileID: 7887312764890489834, guid: 5ef547a01e5efa34d82a65ab26cfe4d2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 414.93997
+      value: 414.03998
       objectReference: {fileID: 0}
     - target: {fileID: 7887312764890489834, guid: 5ef547a01e5efa34d82a65ab26cfe4d2, type: 3}
       propertyPath: m_LocalRotation.w
@@ -32496,6 +32512,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1175034739}
     m_Modifications:
+    - target: {fileID: 1187733023264527749, guid: 7b3957bb1aac5a24798058681815ee41, type: 3}
+      propertyPath: CandyCornValue
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 2430083117438727187, guid: 7b3957bb1aac5a24798058681815ee41, type: 3}
       propertyPath: m_Name
       value: SkeledoodleIce
@@ -32611,7 +32631,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pimpkin
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2317543514568878556, guid: f7d0dfae34d21a54e9b70029ef3b38a3, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f7d0dfae34d21a54e9b70029ef3b38a3, type: 3}
 --- !u!4 &2121560198 stripped
 Transform:
