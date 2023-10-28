@@ -189,7 +189,7 @@ namespace Combat.Abilities
             float M = FireballMaximumDamage;
             float m = FireballMinimumDamage;
             float d = FireballDifficultyCurve;
-            float s = TargetFireballSize > 1f ? TargetFireballSize * 100 - 100 : 0;
+            float s = TargetFireballSize > 0.5f ? TargetFireballSize * 100 : 0;
 
             //// Please refer to https://www.desmos.com/calculator/ca9cqhpsto for curve
             float fireballDamage = (M - m) / (Mathf.PI / 2) * Mathf.Atan(s / d) + m;
