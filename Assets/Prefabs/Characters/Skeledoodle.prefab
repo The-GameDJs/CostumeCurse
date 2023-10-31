@@ -222,8 +222,9 @@ MonoBehaviour:
   HurtSound: {fileID: 5121427367613651206}
   IsAlive: 1
   Animator: {fileID: 0}
+  DeathAudioSource: {fileID: 0}
   isBoss: 0
-  CandyCornValue: 5
+  CandyCornValue: 10
   Abilities: []
   Model: {fileID: 0}
 --- !u!114 &2410340086145700893
@@ -431,6 +432,7 @@ MonoBehaviour:
   GoodActionCommandSound: {fileID: 8530643855825490089}
   PerfectActionCommandSound: {fileID: 3141073657612173768}
   Damage: 25
+  SpaceBetweenBonk: 2.5
   BonkSound: {fileID: 9111861477369466627}
   Model: {fileID: 0}
 --- !u!114 &1460645200042818082
@@ -450,6 +452,8 @@ MonoBehaviour:
   MissedActionCommandSound: {fileID: 0}
   GoodActionCommandSound: {fileID: 0}
   PerfectActionCommandSound: {fileID: 0}
+  BaseDamage: 40
+  OffsetDamage: 10
   SkelemusicSound: {fileID: 9111861477369466627}
   MusicalNotesVfxVerticalOffset: 5
 --- !u!114 &1134510430948000299
