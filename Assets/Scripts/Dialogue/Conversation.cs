@@ -14,8 +14,11 @@ public struct Line
 public class Conversation : ScriptableObject
 {
     [SerializeField] private int CandyCornReward;
+    [SerializeField] private bool ShowCharacterName;
+    [SerializeField] private bool IsRestPoint;
     private bool CandyCornRewardClaimed;
     public Line[] Lines;
+    public bool ShouldShowCharacterName => ShowCharacterName;
 
     // TODO this might break if we ever do more than one OnEnable during the game
     public void OnEnable()
@@ -23,6 +26,7 @@ public class Conversation : ScriptableObject
         CandyCornRewardClaimed = false;
     }
 
+    // TODO: Future item hand outs from NPCs?
     public bool IsCandyCornRewardClaimed()
     {
         return CandyCornRewardClaimed;
@@ -35,8 +39,9 @@ public class Conversation : ScriptableObject
             Debug.LogWarning("Already claimed! Check before you call this with IsCandyCornRewardClaimed");
             return 0;
         }
-
-        CandyCornRewardClaimed = true;
+        
+        if(!IsRestPoint)
+            CandyCornRewardClaimed = true;
 
         return CandyCornReward;
     }

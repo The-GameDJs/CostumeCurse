@@ -1,4 +1,5 @@
-﻿using System.Collections;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -60,7 +61,6 @@ public class DialogueManager : MonoBehaviour
     {
         ActiveLine = Conversation.Lines[ActiveLineIndex];
         CurrentSpeaker = GameObject.Find(ActiveLine.Character);
-
         CurrentSpeaker.transform.Find("NPCSpeakSound").GetComponent<AudioSource>().Play();
         
         bool isHumanoid = true;
@@ -68,7 +68,7 @@ public class DialogueManager : MonoBehaviour
         {
             interactiveNPC.NPCSpeakSoundSource.Play();
         }
-        DialogueUI.Display(ActiveLine.text, CurrentSpeaker.name, isHumanoid);
+        DialogueUI.Display(ActiveLine.text, Conversation.ShouldShowCharacterName ? ActiveLine.Character : String.Empty, isHumanoid);
     }
 
     public void CloseDialogue()

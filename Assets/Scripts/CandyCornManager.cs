@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,6 +9,7 @@ using UnityEngine.SceneManagement;
 public class CandyCornManager : MonoBehaviour
 {
     [SerializeField] private int TotalCandyCorn;
+    [SerializeField] private int MaxCandyCorn;
     [SerializeField] private Animator CandyCornCollectedAnimator;
     [SerializeField] private TextMeshProUGUI CandyCornCollectedTextField;
     private TMP_Text CandyCornValue;
@@ -50,6 +52,7 @@ public class CandyCornManager : MonoBehaviour
         {
             PlayCandyAmountAnimation(candyCorn, true);
             TotalCandyCorn += candyCorn;
+            TotalCandyCorn = Mathf.Clamp(TotalCandyCorn, 0, MaxCandyCorn);
         }
         else
             Debug.LogWarning("Hey buddy, use RemoveCandyCorn if you want to remove");
@@ -61,6 +64,7 @@ public class CandyCornManager : MonoBehaviour
         {
             PlayCandyAmountAnimation(candyCorn, false);
             TotalCandyCorn -= candyCorn;
+            TotalCandyCorn = Mathf.Clamp(TotalCandyCorn, 0, MaxCandyCorn);
         }
         else
             Debug.LogWarning("Hey buddy, candyCorn passed here should be positive");

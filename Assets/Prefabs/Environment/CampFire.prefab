@@ -4825,6 +4825,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5920441560533505380}
+  - component: {fileID: 4276792160514364962}
   m_Layer: 0
   m_Name: CampFire
   m_TagString: Untagged
@@ -4864,6 +4865,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4276792160514364962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4736080547046731984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6fc9ba6ced1a2443942fa37ddde4ba8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MinDistance: 3.5
+  MinDistanceForCheck: 5
+  Conversation: {fileID: 11400000, guid: 40852248daed660489b73ff274993c70, type: 2}
+  IsNPC: 0
+  NPCSpeakSound: {fileID: 0}
 --- !u!1 &7795902052334523967
 GameObject:
   m_ObjectHideFlags: 0

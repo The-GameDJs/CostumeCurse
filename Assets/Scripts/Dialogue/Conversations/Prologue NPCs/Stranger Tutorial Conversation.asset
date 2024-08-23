@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2b4478411a425943808b2200613323a, type: 3}
   m_Name: Stranger Tutorial Conversation
   m_EditorClassIdentifier: 
-  CandyCornReward: 14
+  CandyCornReward: 0
+  ShowCharacterName: 1
   Lines:
   - Character: Sield
     text: H-hi stranger...
@@ -22,8 +23,9 @@ MonoBehaviour:
     text: Y-yes.. where <shaky>ARE WE?!?</shaky>
   - Character: Stranger
     text: You are in the Forgotten Forest, where many children have been long lost
-      and forgotten. The witch transported you here for not being in the Halloween
-      Spirit!
+      and forgotten.
+  - Character: Stranger
+    text: The witch transported you here for not being in the Halloween Spirit!
   - Character: Sield
     text: Well I guess we deserved that...Who are you anyway? Why are we wearing
       these <shaky>costumes??</shaky>
@@ -39,26 +41,27 @@ MonoBehaviour:
     text: <tiny>You must complete the path on your own, my little children. I am
       getting too old to help you on your adventurous quest...</tiny>
   - Character: Stranger
-    text: The forest has been overrun by the evil Skeletoodles and Pimpkins. I am
-      the sole survivor of this place.
+    text: The forest has been overrun by the evil Skeletoodles and Pimpkins. This
+      is why I took a rest right here
   - Character: Ganiel
     text: S-skeletoodles? <shaky>PIMPKINS??</shaky>
   - Character: Sield
     text: Why was the forest overrun?
   - Character: Stranger
-    text: I wish I had the answer, little one...but you two seem special.
+    text: I wish I had the answer, little ones...but I am just someone who wanders
+      these lands...
   - Character: Stranger
     text: I sense some intruiging power within your costumes. The witch has given
-      you a gift and a curse...take these candies.
+      you a gift and a curse...
   - Character: Stranger
-    text: They will come in handy throughout your journey. Use them wisely against
-      what lies ahead...I would not eat them if I were you.
+    text: How about you young ones take a rest at my campfire and replenish your
+      Halloween spirit?
   - Character: Ganiel
-    text: Well, at least we finally got some candy Sield...And what about you? What
-      will you do?
+    text: Halloween spirit? We don't even have any to begin with! That's why we got
+      these costume, eh?
   - Character: Stranger
-    text: My time has come to an end, my child...I do not have the energy to guard
-      this place anymore.
+    text: Ah well, that is for you to find out...take my word for it and perhaps
+      you'll be in for a treat.
   - Character: Stranger
-    text: They are coming...Now go! Face them. Save my people. Save the world and
-      go home!
+    text: Be careful out there young ones...don't hesistate to rest at a campfire
+      anytime and replenish yourselves
