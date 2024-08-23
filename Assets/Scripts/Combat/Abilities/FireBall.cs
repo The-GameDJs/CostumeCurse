@@ -236,7 +236,7 @@ namespace Combat.Abilities
 
             Fireball.SetActive(false);
 
-            Attack attack = new Attack(CurrentDamage, Element);
+            Attack attack = new Attack(CurrentDamage, Element, Style);
             var combatant = target.GetComponent<Combatant>();
             combatant.Defend(attack);
             combatant.SetFire(true, Combatant.FireType.eRedFire);

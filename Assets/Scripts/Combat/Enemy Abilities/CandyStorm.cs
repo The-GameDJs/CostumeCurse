@@ -210,7 +210,7 @@ namespace Combat.Enemy_Abilities
             
             var damage = BaseDamage - TotalCandiesCollected;
             Debug.Log("Damage after Collecting " + damage);
-            Attack attack = new Attack(damage, Element);
+            Attack attack = new Attack(damage, Element, Style);
             Target.GetComponent<Combatant>().Defend(attack);
             ThunderCandyClusterVfx.ExplodeCandyStormMix();
             Timer.StopTimer();

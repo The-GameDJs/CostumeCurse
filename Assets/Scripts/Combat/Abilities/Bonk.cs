@@ -96,7 +96,7 @@ namespace Combat.Abilities
             if (CurrentPhase == Phase.Bonking)
             {
                 int damage = (int) EvaluateBonkDamage();
-                Attack attack = new Attack(damage, Element);
+                Attack attack = new Attack(damage, Element, Style);
 
                 BonkSound.Play();
 

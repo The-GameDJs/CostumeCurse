@@ -54,7 +54,7 @@ public class EnemyCombatant : Combatant
     {
         yield return new WaitForSeconds(2);
 
-        Attack attack = new Attack(100, ElementType.Normal);
+        Attack attack = new Attack(100, ElementType.Normal, AttackStyle.Melee);
 
         GameObject targetedAlly = CombatSystem.Combatants
             .Where(combatant => combatant.CompareTag("Player"))
@@ -76,7 +76,7 @@ public class EnemyCombatant : Combatant
         RotateModel();
         Animator.Play("Base Layer.Hurt");
 
-        TakeDamage(attack.Damage, attack.Element);
+        TakeDamage(attack.Damage, attack.Element, attack.Style);
     }
 
     public int GetCandyCornValue()

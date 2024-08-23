@@ -4,11 +4,13 @@
     {
         public int Damage;
         public ElementType Element;
+        public AttackStyle Style;
 
-        public Attack(int damage, ElementType element)
+        public Attack(int damage, ElementType element, AttackStyle style)
         {
             Damage = damage;
             Element = element;
+            Style = style;
         }
     }
     
@@ -18,5 +20,12 @@
         Fire,
         Ice,
         None
+    }
+
+    public enum AttackStyle
+    {
+        Melee,
+        Ranged,
+        Magic
     }
 }

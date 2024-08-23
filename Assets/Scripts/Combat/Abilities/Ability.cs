@@ -6,6 +6,7 @@ public abstract class Ability : MonoBehaviour
 {
     [SerializeField] private int CandyCornCost;
     [SerializeField] protected ElementType Element;
+    [SerializeField] protected AttackStyle Style;
     protected CandyCornManager CandyCornManager;
     private GameObject NotEnoughCandiesPrompt;
 

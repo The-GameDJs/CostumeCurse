@@ -134,7 +134,7 @@ namespace Combat.Enemy_Abilities
                 return;
             }
             Damage = CalculateDamage();
-            Attack attack = new Attack((int)Damage, Element);
+            Attack attack = new Attack((int)Damage, Element, Style);
 
             Victim.GetComponent<Combatant>().Defend(attack);
             StartCoroutine(DelayEndOfTurn());

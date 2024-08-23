@@ -16,6 +16,8 @@ public abstract class Combatant : MonoBehaviour
     [SerializeField] protected ElementType ElementResistance;
     [SerializeField] protected ElementType ElementWeakness;
 
+    [SerializeField] private CombatantType Type;
+    
     [SerializeField] private ParticleSystem[] FireBurns;
 
     public enum FireType
@@ -23,6 +25,12 @@ public abstract class Combatant : MonoBehaviour
         eOrangeFire,
         eRedFire,
         ePurpleFire
+    }
+
+    public enum CombatantType
+    {
+        Ground,
+        Flying
     }
     
     private int CurrentHealthPoints;
@@ -168,8 +176,15 @@ public abstract class Combatant : MonoBehaviour
     protected abstract void TakeTurnWhileDead();
     protected abstract void TakeTurnWhileAlive();
 
-    protected void TakeDamage(int damage, ElementType element)
+    protected void TakeDamage(int damage, ElementType element, AttackStyle style)
     {
+        // Attack doesn't hit the enemy due to the combatant type
+        if (style == AttackStyle.Melee && Type == CombatantType.Flying)
+        {
+            Debug.Log($"Couldn't hit the enemy, the combatant type is resistant to that attack style!\n Attack Style: {style}, Combatant Type: {Type}");
+            damage = 0;
+        }
+
         Debug.Log($"Attack Element: {element}");
         if (element == ElementResistance)
         {

@@ -48,6 +48,6 @@ public class AllyCombatant : Combatant
     {
         Animator.Play("Base Layer.Hurt");
 
-        TakeDamage(attack.Damage, attack.Element);
+        TakeDamage(attack.Damage, attack.Element, attack.Style);
     }
 }
