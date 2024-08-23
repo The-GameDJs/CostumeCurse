@@ -12,6 +12,7 @@ public class CandyCornManager : MonoBehaviour
     [SerializeField] private int MaxCandyCorn;
     [SerializeField] private Animator CandyCornCollectedAnimator;
     [SerializeField] private TextMeshProUGUI CandyCornCollectedTextField;
+    [SerializeField] private CheckpointData CheckpointData;
     private TMP_Text CandyCornValue;
 
     void Start()
@@ -21,6 +22,8 @@ public class CandyCornManager : MonoBehaviour
         {
             CandyCornValue = GameObject.Find("CandyCornValue").GetComponent<TMP_Text>();
         }
+
+        TotalCandyCorn = CheckpointData.GetCurrentCandyCorn();
     }
 
     void Update()

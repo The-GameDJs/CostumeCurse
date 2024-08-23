@@ -13,6 +13,11 @@ public class CheckpointData : ScriptableObject
         CurrentCandyCount = candyCount;
     }
     
+    public int GetCurrentCandyCorn()
+    {
+        return CurrentCandyCount;
+    }
+    
     public void SetCurrentCheckpoint(Vector3 position)
     {
         CurrentCheckpoint = position;
