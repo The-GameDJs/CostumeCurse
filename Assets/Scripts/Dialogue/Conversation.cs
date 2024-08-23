@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 [System.Serializable]
 public struct Line
@@ -15,10 +16,11 @@ public class Conversation : ScriptableObject
 {
     [SerializeField] private int CandyCornReward;
     [SerializeField] private bool ShowCharacterName;
-    [SerializeField] private bool IsRestPoint;
+    [FormerlySerializedAs("IsRestPoint")] [SerializeField] private bool RestPoint;
     private bool CandyCornRewardClaimed;
     public Line[] Lines;
     public bool ShouldShowCharacterName => ShowCharacterName;
+    public bool IsRestPoint => RestPoint;
 
     // TODO this might break if we ever do more than one OnEnable during the game
     public void OnEnable()
@@ -40,7 +42,7 @@ public class Conversation : ScriptableObject
             return 0;
         }
         
-        if(!IsRestPoint)
+        if(!RestPoint)
             CandyCornRewardClaimed = true;
 
         return CandyCornReward;

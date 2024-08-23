@@ -19,6 +19,8 @@ public class DialogueManager : MonoBehaviour
 
     private CandyCornManager CandyCornManager;
 
+    public static Action<Vector3> SaveCheckpoint;
+
     void Start()
     {
         ActiveLineIndex = 0;
@@ -80,9 +82,12 @@ public class DialogueManager : MonoBehaviour
             LoadNextGameLevel();
         }
 
-        if (!Conversation.IsCandyCornRewardClaimed() && Conversation.HasCandyCornReward() && ActiveLineIndex == Conversation.Lines.Length)
+        if (Conversation.IsRestPoint && ActiveLineIndex == Conversation.Lines.Length)
+        {
             CandyCornManager.AddCandyCorn(Conversation.ClaimReward());
-        
+            SaveCheckpoint?.Invoke(CurrentSpeaker.transform.position);
+        }
+
         DisplayDialogueBubble = false;
         ActiveLineIndex = 0;
         DialogueUI.Close();

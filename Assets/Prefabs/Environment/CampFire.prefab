@@ -4826,6 +4826,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5920441560533505380}
   - component: {fileID: 4276792160514364962}
+  - component: {fileID: 7859032425198058419}
   m_Layer: 0
   m_Name: CampFire
   m_TagString: Untagged
@@ -4882,6 +4883,19 @@ MonoBehaviour:
   Conversation: {fileID: 11400000, guid: 40852248daed660489b73ff274993c70, type: 2}
   IsNPC: 0
   NPCSpeakSound: {fileID: 0}
+--- !u!114 &7859032425198058419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4736080547046731984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de8c1d5d9c3e70c4eb4a86918b7a813a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CheckpointData: {fileID: 11400000, guid: 12defca9443f0a142afa43a14da8bdb3, type: 2}
 --- !u!1 &7795902052334523967
 GameObject:
   m_ObjectHideFlags: 0
