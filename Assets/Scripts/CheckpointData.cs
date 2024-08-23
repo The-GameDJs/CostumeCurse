@@ -6,7 +6,13 @@ using UnityEngine;
 public class CheckpointData : ScriptableObject
 {
     [SerializeField] private Vector3 CurrentCheckpoint;
+    [SerializeField] private int CurrentCandyCount;
 
+    public void SetCurrentCandyCount(int candyCount)
+    {
+        CurrentCandyCount = candyCount;
+    }
+    
     public void SetCurrentCheckpoint(Vector3 position)
     {
         CurrentCheckpoint = position;

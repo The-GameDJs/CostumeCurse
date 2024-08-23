@@ -19,7 +19,7 @@ public class DialogueManager : MonoBehaviour
 
     private CandyCornManager CandyCornManager;
 
-    public static Action<Vector3> SaveCheckpoint;
+    public static Action<Vector3, int> SaveCheckpoint;
 
     void Start()
     {
@@ -85,7 +85,7 @@ public class DialogueManager : MonoBehaviour
         if (Conversation.IsRestPoint && ActiveLineIndex == Conversation.Lines.Length)
         {
             CandyCornManager.AddCandyCorn(Conversation.ClaimReward());
-            SaveCheckpoint?.Invoke(CurrentSpeaker.transform.position);
+            SaveCheckpoint?.Invoke(CurrentSpeaker.transform.position, CandyCornManager.GetTotalCandyCorn());
         }
 
         DisplayDialogueBubble = false;

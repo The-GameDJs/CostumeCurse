@@ -12,8 +12,9 @@ public class Checkpoint : MonoBehaviour
         DialogueManager.SaveCheckpoint += OnCampfireRest;
     }
 
-    private void OnCampfireRest(Vector3 checkpoint)
+    private void OnCampfireRest(Vector3 checkpoint, int candyCornCount)
     {
         CheckpointData.SetCurrentCheckpoint(checkpoint);
+        CheckpointData.SetCurrentCandyCount(candyCornCount);
     }
 }
