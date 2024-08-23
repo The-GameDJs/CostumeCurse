@@ -64,6 +64,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TurnPriority: 4
   MaxHealthPoints: 580
+  ElementResistance: 3
+  ElementWeakness: 3
   FireBurns:
   - {fileID: 1472896413115883271}
   - {fileID: 989380423480151782}
@@ -5641,6 +5643,7 @@ MonoBehaviour:
   Animator: {fileID: 1948406375637748093}
   BossCombatant: {fileID: 6455420524000755089}
   CrossfadeAnimator: {fileID: 0}
+  MusicSound: {fileID: 0}
 --- !u!1 &4070682477893624244
 GameObject:
   m_ObjectHideFlags: 0
@@ -6626,6 +6629,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CandyCornCost: 0
+  Element: 0
   Animator: {fileID: 1948406375637748093}
   MissedActionCommandSound: {fileID: 0}
   GoodActionCommandSound: {fileID: 0}
@@ -6647,6 +6651,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CandyCornCost: 0
+  Element: 0
   Animator: {fileID: 1948406375637748093}
   MissedActionCommandSound: {fileID: 0}
   GoodActionCommandSound: {fileID: 0}
@@ -6669,6 +6674,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CandyCornCost: 0
+  Element: 0
   Animator: {fileID: 1948406375637748093}
   MissedActionCommandSound: {fileID: 0}
   GoodActionCommandSound: {fileID: 0}

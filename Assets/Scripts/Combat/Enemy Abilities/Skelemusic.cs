@@ -98,7 +98,7 @@ using Random = UnityEngine.Random;
             if (CurrentPhase == Phase.Skelemusic)
             {
                 Damage = CalculateDamage();
-                Attack attack = new Attack((int)Damage);
+                Attack attack = new Attack((int)Damage, Element);
 
                 Victim.GetComponent<Combatant>().Defend(attack);
                 StartCoroutine(DelayEndOfTurn());

@@ -92,7 +92,7 @@ public class MagicShield : Ability
         MagicShieldSound.Play();
 
         foreach (GameObject target in TargetedCombatants)
-            target.GetComponent<Combatant>().ApplyShield(MagicShieldHealth);
+            target.GetComponent<Combatant>().ApplyShield(MagicShieldHealth, Element);
 
         Animator.SetBool("IsFinishedCasting", true);
 

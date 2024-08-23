@@ -325,7 +325,7 @@ public class Revolver : Ability
     private IEnumerator FinishRevolverDamage()
     {
         int revolverdamage = (int) TotalDamage;
-        Attack attack = new Attack(revolverdamage);
+        Attack attack = new Attack(revolverdamage, Element);
         TargetedCombatants[0].GetComponent<Combatant>().Defend(attack);
 
         yield return new WaitForSeconds(1.5f);

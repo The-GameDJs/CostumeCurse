@@ -13,6 +13,9 @@ public abstract class Combatant : MonoBehaviour
     [SerializeField] public int TurnPriority;
     [SerializeField] private int MaxHealthPoints;
 
+    [SerializeField] protected ElementType ElementResistance;
+    [SerializeField] protected ElementType ElementWeakness;
+
     [SerializeField] private ParticleSystem[] FireBurns;
 
     public enum FireType
@@ -165,8 +168,20 @@ public abstract class Combatant : MonoBehaviour
     protected abstract void TakeTurnWhileDead();
     protected abstract void TakeTurnWhileAlive();
 
-    protected void TakeDamage(int damage)
+    protected void TakeDamage(int damage, ElementType element)
     {
+        Debug.Log($"Attack Element: {element}");
+        if (element == ElementResistance)
+        {
+            Debug.Log($"Resisted some damage, since resistance is {ElementResistance}");
+            damage /= 2;
+        }
+        else if (element == ElementWeakness)
+        {
+            Debug.Log($"Combatant took more damage, since weakness is {ElementWeakness}, it's super effective!");
+            damage *= 2;
+        }
+
         if (CurrentShieldPoints > 0)
         {
             CurrentShieldPoints -= damage;
@@ -209,8 +224,9 @@ public abstract class Combatant : MonoBehaviour
         Animator.Play("Base Layer.Death");
     }
 
-    public void ApplyShield(int shieldHealth)
+    public void ApplyShield(int shieldHealth, ElementType element)
     {
+        ElementResistance = element;
         if (MaxShieldPoints == 0)
         {
             Shield.SetActive(true);
@@ -238,6 +254,8 @@ public abstract class Combatant : MonoBehaviour
         DestroyUIInstances();
         ResetPoints();
         IsInCombat = false;
+        ElementResistance = ElementType.Normal;
+        ElementWeakness = ElementType.Normal;
     }
 
     public void EnterCombat()

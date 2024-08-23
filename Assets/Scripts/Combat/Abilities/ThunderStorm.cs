@@ -318,7 +318,7 @@ public class ThunderStorm : Ability
 
         Thunder.SetActive(false);
         ParticleComponent.transform.localScale = Vector3.one * InitialCloudSize;
-        Attack attack = new Attack((int)EvaluateThunderStrikeInput());
+        Attack attack = new Attack((int)EvaluateThunderStrikeInput(), Element);
         CurrentVictim.GetComponent<Combatant>().Defend(attack);
 
         yield return new WaitForSeconds(1.0f);

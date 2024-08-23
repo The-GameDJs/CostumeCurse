@@ -49,6 +49,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CandyCornCost: 0
+  Element: 0
   Animator: {fileID: 6543156113162692070}
   MissedActionCommandSound: {fileID: 9089919695471894780}
   GoodActionCommandSound: {fileID: 6168060802717243057}
@@ -70,6 +71,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CandyCornCost: 0
+  Element: 0
   Animator: {fileID: 6543156113162692070}
   MissedActionCommandSound: {fileID: 0}
   GoodActionCommandSound: {fileID: 0}
@@ -700,6 +702,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TurnPriority: 4
   MaxHealthPoints: 330
+  ElementResistance: 1
+  ElementWeakness: 2
   FireBurns:
   - {fileID: 423385862881484683}
   - {fileID: 7755686892700264380}

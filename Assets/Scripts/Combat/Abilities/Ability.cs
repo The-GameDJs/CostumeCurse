@@ -1,9 +1,11 @@
 using System.Collections;
+using Assets.Scripts.Combat;
 using UnityEngine;
 
 public abstract class Ability : MonoBehaviour
 {
     [SerializeField] private int CandyCornCost;
+    [SerializeField] protected ElementType Element;
     protected CandyCornManager CandyCornManager;
     private GameObject NotEnoughCandiesPrompt;
 
@@ -32,10 +34,10 @@ public abstract class Ability : MonoBehaviour
     {
         NotEnoughCandiesPrompt = GameObject.Find("NotEnoughCandyText");
         NotEnoughCandiesPrompt.GetComponent<CanvasGroup>().alpha = 0f;
-        CandyCornManager = GameObject.FindObjectOfType<CandyCornManager>();
+        CandyCornManager = FindObjectOfType<CandyCornManager>();
         TargetSelector = GameObject.FindGameObjectWithTag("TargetSelector").GetComponent<TargetSelector>();
         CombatSystem = GameObject.FindGameObjectWithTag("CombatSystem").GetComponent<CombatSystem>();
-        CameraRigSystem = GameObject.FindObjectOfType<CameraRig>();
+        CameraRigSystem = FindObjectOfType<CameraRig>();
 
         //CurrentPhase = Phase.Inactive;
         if (GetComponent<Combatant>() != null)

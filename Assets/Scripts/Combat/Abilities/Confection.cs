@@ -225,7 +225,7 @@ public class Confection : Ability
     public IEnumerator DealConfectionDamage()
     {
         //Only deals damage to one enemy
-        Attack attack = new Attack(CalculateTotalDamage());
+        Attack attack = new Attack(CalculateTotalDamage(), Element);
         Target.GetComponent<Combatant>().Defend(attack);
         ConfectionMixVfx.ExplodeConfectionMix();
 
