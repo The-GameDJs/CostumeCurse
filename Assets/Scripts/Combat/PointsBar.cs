@@ -6,6 +6,7 @@ public class PointsBar : MonoBehaviour
 {
     public Animator DamageTextAnimator;
     public TextMeshProUGUI DamageTextField;
+    public TextMeshProUGUI OriginalDamageTextField;
     public Image BarUI;
     private float CurrentValue;
     public float NewValue;
@@ -27,11 +28,34 @@ public class PointsBar : MonoBehaviour
         CurrentValue = Mathf.Lerp(CurrentValue, NewValue, Time.deltaTime * Speed);
     }
 
-    public void PlayDamageTextField(int damage)
+    public void PlayDamageTextField(int damage, bool hasAttackMissed, bool isResistant, bool isWeakness)
     {
         DamageTextField.gameObject.SetActive(true);
+        DamageTextField.color = OriginalDamageTextField.color;
+        DamageTextField.fontSize = OriginalDamageTextField.fontSize;
+        DamageTextField.fontStyle = OriginalDamageTextField.fontStyle;
+
+        if (hasAttackMissed)
+        {
+            DamageTextField.color = Color.gray;
+            DamageTextField.fontStyle = FontStyles.Strikethrough;
+        }
+
+        if (isResistant)
+        {
+            DamageTextField.fontSize /= 1.2f;
+            DamageTextField.color = Color.blue;
+        }
+
+        if (isWeakness)
+        {
+            DamageTextField.fontSize *= 1.8f;
+            DamageTextField.color = Color.red;
+            DamageTextField.fontStyle = FontStyles.Bold;
+        }
+        
         DamageTextField.text = $"-{damage.ToString()}";
         DamageTextAnimator.enabled = true;
-        DamageTextAnimator.Play("Move");
+        // DamageTextAnimator.Play("Move");
     }
 }

@@ -178,11 +178,16 @@ public abstract class Combatant : MonoBehaviour
 
     protected void TakeDamage(int damage, ElementType element, AttackStyle style)
     {
+        var hasAttackMissed = false;
+        var isWeakness = false;
+        var isResistant = false;
+        
         // Attack doesn't hit the enemy due to the combatant type
         if (style == AttackStyle.Melee && Type == CombatantType.Flying)
         {
             Debug.Log($"Couldn't hit the enemy, the combatant type is resistant to that attack style!\n Attack Style: {style}, Combatant Type: {Type}");
             damage = 0;
+            hasAttackMissed = true;
         }
 
         Debug.Log($"Attack Element: {element}");
@@ -190,11 +195,13 @@ public abstract class Combatant : MonoBehaviour
         {
             Debug.Log($"Resisted some damage, since resistance is {ElementResistance}");
             damage /= 2;
+            isResistant = true;
         }
         else if (element == ElementWeakness)
         {
             Debug.Log($"Combatant took more damage, since weakness is {ElementWeakness}, it's super effective!");
             damage *= 2;
+            isWeakness = true;
         }
 
         if (CurrentShieldPoints > 0)
@@ -205,15 +212,15 @@ public abstract class Combatant : MonoBehaviour
                 MaxShieldPoints = 0;
                 int leftoverDmg = -1 * CurrentShieldPoints;
                 CurrentHealthPoints -= leftoverDmg;
-                RedBar.PlayDamageTextField(damage);
+                RedBar.PlayDamageTextField(damage, hasAttackMissed, isResistant, isWeakness);
             }
-            BlueBar.PlayDamageTextField(damage);
+            BlueBar.PlayDamageTextField(damage, hasAttackMissed, isResistant, isWeakness);
         }
 
         else
         {
             CurrentHealthPoints -= damage;
-            RedBar.PlayDamageTextField(damage);
+            RedBar.PlayDamageTextField(damage, hasAttackMissed, isResistant, isWeakness);
         }
 
         if (CurrentHealthPoints <= 0)
