@@ -56,6 +56,6 @@ public class PointsBar : MonoBehaviour
         
         DamageTextField.text = $"-{damage.ToString()}";
         DamageTextAnimator.enabled = true;
-        // DamageTextAnimator.Play("Move");
+        DamageTextAnimator.Play("Move");
     }
 }
