@@ -19,7 +19,6 @@ public class Player : MonoBehaviour
 
     private float CurrentCatchUpSpeed;
     [SerializeField] private Collider PlayerCollider;
-    [SerializeField] private CheckpointData CheckpointData;
 
     private Vector3 TargetPosition;
     private Quaternion TargetRotation;
@@ -43,7 +42,7 @@ public class Player : MonoBehaviour
         MainPlayer = Array.Find(foundPlayers, player => player.IsMainPlayer);
         CurrentCatchUpSpeed = CatchUpSpeed;
 
-        var currentCheckpoint = CheckpointData.GetCurrentCheckpoint();
+        var currentCheckpoint = new Vector3(SaveSystem.Load("Rest.x"), SaveSystem.Load("Rest.y"), SaveSystem.Load("Rest.z"));
         
         transform.position = currentCheckpoint == Vector3.zero ? transform.position : currentCheckpoint;
     }
