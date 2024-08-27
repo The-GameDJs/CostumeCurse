@@ -35,12 +35,6 @@ public class PointsBar : MonoBehaviour
         DamageTextField.fontSize = OriginalDamageTextField.fontSize;
         DamageTextField.fontStyle = OriginalDamageTextField.fontStyle;
 
-        if (hasAttackMissed)
-        {
-            DamageTextField.color = Color.gray;
-            DamageTextField.fontStyle = FontStyles.Strikethrough;
-        }
-
         if (isResistant)
         {
             DamageTextField.fontSize /= 1.2f;
@@ -53,7 +47,15 @@ public class PointsBar : MonoBehaviour
             DamageTextField.color = Color.red;
             DamageTextField.fontStyle = FontStyles.Bold;
         }
-        
+
+        if (hasAttackMissed)
+        {
+            DamageTextField.color = Color.gray;
+            DamageTextField.fontSize *= 1.2f;
+            DamageTextField.fontStyle = FontStyles.Strikethrough;
+            DamageTextField.fontStyle = FontStyles.Normal;
+        }
+
         DamageTextField.text = $"-{damage.ToString()}";
         DamageTextAnimator.enabled = true;
         DamageTextAnimator.Play("Move");
