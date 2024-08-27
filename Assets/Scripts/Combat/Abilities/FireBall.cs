@@ -23,7 +23,7 @@ namespace Combat.Abilities
         private static GameObject Fireball;
         private const float FireballGrowthMinDuration = 1.5f;
         private const float FireballGrowthMaxDuration = 3.4f;
-        private const int FireballCycles = 2;
+        private const int FireballCycles = 1;
         private int CurrentFireballCycle = 0;
         private const float FireballUnstablingWarningDuration = 1.0f;
         private const float FireballUnstableDuration = 2.0f;

@@ -12,14 +12,14 @@ public class ThunderStorm : Ability
     private static GameObject Thunder;
     private Timer Timer;
 
-    private readonly int TotalThunderStrikes = 3;
+    private readonly int TotalThunderStrikes = 2;
     private int CurrentThunderStrike = 0;
 
     [Header("Strike Parameters")]
-    private readonly float TimeWindowForStrikes = 3.0f;
+    private readonly float TimeWindowForStrikes = 2.8f;
     private readonly float GoodStrikeTimeWindow = 1.0f;
     private readonly float PerfectStrikeTimeWindow = 0.7f;
-    private readonly float StrikeTimeInterval = 2.0f;
+    private readonly float StrikeTimeInterval = 1.0f;
     private bool ThunderHasAppeared;
     private float MomentOfActionCommand;
     private bool ActionCommandPressed;
@@ -30,7 +30,7 @@ public class ThunderStorm : Ability
     private int Presses;
     private readonly float ThunderStormScale = 0.04f;
     private readonly float ThunderStormHeight = 8f;
-    private readonly float ThunderCloudDuration = 5.0f;
+    private readonly float ThunderCloudDuration = 2.5f;
     private readonly int ThunderCloudMinimumDamage = 15;
     private readonly int ThunderCloudMaximumDamage = 30;
     private readonly int ThunderCloudDifficultyCurve = 10;
@@ -243,7 +243,6 @@ public class ThunderStorm : Ability
         CurrentThunderStrike = 0;
 
         Invoke(nameof(NewThunderStrike), UnityEngine.Random.Range(StrikeTimeInterval, 1.5f * StrikeTimeInterval));
-
     }
 
     private void NewThunderStrike()
@@ -273,7 +272,7 @@ public class ThunderStorm : Ability
         Thunder.transform.position = CurrentVictim.transform.position + ThunderStormHeight * heightMultiplier * Vector3.up;
 
         CurrentPhase = ThunderstormPhase.Strike;
-        Timer.StartTimer(TimeWindowForStrikes); // 10 seconds , at 5 seconds, that is when the stirke appears and is also the perfect frame window. 
+        Timer.StartTimer(TimeWindowForStrikes); // 10 seconds , at 5 seconds, that is when the strike appears and is also the perfect frame window. 
     }
 
     // TODO: Implement user feedback

@@ -33,8 +33,8 @@ public class Confection : Ability
     private int MaxClicks = 3;
     private readonly float VisibleAlpha = 1.0f;
     private readonly float InvisibleAlpha = 0.0f;
-    private readonly float BrewDuration = 5.0f;
-    private readonly float BakeDuration = 10.0f;
+    private readonly float BrewDuration = 2.5f;
+    private readonly float BakeDuration = 5.0f;
     private readonly int BaseDamage = 20;
     private readonly int RottenDamage = -10;
     private readonly int SweetsDamage = 10;

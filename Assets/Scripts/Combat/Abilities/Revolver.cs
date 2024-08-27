@@ -12,7 +12,7 @@ public class Revolver : Ability
 {
     private Timer Timer;
     private readonly float ReloadDuration = 5f;
-    private readonly float ShootingDuration = 5f;
+    private readonly float ShootingDuration = 3f;
     private int BulletsInClip = 0;
     private bool[] IsBulletReserved;
     private bool[] IsPimpkinReserved;
