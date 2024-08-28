@@ -1,6 +1,7 @@
 using Assets.Scripts.Combat;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace Combat.Abilities
@@ -11,6 +12,7 @@ namespace Combat.Abilities
         private Phase CurrentPhase = Phase.Inactive;
 
         private Timer Timer;
+        [SerializeField] private string BonkAnimationString = "Bonk"; 
         [SerializeField]
         private const float ApproachingDuration = 1.25f;
         [SerializeField]
@@ -132,7 +134,7 @@ namespace Combat.Abilities
             {
                 enemy.RotateModel();
             }
-            Animator.Play("Base Layer.Bonk");
+            Animator.Play($"Base Layer.{BonkAnimationString}");
 
             Timer.StartTimer(Animator.GetCurrentAnimatorStateInfo(0).length);
         }
