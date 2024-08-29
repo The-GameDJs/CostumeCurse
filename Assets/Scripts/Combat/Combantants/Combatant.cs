@@ -276,8 +276,8 @@ public abstract class Combatant : MonoBehaviour
         DestroyUIInstances();
         ResetPoints();
         IsInCombat = false;
-        ElementResistance = ElementType.Normal;
-        ElementWeakness = ElementType.Normal;
+        ElementResistance = ElementType.None;
+        ElementWeakness = ElementType.None;
     }
 
     public void EnterCombat()

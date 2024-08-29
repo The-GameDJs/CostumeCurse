@@ -40,15 +40,13 @@ public class PointsBar : MonoBehaviour
             DamageTextField.fontSize /= 1.2f;
             DamageTextField.color = Color.blue;
         }
-
-        if (isWeakness)
+        else if (isWeakness)
         {
             DamageTextField.fontSize *= 1.8f;
             DamageTextField.color = Color.red;
             DamageTextField.fontStyle = FontStyles.Bold;
         }
-
-        if (hasAttackMissed)
+        else if (hasAttackMissed)
         {
             DamageTextField.color = Color.gray;
             DamageTextField.fontSize *= 1.2f;
