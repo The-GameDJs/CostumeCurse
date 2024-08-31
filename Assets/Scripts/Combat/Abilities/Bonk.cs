@@ -12,7 +12,6 @@ namespace Combat.Abilities
         private Phase CurrentPhase = Phase.Inactive;
 
         private Timer Timer;
-        [SerializeField] private string BonkAnimationString = "Bonk"; 
         [SerializeField]
         private const float ApproachingDuration = 1.25f;
         [SerializeField]
@@ -134,7 +133,7 @@ namespace Combat.Abilities
             {
                 enemy.RotateModel();
             }
-            Animator.Play($"Base Layer.{BonkAnimationString}");
+            Animator.Play($"Base Layer.Bonk");
 
             Timer.StartTimer(Animator.GetCurrentAnimatorStateInfo(0).length);
         }
