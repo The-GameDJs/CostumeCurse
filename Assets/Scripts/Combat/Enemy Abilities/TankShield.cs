@@ -10,26 +10,22 @@ namespace Combat.Enemy_Abilities
 {
     public class TankShield : Ability
     {
-        private Timer Timer;
         private const float EndOfTurnDelay = 2.0f;
         
         [SerializeField] private int TankShieldHealth = 50;
 
         [SerializeField] private AudioSource SlashSound;
+        [SerializeField] private AudioSource ShieldUpSound;
         [SerializeField] private AudioSource ShieldSound;
-    
-        [Header("Shooting Battle Phase")]
-        [SerializeField] private GameObject[] Shields;
 
         // Start is called before the first frame update
         public new void Start()
         {
             base.Start();
-            Timer = GetComponent<Timer>();
             TargetSchema = new TargetSchema(
-                0,
+                1,
                 CombatantType.Enemy,
-                SelectorType.All);
+                SelectorType.Self);
         }
 
         public new void StartAbility(bool userTargeting = false)
@@ -49,27 +45,29 @@ namespace Combat.Enemy_Abilities
             yield return new WaitForSeconds(1.0f);
             
             Animator.Play($"Base Layer.Shield");
+            Debug.Log($"APPLYING SHIELD.");
             
             yield return new WaitForSeconds(1.0f);
-            foreach (var target in TargetedCombatants)
-            {
-                if (target.TryGetComponent<Combatant>(out var enemy))
-                {
-                    //enemy.ApplyShield(TankShieldHealth , Element);
-                }
-            }
+            
+            var shieldObject = TargetedCombatants[0].GetComponent<Combatant>().ApplyShield(TankShieldHealth, Element);
+            shieldObject.transform.localScale = Vector3.one * 15f;
+            ShieldSound.Play();
             
             yield return new WaitForSeconds(1.0f);
 
             EndAbility();
         }
 
+        public void ActivateTankShield()
+        {
+            SlashSound.Play();
+            ShieldUpSound.Play();
+        }
+
         protected override void EndAbility()
         {
-            Timer.StopTimer();
-            
-            Debug.Log($"Pimpkin Bulker shielded {TargetedCombatants.Length} allies with {TankShieldHealth} shield each.");
-            
+            StopAllCoroutines();
+            Debug.Log($"Pimpkin Bulker shielded self with {TankShieldHealth} shield.");
             CombatSystem.EndTurn(GetComponentInParent<Combatant>().gameObject);
         }
     }

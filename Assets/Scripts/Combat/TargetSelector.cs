@@ -54,7 +54,7 @@ public class TargetSelector : MonoBehaviour
         if (CurrentTargetSchema.SelectorType == SelectorType.All)
         {
             if (CurrentTargetSchema.CombatantType == CombatantType.Enemy)
-                StartCoroutine(TargetAllEnemies());
+                TargetAllEnemies();
             else if (CurrentTargetSchema.CombatantType == CombatantType.Ally)
                 TargetAllAllies(userTargeting);
         }
@@ -66,6 +66,12 @@ public class TargetSelector : MonoBehaviour
                 StartCoroutine(TargetSingleEnemy());
             else if (CurrentTargetSchema.CombatantType == CombatantType.Ally)
                 TargetAllAllies(userTargeting);
+        }
+        
+        if (CurrentTargetSchema.SelectorType == SelectorType.Self)
+        {
+            // TODO do something else, add rest of options
+            TargetSelf();
         }
     }
 
@@ -103,31 +109,10 @@ public class TargetSelector : MonoBehaviour
         CurrentTargetedCombatants = enemy;
     }
 
-    private IEnumerator TargetAllEnemies()
+    private void TargetAllEnemies()
     {
         GameObject[] enemies = CombatSystem.Combatants.
             Where(combatant => combatant.CompareTag("Enemy") && combatant.GetComponent<Combatant>().IsAlive).ToArray();
-
-        MouseSelector.enabled = true;
-        SelectTextPrompt.SetActive(true);
-        
-        while (!MouseSelector.IsTargetSelected)
-        {
-            if (MouseSelector.IsRegrettingDecision)
-            {
-                MouseSelector.enabled = false;
-                Debug.Log("Regretting decision");
-                MouseSelector.IsRegrettingDecision = false;
-                CombatSystem.GoBackToAbilitySelect();
-                SelectTextPrompt.SetActive(false);
-                yield break;
-            }
-            yield return null;
-        }
-        SelectTextPrompt.SetActive(false);
-
-        MouseSelector.IsTargetSelected = false;
-        MouseSelector.enabled = false;
 
         CurrentTargetedCombatants = enemies;
         
@@ -139,12 +124,15 @@ public class TargetSelector : MonoBehaviour
         GameObject[] allies = CombatSystem.Combatants.
           Where(combatant => combatant.CompareTag("Player") && combatant.GetComponent<Combatant>().IsAlive).ToArray();
 
-        /*if (userTargeting)
-        {
-            // TODO highlight each enemy, wait for user selection
-            Thread.Sleep(500); // Fake the UI selection
-        }*/
+        CurrentTargetedCombatants = allies;
 
+        ReplyToCallingAbility();
+    }
+
+    private void TargetSelf()
+    {
+        var callingCombatant = CallingAbility.transform.parent.gameObject;
+        GameObject[] allies = { callingCombatant };
         CurrentTargetedCombatants = allies;
 
         ReplyToCallingAbility();

@@ -11,7 +11,7 @@ public class AllyCombatant : Combatant
     public new void Start()
     {
         base.Start();
-
+        
         costume.DisplayAbilities(false);
     }
 

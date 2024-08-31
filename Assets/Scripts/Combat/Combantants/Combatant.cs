@@ -41,7 +41,7 @@ public abstract class Combatant : MonoBehaviour
     protected static GameObject HealthBarPrefab;
     protected static GameObject ShieldBarPrefab;
     protected static GameObject HealthBarUIPanel;
-    protected static GameObject ShieldPrefab;
+    [SerializeField] protected GameObject ShieldPrefab;
     
     private GameObject Shield;
     private GameObject HealthBar;
@@ -71,7 +71,6 @@ public abstract class Combatant : MonoBehaviour
     public void Start()
     {
         CombatSystem = GameObject.FindGameObjectWithTag("CombatSystem").GetComponent<CombatSystem>();
-        ShieldPrefab = GameObject.Find("MagicShieldPrefab");
         ShieldBarPrefab = GameObject.Find("ShieldBarPrefab");
         HealthBarPrefab = GameObject.Find("HealthBarPrefab");
         HealthBarUIPanel = GameObject.Find("HealthBarsUI");
@@ -246,7 +245,7 @@ public abstract class Combatant : MonoBehaviour
         Animator.Play("Base Layer.Death");
     }
 
-    public void ApplyShield(int shieldHealth, ElementType element)
+    public GameObject ApplyShield(int shieldHealth, ElementType element)
     {
         ElementResistance = element;
         if (MaxShieldPoints == 0)
@@ -269,6 +268,9 @@ public abstract class Combatant : MonoBehaviour
             if (CurrentShieldPoints > MaxShieldPoints)
                 CurrentShieldPoints = MaxShieldPoints;
         }
+        
+        // If you want to access the shield object from a shield ability, you can reference the return object and make changes
+        return Shield;
     }
 
     public void ExitCombat()
@@ -322,6 +324,11 @@ public abstract class Combatant : MonoBehaviour
         GetComponentInChildren<Skelemusic>().ThrowMusicalNotesAtTarget();
     }
 
+    public void ActivateTankShield()
+    {
+        GetComponentInChildren<TankShield>().ActivateTankShield();
+    }
+
     public void OnDeathAnimationFinish()
     {
         
@@ -339,13 +346,9 @@ public abstract class Combatant : MonoBehaviour
 
     public void CreateUIInstances()
     {
-        if (gameObject.CompareTag("Player"))
-        {
-            Shield = Instantiate(ShieldPrefab);
-            Shield.name = gameObject.name + " Shield";
-            Shield.transform.SetParent(GameObject.Find("CombatEffects").transform);
-            Shield.SetActive(false);
-        }
+        Shield = Instantiate(ShieldPrefab);
+        Shield.transform.SetParent(GameObject.Find("CombatEffects").transform);
+        Shield.SetActive(false);
 
         HealthBar = Instantiate(HealthBarPrefab);
         HealthBar.transform.SetParent(HealthBarUIPanel.transform);
