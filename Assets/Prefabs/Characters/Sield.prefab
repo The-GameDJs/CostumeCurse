@@ -1504,6 +1504,7 @@ GameObject:
   - component: {fileID: 603280033588285928}
   - component: {fileID: 8454097014992259087}
   - component: {fileID: 7874035099135784521}
+  - component: {fileID: 8534212145127037345}
   - component: {fileID: 4183213017916320545}
   m_Layer: 0
   m_Name: Sield
@@ -1630,6 +1631,11 @@ MonoBehaviour:
   DeathAudioSource: {fileID: 0}
   isBoss: 0
   costume: {fileID: 6912708998622068073}
+  HurtCollider: {fileID: 7874035099135784521}
+  ParryCollider: {fileID: 8534212145127037345}
+  ParrySound: {fileID: 8407321480397020377}
+  HasParried: 0
+  HasParriedCorrectly: 0
 --- !u!136 &7874035099135784521
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1644,6 +1650,20 @@ CapsuleCollider:
   m_Height: 6.43
   m_Direction: 1
   m_Center: {x: 0, y: 2.98, z: 0}
+--- !u!136 &8534212145127037345
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7367481652005828944}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.92479163
+  m_Height: 6.430001
+  m_Direction: 1
+  m_Center: {x: 0, y: 2.98, z: 2.2440488}
 --- !u!54 &4183213017916320545
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2121,6 +2141,11 @@ MonoBehaviour:
 --- !u!4 &1015405315537927717 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1927651598062133287, guid: 03db29cbb4fd4cf478a3eb2f6ba21cc5, type: 3}
+  m_PrefabInstance: {fileID: 1501692277303238146}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &8407321480397020377 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 6952391778905883355, guid: 03db29cbb4fd4cf478a3eb2f6ba21cc5, type: 3}
   m_PrefabInstance: {fileID: 1501692277303238146}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5083802129808184700

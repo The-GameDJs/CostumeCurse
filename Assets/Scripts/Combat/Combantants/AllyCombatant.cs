@@ -1,12 +1,20 @@
-﻿using Assets.Scripts.Combat;
+﻿using System;
+using Assets.Scripts.Combat;
 using Combat.Abilities;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class AllyCombatant : Combatant
 {
     [SerializeField] Costume costume;
+    [SerializeField] public Collider HurtCollider;
+    [SerializeField] public Collider ParryCollider;
+    [SerializeField] private AudioSource ParrySound;
+
+    public bool HasParried;
+    public bool HasParriedCorrectly;
 
     public new void Start()
     {
@@ -48,6 +56,14 @@ public class AllyCombatant : Combatant
     {
         Animator.Play("Base Layer.Hurt");
 
-        TakeDamage(attack.Damage, attack.Element, attack.Style);
+        var damage = HasParriedCorrectly ? attack.Damage / 2 : attack.Damage;
+        
+        if(HasParriedCorrectly)
+            ParrySound.Play();
+        
+        TakeDamage(damage, attack.Element, attack.Style);
+
+        HasParriedCorrectly = false;
+        HasParried = false;
     }
 }

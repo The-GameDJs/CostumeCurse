@@ -179,7 +179,6 @@ namespace Combat.Abilities
                     return;
 
                 }
-
             }
         }
 

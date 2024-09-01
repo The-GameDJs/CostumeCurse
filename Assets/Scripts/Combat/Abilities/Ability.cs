@@ -72,10 +72,8 @@ public abstract class Ability : MonoBehaviour
         {
             StartCoroutine(ShowNotEnoughCandiesPrompt());
         }
-
     }
-
-
+    
     protected abstract void ContinueAbilityAfterTargeting();
 
     // called by the TargetSelector once it has selected targets

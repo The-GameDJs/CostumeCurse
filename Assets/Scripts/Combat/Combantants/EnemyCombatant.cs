@@ -14,8 +14,6 @@ public class EnemyCombatant : Combatant
 
     [SerializeField] private GameObject Model;
 
-
-
     new void Start()
     {
         base.Start();
