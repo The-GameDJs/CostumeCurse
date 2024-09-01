@@ -56,6 +56,8 @@ public class AllyCombatant : Combatant
     {
         Animator.Play("Base Layer.Hurt");
 
+        var animationTime = Animator.GetCurrentAnimatorStateInfo(0).length;
+
         var damage = HasParriedCorrectly ? attack.Damage / 2 : attack.Damage;
         
         if(HasParriedCorrectly)

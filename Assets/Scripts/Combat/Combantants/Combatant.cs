@@ -142,7 +142,6 @@ public abstract class Combatant : MonoBehaviour
             BlueBar.MaxValue = MaxShieldPoints;
             ShieldText.text = $"{CurrentShieldPoints} / {MaxShieldPoints}";
         }
-
     }
 
     private void UpdateHealthBarPosition()
@@ -168,11 +167,13 @@ public abstract class Combatant : MonoBehaviour
         else
             TakeTurnWhileDead();
     }
+    
     public abstract void EndTurn();
 
     public abstract void Defend(Attack attack);
 
     protected abstract void TakeTurnWhileDead();
+    
     protected abstract void TakeTurnWhileAlive();
 
     protected void TakeDamage(int damage, ElementType element, AttackStyle style)

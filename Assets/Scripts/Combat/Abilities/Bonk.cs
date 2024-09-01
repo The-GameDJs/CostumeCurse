@@ -16,6 +16,9 @@ namespace Combat.Abilities
         private const float ApproachingDuration = 1.25f;
         [SerializeField]
         private const float DisengagingDuration = 1.0f;
+        
+        [SerializeField]
+        private const float ActionCommandMultiplier = 1.2f;
 
         [SerializeField] private float Damage;
 
@@ -25,6 +28,7 @@ namespace Combat.Abilities
         [SerializeField] private float SpaceBetweenBonk = 2.5f;
 
         private bool BelongsToAlly;
+        private bool HasTimedPress;
 
         [SerializeField] private AudioSource BonkSound;
 
@@ -109,7 +113,15 @@ namespace Combat.Abilities
         {
             if (Timer.IsInProgress())
             {
-                // If we need more bonking update logic, 
+                var timerProgress = Timer.GetProgress() / Animator.GetCurrentAnimatorStateInfo(0).length;
+                
+                if (!HasTimedPress && (timerProgress >= 0.4f && timerProgress <= 0.56f) 
+                                   && Input.GetButtonDown("Action Command"))
+                {
+                    Debug.Log("Perfectly timed bonk!");
+                    PerfectActionCommandSound.Play();
+                    HasTimedPress = true;
+                }
             }
 
             else if (Timer.IsFinished())
@@ -147,7 +159,14 @@ namespace Combat.Abilities
 
         private float EvaluateBonkDamage()
         {
-            return Damage;
+            var damage = HasTimedPress switch
+            {
+                true when BelongsToAlly => Damage * ActionCommandMultiplier,
+                true when !BelongsToAlly => Damage / ActionCommandMultiplier,
+                _ => Damage
+            };
+
+            return damage;
         }
 
         protected override void EndAbility()
@@ -155,6 +174,8 @@ namespace Combat.Abilities
             Debug.Log($"Bonk Damage total: {Damage}");
 
             CurrentPhase = Phase.Inactive;
+            
+            HasTimedPress = false;
 
             CombatSystem.EndTurn(this.GetComponentInParent<Combatant>().gameObject);
         }
