@@ -50,6 +50,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CandyCornCost: 0
   Element: 0
+  Style: 0
   Animator: {fileID: 6543156113162692070}
   MissedActionCommandSound: {fileID: 9089919695471894780}
   GoodActionCommandSound: {fileID: 6168060802717243057}
@@ -72,6 +73,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CandyCornCost: 0
   Element: 0
+  Style: 0
   Animator: {fileID: 6543156113162692070}
   MissedActionCommandSound: {fileID: 0}
   GoodActionCommandSound: {fileID: 0}
@@ -704,10 +706,12 @@ MonoBehaviour:
   MaxHealthPoints: 330
   ElementResistance: 1
   ElementWeakness: 2
+  Type: 0
   FireBurns:
   - {fileID: 423385862881484683}
   - {fileID: 7755686892700264380}
   - {fileID: 2024647821538704513}
+  ShieldPrefab: {fileID: 6193617355382351729, guid: de3e26890d9e1cd4e9316035681a1508, type: 3}
   HurtSound: {fileID: 3976195564759381320}
   IsAlive: 1
   Animator: {fileID: 0}
