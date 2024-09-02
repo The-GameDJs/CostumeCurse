@@ -17,6 +17,7 @@ public abstract class Combatant : MonoBehaviour
     [SerializeField] protected ElementType ElementWeakness;
 
     [SerializeField] private CombatantType Type;
+    public CombatantType CombatType => Type;
     
     [SerializeField] private ParticleSystem[] FireBurns;
 
@@ -323,6 +324,11 @@ public abstract class Combatant : MonoBehaviour
     public void DealMusicalNotesDamage()
     {
         GetComponentInChildren<Skelemusic>().ThrowMusicalNotesAtTarget();
+    }
+
+    public void ActivateFlyingBonk()
+    {
+        GetComponentInChildren<Bonk>().ActivateFlyingBonk();
     }
 
     public void ActivateTankShield()

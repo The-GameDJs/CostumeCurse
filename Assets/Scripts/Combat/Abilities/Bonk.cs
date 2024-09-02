@@ -12,10 +12,8 @@ namespace Combat.Abilities
         private Phase CurrentPhase = Phase.Inactive;
 
         private Timer Timer;
-        [SerializeField]
-        private const float ApproachingDuration = 1.25f;
-        [SerializeField]
-        private const float DisengagingDuration = 1.0f;
+        [SerializeField] private float ApproachingDuration = 1.25f;
+        [SerializeField] private float DisengagingDuration = 1.0f;
         
         [SerializeField]
         private const float ActionCommandMultiplier = 1.2f;
@@ -201,8 +199,20 @@ namespace Combat.Abilities
 
         private void StartApproachingPhase()
         {
-            this.CurrentPhase = Phase.Approaching;
+            if (Combatant.CombatType == Combatant.CombatantType.Flying)
+            {
+                Animator.Play($"Base Layer.BonkStart");
+            }
+            else
+            {
+                CurrentPhase = Phase.Approaching;
+                Timer.StartTimer(ApproachingDuration);
+            }
+        }
 
+        public void ActivateFlyingBonk()
+        {
+            CurrentPhase = Phase.Approaching;
             Timer.StartTimer(ApproachingDuration);
         }
     }
