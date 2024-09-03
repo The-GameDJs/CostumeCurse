@@ -105,6 +105,7 @@ public class TargetSelector : MonoBehaviour
 
     public void ChooseTarget(GameObject target)
     {
+        // TODO: Not select enemies depending on ability selected
         GameObject[] enemy = {target};
         CurrentTargetedCombatants = enemy;
     }

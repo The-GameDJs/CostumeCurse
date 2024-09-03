@@ -259,9 +259,18 @@ public class CombatSystem : MonoBehaviour
         Combatants.Sort(SortByTurnPriority);
 
         foreach (GameObject ally in AllyCombatants)
-            ally.transform.LookAt(EnemyCombatants[Random.Range(0, EnemyCombatants.Count)].transform.position);
+        {
+            var enemyPosition = EnemyCombatants[Random.Range(0, EnemyCombatants.Count)].transform.position;
+            enemyPosition.y = ally.transform.position.y;
+            ally.transform.LookAt(enemyPosition);
+        }
+
         foreach (GameObject enemy in EnemyCombatants)
-            enemy.transform.LookAt(AllyCombatants[Random.Range(0, AllyCombatants.Count)].transform.position);
+        {
+            var allyPosition = AllyCombatants[Random.Range(0, AllyCombatants.Count)].transform.position;
+            allyPosition.y = enemy.transform.position.y;
+            enemy.transform.LookAt(allyPosition);
+        }
 
         Combatants[CurrentCombatantTurn - 1].GetComponent<Combatant>().StartTurn();
     }
