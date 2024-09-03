@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Linq;
+using Assets.Scripts.Combat;
 using UnityEngine;
 
 
@@ -29,14 +30,16 @@ public class TargetSelector : MonoBehaviour
     private GameObject[] CurrentTargetedCombatants;
     private Ability CallingAbility;
     private TargetSchema CurrentTargetSchema;
-    private GameObject SelectTextPrompt;
+    [SerializeField] private GameObject SelectTextPrompt;
+    [SerializeField] private GameObject WrongSelectionPrompt;
+    private GameObject CurrentSelectionPrompt;
 
     public void Start()
     {
         MouseSelector = GetComponent<MouseSelect>();
         MouseSelector.enabled = false;
-        SelectTextPrompt = GameObject.Find("CombatTextBox");
-        SelectTextPrompt.SetActive(false);
+        CurrentSelectionPrompt = SelectTextPrompt;
+        CurrentSelectionPrompt.SetActive(false);
         CombatSystem = GameObject.FindGameObjectWithTag("CombatSystem").GetComponent<CombatSystem>();
     }
 
@@ -79,7 +82,7 @@ public class TargetSelector : MonoBehaviour
     {
         MouseSelector.enabled = true;
         MouseSelector.IsSingleTargetting = true;
-        SelectTextPrompt.SetActive(true);
+        CurrentSelectionPrompt.SetActive(true);
         
         while (!MouseSelector.IsTargetSelected)
         {
@@ -89,7 +92,8 @@ public class TargetSelector : MonoBehaviour
                 Debug.Log("Regretting decision");
                 MouseSelector.IsRegrettingDecision = false;
                 CombatSystem.GoBackToAbilitySelect();
-                SelectTextPrompt.SetActive(false);
+                CurrentSelectionPrompt.SetActive(false);
+                CurrentSelectionPrompt = SelectTextPrompt;
                 yield break;
             }
             yield return null;
@@ -98,7 +102,8 @@ public class TargetSelector : MonoBehaviour
         MouseSelector.IsSingleTargetting = false;
         MouseSelector.IsTargetSelected = false;
         MouseSelector.enabled = false;
-        SelectTextPrompt.SetActive(false);
+        CurrentSelectionPrompt.SetActive(false);
+        CurrentSelectionPrompt = SelectTextPrompt;
 
         ReplyToCallingAbility();
     }
@@ -141,6 +146,16 @@ public class TargetSelector : MonoBehaviour
 
     private void ReplyToCallingAbility()
     {
-        CallingAbility.SetTargetedCombatants(CurrentTargetedCombatants);
+        if (CallingAbility.AttackStyle == AttackStyle.Melee && CurrentTargetedCombatants[0].GetComponent<Combatant>().CombatType == Combatant.CombatantType.Flying)
+        {
+            CurrentSelectionPrompt.SetActive(false);
+            CurrentSelectionPrompt = WrongSelectionPrompt;
+            StartCoroutine(TargetSingleEnemy());
+        }
+        else
+        {
+            CallingAbility.SetTargetedCombatants(CurrentTargetedCombatants);
+        }
+        
     }
 }

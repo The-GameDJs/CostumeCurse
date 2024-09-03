@@ -292,6 +292,11 @@ Transform:
   m_Father: {fileID: 1301816976}
   m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &34996018 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 267255468468543588, guid: b9c1feb8cab7e83488fa6d39f0d46909, type: 3}
+  m_PrefabInstance: {fileID: 8665356752524947722}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &54054630 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1831109336940026760, guid: 1cdff3e909802d7459165aab27df9d07, type: 3}
@@ -1913,6 +1918,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CombatSystem: {fileID: 128004870}
+  SelectTextPrompt: {fileID: 1990422496}
+  WrongSelectionPrompt: {fileID: 34996018}
 --- !u!114 &202065310
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8535,7 +8542,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2631429998098559941, guid: c14777a1972fc454992cf3e1cbdf8ac4, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7562228704362287581, guid: c14777a1972fc454992cf3e1cbdf8ac4, type: 3}
       propertyPath: m_Pivot.x
@@ -30768,6 +30775,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 8002685612168256424, guid: b2353d5ef1033ce4da623b3aa7dc01b7, type: 3}
   m_PrefabInstance: {fileID: 1989277555}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1990422496 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8665356752692408930, guid: b9c1feb8cab7e83488fa6d39f0d46909, type: 3}
+  m_PrefabInstance: {fileID: 8665356752524947722}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1992504321
 PrefabInstance:
