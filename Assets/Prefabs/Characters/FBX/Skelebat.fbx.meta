@@ -39,7 +39,7 @@ ModelImporter:
     rigImportErrors: 
     rigImportWarnings: 
     animationImportErrors: 
-    animationImportWarnings: Event ActivateFlyingBonk has a time (0.845457) outside
+    animationImportWarnings: Event ActivateFlyingBonk has a time (1.384222) outside
       the clip's valid range (0.000000..0.833333). It will never be fired
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
@@ -78,7 +78,7 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.579742
+      - time: 0.5642681
         functionName: ActivateFlyingBonk
         data: 
         objectReferenceParameter: {instanceID: 0}
@@ -178,7 +178,21 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.22323275
+        functionName: ActivateShadowBreath
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.74384236
+        functionName: DeactivateShadowBreath
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}

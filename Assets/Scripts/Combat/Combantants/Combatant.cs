@@ -336,6 +336,16 @@ public abstract class Combatant : MonoBehaviour
         GetComponentInChildren<TankShield>().ActivateTankShield();
     }
 
+    public void ActivateShadowBreath()
+    {
+        GetComponentInChildren<ShadowBreath>().ActivateShadowBreath();
+    }
+    
+    public void DeactivateShadowBreath()
+    {
+        GetComponentInChildren<ShadowBreath>().DeactivateShadowBreath();
+    }
+
     public void OnDeathAnimationFinish()
     {
         
