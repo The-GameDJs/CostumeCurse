@@ -7,6 +7,7 @@ public class ShadowBreath : Ability
 {
     private GameObject Victim;
     [SerializeField] private int Damage = 50;
+    [SerializeField] private float VictimForceFieldOffset = 2.5f;
     [SerializeField] private ParticleSystem BreathingParticles;
     [SerializeField] private ParticleSystemForceField VictimForceField;
     [SerializeField] private AudioSource ExhaleSound;
@@ -47,7 +48,7 @@ public class ShadowBreath : Ability
     {
         BreathingParticles.transform.LookAt(Victim.transform);
         BreathingParticles.Play();
-        VictimForceField.transform.position = Victim.transform.position;
+        VictimForceField.transform.position = Victim.transform.position + new Vector3(0.0f, VictimForceFieldOffset, 0.0f);
         VictimForceField.gameObject.SetActive(true);
         ExhaleSound.Play();
     }
