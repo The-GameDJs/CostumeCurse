@@ -16,7 +16,7 @@ public class SaveSystem : MonoBehaviour
         }
     }
 
-    public void Save(SaveData data)
+    public static void Save(SaveData data)
     {
         Debug.Log($"Saving data!");
         PlayerPrefs.SetFloat("Candy Corn", data.CandyCornCount);
