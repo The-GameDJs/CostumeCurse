@@ -16,6 +16,7 @@ public class CombatSystem : MonoBehaviour
     public List<GameObject> Combatants;
     public List<GameObject> AllyCombatants;
     public List<GameObject> EnemyCombatants;
+    public List<GameObject> TargettableObjects;
     private int CurrentCombatantTurn;
 
     private GameObject MainCamera;
@@ -71,7 +72,7 @@ public class CombatSystem : MonoBehaviour
     }
 
     // Called by CombatZone
-    public void StartCombat(GameObject CombatZone, GameObject[] allies, GameObject[] enemies)
+    public void StartCombat(GameObject CombatZone, GameObject[] allies, GameObject[] enemies, GameObject[] targettableObjects)
     {
         InitialCandyCornNumber = CandyCornManager.GetTotalCandyCorn();
         TotalCandyReward = 0;
@@ -80,11 +81,13 @@ public class CombatSystem : MonoBehaviour
         CurrentCombatZone = CombatZone;
         AllyCombatants = allies.ToList();
         EnemyCombatants = enemies.ToList();
+        
+        TargettableObjects = targettableObjects != null ? targettableObjects.ToList() : new List<GameObject>();
 
         foreach (var enemy in EnemyCombatants)
             TotalCandyReward += enemy.GetComponent<EnemyCombatant>().GetCandyCornValue();
         
-        Combatants = AllyCombatants.Concat(EnemyCombatants).ToList();
+        Combatants = AllyCombatants.Concat(EnemyCombatants).Concat(TargettableObjects).ToList();
 
         StartNewRound();
     }
@@ -184,7 +187,7 @@ public class CombatSystem : MonoBehaviour
         combatZone.SetCombatColliderVisibility(true);
     }
 
-    public void EndTurn(GameObject combatant)
+    public void EndTurn()
     {
         Debug.Log($"{Combatants[CurrentCombatantTurn-1]} has finished their turn!");
 

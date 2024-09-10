@@ -330,7 +330,7 @@ public class Revolver : Ability
 
         yield return new WaitForSeconds(1.5f);
 
-        CombatSystem.EndTurn(this.GetComponentInParent<Combatant>().gameObject);
+        CombatSystem.EndTurn();
     }
 
     private IEnumerator FireGun()

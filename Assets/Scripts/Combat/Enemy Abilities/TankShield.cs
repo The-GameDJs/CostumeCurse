@@ -14,6 +14,7 @@ namespace Combat.Enemy_Abilities
         
         [SerializeField] private int TankShieldHealth = 50;
 
+        [SerializeField] private GameObject Shield;
         [SerializeField] private AudioSource SlashSound;
         [SerializeField] private AudioSource ShieldUpSound;
         [SerializeField] private AudioSource ShieldSound;
@@ -48,9 +49,17 @@ namespace Combat.Enemy_Abilities
             Debug.Log($"APPLYING SHIELD.");
             
             yield return new WaitForSeconds(1.0f);
+
+            if (Shield.activeSelf)
+            {
+                var shieldObject = TargetedCombatants[0].GetComponent<Combatant>().ApplyShield(TankShieldHealth, Element);
+                shieldObject.transform.localScale = Vector3.one * 15f;
+            }
+            else
+            {
+                Shield.SetActive(true);
+            }
             
-            var shieldObject = TargetedCombatants[0].GetComponent<Combatant>().ApplyShield(TankShieldHealth, Element);
-            shieldObject.transform.localScale = Vector3.one * 15f;
             ShieldSound.Play();
             
             yield return new WaitForSeconds(1.0f);
@@ -68,7 +77,7 @@ namespace Combat.Enemy_Abilities
         {
             StopAllCoroutines();
             Debug.Log($"Pimpkin Bulker shielded self with {TankShieldHealth} shield.");
-            CombatSystem.EndTurn(GetComponentInParent<Combatant>().gameObject);
+            CombatSystem.EndTurn();
         }
     }
 }

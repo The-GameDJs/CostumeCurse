@@ -78,7 +78,7 @@ using Random = UnityEngine.Random;
             CurrentPhase = Phase.Inactive;
 
             MusicalNotesVfx.ResetVfx();
-            CombatSystem.EndTurn(this.GetComponentInParent<Combatant>().gameObject);
+            CombatSystem.EndTurn();
         }
 
         private float CalculateDamage()

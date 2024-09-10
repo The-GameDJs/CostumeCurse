@@ -175,7 +175,7 @@ namespace Combat.Abilities
             
             HasTimedPress = false;
 
-            CombatSystem.EndTurn(this.GetComponentInParent<Combatant>().gameObject);
+            CombatSystem.EndTurn();
         }
 
         public new void StartAbility(bool userTargeting = false)

@@ -232,7 +232,7 @@ public class Confection : Ability
         yield return new WaitForSeconds(1.5f);
 
         ConfectionMixVfx.ResetVfx();
-        CombatSystem.EndTurn(this.GetComponentInParent<Combatant>().gameObject);
+        CombatSystem.EndTurn();
     }
 
     protected override void EndAbility()

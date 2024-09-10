@@ -104,7 +104,7 @@ namespace Combat.Enemy_Abilities
 
             CurrentPhase = Phase.Inactive;
 
-            CombatSystem.EndTurn(this.GetComponentInParent<Combatant>().gameObject);
+            CombatSystem.EndTurn();
         }
 
         private void SetUpFireCharge()

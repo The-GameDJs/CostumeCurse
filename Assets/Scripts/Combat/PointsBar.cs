@@ -58,4 +58,15 @@ public class PointsBar : MonoBehaviour
         DamageTextAnimator.enabled = true;
         DamageTextAnimator.Play("Move");
     }
+
+    public void PlayAttackResultTextField(string text, bool hitWeakPoint)
+    {
+        DamageTextField.gameObject.SetActive(true);
+        DamageTextField.fontSize *= 1.2f;
+        DamageTextField.color = hitWeakPoint ? Color.red : Color.gray;
+        DamageTextField.fontStyle = FontStyles.Bold;
+        DamageTextField.text = $"*{text}*";
+        DamageTextAnimator.enabled = true;
+        DamageTextAnimator.Play("Move");
+    }
 }

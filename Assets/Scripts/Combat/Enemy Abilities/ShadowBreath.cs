@@ -41,7 +41,7 @@ public class ShadowBreath : Ability
     {
         VictimForceField.transform.localPosition = Vector3.zero;
         VictimForceField.gameObject.SetActive(false);
-        CombatSystem.EndTurn(GetComponentInParent<Combatant>().gameObject);
+        CombatSystem.EndTurn();
     }
 
     public void ActivateShadowBreath()

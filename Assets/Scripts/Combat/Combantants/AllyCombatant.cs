@@ -49,7 +49,7 @@ public class AllyCombatant : Combatant
 
     public override void EndTurn()
     {
-        CombatSystem.EndTurn(this.gameObject);
+        CombatSystem.EndTurn();
     }
 
     public override void Defend(Attack attack)

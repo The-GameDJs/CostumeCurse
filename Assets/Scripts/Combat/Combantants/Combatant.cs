@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Assets.Scripts.Combat;
 using Combat.Abilities;
 using Combat.Enemy_Abilities;
@@ -13,8 +14,8 @@ public abstract class Combatant : MonoBehaviour
     [SerializeField] public int TurnPriority;
     [SerializeField] private int MaxHealthPoints;
 
-    [SerializeField] protected ElementType ElementResistance;
-    [SerializeField] protected ElementType ElementWeakness;
+    [SerializeField] protected List<ElementType> ElementResistance;
+    [SerializeField] protected List<ElementType> ElementWeakness;
 
     [SerializeField] private CombatantType Type;
     public CombatantType CombatType => Type;
@@ -34,7 +35,7 @@ public abstract class Combatant : MonoBehaviour
         Flying
     }
     
-    private int CurrentHealthPoints;
+    protected int CurrentHealthPoints;
     private int MaxShieldPoints;
     private int CurrentShieldPoints;
     protected CombatSystem CombatSystem;
@@ -46,7 +47,7 @@ public abstract class Combatant : MonoBehaviour
     
     private GameObject Shield;
     private GameObject HealthBar;
-    private PointsBar RedBar;
+    protected PointsBar RedBar;
     private TMP_Text HealthText;
 
     private bool IsShieldSpawned;
@@ -177,7 +178,7 @@ public abstract class Combatant : MonoBehaviour
     
     protected abstract void TakeTurnWhileAlive();
 
-    protected void TakeDamage(int damage, ElementType element, AttackStyle style)
+    protected virtual void TakeDamage(int damage, ElementType element, AttackStyle style)
     {
         var hasAttackMissed = false;
         var isWeakness = false;
@@ -192,13 +193,13 @@ public abstract class Combatant : MonoBehaviour
         }
 
         Debug.Log($"Attack Element: {element}");
-        if (element == ElementResistance)
+        if (ElementResistance.Contains(element))
         {
             Debug.Log($"Resisted some damage, since resistance is {ElementResistance}");
             damage /= 2;
             isResistant = true;
         }
-        else if (element == ElementWeakness)
+        else if (ElementWeakness.Contains(element))
         {
             Debug.Log($"Combatant took more damage, since weakness is {ElementWeakness}, it's super effective!");
             damage *= 2;
@@ -235,21 +236,29 @@ public abstract class Combatant : MonoBehaviour
         HurtSound.Play();
     }
 
-    private void Die()
+    protected void TakeWeakpointDamage(string text, bool hasHitWeakpoint)
+    {
+        RedBar.PlayAttackResultTextField(text, hasHitWeakpoint);
+        HurtSound.Play();
+    }
+
+    protected virtual void Die()
     {
         IsAlive = false;
         if (isBoss)
         {
             CombatSystem.IsBossDead = isBoss;
-            CombatSystem.EndTurn(gameObject);
+            CombatSystem.EndTurn();
             SetFire(true, FireType.ePurpleFire);
         }
-        Animator.Play("Base Layer.Death");
+        
+        if(Animator != null)
+            Animator.Play("Base Layer.Death");
     }
 
     public GameObject ApplyShield(int shieldHealth, ElementType element)
     {
-        ElementResistance = element;
+        ElementResistance.Add(element);
         if (MaxShieldPoints == 0)
         {
             Shield.SetActive(true);
@@ -280,8 +289,10 @@ public abstract class Combatant : MonoBehaviour
         DestroyUIInstances();
         ResetPoints();
         IsInCombat = false;
-        ElementResistance = ElementType.None;
-        ElementWeakness = ElementType.None;
+        ElementResistance.Clear();
+        ElementResistance.Add(ElementType.None);
+        ElementWeakness.Clear();
+        ElementWeakness.Add(ElementType.None);
     }
 
     public void EnterCombat()
@@ -363,9 +374,12 @@ public abstract class Combatant : MonoBehaviour
 
     public void CreateUIInstances()
     {
-        Shield = Instantiate(ShieldPrefab);
-        Shield.transform.SetParent(GameObject.Find("CombatEffects").transform);
-        Shield.SetActive(false);
+        if (ShieldPrefab != null)
+        {
+            Shield = Instantiate(ShieldPrefab);
+            Shield.transform.SetParent(GameObject.Find("CombatEffects").transform);
+            Shield.SetActive(false);
+        }
 
         HealthBar = Instantiate(HealthBarPrefab);
         HealthBar.transform.SetParent(HealthBarUIPanel.transform);

@@ -162,7 +162,7 @@ public class ThunderStorm : Ability
 
         Animator.SetBool("IsFinishedCasting", true);
 
-        CombatSystem.EndTurn(this.GetComponentInParent<Combatant>().gameObject);
+        CombatSystem.EndTurn();
     }
 
     private void ThunderCloudUpdate()

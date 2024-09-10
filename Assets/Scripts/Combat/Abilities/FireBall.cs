@@ -242,7 +242,7 @@ namespace Combat.Abilities
             yield return new WaitForSeconds(EndOfTurnDelay);
             combatant.SetFire(false, Combatant.FireType.eRedFire);
 
-            CombatSystem.EndTurn(this.GetComponentInParent<Combatant>().gameObject);
+            CombatSystem.EndTurn();
         }
 
         private void GrowFireball()

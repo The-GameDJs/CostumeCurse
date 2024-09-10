@@ -96,7 +96,7 @@ public class MagicShield : Ability
 
         Animator.SetBool("IsFinishedCasting", true);
 
-        CombatSystem.EndTurn(this.GetComponentInParent<Combatant>().gameObject);
+        CombatSystem.EndTurn();
     }
 
     private void StartMagicShieldSequence()

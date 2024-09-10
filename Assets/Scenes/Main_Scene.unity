@@ -844,6 +844,7 @@ MonoBehaviour:
   Combatants: []
   AllyCombatants: []
   EnemyCombatants: []
+  TargettableObjects: []
   IsInProgress: 0
   IsBossDead: 0
 --- !u!4 &128004871
@@ -3334,9 +3335,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4059219466211806092, guid: 57980a145e35c9a4cb2f5a6c7ddfc140, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7740332641278252327, guid: 57980a145e35c9a4cb2f5a6c7ddfc140, type: 3}
       propertyPath: m_Layer
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7875287469701827847, guid: 57980a145e35c9a4cb2f5a6c7ddfc140, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 29.5894
+      objectReference: {fileID: 0}
+    - target: {fileID: 7875287469701827847, guid: 57980a145e35c9a4cb2f5a6c7ddfc140, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 14.7947
+      objectReference: {fileID: 0}
+    - target: {fileID: 7875287469701827847, guid: 57980a145e35c9a4cb2f5a6c7ddfc140, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 21.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 57980a145e35c9a4cb2f5a6c7ddfc140, type: 3}
@@ -6851,6 +6868,11 @@ Transform:
   m_Father: {fileID: 1301816976}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &521998274 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4609578638162802326, guid: 8a2e73392dc652b45af2452aa4ae1b38, type: 3}
+  m_PrefabInstance: {fileID: 1875592141}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &522462978 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6335011000921784638, guid: fe42edcfbdb76aa42a5348388cd15cae, type: 3}
@@ -10057,6 +10079,10 @@ PrefabInstance:
       value: -23.361
       objectReference: {fileID: 0}
     - target: {fileID: 6916443783815926120, guid: ec99cd52c802137439dd30358a539d6c, type: 3}
+      propertyPath: Enemies.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6916443783815926120, guid: ec99cd52c802137439dd30358a539d6c, type: 3}
       propertyPath: Enemies.Array.data[0]
       value: 
       objectReference: {fileID: 404731166}
@@ -10072,6 +10098,14 @@ PrefabInstance:
       propertyPath: EnemyPositions.Array.data[2]
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 6916443783815926120, guid: ec99cd52c802137439dd30358a539d6c, type: 3}
+      propertyPath: TargettableObjects.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6916443783815926120, guid: ec99cd52c802137439dd30358a539d6c, type: 3}
+      propertyPath: TargettableObjects.Array.data[0]
+      value: 
+      objectReference: {fileID: 521998274}
     - target: {fileID: 7752510896538546874, guid: ec99cd52c802137439dd30358a539d6c, type: 3}
       propertyPath: m_RootOrder
       value: 24
@@ -10898,7 +10932,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: PimpkinBulker (1)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1013067691953711608, guid: 8a2e73392dc652b45af2452aa4ae1b38, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 8a2e73392dc652b45af2452aa4ae1b38, type: 3}
 --- !u!1001 &733891282
 PrefabInstance:
@@ -23618,6 +23653,14 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 2805771574673390275, guid: 5e55cca64ee21f94bbb0d14295f3d9ee, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 30.4593
+      objectReference: {fileID: 0}
+    - target: {fileID: 2805771574673390275, guid: 5e55cca64ee21f94bbb0d14295f3d9ee, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 15.2296
+      objectReference: {fileID: 0}
     - target: {fileID: 5483565790711803279, guid: 5e55cca64ee21f94bbb0d14295f3d9ee, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -29373,7 +29416,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: PimpkinBulker
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 6200407639867268504, guid: 8a2e73392dc652b45af2452aa4ae1b38, type: 3}
+      propertyPath: m_Constraints
+      value: 126
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 1013067691953711608, guid: 8a2e73392dc652b45af2452aa4ae1b38, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 8a2e73392dc652b45af2452aa4ae1b38, type: 3}
 --- !u!1 &1876107702
 GameObject:

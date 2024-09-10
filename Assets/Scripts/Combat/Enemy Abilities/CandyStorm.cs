@@ -218,7 +218,7 @@ namespace Combat.Enemy_Abilities
             yield return new WaitForSeconds(2.0f);
             
             ResetCloudPhaseValues();
-            CombatSystem.EndTurn(GetComponentInParent<Combatant>().gameObject);
+            CombatSystem.EndTurn();
         }
 
         protected override void EndAbility()
