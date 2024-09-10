@@ -3,7 +3,7 @@ using System.Collections;
 using System.Linq;
 using UnityEngine;
 
-public class EnemyCombatant : Combatant
+public abstract class EnemyCombatant : Combatant
 {
     [SerializeField] private int CandyCornValue;
 
@@ -14,7 +14,9 @@ public class EnemyCombatant : Combatant
 
     [SerializeField] private GameObject Model;
 
-    new void Start()
+    protected bool HasWeakPointBeenHit;
+
+    protected void Start()
     {
         base.Start();
         if (Abilities.Length == 0)
@@ -23,7 +25,7 @@ public class EnemyCombatant : Combatant
         }
     }
 
-    private new void Update()
+    protected void Update()
     {
         base.Update();
     }
@@ -66,7 +68,7 @@ public class EnemyCombatant : Combatant
     public override void EndTurn()
     {
         // for now do nothing lmao
-        CombatSystem.EndTurn(this.gameObject);
+        CombatSystem.EndTurn();
     }
 
     public override void Defend(Attack attack)
@@ -89,4 +91,6 @@ public class EnemyCombatant : Combatant
             Model.transform.Rotate(-90f, 0f, 0f);
         }
     }
+
+    public abstract void TriggerWeakPoint();
 }
