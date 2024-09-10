@@ -51,6 +51,12 @@ public class TargetSelector : MonoBehaviour
         // Show Bars UI
         foreach (var combatant in CombatSystem.Combatants)
         {
+            if (combatant.TryGetComponent(out ObjectCombatant objCombatant))
+            {
+                objCombatant.HideBarsUI();
+                continue;
+            }
+
             combatant.GetComponent<Combatant>().ShowBarsUI();
         }
 

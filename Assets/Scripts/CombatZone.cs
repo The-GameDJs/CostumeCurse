@@ -11,6 +11,11 @@ public class CombatZone : MonoBehaviour
     [SerializeField]
     private GameObject[] EnemyPositions;
     private GameObject[] Players;
+
+    [SerializeField] private GameObject[] TargettableObjects;
+
+    public GameObject[] GetTargettableObjects => TargettableObjects;
+    
     [SerializeField]
     private GameObject[] PlayerPositions;
     [SerializeField]
@@ -159,8 +164,10 @@ public class CombatZone : MonoBehaviour
             enemy.GetComponent<Combatant>().EnterCombat();
         foreach (var player in Players)
             player.GetComponent<Combatant>().EnterCombat();
+        foreach(var interactableObj in TargettableObjects)
+            interactableObj.GetComponent<ObjectCombatant>().EnterCombat();
 
-        CombatSystem.StartCombat(this.gameObject, Players, Enemies);
+        CombatSystem.StartCombat(this.gameObject, Players, Enemies, TargettableObjects);
     }
 
     public void SetCombatColliderVisibility(bool isActive)
