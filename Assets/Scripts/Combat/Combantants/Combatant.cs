@@ -18,8 +18,13 @@ public abstract class Combatant : MonoBehaviour
     [SerializeField] protected List<ElementType> ElementWeakness;
 
     [SerializeField] private CombatantType Type;
-    public CombatantType CombatType => Type;
-    
+
+    public CombatantType CombatType
+    {
+        get => Type;
+        protected set => Type = value;
+    }
+
     [SerializeField] private ParticleSystem[] FireBurns;
 
     public enum FireType

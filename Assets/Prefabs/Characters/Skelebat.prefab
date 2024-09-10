@@ -4813,9 +4813,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 255621257176297898}
-  - component: {fileID: 255621257176297897}
   - component: {fileID: 255621257176297895}
   - component: {fileID: 255621257176297899}
+  - component: {fileID: 4690708211418072453}
   m_Layer: 11
   m_Name: Skelebat
   m_TagString: Enemy
@@ -4848,36 +4848,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &255621257176297897
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 255621257176297894}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4616a9634be2df45a4140446909f982, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TurnPriority: 4
-  MaxHealthPoints: 270
-  ElementResistance: 3
-  ElementWeakness: 2
-  Type: 1
-  FireBurns:
-  - {fileID: 6438346021865285709}
-  - {fileID: 2906778026283760848}
-  - {fileID: 7504606609611505411}
-  ShieldPrefab: {fileID: 6193617355382351729, guid: de3e26890d9e1cd4e9316035681a1508, type: 3}
-  HurtSound: {fileID: 8778444988376822594}
-  IsAlive: 1
-  Animator: {fileID: 255621256972024448}
-  DeathAudioSource: {fileID: 4647941858597729637}
-  isBoss: 0
-  CandyCornValue: 17
-  Abilities: []
-  Model: {fileID: 0}
 --- !u!54 &255621257176297895
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4908,6 +4878,37 @@ CapsuleCollider:
   m_Height: 7.1640472
   m_Direction: 1
   m_Center: {x: 0, y: 5.1655045, z: 0}
+--- !u!114 &4690708211418072453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 255621257176297894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecc48af448db8a4449469374ceae927b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TurnPriority: 8
+  MaxHealthPoints: 150
+  ElementResistance: 03000000
+  ElementWeakness: 02000000
+  Type: 1
+  FireBurns:
+  - {fileID: 6438346021865285709}
+  - {fileID: 2906778026283760848}
+  - {fileID: 7504606609611505411}
+  ShieldPrefab: {fileID: 6193617355382351729, guid: de3e26890d9e1cd4e9316035681a1508, type: 3}
+  HurtSound: {fileID: 8778444988376822594}
+  IsAlive: 1
+  Animator: {fileID: 255621256972024448}
+  DeathAudioSource: {fileID: 4647941858597729637}
+  isBoss: 0
+  CandyCornValue: 7
+  Abilities: []
+  Model: {fileID: 0}
+  FlyVerticalDistance: 4
 --- !u!95 &255621256972024448
 Animator:
   serializedVersion: 3
@@ -6807,7 +6808,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 432513505567388532, guid: f6f6fcb401a7860419edecd3e0debb8b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 432513505567388532, guid: f6f6fcb401a7860419edecd3e0debb8b, type: 3}
       propertyPath: m_LocalRotation.w

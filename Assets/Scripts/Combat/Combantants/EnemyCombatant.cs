@@ -3,7 +3,7 @@ using System.Collections;
 using System.Linq;
 using UnityEngine;
 
-public abstract class EnemyCombatant : Combatant
+public class EnemyCombatant : Combatant
 {
     [SerializeField] private int CandyCornValue;
 
@@ -91,6 +91,4 @@ public abstract class EnemyCombatant : Combatant
             Model.transform.Rotate(-90f, 0f, 0f);
         }
     }
-
-    public abstract void TriggerWeakPoint();
 }

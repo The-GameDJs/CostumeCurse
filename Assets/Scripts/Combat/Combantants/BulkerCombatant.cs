@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Assets.Scripts.Combat;
 using UnityEngine;
 
-public class BulkerCombatant : EnemyCombatant
+public class BulkerCombatant : WeakPointCombatant
 {
     [SerializeField] private GameObject ShieldBulker;
     
