@@ -12,7 +12,7 @@ public class SaveEditorWindow : EditorWindow
     private Transform _player;
     private CandyCornManager _candyCornManager;
     
-    [MenuItem("Debug/Gameplay/Save Menu %&d")]
+    [MenuItem("Debug/Gameplay/Save Menu %&s")]
     public static void ShowWindow()
     {
         var wnd = GetWindow<SaveEditorWindow>();

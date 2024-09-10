@@ -215,8 +215,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TurnPriority: 4
   MaxHealthPoints: 150
-  ElementResistance: 3
-  ElementWeakness: 3
+  ElementResistance: 
+  ElementWeakness: 
   Type: 0
   FireBurns:
   - {fileID: 611215236112804515}
@@ -225,8 +225,8 @@ MonoBehaviour:
   ShieldPrefab: {fileID: 6193617355382351729, guid: de3e26890d9e1cd4e9316035681a1508, type: 3}
   HurtSound: {fileID: 5121427367613651206}
   IsAlive: 1
-  Animator: {fileID: 0}
-  DeathAudioSource: {fileID: 0}
+  Animator: {fileID: 2542922315799853604}
+  DeathAudioSource: {fileID: 5121427367613651206}
   isBoss: 0
   CandyCornValue: 10
   Abilities: []
@@ -437,6 +437,8 @@ MonoBehaviour:
   MissedActionCommandSound: {fileID: 5324804502781105198}
   GoodActionCommandSound: {fileID: 8530643855825490089}
   PerfectActionCommandSound: {fileID: 3141073657612173768}
+  ApproachingDuration: 1.25
+  DisengagingDuration: 1
   Damage: 25
   SpaceBetweenBonk: 2.5
   BonkSound: {fileID: 9111861477369466627}

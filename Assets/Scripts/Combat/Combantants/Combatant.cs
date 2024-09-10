@@ -15,6 +15,10 @@ public abstract class Combatant : MonoBehaviour
     [SerializeField] private int MaxHealthPoints;
 
     [SerializeField] protected List<ElementType> ElementResistance;
+
+    public List<ElementType> ElementResistances => ElementResistance;
+    public List<ElementType> ElementWeaknesses => ElementWeakness;
+
     [SerializeField] protected List<ElementType> ElementWeakness;
 
     [SerializeField] private CombatantType Type;

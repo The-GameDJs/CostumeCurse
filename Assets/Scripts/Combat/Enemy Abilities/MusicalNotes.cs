@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Assets.Scripts.Combat;
 
 public class MusicalNotes : MonoBehaviour
 {
@@ -22,6 +23,7 @@ public class MusicalNotes : MonoBehaviour
     private Skelemusic SkeletonMusicAbility;
     private GameObject Target;
     private AllyCombatant _allyCombatant;
+    private ElementType MusicType;
 
     private void Update()
     {
@@ -71,6 +73,11 @@ public class MusicalNotes : MonoBehaviour
         }
     }
 
+    public void SetType(ElementType type)
+    {
+        MusicType = type;
+    }
+    
     public void SetAbility(Skelemusic ability)
     {
         SkeletonMusicAbility = ability;

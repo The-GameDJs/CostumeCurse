@@ -39,6 +39,7 @@ public class BulkerCombatant : WeakPointCombatant
         }
         else
         {
+            Animator.Play("Block");
             TakeWeakpointDamage("Blocked", HasWeakPointBeenHit);
         }
     }

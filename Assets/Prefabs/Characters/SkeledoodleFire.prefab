@@ -55,6 +55,8 @@ MonoBehaviour:
   MissedActionCommandSound: {fileID: 9089919695471894780}
   GoodActionCommandSound: {fileID: 6168060802717243057}
   PerfectActionCommandSound: {fileID: 1620082914404509089}
+  ApproachingDuration: 1.25
+  DisengagingDuration: 1
   Damage: 40
   SpaceBetweenBonk: 2.5
   BonkSound: {fileID: 5272878725251670740}
@@ -704,8 +706,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TurnPriority: 4
   MaxHealthPoints: 330
-  ElementResistance: 1
-  ElementWeakness: 2
+  ElementResistance: 01000000
+  ElementWeakness: 02000000
   Type: 0
   FireBurns:
   - {fileID: 423385862881484683}
@@ -714,10 +716,10 @@ MonoBehaviour:
   ShieldPrefab: {fileID: 6193617355382351729, guid: de3e26890d9e1cd4e9316035681a1508, type: 3}
   HurtSound: {fileID: 3976195564759381320}
   IsAlive: 1
-  Animator: {fileID: 0}
-  DeathAudioSource: {fileID: 0}
+  Animator: {fileID: 6543156113162692070}
+  DeathAudioSource: {fileID: 3976195564759381320}
   isBoss: 0
-  CandyCornValue: 15
+  CandyCornValue: 25
   Abilities: []
   Model: {fileID: 0}
 --- !u!114 &2616065634956799802

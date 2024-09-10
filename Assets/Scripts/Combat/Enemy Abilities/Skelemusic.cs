@@ -3,7 +3,6 @@ using Assets.Scripts.Combat;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-
     public class Skelemusic : Ability
     {
         Timer Timer;
@@ -19,6 +18,7 @@ using Random = UnityEngine.Random;
         
         private GameObject MusicalNotesObject;
         private MusicalNotes MusicalNotesVfx;
+        private ElementType type;
 
         [SerializeField] private AudioSource SkelemusicSound;
         [SerializeField] private float MusicalNotesVfxVerticalOffset;
@@ -28,8 +28,29 @@ using Random = UnityEngine.Random;
             base.Start();
             Timer = GetComponent<Timer>();
             Animator = GetComponentInParent<Animator>();
-            MusicalNotesObject = GameObject.Find("MusicalNotesPowerMove");
+            if (Combatant.ElementResistances.Contains(ElementType.Normal))
+            {
+                MusicalNotesObject = GameObject.Find("MusicalNotesPowerMove");
+                type = ElementType.Normal;
+            }
+            else if (Combatant.ElementResistances.Contains(ElementType.Ice))
+            {
+                MusicalNotesObject = GameObject.Find("IceNotePowerMove");
+                type = ElementType.Ice;
+            }
+            else if (Combatant.ElementResistances.Contains(ElementType.Fire))
+            {
+                MusicalNotesObject = GameObject.Find("FireNotePowerMove");
+                type = ElementType.Fire;
+            }
+            else
+            {
+                MusicalNotesObject = GameObject.Find("MusicalNotesPowerMove");
+                type = ElementType.Normal;
+            }
+
             MusicalNotesVfx = MusicalNotesObject.GetComponent<MusicalNotes>();
+            MusicalNotesVfx.SetType(type);
 
             TargetSchema = new TargetSchema(
                 1,
@@ -100,14 +121,31 @@ using Random = UnityEngine.Random;
                 Damage = CalculateDamage();
                 Attack attack = new Attack((int)Damage, Element, Style);
 
-                Victim.GetComponent<Combatant>().Defend(attack);
+                var victimCombatant = Victim.GetComponent<Combatant>();
+                victimCombatant.Defend(attack);
+                if (type == ElementType.Fire)
+                {
+                    victimCombatant.SetFire(true, Combatant.FireType.eOrangeFire);
+                }
                 StartCoroutine(DelayEndOfTurn());
             }
         }
 
         IEnumerator DelayEndOfTurn()
         {
-            yield return new WaitForSeconds(EndOfTurnDelay);
+            yield return new WaitForSeconds(EndOfTurnDelay/2);
+            
+            Attack attack = new Attack((int)Damage / 2, Element, Style);
+            
+            var victimCombatant = Victim.GetComponent<Combatant>();
+            if (type == ElementType.Fire)
+            {
+                victimCombatant.Defend(attack);
+                victimCombatant.SetFire(false, Combatant.FireType.eOrangeFire);
+            }
+            
+            yield return new WaitForSeconds(EndOfTurnDelay/2);
+            
             EndAbility();
         }
     }
