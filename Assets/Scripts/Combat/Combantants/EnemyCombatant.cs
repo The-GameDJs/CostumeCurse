@@ -14,8 +14,6 @@ public class EnemyCombatant : Combatant
 
     [SerializeField] private GameObject Model;
 
-    protected bool HasWeakPointBeenHit;
-
     protected void Start()
     {
         base.Start();

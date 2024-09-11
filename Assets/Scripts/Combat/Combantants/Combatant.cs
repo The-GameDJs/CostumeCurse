@@ -458,4 +458,9 @@ public abstract class Combatant : MonoBehaviour
             _ => throw new ArgumentOutOfRangeException(nameof(fire), fire, null)
         };
     }
+
+    public bool IsCombatantStillAlive()
+    {
+        return CurrentHealthPoints > 0;
+    }
 }

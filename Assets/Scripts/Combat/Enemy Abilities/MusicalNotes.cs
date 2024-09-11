@@ -4,20 +4,15 @@ using Assets.Scripts.Combat;
 
 public class MusicalNotes : MonoBehaviour
 {
-    [SerializeField]
-    private ParticleSystem[] MixParticles;
-
-    [SerializeField]
-    private ParticleSystem explosionParticles;
-
-    [SerializeField]
-    private Light emission;
     
-    [SerializeField]
-    private float Speed;
-
-    [SerializeField]
-    private float TargetVerticalOffset;
+    [SerializeField] private ParticleSystem[] MixParticles;
+    [SerializeField] private ParticleSystem SprinklesParticles;
+    [SerializeField] private ParticleSystem explosionParticles;
+    [SerializeField] private Material ParticlesMaterial;
+    
+    [SerializeField] private Light emission;
+    [SerializeField] private float Speed;
+    [SerializeField] private float TargetVerticalOffset;
 
     private bool IsMoving;
     private Skelemusic SkeletonMusicAbility;
@@ -112,16 +107,33 @@ public class MusicalNotes : MonoBehaviour
     
     public void SwitchMusicalNotesParticleSystemsState(bool activate = true)
     {
-        foreach (var particleSystem in MixParticles)
+        for (var index = 0; index < MixParticles.Length; index++)
         {
+            var particleSystem = MixParticles[index];
+            var trails = particleSystem.trails;
             if (activate)
             {
                 particleSystem.Play();
+                if (particleSystem.TryGetComponent<ParticleSystemRenderer>(out var psr))
+                {
+                    psr.trailMaterial = ParticlesMaterial;
+                }
             }
             else
             {
                 particleSystem.Stop();
             }
+
+            trails.enabled = activate;
+        }
+
+        if (activate)
+        {
+            SprinklesParticles.Play();
+        }
+        else
+        {
+            SprinklesParticles.Stop();
         }
     }
 

@@ -135,11 +135,9 @@ using Random = UnityEngine.Random;
         {
             yield return new WaitForSeconds(EndOfTurnDelay/2);
             
-            Attack attack = new Attack((int)Damage / 2, Element, Style);
-            
-            var victimCombatant = Victim.GetComponent<Combatant>();
-            if (type == ElementType.Fire)
+            if (Victim.TryGetComponent<Combatant>(out var victimCombatant) && type == ElementType.Fire && victimCombatant.IsCombatantStillAlive())
             {
+                var attack = new Attack((int)Damage / 2, Element, Style);
                 victimCombatant.Defend(attack);
                 victimCombatant.SetFire(false, Combatant.FireType.eOrangeFire);
             }
