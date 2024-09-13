@@ -47,6 +47,7 @@ public abstract class Combatant : MonoBehaviour
     protected int CurrentHealthPoints;
     private int MaxShieldPoints;
     private int CurrentShieldPoints;
+    protected Vector3 StartCombatPosition;
     protected CombatSystem CombatSystem;
     
     protected static GameObject HealthBarPrefab;
@@ -307,6 +308,7 @@ public abstract class Combatant : MonoBehaviour
     public void EnterCombat()
     {
         CreateUIInstances();
+        StartCombatPosition = transform.position;
         IsInCombat = true;
     }
 

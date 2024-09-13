@@ -12,7 +12,6 @@ public class ShadowBreath : Ability
     [SerializeField] private ParticleSystemForceField VictimForceField;
     [SerializeField] private AudioSource ExhaleSound;
     
-    // Start is called before the first frame update
     void Start()
     {
         base.Start();

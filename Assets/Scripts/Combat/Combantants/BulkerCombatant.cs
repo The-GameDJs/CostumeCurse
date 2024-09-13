@@ -43,4 +43,9 @@ public class BulkerCombatant : WeakPointCombatant
             TakeWeakpointDamage("Blocked", HasWeakPointBeenHit);
         }
     }
+
+    public override IEnumerator ResetWeakPoint()
+    {
+        throw new System.NotImplementedException();
+    }
 }

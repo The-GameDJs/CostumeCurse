@@ -10,7 +10,7 @@ public class EnemyCombatant : Combatant
     private bool DisplayMessage;
 
     [SerializeField]
-    private Ability[] Abilities;
+    protected Ability[] Abilities;
 
     [SerializeField] private GameObject Model;
 
