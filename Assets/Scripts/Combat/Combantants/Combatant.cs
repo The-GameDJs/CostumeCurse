@@ -12,7 +12,7 @@ using UnityEngine.Serialization;
 public abstract class Combatant : MonoBehaviour
 {
     [SerializeField] public int TurnPriority;
-    [SerializeField] private int MaxHealthPoints;
+    [SerializeField] protected int MaxHealthPoints;
 
     [SerializeField] protected List<ElementType> ElementResistance;
 

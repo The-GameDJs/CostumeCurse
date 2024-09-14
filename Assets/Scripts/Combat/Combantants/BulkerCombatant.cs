@@ -17,7 +17,7 @@ public class BulkerCombatant : WeakPointCombatant
         base.Update();
     }
 
-    public override void TriggerWeakPoint()
+    public override void TriggerWeakState()
     {
         // Remove shield
         ShieldBulker.SetActive(false);
@@ -35,7 +35,7 @@ public class BulkerCombatant : WeakPointCombatant
         {
             HasWeakPointBeenHit = true;
             TakeWeakpointDamage("Shield Burned!", HasWeakPointBeenHit);
-            TriggerWeakPoint();
+            TriggerWeakState();
         }
         else
         {
@@ -44,7 +44,7 @@ public class BulkerCombatant : WeakPointCombatant
         }
     }
 
-    public override IEnumerator ResetWeakPoint()
+    public override IEnumerator ResetWeakState()
     {
         throw new System.NotImplementedException();
     }

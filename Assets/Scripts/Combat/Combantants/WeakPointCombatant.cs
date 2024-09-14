@@ -7,6 +7,7 @@ public abstract class WeakPointCombatant : EnemyCombatant
 
     protected void Start()
     {
+        TurnCountSinceWeakPoint = -1;
         base.Start();
     }
 
@@ -15,7 +16,7 @@ public abstract class WeakPointCombatant : EnemyCombatant
         base.Update();
     }
     
-    public abstract void TriggerWeakPoint();
+    public abstract void TriggerWeakState();
 
-    public abstract IEnumerator ResetWeakPoint();
+    public abstract IEnumerator ResetWeakState();
 }

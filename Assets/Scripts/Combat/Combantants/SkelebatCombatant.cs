@@ -10,7 +10,6 @@ public class SkelebatCombatant : WeakPointCombatant
     
     new void Start()
     {
-        TurnCountSinceWeakPoint = -1;
         base.Start();
     }
 
@@ -27,7 +26,7 @@ public class SkelebatCombatant : WeakPointCombatant
                 StartCombatPosition, Time.deltaTime / 1f * 2f);
     }
 
-    public override void TriggerWeakPoint()
+    public override void TriggerWeakState()
     {
         CombatType = CombatantType.Ground;
         HasWeakPointBeenHit = true;
@@ -41,13 +40,14 @@ public class SkelebatCombatant : WeakPointCombatant
             TurnCountSinceWeakPoint++;
         
         if(TurnCountSinceWeakPoint == 2)
-            StartCoroutine(ResetWeakPoint());
+            StartCoroutine(ResetWeakState());
         else
             base.TakeTurnWhileAlive();
     }
 
-    public override IEnumerator ResetWeakPoint()
+    public override IEnumerator ResetWeakState()
     {
+        Debug.Log("Skelebat flew back up! It consumes a turn");
         CombatType = CombatantType.Flying;
         HasWeakPointBeenHit = false;
         HasWeakPointBeenReset = true;
@@ -60,7 +60,7 @@ public class SkelebatCombatant : WeakPointCombatant
     {
         if (style == AttackStyle.Ranged && CombatType == CombatantType.Flying)
         {
-            TriggerWeakPoint();
+            TriggerWeakState();
         }
 
         base.TakeDamage(damage, element, style);

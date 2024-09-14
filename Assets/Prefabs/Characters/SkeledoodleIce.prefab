@@ -227,7 +227,7 @@ GameObject:
   - component: {fileID: 3094732795779198633}
   - component: {fileID: 2430083117438727276}
   - component: {fileID: -210474982103452522}
-  - component: {fileID: 1187733023264527749}
+  - component: {fileID: 467520055619862858}
   - component: {fileID: 4900750851634788123}
   - component: {fileID: 8662277595431119572}
   m_Layer: 11
@@ -298,7 +298,7 @@ CapsuleCollider:
   m_Height: 6.37
   m_Direction: 1
   m_Center: {x: 0, y: 2.93, z: 0}
---- !u!114 &1187733023264527749
+--- !u!114 &467520055619862858
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -307,7 +307,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2430083117438727187}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4616a9634be2df45a4140446909f982, type: 3}
+  m_Script: {fileID: 11500000, guid: 13136ac8cae04864aac8074065047bb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   TurnPriority: 4
@@ -323,9 +323,9 @@ MonoBehaviour:
   HurtSound: {fileID: 2634698745670124288}
   IsAlive: 1
   Animator: {fileID: 0}
-  DeathAudioSource: {fileID: 0}
+  DeathAudioSource: {fileID: 2634698745670124288}
   isBoss: 0
-  CandyCornValue: 15
+  CandyCornValue: 5
   Abilities: []
   Model: {fileID: 0}
 --- !u!114 &4900750851634788123
