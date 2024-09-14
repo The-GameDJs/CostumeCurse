@@ -415,6 +415,11 @@ public abstract class Combatant : MonoBehaviour
         }
     }
 
+    public void HideHealthBar()
+    {
+        HealthBarPrefab.SetActive(false);
+    }
+
     public void HideBarsUI() 
     {
         HealthBarUIPanel.GetComponent<CanvasGroup>().alpha = 0f;

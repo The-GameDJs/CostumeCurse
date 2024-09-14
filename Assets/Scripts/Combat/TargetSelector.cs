@@ -48,12 +48,12 @@ public class TargetSelector : MonoBehaviour
         CallingAbility = callingAbility;
         CurrentTargetSchema = callingAbility.TargetSchema;
 
-        // Show Bars UI
+        // Show Bars UI, but hide health bar for environment object
         foreach (var combatant in CombatSystem.Combatants)
         {
             if (combatant.TryGetComponent(out ObjectCombatant objCombatant))
             {
-                objCombatant.HideBarsUI();
+                objCombatant.HideHealthBar();
                 continue;
             }
 

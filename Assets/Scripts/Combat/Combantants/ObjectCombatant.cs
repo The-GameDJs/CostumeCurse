@@ -7,7 +7,7 @@ using UnityEngine;
 // Ex: Logs that catch on fire
 public abstract class ObjectCombatant : Combatant
 {
-    void Start()
+    new void Start()
     {
         base.Start();
     }
@@ -27,20 +27,16 @@ public abstract class ObjectCombatant : Combatant
         if (ElementWeakness.Contains(element))
         {
             CurrentHealthPoints -= damage;
-            RedBar.PlayDamageTextField(damage, false, false, true);
-
-            if (CurrentHealthPoints <= 0)
-                Die();
+            RedBar.PlayAttackResultTextField("EXPLOSION", true);
 
             if (CurrentHealthPoints <= 0 && DeathAudioSource)
             {
                 DeathAudioSource.Play();
-                gameObject.SetActive(false);
             }
         }
         else
         {
-            RedBar.PlayDamageTextField(damage, true, false, false);
+            RedBar.PlayAttackResultTextField("Nothing", false);
         }
     }
     
@@ -55,5 +51,10 @@ public abstract class ObjectCombatant : Combatant
         EndTurn();
     }
 
-    protected abstract void StartObjectReaction();
+    protected override void Die()
+    {
+        
+    }
+
+    protected abstract IEnumerator StartObjectReaction();
 }

@@ -62,7 +62,7 @@ public class PointsBar : MonoBehaviour
     public void PlayAttackResultTextField(string text, bool hitWeakPoint)
     {
         DamageTextField.gameObject.SetActive(true);
-        DamageTextField.fontSize *= 1.2f;
+        DamageTextField.fontSize *= 1.14f;
         DamageTextField.color = hitWeakPoint ? Color.red : Color.gray;
         DamageTextField.fontStyle = FontStyles.Bold;
         DamageTextField.text = $"*{text}*";
