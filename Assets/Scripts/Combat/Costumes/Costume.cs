@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,6 +10,11 @@ public class Costume : MonoBehaviour
     private bool IsDisplayingAbilities;
 
     // TODO: Stop displaying abilities UI after a choice
+
+    private void Awake()
+    {
+        AbilitiesUIPanel.SetActive(false);
+    }
 
     private void Update()
     {
