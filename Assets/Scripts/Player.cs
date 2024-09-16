@@ -31,12 +31,14 @@ public class Player : MonoBehaviour
     private CharacterController CharacterController;
     private Player MainPlayer;
     private Timer Timer;
+    private InputManager _inputSystem;
 
     void Start()
     {
         CharacterController = GetComponent<CharacterController>();
         CandyCornManager = GameObject.FindObjectOfType<CandyCornManager>();
         Timer = GetComponent<Timer>();
+        _inputSystem = FindObjectOfType<InputManager>();
 
         var foundPlayers = GameObject.FindObjectsOfType<Player>();
         MainPlayer = Array.Find(foundPlayers, player => player.IsMainPlayer);
@@ -45,6 +47,7 @@ public class Player : MonoBehaviour
         var currentCheckpoint = new Vector3(SaveSystem.Load("Rest.x"), SaveSystem.Load("Rest.y"), SaveSystem.Load("Rest.z"));
         
         transform.position = currentCheckpoint == Vector3.zero ? transform.position : currentCheckpoint;
+
     }
 
     void Update()
@@ -57,7 +60,7 @@ public class Player : MonoBehaviour
         else
             UpdateSecondaryCharacterMovement();
     }
-
+    
     private void UpdateSecondaryCharacterMovement()
     {
         if (!Timer.IsInProgress())
@@ -113,13 +116,16 @@ public class Player : MonoBehaviour
     }
 
     private void UpdateMainCharacterMovement()
-    {      
-        float horizontalMovement = Input.GetAxis("Horizontal");
-        float verticalMovement = Input.GetAxis("Vertical");
-
-        Vector3 direction = new Vector3(horizontalMovement, 0f, verticalMovement).normalized;
+    {
+        Vector3 direction = _inputSystem.InputDirection;
+        var horizontalMovement = direction.x;
+        var verticalMovement = direction.y;
         direction = Camera.main.transform.TransformDirection(direction);
         direction.y = 0;
+        
+        direction = Vector3.ProjectOnPlane(direction, Vector3.up).normalized;
+        
+        Debug.Log(direction);
 
         CharacterController.SimpleMove(direction * MovementSpeed);
 
