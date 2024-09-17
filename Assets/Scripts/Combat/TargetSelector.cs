@@ -26,6 +26,7 @@ public class TargetSelector : MonoBehaviour
 {
     public CombatSystem CombatSystem;
     private MouseSelect MouseSelector;
+    private ControllerSelect ControllerSelector;
 
     private GameObject[] CurrentTargetedCombatants;
     private Ability CallingAbility;
@@ -37,7 +38,9 @@ public class TargetSelector : MonoBehaviour
     public void Start()
     {
         MouseSelector = GetComponent<MouseSelect>();
+        ControllerSelector = GetComponent<ControllerSelect>();
         MouseSelector.enabled = false;
+        ControllerSelector.enabled = false;
         CurrentSelectionPrompt = SelectTextPrompt;
         CurrentSelectionPrompt.SetActive(false);
         CombatSystem = GameObject.FindGameObjectWithTag("CombatSystem").GetComponent<CombatSystem>();
@@ -87,16 +90,22 @@ public class TargetSelector : MonoBehaviour
     private IEnumerator TargetSingleEnemy()
     {
         MouseSelector.enabled = true;
+        ControllerSelector.enabled = true;
         MouseSelector.IsSingleTargetting = true;
+        ControllerSelector.IsSingleTargetting = true;
         CurrentSelectionPrompt.SetActive(true);
+        ControllerSelector.SetSelectableObjects(CombatSystem.EnemyCombatants, CombatSystem.TargettableObjects);
+        ControllerSelector.SelectedObject = CombatSystem.EnemyCombatants[0];
         
-        while (!MouseSelector.IsTargetSelected)
+        while (!MouseSelector.IsTargetSelected && !ControllerSelector.IsTargetSelected)
         {
-            if (MouseSelector.IsRegrettingDecision)
+            if (MouseSelector.IsRegrettingDecision || ControllerSelector.IsRegrettingDecision)
             {
                 MouseSelector.enabled = false;
+                ControllerSelector.enabled = false;
                 Debug.Log("Regretting decision");
                 MouseSelector.IsRegrettingDecision = false;
+                ControllerSelector.IsRegrettingDecision = false;
                 CombatSystem.GoBackToAbilitySelect();
                 CurrentSelectionPrompt.SetActive(false);
                 CurrentSelectionPrompt = SelectTextPrompt;
@@ -108,6 +117,9 @@ public class TargetSelector : MonoBehaviour
         MouseSelector.IsSingleTargetting = false;
         MouseSelector.IsTargetSelected = false;
         MouseSelector.enabled = false;
+        ControllerSelector.IsSingleTargetting = false;
+        ControllerSelector.IsTargetSelected = false;
+        ControllerSelector.enabled = false;
         CurrentSelectionPrompt.SetActive(false);
         CurrentSelectionPrompt = SelectTextPrompt;
 

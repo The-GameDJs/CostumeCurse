@@ -117,7 +117,7 @@ public class Player : MonoBehaviour
 
     private void UpdateMainCharacterMovement()
     {
-        Vector3 direction = _inputSystem.InputDirection;
+        Vector3 direction = InputManager.InputDirection;
         var horizontalMovement = direction.x;
         var verticalMovement = direction.y;
         direction = Camera.main.transform.TransformDirection(direction);

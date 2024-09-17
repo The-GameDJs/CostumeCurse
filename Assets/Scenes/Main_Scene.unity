@@ -1942,6 +1942,7 @@ GameObject:
   - component: {fileID: 202065308}
   - component: {fileID: 202065309}
   - component: {fileID: 202065310}
+  - component: {fileID: 202065311}
   m_Layer: 0
   m_Name: TargetSelector
   m_TagString: TargetSelector
@@ -1985,7 +1986,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 202065307}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 789c2c629a5cdab4fa5e0caa3c6c038b, type: 3}
   m_Name: 
@@ -1994,6 +1995,23 @@ MonoBehaviour:
   LayerMask:
     serializedVersion: 2
     m_Bits: 6144
+  IsTargetSelected: 0
+  IsRegrettingDecision: 0
+  IsSingleTargetting: 0
+--- !u!114 &202065311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 202065307}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4723cffdd3afc54cb2be1910693d8bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TargetIndicator: {fileID: 1661190382}
+  SelectedObject: {fileID: 0}
   IsTargetSelected: 0
   IsRegrettingDecision: 0
   IsSingleTargetting: 0
@@ -20443,6 +20461,22 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: bd7a0cd4-a666-41c7-9baa-01ba1f257517
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1256914968}
+        m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
+        m_MethodName: OnBackButton
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: db2a3b6e-ad4b-4639-8bc8-117665fd4a20
+    m_ActionName: Player/Back[/XInputControllerWindows/buttonEast,/Keyboard/f]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -25474,6 +25508,11 @@ PrefabInstance:
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1467177511099168878, guid: 32fa5399bbdb9f0429d6bd40c2437bd2, type: 3}
   m_PrefabInstance: {fileID: 3344147706551358311}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1661190382 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2552726199964688067, guid: e7e83235100a25b4a8ac6666d85b3729, type: 3}
+  m_PrefabInstance: {fileID: 2552726199339958798}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &1665661991 stripped
 Transform:
