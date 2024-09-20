@@ -53,14 +53,6 @@ public class MagicShield : Ability
         InputManager.JoystickTapped += OnJoystickTapped;
     }
 
-    private void OnJoystickTapped(Vector2 input)
-    {
-        currentInput = input;
-        
-        if (Timer.IsInProgress() && CurrentPhase == Phase.InputSequence)
-            CheckUserInputs();
-    }
-
     private void SetCanvas(bool isActive)
     {
         MagicShieldCanvas.gameObject.SetActive(isActive);
@@ -229,6 +221,14 @@ public class MagicShield : Ability
         
         Arrows[ArrowsMoved].GetComponent<Image>().color = Color.red;
     }
+    
+    private void OnJoystickTapped(Vector2 input)
+    {
+        currentInput = input;
+        
+        if (Timer.IsInProgress() && CurrentPhase == Phase.InputSequence)
+            CheckUserInputs();
+    }
 
     private void CheckUserInputs()
     {
@@ -237,8 +237,6 @@ public class MagicShield : Ability
 
         Button expectedButton = Sequence[0];
         Debug.Log(expectedButton);
-        // var currentInput = new Vector2(InputManager.InputDirection.x, InputManager.InputDirection.z);
-        
         
         switch (expectedButton)
         {
