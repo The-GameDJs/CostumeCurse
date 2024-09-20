@@ -20494,6 +20494,103 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20b8dc2f1cea849499aa7697c35f9582, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  JoystickTap:
+    m_Name: Joystick Tap
+    m_Type: 0
+    m_ExpectedControlType: Vector2
+    m_Id: 45a4032c-fa50-4995-8ca7-2ed880c5d99a
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 38e06206-d8a5-487f-97c6-bb96fb2bace2
+      m_Path: <Gamepad>/leftStick
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Joystick Tap
+      m_Flags: 0
+    - m_Name: Movement Keys
+      m_Id: e24ae597-bb06-43a8-89c9-8f924a1ecdbf
+      m_Path: 2DVector
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Joystick Tap
+      m_Flags: 4
+    - m_Name: up
+      m_Id: 2293def1-2430-40af-857e-60ef438574ec
+      m_Path: <Keyboard>/w
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Joystick Tap
+      m_Flags: 8
+    - m_Name: down
+      m_Id: 7ca113da-e1be-4ff4-933f-2a3fa9070c73
+      m_Path: <Keyboard>/s
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Joystick Tap
+      m_Flags: 8
+    - m_Name: left
+      m_Id: bc0f3d5a-63e3-4ab7-aef4-d47dc0b0b55b
+      m_Path: <Keyboard>/a
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Joystick Tap
+      m_Flags: 8
+    - m_Name: right
+      m_Id: b88d3a44-00b0-4324-9909-c273ab06cae2
+      m_Path: <Keyboard>/d
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Joystick Tap
+      m_Flags: 8
+    - m_Name: D-Pad
+      m_Id: 66eb075d-4a84-44dc-9308-d5f03e234512
+      m_Path: 2DVector
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Joystick Tap
+      m_Flags: 4
+    - m_Name: up
+      m_Id: c19d0ee6-8250-4f16-97b1-f91040db9c1f
+      m_Path: <Gamepad>/dpad/up
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Joystick Tap
+      m_Flags: 8
+    - m_Name: down
+      m_Id: 82ece7bd-12f4-4823-bb73-959a4764e0ad
+      m_Path: <Gamepad>/dpad/down
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Joystick Tap
+      m_Flags: 8
+    - m_Name: left
+      m_Id: 9f4926a2-c97e-4af9-a305-ab0fb205f11d
+      m_Path: <Gamepad>/dpad/left
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Joystick Tap
+      m_Flags: 8
+    - m_Name: right
+      m_Id: 1cd95c1d-3a60-4ccb-b725-b348c2aabf04
+      m_Path: <Gamepad>/dpad/right
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Joystick Tap
+      m_Flags: 8
+    m_Flags: 0
 --- !u!1001 &1261051885
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -34,13 +34,12 @@ namespace Combat.Abilities
         private const float FireballHeight = 7f;
         private const float FireballScale = 0.08f;
         private float TargetFireballSize = 0.15f;
-        private const float FireballGrowth = 0.025f;
+        private const float FireballGrowth = 0.015f;
         private const float FireballShrinkNormal = 0.005f;
-        private const float FireballShrinkUnstable = 0.15f;
+        private const float FireballShrinkUnstable = 0.4f;
         private const float FireballScalingSmoothness = 2f;
-        private const float FireballParticleSystemAdjustmentFactor = 0.25f;
+        private const float FireballParticleSystemAdjustmentFactor = 0.15f;
         private const float FireballLightSourceAdjustmentFactor = 7.5f;
-        private float FireballScalingElapsedTime = 0;
 
         [FormerlySerializedAs("BulletTargetHeightOffset")]
         [Header("Properties")] 
@@ -84,17 +83,14 @@ namespace Combat.Abilities
 
         private void FireballUpdate()
         {
-            float t = 1 / (Mathf.PI / 2) * Mathf.Atan(FireballScalingElapsedTime / FireballScalingSmoothness);
+            float t = 1 / (Mathf.PI / 2) * Mathf.Atan(0.02f / FireballScalingSmoothness);
             Fireball.transform.localScale = Vector3.Lerp(
                 Fireball.transform.localScale, 
                 Vector3.one * TargetFireballSize,
                 t);
-            FireballScalingElapsedTime += Time.deltaTime;
 
             if (Timer.IsInProgress())
             {
-                float progress = Timer.GetProgress();
-
                 if(IsFireballKeyDown())
                 {
                     if(CurrentCyclePhase == FireballCyclePhase.Unstable)
@@ -102,32 +98,39 @@ namespace Combat.Abilities
                         ShrinkFireball();
                         return;
                     }
-
-
+                    
                     var currentKey = ExpectedDirections[0];
 
                     switch (currentKey)
                     {
                         case ExpectedDirection.Up:
-                            if (Input.GetButtonDown("Right") || Input.GetButtonDown("Down") || Input.GetButtonDown("Left"))
+                            if (InputManager.InputDirection.x > 0.88f // Right
+                                || InputManager.InputDirection.z < -0.88f // Down
+                                || InputManager.InputDirection.x < -0.88f) // Left
                                 ShrinkFireball();
                             else
                                 GrowFireball();
                             break;
                         case ExpectedDirection.Down:
-                            if (Input.GetButtonDown("Left") || Input.GetButtonDown("Up") || Input.GetButtonDown("Right"))
+                            if (InputManager.InputDirection.x < -0.88f // Left
+                                || InputManager.InputDirection.x > 0.88f // Right
+                                || InputManager.InputDirection.z > 0.88f) // Up
                                 ShrinkFireball();
                             else
                                 GrowFireball();
                             break;
                         case ExpectedDirection.Right:
-                            if (Input.GetButtonDown("Down") || Input.GetButtonDown("Left") || Input.GetButtonDown("Up"))
+                            if (InputManager.InputDirection.z < -0.88f // Down
+                                || InputManager.InputDirection.x < -0.88f // Left
+                                || InputManager.InputDirection.z > 0.88f) // Up
                                 ShrinkFireball();
                             else
                                 GrowFireball();
                             break;
                         case ExpectedDirection.Left:
-                            if (Input.GetButtonDown("Up") || Input.GetButtonDown("Right") || Input.GetButtonDown("Down"))
+                            if (InputManager.InputDirection.z > 0.88f // Up
+                                || InputManager.InputDirection.x > 0.88f // Right
+                                || InputManager.InputDirection.z < -0.88f) // Down
                                 ShrinkFireball();
                             else
                                 GrowFireball();
@@ -156,7 +159,6 @@ namespace Combat.Abilities
                     MainModule.startColor = Color.yellow;
                     LightSource.color = Color.yellow;
                     return;
-
                 }
 
                 if (CurrentCyclePhase == FireballCyclePhase.UnstableWarning)
@@ -177,7 +179,6 @@ namespace Combat.Abilities
 
                     Timer.StartTimer(Random.Range(FireballGrowthMinDuration, FireballGrowthMaxDuration));
                     return;
-
                 }
             }
         }
@@ -254,15 +255,14 @@ namespace Combat.Abilities
 
             if (!FireballGrowSound.isPlaying)
                 FireballGrowSound.Play();
-
-
+            
             var currentKey = ExpectedDirections[0];
             ExpectedDirections.Remove(currentKey);
             ExpectedDirections.Add(currentKey);
 
             TargetFireballSize += FireballGrowth * FireballParticleSystemAdjustmentFactor;
+            TargetFireballSize = Mathf.Clamp(TargetFireballSize, 0.15f, 0.6f);
             LightSource.intensity += FireballGrowth * FireballLightSourceAdjustmentFactor;
-            FireballScalingElapsedTime = 0;
         }
 
         private void ShrinkFireball()
@@ -280,17 +280,13 @@ namespace Combat.Abilities
             LightSource.intensity -= CurrentCyclePhase == FireballCyclePhase.Unstable ?
                 FireballShrinkUnstable * FireballLightSourceAdjustmentFactor :
                 FireballShrinkNormal * FireballLightSourceAdjustmentFactor;
-            if (TargetFireballSize < 0)
-                TargetFireballSize = 0.2f;
-            FireballScalingElapsedTime = 0;
+            
+            TargetFireballSize = Mathf.Max(TargetFireballSize, 0.05f);
         }
 
         private bool IsFireballKeyDown()
         {
-            return Input.GetButtonDown("Up") ||
-                Input.GetButtonDown("Right") ||
-                Input.GetButtonDown("Down") ||
-                Input.GetButtonDown("Left");
+            return InputManager.InputDirection.x != 0 || InputManager.InputDirection.z != 0;
         }
 
         public new void StartAbility(bool userTargeting = false)

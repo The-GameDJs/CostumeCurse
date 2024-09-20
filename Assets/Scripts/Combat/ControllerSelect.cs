@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ControllerSelect : MonoBehaviour
@@ -89,7 +90,7 @@ public class ControllerSelect : MonoBehaviour
     {
         SelectableObjects = new List<GameObject>(enemies);
         SelectableObjects.AddRange(objects);
-        SelectTarget(enemies[0]);
+        SelectTarget(enemies.First(x => x.GetComponent<EnemyCombatant>().IsAlive));
     }
 
     void SelectTarget(GameObject target)

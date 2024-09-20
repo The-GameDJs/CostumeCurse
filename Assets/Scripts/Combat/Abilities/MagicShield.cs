@@ -12,6 +12,7 @@ public class MagicShield : Ability
     private Timer Timer;
     private List<Button> Sequence = new List<Button>();
     private Queue<GameObject> Directions = new Queue<GameObject>();
+    private Vector2 currentInput;
 
     [SerializeField] private Canvas MagicShieldCanvas;
     [SerializeField] private GameObject SequenceArrowsGroup;
@@ -45,6 +46,19 @@ public class MagicShield : Ability
             0,
             CombatantType.Ally,
             SelectorType.All);
+    }
+
+    private void OnEnable()
+    {
+        InputManager.JoystickTapped += OnJoystickTapped;
+    }
+
+    private void OnJoystickTapped(Vector2 input)
+    {
+        currentInput = input;
+        
+        if (Timer.IsInProgress() && CurrentPhase == Phase.InputSequence)
+            CheckUserInputs();
     }
 
     private void SetCanvas(bool isActive)
@@ -180,19 +194,16 @@ public class MagicShield : Ability
 
     private void InputSequenceUpdate()
     {
-        if (Timer.IsInProgress())
-            CheckUserInputs();
-
-        else if (Timer.IsFinished())
+        if (Timer.IsFinished())
             EndInputPhase();
     }
 
     private bool IsArrowInputDown()
     {
-        return Input.GetButtonDown("Up") ||
-            Input.GetButtonDown("Right") ||
-            Input.GetButtonDown("Down") ||
-            Input.GetButtonDown("Left");
+        return currentInput.x >= 0.2f 
+               || currentInput.x <= -0.2f
+               || currentInput.y >= 0.2f
+               || currentInput.y <= -0.2f;
     }
 
     private void OnCorrectInput()
@@ -226,32 +237,34 @@ public class MagicShield : Ability
 
         Button expectedButton = Sequence[0];
         Debug.Log(expectedButton);
-
+        // var currentInput = new Vector2(InputManager.InputDirection.x, InputManager.InputDirection.z);
+        
+        
         switch (expectedButton)
         {
             case Button.Up:
-                if (Input.GetButtonDown("Up"))
+                if (currentInput.y >= 0.1f)
                     OnCorrectInput();
                 else
                     OnIncorrectInput();
                 Arrows[ArrowsMoved].transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
                 break;
             case Button.Down:
-                if (Input.GetButtonDown("Down"))
+                if (currentInput.y <= -0.1f)
                     OnCorrectInput();
                 else
                     OnIncorrectInput();
                 Arrows[ArrowsMoved].transform.rotation = Quaternion.Euler(0.0f, 0.0f, 180.0f);
                 break;
             case Button.Left:
-                if (Input.GetButtonDown("Left"))
+                if (currentInput.x <= -0.1f)
                     OnCorrectInput();
                 else
                     OnIncorrectInput();
                 Arrows[ArrowsMoved].transform.rotation = Quaternion.Euler(0.0f, 0.0f, 90.0f);
                 break;
             case Button.Right:
-                if (Input.GetButtonDown("Right"))
+                if (currentInput.x >= 0.1f)
                     OnCorrectInput();
                 else
                     OnIncorrectInput();
@@ -265,7 +278,6 @@ public class MagicShield : Ability
 
         if (Sequence.Count == 0)
             EndInputPhase();
-
     }
 
     private IEnumerator InitializeEndAbilityPhase()

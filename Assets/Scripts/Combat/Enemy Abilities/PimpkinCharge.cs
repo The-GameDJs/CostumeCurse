@@ -24,7 +24,7 @@ namespace Combat.Abilities
         {
             if (Target != null && _allyCombatant != null)
             {
-                if (Input.GetButtonDown("Action Command"))
+                if (InputManager.HasPressedActionCommand)
                 {
                     Debug.Log("Parry Button Pressed");
                     _allyCombatant.HasParried = true;

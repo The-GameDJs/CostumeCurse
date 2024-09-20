@@ -98,7 +98,7 @@ public class ThunderStorm : Ability
 
             AnimateThunderstrike(progress); // Keep handy for debugging with colours!
 
-            if (!ActionCommandPressed && Input.GetButtonDown("Action Command"))
+            if (!ActionCommandPressed && InputManager.HasPressedActionCommand)
             {
                 Debug.Log("Action Command pressed during Thunderstrike Phase");
                 MomentOfActionCommand = Timer.GetProgress();
@@ -189,7 +189,7 @@ public class ThunderStorm : Ability
 
     private void ThunderCloudMash() // BUILD UP CLOUD MASH WITH CLICK
     {
-        if (Input.GetButtonDown("Action Command"))
+        if (InputManager.HasPressedActionCommand)
         {
             Presses++;
             Thunder.transform.localScale += Vector3.one * ThunderCloudGrowthSpeed * ThunderStormScale;

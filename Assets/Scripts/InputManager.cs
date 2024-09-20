@@ -18,6 +18,7 @@ public class InputManager : MonoBehaviour
     public static Action<bool> ActionCommandPressed;
     public static Action<bool> BackButtonPressed;
     public static Action<Vector2> ControllerMoved;
+    public static Action<Vector2> JoystickTapped;
     
     void Start()
     {
@@ -33,15 +34,33 @@ public class InputManager : MonoBehaviour
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        Vector2 input = context.ReadValue<Vector2>();
-        _inputDirection = new Vector3(input.x, 0f, input.y).normalized;
-        ControllerMoved?.Invoke(input);
+        if (context.started)
+        {
+            // Used for determining if the user tapped the joystick/dpad
+            Vector2 input = context.ReadValue<Vector2>();
+        
+            JoystickTapped?.Invoke(input);
+        }
+        else if (context.performed)
+        {
+            // Used for constant controller updates
+            Vector2 input = context.ReadValue<Vector2>();
+            _inputDirection = new Vector3(input.x, 0f, input.y).normalized;
+            ControllerMoved?.Invoke(input);
+        }
+        else if(context.canceled)
+        {
+            // Used if the user let go of the joystick
+            _inputDirection = Vector3.zero;
+            ControllerMoved?.Invoke(_inputDirection);
+            JoystickTapped?.Invoke(Vector3.zero);
+        }
     }
 
     public void OnActionCommand(InputAction.CallbackContext context)
     {
-        ActionCommandPressed?.Invoke(context.started);
-        _hasPressedActionCommand = context.started;
+        ActionCommandPressed?.Invoke(context.performed);
+        _hasPressedActionCommand = context.performed;
     }
 
     public void OnBackButton(InputAction.CallbackContext context)

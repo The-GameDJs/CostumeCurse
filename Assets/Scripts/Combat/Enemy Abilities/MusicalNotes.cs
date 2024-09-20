@@ -56,7 +56,7 @@ public class MusicalNotes : MonoBehaviour
         {
             if (_allyCombatant.ParryCollider == other && 
                 !_allyCombatant.HasParried && 
-                Input.GetButtonDown("Action Command"))
+                InputManager.HasPressedActionCommand)
             {
                 Debug.Log("Parried!");
                 _allyCombatant.HasParriedCorrectly = true;

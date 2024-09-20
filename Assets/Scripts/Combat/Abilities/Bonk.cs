@@ -114,7 +114,7 @@ namespace Combat.Abilities
                 var timerProgress = Timer.GetProgress() / Animator.GetCurrentAnimatorStateInfo(0).length;
                 
                 if (!HasTimedPress && (timerProgress >= 0.4f && timerProgress <= 0.56f) 
-                                   && Input.GetButtonDown("Action Command"))
+                                   && InputManager.HasPressedActionCommand)
                 {
                     Debug.Log("Perfectly timed bonk!");
                     PerfectActionCommandSound.Play();
