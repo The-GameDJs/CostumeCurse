@@ -247,6 +247,16 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7636163635222842936, guid: c578357c78bc12e4da004ed5d239b42b, type: 3}
   m_PrefabInstance: {fileID: 7689082}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &16149603 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5118138324407014024, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
+  m_PrefabInstance: {fileID: 5650117169560658686}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &16149604 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 6451123151909796303, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
+  m_PrefabInstance: {fileID: 5650117169560658686}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &18799722 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7752510896538546874, guid: ec99cd52c802137439dd30358a539d6c, type: 3}
@@ -16819,9 +16829,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 112464731}
     - target: {fileID: 6558649338711182627, guid: ec49ba67b66451342aacf76b17feebaa, type: 3}
+      propertyPath: RevolverCanvas
+      value: 
+      objectReference: {fileID: 16149603}
+    - target: {fileID: 6558649338711182627, guid: ec49ba67b66451342aacf76b17feebaa, type: 3}
       propertyPath: ShootingCanvas
       value: 
       objectReference: {fileID: 5650117169560658695}
+    - target: {fileID: 6558649338711182627, guid: ec49ba67b66451342aacf76b17feebaa, type: 3}
+      propertyPath: ReloadTimerText
+      value: 
+      objectReference: {fileID: 1664646044}
+    - target: {fileID: 6558649338711182627, guid: ec49ba67b66451342aacf76b17feebaa, type: 3}
+      propertyPath: ShootingTimerText
+      value: 
+      objectReference: {fileID: 1493365558}
     - target: {fileID: 6558649338711182627, guid: ec49ba67b66451342aacf76b17feebaa, type: 3}
       propertyPath: BulletUI.Array.size
       value: 4
@@ -20494,103 +20516,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20b8dc2f1cea849499aa7697c35f9582, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  JoystickTap:
-    m_Name: Joystick Tap
-    m_Type: 0
-    m_ExpectedControlType: Vector2
-    m_Id: 45a4032c-fa50-4995-8ca7-2ed880c5d99a
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 
-      m_Id: 38e06206-d8a5-487f-97c6-bb96fb2bace2
-      m_Path: <Gamepad>/leftStick
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Joystick Tap
-      m_Flags: 0
-    - m_Name: Movement Keys
-      m_Id: e24ae597-bb06-43a8-89c9-8f924a1ecdbf
-      m_Path: 2DVector
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Joystick Tap
-      m_Flags: 4
-    - m_Name: up
-      m_Id: 2293def1-2430-40af-857e-60ef438574ec
-      m_Path: <Keyboard>/w
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Joystick Tap
-      m_Flags: 8
-    - m_Name: down
-      m_Id: 7ca113da-e1be-4ff4-933f-2a3fa9070c73
-      m_Path: <Keyboard>/s
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Joystick Tap
-      m_Flags: 8
-    - m_Name: left
-      m_Id: bc0f3d5a-63e3-4ab7-aef4-d47dc0b0b55b
-      m_Path: <Keyboard>/a
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Joystick Tap
-      m_Flags: 8
-    - m_Name: right
-      m_Id: b88d3a44-00b0-4324-9909-c273ab06cae2
-      m_Path: <Keyboard>/d
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Joystick Tap
-      m_Flags: 8
-    - m_Name: D-Pad
-      m_Id: 66eb075d-4a84-44dc-9308-d5f03e234512
-      m_Path: 2DVector
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Joystick Tap
-      m_Flags: 4
-    - m_Name: up
-      m_Id: c19d0ee6-8250-4f16-97b1-f91040db9c1f
-      m_Path: <Gamepad>/dpad/up
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Joystick Tap
-      m_Flags: 8
-    - m_Name: down
-      m_Id: 82ece7bd-12f4-4823-bb73-959a4764e0ad
-      m_Path: <Gamepad>/dpad/down
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Joystick Tap
-      m_Flags: 8
-    - m_Name: left
-      m_Id: 9f4926a2-c97e-4af9-a305-ab0fb205f11d
-      m_Path: <Gamepad>/dpad/left
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Joystick Tap
-      m_Flags: 8
-    - m_Name: right
-      m_Id: 1cd95c1d-3a60-4ccb-b725-b348c2aabf04
-      m_Path: <Gamepad>/dpad/right
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Joystick Tap
-      m_Flags: 8
-    m_Flags: 0
 --- !u!1001 &1261051885
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23456,6 +23381,85 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 9076812273611925289, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
   m_PrefabInstance: {fileID: 5650117169560658686}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1493365556
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1493365557}
+  - component: {fileID: 1493365559}
+  - component: {fileID: 1493365558}
+  m_Layer: 5
+  m_Name: Shooting Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1493365557
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1493365556}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 16149604}
+  m_RootOrder: 15
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 9.6967, y: 301.68}
+  m_SizeDelta: {x: 181.0172, y: 31.9582}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1493365558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1493365556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: e3265ab4bf004d28a9537516768c1c75, type: 3}
+    m_FontSize: 27
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 9
+    m_MaxSize: 93
+    m_Alignment: 1
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: Get Ready...
+--- !u!222 &1493365559
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1493365556}
+  m_CullTransparentMesh: 0
 --- !u!1001 &1505216152
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25611,6 +25615,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2552726199964688067, guid: e7e83235100a25b4a8ac6666d85b3729, type: 3}
   m_PrefabInstance: {fileID: 2552726199339958798}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1664646044 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8443129470885577874, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
+  m_PrefabInstance: {fileID: 5650117169560658686}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1665661991 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6917805810791803028, guid: e266ca512c90051488aae56f02220f95, type: 3}
@@ -37776,6 +37791,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bullet
       objectReference: {fileID: 0}
+    - target: {fileID: 731468134708096655, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 912478382031053354, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 963279844744680252, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 147.1
@@ -37796,6 +37819,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 150.80609
       objectReference: {fileID: 0}
+    - target: {fileID: 1333034268797288950, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1487456089753757996, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.7
@@ -37808,6 +37835,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.7
       objectReference: {fileID: 0}
+    - target: {fileID: 1577401503725109089, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1606232248193133622, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
       propertyPath: PipmkinDeathSource
       value: 
@@ -37816,9 +37847,17 @@ PrefabInstance:
       propertyPath: DropClipSource
       value: 
       objectReference: {fileID: 112464731}
+    - target: {fileID: 2036920177417858245, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2136879616962010809, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
       propertyPath: m_Name
       value: Bullet
+      objectReference: {fileID: 0}
+    - target: {fileID: 2136879616962010809, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2171452138159795552, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
       propertyPath: m_Name
@@ -37840,9 +37879,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Spawn Location 6
       objectReference: {fileID: 0}
+    - target: {fileID: 2807282134268022125, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2915266068502790727, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
       propertyPath: m_Name
       value: Bullet
+      objectReference: {fileID: 0}
+    - target: {fileID: 2915266068502790727, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3679274479975458508, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -37855,6 +37902,10 @@ PrefabInstance:
     - target: {fileID: 3679274479975458508, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: Revolver, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3830455676991063419, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4120477273441607620, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
       propertyPath: m_Name
@@ -37875,6 +37926,10 @@ PrefabInstance:
     - target: {fileID: 4390172903536761120, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
       propertyPath: m_Name
       value: Spawn Location 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4502084629240335613, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4805335919054704252, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
       propertyPath: m_Pivot.x
@@ -37980,6 +38035,14 @@ PrefabInstance:
       propertyPath: m_Offset.y
       value: 0.5559184
       objectReference: {fileID: 0}
+    - target: {fileID: 5077686485886337503, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5118138324407014024, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5179494541622476745, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
       propertyPath: m_Radius
       value: 42.05
@@ -38024,6 +38087,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 2.7
       objectReference: {fileID: 0}
+    - target: {fileID: 6256426769337162877, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6449642537604006984, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
       propertyPath: PipmkinDeathSource
       value: 
@@ -38052,6 +38119,10 @@ PrefabInstance:
       propertyPath: PipmkinDeathSource
       value: 
       objectReference: {fileID: 5650117169560658696}
+    - target: {fileID: 7809532576124307193, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7998468750000444865, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.7
@@ -38067,6 +38138,10 @@ PrefabInstance:
     - target: {fileID: 8017697768494265053, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
       propertyPath: m_Radius
       value: 42.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 8096251245933062271, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8152760817684793692, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
       propertyPath: PipmkinDeathSource
@@ -38084,6 +38159,10 @@ PrefabInstance:
       propertyPath: m_FontData.m_Font
       value: 
       objectReference: {fileID: 12800000, guid: e3265ab4bf004d28a9537516768c1c75, type: 3}
+    - target: {fileID: 8542518050652581842, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8740531720916404234, guid: 0ae6fc049a2c5544c9c5fc228a8dbc0f, type: 3}
       propertyPath: m_Name
       value: Pimpkin Head

@@ -92,6 +92,8 @@ MonoBehaviour:
   MissedActionCommandSound: {fileID: 6664166677754882953}
   GoodActionCommandSound: {fileID: 7161951791883803293}
   PerfectActionCommandSound: {fileID: 4763670468142087091}
+  ApproachingDuration: 1.25
+  DisengagingDuration: 1
   Damage: 30
   SpaceBetweenBonk: 2.5
   BonkSound: {fileID: 7931677029497977335}
@@ -137,25 +139,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CandyCornCost: 5
-  Element: 1
+  Element: 0
   Style: 1
   Animator: {fileID: 0}
-  MissedActionCommandSound: {fileID: 0}
-  GoodActionCommandSound: {fileID: 0}
-  PerfectActionCommandSound: {fileID: 0}
+  MissedActionCommandSound: {fileID: 6664166677754882953}
+  GoodActionCommandSound: {fileID: 7161951791883803293}
+  PerfectActionCommandSound: {fileID: 4763670468142087091}
+  RevolverCanvas: {fileID: 0}
+  ReloadTimerText: {fileID: 0}
+  ShootingTimerText: {fileID: 0}
   ReloadSource: {fileID: 0}
   ShootSource: {fileID: 0}
   MissSource: {fileID: 1491951939613605990}
-  ReloadCanvas: {fileID: 0}
-  BulletPositions: []
-  Clips:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  ShootingCanvas: {fileID: 0}
-  BulletUIInShoot: []
-  PimpkinSpawnLocations: []
   Bullet: {fileID: 0}
   Gunshot: {fileID: 0}
 --- !u!1001 &337420499906581794
