@@ -89,11 +89,11 @@ namespace Combat.Enemy_Abilities
 
                 // Move Sield's Hat to catch candy
                 var sieldHatRectTransform = SieldHatObject.GetComponent<RectTransform>();
-                if (Input.GetButton("Left") && sieldHatRectTransform.localPosition.x >= -145f)
+                if (InputManager.InputDirection.x <= -0.88f && sieldHatRectTransform.localPosition.x >= -145f)
                 {
                     SieldHatObject.transform.Translate(new Vector3(Time.deltaTime * HatMovementSpeed, 0.0f, 0.0f));
                 }
-                if (Input.GetButton("Right") && sieldHatRectTransform.localPosition.x <= 145f)
+                if (InputManager.InputDirection.x >= 0.88f && sieldHatRectTransform.localPosition.x <= 145f)
                 {
                     SieldHatObject.transform.Translate(new Vector3(Time.deltaTime * -HatMovementSpeed, 0.0f, 0.0f));
                 }
