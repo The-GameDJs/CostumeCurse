@@ -56,7 +56,7 @@ public class TargetSelector : MonoBehaviour
         {
             if (combatant.TryGetComponent(out ObjectCombatant objCombatant))
             {
-                objCombatant.HideHealthBar();
+                combatant.GetComponent<Combatant>().HideHealthBar();
                 continue;
             }
 
@@ -95,7 +95,6 @@ public class TargetSelector : MonoBehaviour
         ControllerSelector.IsSingleTargetting = true;
         CurrentSelectionPrompt.SetActive(true);
         ControllerSelector.SetSelectableObjects(CombatSystem.EnemyCombatants, CombatSystem.TargettableObjects);
-        ControllerSelector.SelectedObject = CombatSystem.EnemyCombatants[0];
         
         while (!MouseSelector.IsTargetSelected && !ControllerSelector.IsTargetSelected)
         {

@@ -9,14 +9,21 @@ public class ControllerSelect : MonoBehaviour
     [SerializeField] private GameObject TargetIndicator;
     
     private List<GameObject> SelectableObjects;
-    public GameObject SelectedObject;
+
+    private GameObject _selectedObject;
+
+    public GameObject SelectedObject
+    {
+        get => _selectedObject;
+        set => _selectedObject = value;
+    }
+
     private TargetSelector TargetSelector;
     public bool IsTargetSelected = false;
     public bool IsRegrettingDecision = false;
     public bool IsSingleTargetting = false;
     private int _currentSelection;
     private Vector2 _controllerInput;
-    private float previousStickPosition;
     
     void Start()
     {
@@ -28,25 +35,14 @@ public class ControllerSelect : MonoBehaviour
     {
         _controllerInput = input;
         
-        // This is needed because everytime the stick moves, this function gets called
-        // This includes when the stick is being pulled back to the middle or when it is in the process of moving left or right
-        // This statement avoids the selection from constantly scrolling through each frame and makes it more smoother
-        if (Math.Abs(input.x) - Math.Abs(previousStickPosition) < 0.2f)
-        {
-            previousStickPosition = input.x;
-            return;
-        }
-
-        previousStickPosition = input.x;
-        
-        if (_controllerInput.x > 0.88f)
+        if (_controllerInput.x > 0.1f)
         {
             _currentSelection++;
 
             if (_currentSelection > SelectableObjects.Count - 1)
                 _currentSelection = SelectableObjects.Count - 1;
         }
-        else if (_controllerInput.x < -0.88f)
+        else if (_controllerInput.x < -0.1f)
         {
             _currentSelection--;
             if (_currentSelection < 0)
@@ -97,17 +93,17 @@ public class ControllerSelect : MonoBehaviour
     {
         if(target.GetComponent<Combatant>().IsAlive)
         {
-            if (SelectedObject != null)
+            if (_selectedObject != null)
             {
-                if (target == SelectedObject)
+                if (target == _selectedObject)
                     return;
 
                 ClearSelection();
             }
 
-            SelectedObject = target;
+            _selectedObject = target;
 
-            Renderer[] renderers = SelectedObject.GetComponentsInChildren<Renderer>();
+            Renderer[] renderers = _selectedObject.GetComponentsInChildren<Renderer>();
             foreach(Renderer r in renderers) {
                 Material m = r.material;
                 m.color = Color.red;
@@ -118,32 +114,32 @@ public class ControllerSelect : MonoBehaviour
     
     void ClearSelection()
     {
-        if(SelectedObject == null)
+        if(_selectedObject == null)
         {
             TargetIndicator.SetActive(false);
             return;
         }
 
-        Renderer[] renderers = SelectedObject.GetComponentsInChildren<Renderer>();
+        Renderer[] renderers = _selectedObject.GetComponentsInChildren<Renderer>();
         foreach(Renderer r in renderers) {
             Material m = r.material;
             m.color = Color.white;
             r.material = m;
         }
 
-        SelectedObject = null;
+        _selectedObject = null;
     }
 
     private void OnEnable()
     {
-        InputManager.ControllerMoved += OnControllerMoved;
+        InputManager.JoystickTapped += OnControllerMoved;
         InputManager.ActionCommandPressed += OnActionCommandPressed;
         InputManager.BackButtonPressed += OnBackButtonPressed;
     }
 
     private void OnDisable()
     {
-        InputManager.ControllerMoved -= OnControllerMoved;
+        InputManager.JoystickTapped -= OnControllerMoved;
         InputManager.ActionCommandPressed -= OnActionCommandPressed;
         InputManager.BackButtonPressed -= OnBackButtonPressed;
     }
