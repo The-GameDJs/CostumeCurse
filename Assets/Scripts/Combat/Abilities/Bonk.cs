@@ -27,6 +27,7 @@ namespace Combat.Abilities
 
         private bool BelongsToAlly;
         private bool HasTimedPress;
+        private bool HasTimedPressEarly;
 
         [SerializeField] private AudioSource BonkSound;
 
@@ -113,12 +114,17 @@ namespace Combat.Abilities
             {
                 var timerProgress = Timer.GetProgress() / Animator.GetCurrentAnimatorStateInfo(0).length;
                 
-                if (!HasTimedPress && (timerProgress >= 0.4f && timerProgress <= 0.56f) 
+                if (!HasTimedPressEarly && !HasTimedPress && (timerProgress >= 0.4f && timerProgress <= 0.6f) 
                                    && InputManager.HasPressedActionCommand)
                 {
                     Debug.Log("Perfectly timed bonk!");
                     PerfectActionCommandSound.Play();
                     HasTimedPress = true;
+                }
+                else if (!HasTimedPress && !HasTimedPressEarly && InputManager.HasPressedActionCommand)
+                {
+                    HasTimedPressEarly = true;
+                    Debug.Log("Missed the timed bonk!");
                 }
             }
 
@@ -157,7 +163,7 @@ namespace Combat.Abilities
 
         private float EvaluateBonkDamage()
         {
-            var damage = HasTimedPress switch
+            float damage = (HasTimedPress && !HasTimedPressEarly) switch
             {
                 true when BelongsToAlly => Damage * ActionCommandMultiplier,
                 true when !BelongsToAlly => Damage / ActionCommandMultiplier,
@@ -174,6 +180,8 @@ namespace Combat.Abilities
             CurrentPhase = Phase.Inactive;
             
             HasTimedPress = false;
+
+            HasTimedPressEarly = false;
 
             CombatSystem.EndTurn();
         }
