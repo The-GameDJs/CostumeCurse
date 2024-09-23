@@ -1,3 +1,4 @@
+using System;
 using Assets.Scripts.Combat;
 using System.Collections;
 using System.Collections.Generic;
@@ -16,25 +17,16 @@ public class Confection : Ability
     private Text TimerText;
     private static CanvasGroup BrewCanvasGroup;
     private static CanvasGroup BakeCanvasGroup;
-    private ItemsBeingDropped CookingPot;
-    private SliderHandle SliderScript;
     private Timer Timer;
+    private Queue<InputManager.Direction> InputOrder;
 
     [SerializeField] private AudioSource BrewSound;
     [SerializeField] private AudioSource BakeSound;
     [SerializeField] private AudioSource SweetCollectedSound;
     [SerializeField] private AudioSource RottenCollectedSound;
 
-    private int SweetsDropped;
-    private int RotsDropped;
-    private int GoodClicks;
-    private int PerfectClicks;
-    private int Clicks;
-    private int MaxClicks = 3;
-    private readonly float VisibleAlpha = 1.0f;
-    private readonly float InvisibleAlpha = 0.0f;
-    private readonly float BrewDuration = 2.5f;
-    private readonly float BakeDuration = 5.0f;
+    private int TotalCorrectInput;
+    private readonly float BrewDuration = 4.5f;
     private readonly int BaseDamage = 20;
     private readonly int RottenDamage = -10;
     private readonly int SweetsDamage = 10;
@@ -49,10 +41,9 @@ public class Confection : Ability
     private ConfectionVfx ConfectionMixVfx;
     private GameObject Target;
     [SerializeField] private float ConfectionMixVfxVerticalOffset;
-    [SerializeField] private DragAndDrop[] IngredientTypes;
-    [SerializeField] private Transform[] IngredientSpawnLocations;
     private bool[] IsIngredientReserved;
-    private readonly Stack<DragAndDrop> IngredientStack = new Stack<DragAndDrop>();
+
+    public static Action<int> CastConfectionAction;
 
     public new void Start()
     {
@@ -61,10 +52,10 @@ public class Confection : Ability
         ConfectionMixObject = GameObject.Find("ConfectionPowerMove");
         ConfectionMixVfx = ConfectionMixObject.GetComponent<ConfectionVfx>();
         Timer = GetComponent<Timer>();
-        
+        InputOrder = new Queue<InputManager.Direction>();
+        InputOrder.Enqueue(InputManager.Direction.Left);
+        InputOrder.Enqueue(InputManager.Direction.Right);
         StartUI();
-
-        IsIngredientReserved = new bool[IngredientSpawnLocations.Length];
 
         TargetSchema = new TargetSchema(
             1,
@@ -75,62 +66,11 @@ public class Confection : Ability
     private void StartUI()
     {
         StartBrewUI();
-        StartBakeUI();
     }
 
     private void StartBrewUI()
     {
-        CookingPot = BrewCanvas.GetComponentInChildren<ItemsBeingDropped>();
         TimerText = BrewCanvas.GetComponentInChildren<Text>();
-        
-        if (BrewCanvasGroup == null)
-            BrewCanvasGroup = BrewCanvas.GetComponent<CanvasGroup>();
-        if(BrewCanvasGroup != null)
-            EnableCanvas(BrewCanvas, false); //this disables both the canvas and canvasgroup
-    }
-
-    private void StartBakeUI()
-    {
-        SliderScript = BakeCanvas.GetComponent<SliderHandle>();
-        MaxClicks = SliderScript.GetMaxClicks();
-        if (BakeCanvasGroup == null)
-            BakeCanvasGroup = BakeCanvas.GetComponent<CanvasGroup>();
-        if(BakeCanvasGroup != null)
-            EnableCanvas(BakeCanvas, false); //this disables both the canvas and canvasgroup
-        SliderScript.enabled = false;
-    }
-
-    private void EnableCanvas(Canvas canvas, bool enabled)
-    {
-        canvas.gameObject.SetActive(enabled);
-        //canvas.enabled = enabled;
-        EnableCanvasGroup(canvas, enabled);
-    }
-
-    private void EnableCanvasGroup(Canvas canvas, bool enabled)
-    {
-        if(enabled)
-        {
-            if(canvas.name == "BrewCanvas")
-                BrewCanvasGroup.alpha = VisibleAlpha;
-            else if(canvas.name == "BakeCanvas")
-            {
-                SliderScript.enabled = true;
-                BakeCanvasGroup.alpha = VisibleAlpha;
-            }
-        }
-        else
-        {
-            if(canvas.name == "BrewCanvas")
-            {
-                BrewCanvasGroup.alpha = InvisibleAlpha;
-            }
-            else if(canvas.name == "BakeCanvas")
-            {
-                SliderScript.enabled = false;
-                BakeCanvasGroup.alpha = InvisibleAlpha;
-            }
-        }
     }
 
     public new void StartAbility(bool userTargeting = false)
@@ -139,13 +79,38 @@ public class Confection : Ability
         Debug.Log("Started Confection Ability");
     }
 
+    protected override void ContinueAbilityAfterTargeting()
+    {
+        Debug.Log("Calling ContinueAbility()");
+
+        CurrentDamage = 0;
+
+        StartBrewPhase();
+    }
+
+    private void StartBrewPhase()
+    {
+        CookingAbilityPhase = Phase.Brew;
+        TotalCorrectInput = 0;
+        
+        BrewCanvas.transform.position = new Vector3(Screen.width / 2f, Screen.height / 2f, 0f);
+
+        if (BrewCanvas != null)
+        {
+            BrewCanvas.enabled = true;
+        }
+        else
+        { 
+            Debug.Log("Canvas is Null in StartBrewPhase()"); 
+        }
+        
+        Timer.StartTimer(BrewDuration);
+    }
+
     private void Update()
     {
         if(CookingAbilityPhase == Phase.Brew)
             BrewUpdate();
-
-        if (CookingAbilityPhase == Phase.Bake)
-            BakeUpdate();
     }
 
     private void BrewUpdate()
@@ -154,77 +119,82 @@ public class Confection : Ability
         {
             float progress = BrewDuration - Timer.GetProgress();
             TimerText.text =  Mathf.RoundToInt(progress).ToString();
-
-            var newSweetCount = CookingPot.GetSweetsDropped();
-            if (newSweetCount > SweetsDropped)
-            {
-                SweetCollectedSound.Play();
-                SweetsDropped = newSweetCount;
-            }
-
-            var newRottenCount = CookingPot.GetRotsDropped();
-            if (newRottenCount > RotsDropped)
-            {
-                RottenCollectedSound.Play();
-                RotsDropped = newRottenCount;
-            }
         }
         else
         {
             EndBrewPhase();
         }
     }
-    
-    private void BakeUpdate()
-    {
-        if (Timer.IsInProgress())
-        {
-            GoodClicks = SliderScript.GetGoodClicks();
-            PerfectClicks = SliderScript.GetPerfectClicks();
-            Clicks = SliderScript.GetTotalClicks();
-            if(Clicks == MaxClicks) //TODO!!
-                Timer.StopTimer();
-        }
-        else if (Timer.IsFinished())
-        {
-            StartCoroutine(EndBakeUpdate());
-        }
-    }
-
-    private IEnumerator EndBakeUpdate()
-    {
-        Timer.ResetTimer();
-        SliderScript.IsBaking = false;
-        yield return new WaitForSeconds(1.0f);
-        EnableCanvas(BakeCanvas, false);
-        CookingAbilityPhase = Phase.Inactive;
-        CalculateBakeDamage();
-
-        //BakeSound.Play();
-
-        EndAbility();
-    }
 
     private void EndBrewPhase()
     {
-        Debug.Log($"Brew Complete with candy: {SweetsDropped}");
-        Debug.Log($"Brew Complete with rots: {RotsDropped}");
+        Debug.Log($"Brew Complete with candy: {TotalCorrectInput}");
 
+        CookingAbilityPhase = Phase.Inactive;
+        
         BrewSound.Play();
 
-        CalculateBrewDamage();
+        CastConfectionAction?.Invoke(TotalCorrectInput);
+        
         ResetBrewComponents();
-        EnableCanvas(BrewCanvas, false);
 
-        Debug.Log($"Brewing Build Up Damage: {CurrentDamage}");
+        StartCoroutine(EndBrewUpdate());
+    }
 
-        Thread.Sleep(500);
-        StartBakePhase();
+    private IEnumerator EndBrewUpdate()
+    {
+        Timer.ResetTimer();
+        yield return new WaitForSeconds(1.0f);
+
+        BrewCanvas.enabled = false;
+        EndAbility();
+    }
+
+    private void OnJoystickTapped(Vector2 input)
+    {
+        VerifyConfectionInput(input);
+    }
+
+    private void VerifyConfectionInput(Vector2 input)
+    {
+        if (CookingAbilityPhase != Phase.Brew || input == Vector2.zero)
+            return;
+        
+        var direction = InputOrder.Dequeue();
+
+        switch (direction)
+        {
+            case InputManager.Direction.Left:
+                if (input.x <= -0.1f)
+                {
+                    TotalCorrectInput++;
+                }
+                else
+                {
+                    TotalCorrectInput--;
+                }
+                break;
+            case InputManager.Direction.Right:
+                if (input.x >= 0.1f)
+                {
+                    TotalCorrectInput++;
+                }
+                else
+                {
+                    TotalCorrectInput--;
+                }
+                break;
+        }
+
+        if (TotalCorrectInput < 0)
+            TotalCorrectInput = 0;
+        
+        Debug.Log($"Total Correct Input {TotalCorrectInput}");
+        InputOrder.Enqueue(direction);
     }
 
     public IEnumerator DealConfectionDamage()
     {
-        //Only deals damage to one enemy
         Attack attack = new Attack(CalculateTotalDamage(), Element, Style);
         Target.GetComponent<Combatant>().Defend(attack);
         ConfectionMixVfx.ExplodeConfectionMix();
@@ -235,20 +205,16 @@ public class Confection : Ability
         CombatSystem.EndTurn();
     }
 
-    protected override void EndAbility()
+    private int CalculateTotalDamage()
     {
-        EnableCanvas(BrewCanvas, false);
-        EnableCanvas(BakeCanvas, false);
-        Debug.Log($"Confection Damage total: {CurrentDamage}");
-        ConfectionMixVfx.SwitchConfectionMixParticleSystemsState();
-        Target = TargetedCombatants[0];
-        ConfectionMixVfx.SetTarget(Target);
-        StartCoroutine(CastConfection());
-    }
+        int total = (int) (TotalCorrectInput * BakePerfectDamageBonus + BaseDamage);
 
-    public void ThrowConfectionCastingAtEnemy()
-    {
-        ConfectionMixVfx.StartMoving();
+        // Yeah this needs work lmao
+        total = InputManager.CurrentControlScheme == "Controller" ? total * total * total : total;
+        
+        CurrentDamage = Random.Range(total, total + RandomDamageRangeOffset);
+
+        return CurrentDamage;
     }
 
     private IEnumerator CastConfection()
@@ -273,140 +239,32 @@ public class Confection : Ability
         Animator.SetBool("IsFinishedCasting", true);
     }
 
-    protected override void ContinueAbilityAfterTargeting()
+    public void ThrowConfectionCastingAtEnemy()
     {
-        Debug.Log("Calling ContinueAbility()");
-
-        EnableCanvas(BrewCanvas, true);
-
-        CurrentDamage = 0;
-
-        StartBrewPhase();
+        ConfectionMixVfx.StartMoving();
     }
 
-    private void StartBrewPhase()
+    protected override void EndAbility()
     {
-        CookingAbilityPhase = Phase.Brew;
-        SweetsDropped = 0;
-        RotsDropped = 0;
-
-        if (BrewCanvas != null)
-        {
-            //Move canvas to middle of the screen
-            BrewCanvas.transform.position = new Vector3(Screen.width/2f,Screen.height/2f,0f);
-            EnableCanvas(BrewCanvas, true);
-        }
-        else
-        { 
-            Debug.Log("Canvas is Null in StartBrewPhase()"); 
-        }
-        
-        RandomizeIngredientSpawns();
-
-        Timer.StartTimer(BrewDuration);
-    }
-
-    private void RandomizeIngredientSpawns()
-    {
-        foreach (var ingredient in IngredientTypes)
-        {
-            IngredientStack.Push(ingredient);
-        }
-
-        while (IngredientStack.Count != 0)
-        {
-            int randomPosition = Random.Range(0, IngredientSpawnLocations.Length);
-
-            if (!IsIngredientReserved[randomPosition])
-            {
-                var ingredient = IngredientStack.Pop();
-                Debug.Log($"Ingredient Popped: {IngredientStack.Count} left");
-                ingredient.gameObject.SetActive(true);
-
-                ingredient.GetComponent<RectTransform>().position = 
-                    IngredientSpawnLocations[randomPosition].GetComponent<RectTransform>().position;
-                ingredient.InitializeStartingPosition();
-                IsIngredientReserved[randomPosition] = true;
-            }
-        }
-    }
-
-    private void StartBakePhase()
-    {
-        CookingAbilityPhase = Phase.Bake;
-        SliderScript.enabled = true;
-        Clicks = 0;
-
-        if(BakeCanvas != null)
-        {
-            //Move canvas to middle of the screen
-            BakeCanvas.transform.position = new Vector3(Screen.width/2f,Screen.height/2f,0f);
-            EnableCanvas(BakeCanvas, true);
-            SliderScript.IsBaking = true;
-            SliderScript.StartSlider();
-        }
-        else
-        { 
-            Debug.Log("Canvas is Null in StartBakePhase()"); 
-        }
-
-        Timer.StartTimer(BakeDuration);
-    }
-
-    private void CalculateBrewDamage()
-    {
-        var sweetsBaseDamage = SweetsDropped * SweetsDamage;
-        var rotsBaseDamage = RotsDropped * RottenDamage;
-
-        CurrentDamage = sweetsBaseDamage + rotsBaseDamage;
-        
-        if (CurrentDamage < BaseDamage)
-            CurrentDamage = BaseDamage;
-
-        Debug.Log("Damage after Brew " + CurrentDamage);
-    }
-
-    private void CalculateBakeDamage()
-    {
-        var bakeDamageMultiplier = 1f;
-        bakeDamageMultiplier += GoodClicks * BakeGoodDamageBonus;
-        bakeDamageMultiplier += PerfectClicks * BakePerfectDamageBonus;
-
-        CurrentDamage = (int) (bakeDamageMultiplier * CurrentDamage);
-
-        Debug.Log("Damage after Bake " + CurrentDamage);
-    }
-
-    private int CalculateTotalDamage()
-    {
-        CurrentDamage = Random.Range(CurrentDamage, CurrentDamage + RandomDamageRangeOffset);
-
-        return CurrentDamage;
+        Debug.Log($"Confection Damage total: {CurrentDamage}");
+        ConfectionMixVfx.SwitchConfectionMixParticleSystemsState();
+        Target = TargetedCombatants[0];
+        ConfectionMixVfx.SetTarget(Target);
+        StartCoroutine(CastConfection());
     }
 
     private void ResetBrewComponents()
     {
-        foreach (var ingredient in IngredientTypes)
-        {
-            ingredient.ResetPosition();
-            ingredient.gameObject.SetActive(false);
-        }
+        TotalCorrectInput = 0;
+    }
 
-        for (var i = 0; i < IngredientSpawnLocations.Length; ++i)
-        {
-            if (IsIngredientReserved[i])
-            {
-                IsIngredientReserved[i] = false;
-            }
-        }
+    private void OnEnable()
+    {
+        InputManager.JoystickTapped += OnJoystickTapped;
+    }
 
-        if (IngredientStack.Count > 0)
-        {
-            IngredientStack.Clear();
-        }
-        
-        SweetsDropped = 0;
-        RotsDropped = 0;
-        CookingPot.ResetConfectionValues();
+    private void OnDestroy()
+    {
+        InputManager.JoystickTapped -= OnJoystickTapped;
     }
 }

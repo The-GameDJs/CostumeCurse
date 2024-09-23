@@ -17,10 +17,17 @@ public class ConfectionVfx : MonoBehaviour
     private bool IsMoving;
     private Confection GanielConfection;
     private GameObject Target;
+    private int TotalInputs;
 
     private void Start()
     {
         GanielConfection = GameObject.Find("Ganiel").GetComponentInChildren<Confection>();
+        Confection.CastConfectionAction += OnConfectionCasted;
+    }
+
+    private void OnConfectionCasted(int totalInputs)
+    {
+        TotalInputs = Mathf.Clamp(totalInputs / 8, 0, 4);
     }
 
     private void Update()
@@ -63,8 +70,10 @@ public class ConfectionVfx : MonoBehaviour
 
     public void SwitchConfectionMixParticleSystemsState(bool activate = true)
     {
-        foreach (var particleSystem in MixParticles)
+        for (int i = 0; i <= TotalInputs; i++)
         {
+            var particleSystem = MixParticles[i];
+            
             if (activate)
             {
                 particleSystem.Play();

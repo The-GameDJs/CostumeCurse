@@ -6,6 +6,14 @@ using UnityEngine.InputSystem;
 
 public class InputManager : MonoBehaviour
 {
+    public enum Direction
+    {
+        Left,
+        Right,
+        Up,
+        Down
+    };
+    
     public static Vector3 InputDirection => _inputDirection;
     public static bool HasPressedActionCommand => _hasPressedActionCommand;
     public static string CurrentControlScheme => _currentControlScheme;
