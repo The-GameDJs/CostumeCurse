@@ -20582,6 +20582,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: db2a3b6e-ad4b-4639-8bc8-117665fd4a20
     m_ActionName: Player/Back[/XInputControllerWindows/buttonEast,/Keyboard/f]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1256914968}
+        m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
+        m_MethodName: OnPauseButton
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: f3b2e132-8826-4fc2-99d1-8a4461a909fe
+    m_ActionName: Player/Pause[/Keyboard/escape,/XInputControllerWindows/start]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -40215,6 +40231,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1625643354}
     - target: {fileID: 8046737922562507119, guid: 245aafa1479104646bf1da999c5534b7, type: 3}
+      propertyPath: m_Navigation.m_Mode
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8046737922562507119, guid: 245aafa1479104646bf1da999c5534b7, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1625643354}
@@ -40225,6 +40245,10 @@ PrefabInstance:
     - target: {fileID: 8046737922919254992, guid: 245aafa1479104646bf1da999c5534b7, type: 3}
       propertyPath: m_Name
       value: PauseMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 8046737922919254992, guid: 245aafa1479104646bf1da999c5534b7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8046737922919254993, guid: 245aafa1479104646bf1da999c5534b7, type: 3}
       propertyPath: m_Pivot.x

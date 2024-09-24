@@ -27,6 +27,7 @@ public class InputManager : MonoBehaviour
     public static Action<bool> BackButtonPressed;
     public static Action<Vector2> ControllerMoved;
     public static Action<Vector2> JoystickTapped;
+    public static Action PausedAction;
     
     void Start()
     {
@@ -74,6 +75,12 @@ public class InputManager : MonoBehaviour
     public void OnBackButton(InputAction.CallbackContext context)
     {
         BackButtonPressed?.Invoke(context.started);
+    }
+
+    public void OnPauseButton(InputAction.CallbackContext context)
+    {
+        if(context.started)
+            PausedAction?.Invoke();
     }
 
     private void OnDestroy()

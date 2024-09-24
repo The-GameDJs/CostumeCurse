@@ -11,14 +11,13 @@ public class PauseMenu : MonoBehaviour
     void Start()
     {
         PauseMenuUI = GameObject.Find("PauseMenu");
+        PauseMenuUI.SetActive(false);
+        InputManager.PausedAction += OnPauseButtonClicked;
     }
 
-    void Update()
+    private void OnPauseButtonClicked()
     {
-        if(Input.GetKeyDown(KeyCode.Escape))
-        {
-            IsPaused = !IsPaused;
-        }
+        IsPaused = !IsPaused;
 
         if(IsPaused)
         {
