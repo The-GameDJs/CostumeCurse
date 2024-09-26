@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -44,7 +45,14 @@ public class Player : MonoBehaviour
         MainPlayer = Array.Find(foundPlayers, player => player.IsMainPlayer);
         CurrentCatchUpSpeed = CatchUpSpeed;
 
-        var currentCheckpoint = new Vector3(SaveSystem.Load("Rest.x"), SaveSystem.Load("Rest.y"), SaveSystem.Load("Rest.z"));
+        var currentCheckpoint = Vector3.zero;
+        
+        // Ensure the Loading system occurs only in the Main Scene.
+        // In the future, when the prologue scene becomes a little bit more extensive, add saving/loading system there too.
+        if (SceneManager.GetActiveScene().name == "Main_Scene")
+        {
+            currentCheckpoint = new Vector3(SaveSystem.Load("Rest.x"), SaveSystem.Load("Rest.y"), SaveSystem.Load("Rest.z"));
+        }
         
         transform.position = currentCheckpoint == Vector3.zero ? transform.position : currentCheckpoint;
 
