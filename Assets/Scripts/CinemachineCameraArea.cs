@@ -25,7 +25,7 @@ public class CinemachineCameraArea : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player") && other.gameObject.name == "Sield")
+        if (other.CompareTag("Player") && other.gameObject.name == "Sield" && SceneManager.GetActiveScene().name == "Prologue_Scene")
         {
             CameraRigComponent.SetCinemachineCamera(null);
         }
