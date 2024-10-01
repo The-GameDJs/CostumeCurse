@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6675716342669569934}
-  - component: {fileID: 7212619624636132838}
   - component: {fileID: 2572678336065168395}
   - component: {fileID: 8634236618379587580}
   - component: {fileID: 6187274634682210007}
@@ -37,22 +36,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7212619624636132838
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4413352156426276409}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a2e2a1a0fcf785a40afe1aeaec5676f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Offset: {x: 0, y: 6, z: -20}
-  Rotation: {x: 8, y: 0, z: 0}
-  TransitionInSmoothness: 5
-  TransitionOutSmoothness: 5
 --- !u!33 &2572678336065168395
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -118,11 +101,14 @@ MonoBehaviour:
   - {fileID: 0}
   EnemyPositions:
   - {fileID: 0}
+  TargettableObjects: []
   PlayerPositions:
   - {fileID: 0}
   - {fileID: 0}
   MovementTime: 2
-  CameraArea: {fileID: 0}
+  _combatCinemachineCamera: {fileID: 0}
+  CheckpointResetPosition: {fileID: 0}
+  CombatCollider: {fileID: 0}
 --- !u!114 &3083638296010845176
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -110,8 +110,7 @@ using Random = UnityEngine.Random;
         public void ThrowMusicalNotesAtTarget()
         {
             MusicalNotesVfx.StartMoving();
-            CameraRigSystem.SetTransitionSmoothness(2.0f);
-            CameraRigSystem.MoveCameraToSelectedTarget(Victim);
+            CinemachineCameraRig.Instance.SetCinemachineCameraTarget(Victim.transform);
         }
 
         public void DealSkelemusicDamage()

@@ -19,7 +19,7 @@ public class CinemachineCameraArea : MonoBehaviour
     {
         if (other.CompareTag("Player") && other.gameObject.name == "Sield")
         {
-            CameraRigComponent.SetCinemachineCamera(_cinemachineVirtualCamera);
+            CinemachineCameraRig.Instance.SetCinemachineCamera(_cinemachineVirtualCamera);
         }
     }
 
@@ -27,7 +27,7 @@ public class CinemachineCameraArea : MonoBehaviour
     {
         if (other.CompareTag("Player") && other.gameObject.name == "Sield" && SceneManager.GetActiveScene().name == "Prologue_Scene")
         {
-            CameraRigComponent.SetCinemachineCamera(null);
+            CinemachineCameraRig.Instance.SetCinemachineCamera(null);
         }
     }
 }

@@ -221,8 +221,7 @@ namespace Combat.Abilities
             var offset = TargetedCombatants[0].GetComponent<Combatant>().isBoss
                 ? FireballTargetHeightOffset * 4
                 : FireballTargetHeightOffset;
-            CameraRigSystem.SetTransitionSmoothness(2.0f);
-            CameraRigSystem.MoveCameraToSelectedTarget(target, offset);
+            CinemachineCameraRig.Instance.SetCinemachineCameraTarget(target.transform);
 
             while (elapsedTime < launchDuration)
             {

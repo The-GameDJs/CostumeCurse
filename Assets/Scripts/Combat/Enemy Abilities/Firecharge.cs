@@ -63,7 +63,7 @@ namespace Combat.Enemy_Abilities
             var direction = (Victim.gameObject.transform.position + new Vector3(0f, ChargeTargetHeightOffset, 0f) - ThrowPoint.position).normalized;
             FlameCharge.GetRigidBody().velocity = direction * FlameCharge.GetSpeed();
             
-            CameraRigSystem.MoveCameraToSelectedTarget(Victim);
+            CinemachineCameraRig.Instance.SetCinemachineCameraTarget(Victim.transform);
         }
 
         public new void StartAbility(bool userTargeting = false)

@@ -4,6 +4,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using Cinemachine;
 using Combat.Enemy_Abilities;
 using TMPro;
 
@@ -19,8 +20,9 @@ public class CombatSystem : MonoBehaviour
     public List<GameObject> TargettableObjects;
     private int CurrentCombatantTurn;
 
+    [SerializeField] private CinemachineVirtualCamera _currentCameraZoneCM;
+
     private GameObject MainCamera;
-    private CameraRig CameraRig;
 
     private GameObject CurrentCombatZone;
 
@@ -49,7 +51,6 @@ public class CombatSystem : MonoBehaviour
         BattleBannerText = BattleVictoryBanner.transform.Find("Panel").GetComponentInChildren<TextMeshProUGUI>();
         BattleVictoryBanner.GetComponent<CanvasGroup>().alpha = 0f;
         MainCamera = GameObject.FindGameObjectWithTag("MainCamera");
-        CameraRig = MainCamera.GetComponent<CameraRig>();
 
         Sield = GameObject.Find("Sield");
         Ganiel = GameObject.Find("Sield");
@@ -74,6 +75,9 @@ public class CombatSystem : MonoBehaviour
     // Called by CombatZone
     public void StartCombat(GameObject CombatZone, GameObject[] allies, GameObject[] enemies, GameObject[] targettableObjects)
     {
+        _currentCameraZoneCM = CinemachineCameraRig.Instance.CurrentCinemachineCamera;
+        CinemachineCameraRig.Instance.ChangeCinemachineBrainBlendTime(1.0f);
+        
         InitialCandyCornNumber = CandyCornManager.GetTotalCandyCorn();
         TotalCandyReward = 0;
         IsInProgress = true;
@@ -112,25 +116,17 @@ public class CombatSystem : MonoBehaviour
 
             CurrentCombatZone.GetComponent<CombatZone>().DestroyCombatZone();
 
-            if (Sield != null)
-            {
-                CameraRig.SetTargetGO(Sield);
-                CameraRig.MoveCameraRelative(CameraRig.DefaultOffset, CameraRig.DefaultRotation);
-            }
-
-            else if (Ganiel != null)
-            {
-                CameraRig.SetTargetGO(Ganiel);
-                CameraRig.MoveCameraRelative(CameraRig.DefaultOffset, CameraRig.DefaultRotation);
-            }
+            CinemachineCameraRig.Instance.SetCinemachineCamera(_currentCameraZoneCM);
+            CinemachineCameraRig.Instance.ChangeCinemachineBrainBlendTime(2.0f);
+            _currentCameraZoneCM = null;
         }
         // If boss died, play boss death scenario and return to menu
         else
         {
             Debug.Log("!!!!Boss Died!!!!");
             // Move camera to boss
-            CameraRig.SetTargetGO(EnemyCombatants.Find(c => c.TryGetComponent<EnemyCombatant>(out var boss) && boss.isBoss));
-            CameraRig.MoveCameraRelative(CameraRig.DefaultBossOffset, Quaternion.Euler(CameraRig.DefaultBossRotation));
+            //CameraRig.SetTargetGO(EnemyCombatants.Find(c => c.TryGetComponent<EnemyCombatant>(out var boss) && boss.isBoss));
+            //CameraRig.MoveCameraRelative(CameraRig.DefaultBossOffset, Quaternion.Euler(CameraRig.DefaultBossRotation));
             PlayerPrefs.SetInt("CandyCollected", CandyCornManager.GetTotalCandyCorn());
         }
         IsInProgress = false;
@@ -146,9 +142,9 @@ public class CombatSystem : MonoBehaviour
         {
             Sield.transform.position = combatZone.CheckpointPosition.position;
             Sield.GetComponent<Player>().SetColliderVisibility(false);
-            CameraRig.SetTransitionSmoothness(2.0f);
-            CameraRig.SetTargetGO(Sield);
-            CameraRig.MoveCameraRelative(CameraRig.DefaultOffset, CameraRig.DefaultRotation);
+            CinemachineCameraRig.Instance.SetCinemachineCamera(_currentCameraZoneCM);
+            CinemachineCameraRig.Instance.SetCinemachineCameraTarget(Sield.transform);
+            CinemachineCameraRig.Instance.ChangeCinemachineBrainBlendTime(2.0f);
         }
         if (Ganiel != null)
         {
@@ -232,18 +228,9 @@ public class CombatSystem : MonoBehaviour
 
         var currentCombatant = Combatants[CurrentCombatantTurn - 1].GetComponent<Combatant>();
 
-        CameraRig.SetTargetGO(currentCombatant.gameObject);
-        CameraRig.SetTransitionSmoothness(2);
-        if (currentCombatant is EnemyCombatant { isBoss: true } enemy && enemy.GetComponentInChildren<CandyStorm>().GetCandyCornPhase == CandyStorm.CandyStormPhase.Cloud)
-        {
-            CameraRig.MoveCameraRelative(CurrentCombatZone.GetComponent<CombatZone>().CameraArea.Offset,
-                Quaternion.Euler(CurrentCombatZone.GetComponent<CombatZone>().CameraArea.Rotation + new Vector3(-15.0f, -5.0f, 0.0f)));
-        }
-        else
-        {
-            CameraRig.MoveCameraRelative(CurrentCombatZone.GetComponent<CombatZone>().CameraArea.Offset,
-                Quaternion.Euler(CurrentCombatZone.GetComponent<CombatZone>().CameraArea.Rotation));
-        }
+        var combatZone = CurrentCombatZone.GetComponent<CombatZone>();
+        CinemachineCameraRig.Instance.SetCinemachineCamera(combatZone.CombatCinemachineCamera);
+        CinemachineCameraRig.Instance.SetCinemachineCameraTarget(currentCombatant.transform);
         
         currentCombatant.StartTurn();
     }

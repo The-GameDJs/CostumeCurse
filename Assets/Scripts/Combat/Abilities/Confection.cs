@@ -227,7 +227,7 @@ public class Confection : Ability
             : ConfectionMixVfxVerticalOffset;
 
         ConfectionMixObject.transform.position = Ganiel.transform.position + new Vector3(0.0f, ConfectionMixVfxVerticalOffset, 0.0f);
-        CameraRigSystem.MoveCameraToSelectedTarget(Target, offset);
+        CinemachineCameraRig.Instance.SetCinemachineCameraTarget(Target.transform);
 
         while (animationTime < animationDuration)
         {

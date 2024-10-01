@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
 
 public class CombatZone : MonoBehaviour
@@ -27,7 +28,9 @@ public class CombatZone : MonoBehaviour
     private Vector3[] InitalPositionsPlayers;
 
     protected CombatSystem CombatSystem;
-    public CameraArea CameraArea;
+    [SerializeField] private CinemachineVirtualCamera _combatCinemachineCamera;
+    public CinemachineVirtualCamera CombatCinemachineCamera => _combatCinemachineCamera;
+    
     [SerializeField] private Transform CheckpointResetPosition;
     [SerializeField] private Collider CombatCollider;
     public Transform CheckpointPosition => CheckpointResetPosition;
@@ -38,7 +41,6 @@ public class CombatZone : MonoBehaviour
     public void Start()
     {
         CombatSystem = GameObject.FindGameObjectWithTag("CombatSystem").GetComponent<CombatSystem>();
-        CameraArea = GetComponentInChildren<CameraArea>();
         Timer = GetComponent<Timer>();
         //CheckpointResetPosition.parent = null;
         
@@ -70,6 +72,9 @@ public class CombatZone : MonoBehaviour
             Timer.StartTimer(MovementTime);
             DisablePlayerMovement();
             SetInitialCombatPositions();
+            
+            CombatSystem.StartCombat(this.gameObject, Players, Enemies, TargettableObjects);
+            CinemachineCameraRig.Instance.SetCinemachineCamera(_combatCinemachineCamera);
         }
     }
 
@@ -166,8 +171,6 @@ public class CombatZone : MonoBehaviour
             player.GetComponent<Combatant>().EnterCombat();
         foreach(var interactableObj in TargettableObjects)
             interactableObj.GetComponent<ObjectCombatant>().EnterCombat();
-
-        CombatSystem.StartCombat(this.gameObject, Players, Enemies, TargettableObjects);
     }
 
     public void SetCombatColliderVisibility(bool isActive)

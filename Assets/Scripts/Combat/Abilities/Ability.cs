@@ -13,8 +13,6 @@ public abstract class Ability : MonoBehaviour
 
     protected TargetSelector TargetSelector;
     protected CombatSystem CombatSystem;
-    protected CameraRig CameraRigSystem;
-    public CameraRig GetCameraRigSystem => CameraRigSystem;
 
     public TargetSchema TargetSchema;
 
@@ -39,7 +37,6 @@ public abstract class Ability : MonoBehaviour
         CandyCornManager = FindObjectOfType<CandyCornManager>();
         TargetSelector = GameObject.FindGameObjectWithTag("TargetSelector").GetComponent<TargetSelector>();
         CombatSystem = GameObject.FindGameObjectWithTag("CombatSystem").GetComponent<CombatSystem>();
-        CameraRigSystem = FindObjectOfType<CameraRig>();
 
         //CurrentPhase = Phase.Inactive;
         if (GetComponent<Combatant>() != null)
