@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class InteractiveNPC : MonoBehaviour
 {
@@ -41,18 +42,23 @@ public class InteractiveNPC : MonoBehaviour
         InitialRotation = transform.rotation;
     }
 
-    void Update()
+    private void OnEnable()
     {
-        // If the NPC is the witch and they are currently summoning, don't update anymore
-        if (IsNPC && gameObject.TryGetComponent<Witch>(out var witch) && witch.IsSummoning()) return;
-        
-        CheckIfInRange();
+        InputManager.ActionCommandPressed += OnDialogueTriggered;
+    }
 
-        if (IsConversationActive && Input.GetButtonDown("Action Command"))
+    private void OnDisable()
+    {
+        InputManager.ActionCommandPressed -= OnDialogueTriggered;
+    }
+    
+    private void OnDialogueTriggered(bool hasPressedActionCommand)
+    {
+        if (IsConversationActive && hasPressedActionCommand)
         {
             IsConversationActive = DialogueManager.AdvanceConversation();
         }
-        else if (Input.GetButtonDown("Action Command") && IsPlayerInRange)
+        else if (hasPressedActionCommand && IsPlayerInRange)
         {
             IsConversationActive = true;
 
@@ -61,6 +67,14 @@ public class InteractiveNPC : MonoBehaviour
      
             DialogueManager.StartDialogue(Conversation);
         }
+    }
+
+    void Update()
+    {
+        // If the NPC is the witch and they are currently summoning, don't update anymore
+        if (IsNPC && gameObject.TryGetComponent<Witch>(out var witch) && witch.IsSummoning()) return;
+        
+        CheckIfInRange();
         
         if (IsNPC && IsConversationActive)
             RotateNPC(LookPosition);

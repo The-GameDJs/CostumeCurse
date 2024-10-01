@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class CinemachineCameraArea : MonoBehaviour
 {
-    [SerializeField] CinemachineVirtualCamera _cinemachineVirtualCamera;
+    [SerializeField] private CinemachineVirtualCamera _cinemachineVirtualCamera;
     private Camera MainCamera;
     private CinemachineCameraRig CameraRigComponent;
     private void Start()

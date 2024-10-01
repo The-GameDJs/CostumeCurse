@@ -53,6 +53,11 @@ public class MagicShield : Ability
         InputManager.JoystickTapped += OnJoystickTapped;
     }
 
+    private void OnDisable()
+    {
+        InputManager.JoystickTapped -= OnJoystickTapped;
+    }
+
     private void SetCanvas(bool isActive)
     {
         MagicShieldCanvas.gameObject.SetActive(isActive);
