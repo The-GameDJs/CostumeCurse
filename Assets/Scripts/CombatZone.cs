@@ -73,7 +73,6 @@ public class CombatZone : MonoBehaviour
             DisablePlayerMovement();
             SetInitialCombatPositions();
             
-            CombatSystem.StartCombat(this.gameObject, Players, Enemies, TargettableObjects);
             CinemachineCameraRig.Instance.SetCinemachineCamera(_combatCinemachineCamera);
         }
     }
@@ -171,6 +170,8 @@ public class CombatZone : MonoBehaviour
             player.GetComponent<Combatant>().EnterCombat();
         foreach(var interactableObj in TargettableObjects)
             interactableObj.GetComponent<ObjectCombatant>().EnterCombat();
+        
+        CombatSystem.StartCombat(this.gameObject, Players, Enemies, TargettableObjects);
     }
 
     public void SetCombatColliderVisibility(bool isActive)
