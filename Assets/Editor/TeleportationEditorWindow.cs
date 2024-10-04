@@ -11,7 +11,6 @@ public class TeleportationEditorWindow : EditorWindow
     
     private GameObject debugPositionsParent;
     private Transform player;
-    private Camera playerCamera;
 
     [MenuItem("Debug/Gameplay/Teleportation Menu %&d")]
     public static void ShowWindow()
@@ -30,7 +29,7 @@ public class TeleportationEditorWindow : EditorWindow
             // Ensure objects are correctly assigned
             FindRequiredObjects();
 
-            if (debugPositionsParent != null && player != null && playerCamera != null)
+            if (debugPositionsParent != null && player != null)
             {
                 // Create buttons for each child of DebugPositions
                 CreateDebugPositionButtons();
@@ -51,15 +50,12 @@ public class TeleportationEditorWindow : EditorWindow
     private void FindRequiredObjects()
     {
         debugPositionsParent = GameObject.Find("DebugPositions");
-        player = GameObject.FindWithTag("Player")?.transform;
-        playerCamera = Camera.main;
+        player = GameObject.Find("Sield")?.transform;
 
         if (debugPositionsParent == null)
             Debug.LogWarning("DebugPositions parent not found.");
         if (player == null)
             Debug.LogWarning("Player object not found or not tagged as 'Player'.");
-        if (playerCamera == null)
-            Debug.LogWarning("Main Camera not found.");
     }
 
     private void CreateDebugPositionButtons()
@@ -93,16 +89,13 @@ public class TeleportationEditorWindow : EditorWindow
 
     private void TeleportToDebugPosition(Transform targetTransform)
     {
-        if (player != null && playerCamera != null)
+        if (player != null)
         {
             player.position = targetTransform.position;
-            playerCamera.transform.position = targetTransform.position;
-            playerCamera.transform.rotation = targetTransform.rotation;
 
             // Force the scene to update immediately
             SceneView.RepaintAll();
             EditorUtility.SetDirty(player.gameObject);
-            EditorUtility.SetDirty(playerCamera.gameObject);
 
             Debug.Log($"Teleported to {targetTransform.name}");
         }

@@ -27,7 +27,8 @@ public class Player : MonoBehaviour
 
     private CandyCornManager CandyCornManager;
 
-    private bool IsMovementDisabled;
+    private bool _isMovementDisabled;
+    public bool IsMovementDisabled;
 
     private CharacterController CharacterController;
     private Player MainPlayer;
@@ -132,8 +133,6 @@ public class Player : MonoBehaviour
         direction.y = 0;
         
         direction = Vector3.ProjectOnPlane(direction, Vector3.up).normalized;
-        
-        Debug.Log(direction);
 
         CharacterController.SimpleMove(direction * MovementSpeed);
 
