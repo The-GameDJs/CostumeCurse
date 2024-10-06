@@ -22,10 +22,12 @@ public class CinemachineCameraRig : MonoBehaviour
     [SerializeField] private CinemachineVirtualCamera DefaultCinemachineVirtualCamera;
     private CinemachineVirtualCamera _currentCinemachineCamera;
     public CinemachineVirtualCamera CurrentCinemachineCamera;
+    [SerializeField] private float CameraInitialBlendTime;
 
     private void Start()
     {
         _currentCinemachineCamera = DefaultCinemachineVirtualCamera;
+        ChangeCinemachineBrainBlendTime(CameraInitialBlendTime);
     }
 
     public void SetCinemachineCamera(CinemachineVirtualCamera cm)
