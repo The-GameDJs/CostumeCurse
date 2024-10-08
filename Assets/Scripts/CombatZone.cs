@@ -69,12 +69,20 @@ public class CombatZone : MonoBehaviour
         
         if (other.gameObject.TryGetComponent<Player>(out var player) && player.GetIsMainPlayer)
         {
-            Timer.StartTimer(MovementTime);
-            DisablePlayerMovement();
-            SetInitialCombatPositions();
-            
-            CinemachineCameraRig.Instance.SetCinemachineCamera(_combatCinemachineCamera);
+            StartCoroutine(EnterBattleSequence());
         }
+    }
+
+    private IEnumerator EnterBattleSequence()
+    {
+        CinemachineCameraRig.Instance.SetCinemachineCamera(_combatCinemachineCamera);
+        CinemachineCameraRig.Instance.ChangeCinemachineBrainBlendTime(1.0f);
+        DisablePlayerMovement();
+
+        yield return new WaitForSeconds(0.5f);
+        
+        Timer.StartTimer(MovementTime);
+        SetInitialCombatPositions();
     }
 
     private void SetInitialCombatPositions()
@@ -110,28 +118,46 @@ public class CombatZone : MonoBehaviour
 
     public void SetCombatPositionsUpdate()
     {
+        float progress = Timer.GetProgress() / MovementTime;
+        
         for (int i = 0; i < EnemyPositions.Length; i++)
         {
-            Enemies[i].transform.position = Vector3.Lerp(EnemiesInitialPosition[i],
-                                                         EnemyPositions[i].transform.position,
-                                                         Timer.GetProgress() / MovementTime);
+            // Interpolating the X and Z positions linearly
+            var startPos = EnemiesInitialPosition[i];
+            var targetPos = EnemyPositions[i].transform.position;
+            var currentPos = Vector3.Lerp(startPos, targetPos, progress);
 
-            Vector3 direction = (EnemyPositions[i].transform.position - Enemies[i].transform.position).normalized;
+            // Apply the jump using the AnimationCurve
+            // Assuming the initial y is at ground level, and the curve adds a jump effect
+            var jumpHeight = CombatSystem.MovementAnimCurve.Evaluate(progress); // Jump height based on curve
+            currentPos.y = Mathf.Lerp(startPos.y, targetPos.y, progress) + jumpHeight;
+
+            // Update the enemy's position
+            Enemies[i].transform.position = currentPos;
+
+            var direction = (EnemyPositions[i].transform.position - Enemies[i].transform.position).normalized;
             Enemies[i].transform.rotation = Quaternion.Lerp(Enemies[i].transform.rotation,
                                                             Quaternion.LookRotation(direction), 
-                                                            Timer.GetProgress() / MovementTime);
+                                                            progress);
         }
 
         for (int i = 0; i < PlayerPositions.Length; i++)
         {
-            Players[i].transform.position = Vector3.Lerp(InitalPositionsPlayers[i],
-                                                         PlayerPositions[i].transform.position,
-                                                         Timer.GetProgress() / MovementTime);
+            // Interpolating the X and Z positions linearly
+            var startPos = InitalPositionsPlayers[i];
+            var targetPos = PlayerPositions[i].transform.position;
+            var currentPos = Vector3.Lerp(startPos, targetPos, progress);
+            
+            var jumpHeight = CombatSystem.MovementAnimCurve.Evaluate(progress);
+            currentPos.y = Mathf.Lerp(startPos.y, targetPos.y, progress) + jumpHeight;
+            
+            // Update the player's position
+            Players[i].transform.position = currentPos;
 
-            Vector3 direction = (PlayerPositions[i].transform.position - Players[i].transform.position).normalized;
+            var direction = (PlayerPositions[i].transform.position - Players[i].transform.position).normalized;
             Players[i].transform.rotation = Quaternion.Lerp(Players[i].transform.rotation, 
                                                             Quaternion.LookRotation(direction),
-                                                            Timer.GetProgress() / MovementTime);
+                                                            progress);
         }
     }
 

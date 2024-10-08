@@ -89,9 +89,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TurnPriority: 4
   MaxHealthPoints: 500
-  MaxShieldPoints: 0
+  ElementResistance: 
+  ElementWeakness: 
+  Type: 0
+  FireBurns: []
+  ShieldPrefab: {fileID: 0}
+  HurtSound: {fileID: 0}
   IsAlive: 1
+  Animator: {fileID: 0}
+  DeathAudioSource: {fileID: 0}
+  isBoss: 0
+  CandyCornValue: 0
   Abilities: []
+  Model: {fileID: 0}
 --- !u!114 &107734978824901288
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -771,9 +781,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TurnPriority: 4
   MaxHealthPoints: 100
-  MaxShieldPoints: 0
+  ElementResistance: 
+  ElementWeakness: 
+  Type: 0
+  FireBurns: []
+  ShieldPrefab: {fileID: 0}
+  HurtSound: {fileID: 0}
   IsAlive: 1
+  Animator: {fileID: 0}
+  DeathAudioSource: {fileID: 0}
+  isBoss: 0
+  CandyCornValue: 0
   Abilities: []
+  Model: {fileID: 0}
 --- !u!114 &5173206194064150811
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1189,6 +1209,7 @@ MonoBehaviour:
   Rotation: {x: 0, y: 60, z: 0}
   TransitionInSmoothness: 5
   TransitionOutSmoothness: 5
+  isMainScene: 0
 --- !u!33 &6301724859055325033
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1256,11 +1277,14 @@ MonoBehaviour:
   EnemyPositions:
   - {fileID: 3000848388794019523}
   - {fileID: 5163120772919442376}
+  TargettableObjects: []
   PlayerPositions:
   - {fileID: 2023385833308836604}
   - {fileID: 2793779414042561417}
-  MovementTime: 2
-  CameraArea: {fileID: 0}
+  MovementTime: 1
+  _combatCinemachineCamera: {fileID: 0}
+  CheckpointResetPosition: {fileID: 0}
+  CombatCollider: {fileID: 0}
 --- !u!114 &6776946290031341722
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1453,6 +1477,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3d59d8468d52b84c8e546eb5848c928, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CandyCornCost: 0
+  Element: 0
+  Style: 0
+  Animator: {fileID: 0}
+  MissedActionCommandSound: {fileID: 0}
+  GoodActionCommandSound: {fileID: 0}
+  PerfectActionCommandSound: {fileID: 0}
+  ApproachingDuration: 1.25
+  DisengagingDuration: 1
+  Damage: 0
+  SpaceBetweenBonk: 2.5
+  BonkSound: {fileID: 0}
+  Model: {fileID: 0}
 --- !u!114 &3786690453175790218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1752,6 +1789,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3d59d8468d52b84c8e546eb5848c928, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CandyCornCost: 0
+  Element: 0
+  Style: 0
+  Animator: {fileID: 0}
+  MissedActionCommandSound: {fileID: 0}
+  GoodActionCommandSound: {fileID: 0}
+  PerfectActionCommandSound: {fileID: 0}
+  ApproachingDuration: 1.25
+  DisengagingDuration: 1
+  Damage: 0
+  SpaceBetweenBonk: 2.5
+  BonkSound: {fileID: 0}
+  Model: {fileID: 0}
 --- !u!114 &3437206200465671326
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2300,6 +2350,7 @@ MonoBehaviour:
   m_StopNaN: 0
   m_Dithering: 0
   m_ClearDepth: 1
+  m_AllowXRRendering: 1
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2

@@ -402,10 +402,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsMainPlayer: 1
-  MovementSpeed: 10
+  MovementSpeed: 12
   RotationSpeed: 360
   FollowDistance: 5
   CatchUpSpeed: 15
+  PlayerCollider: {fileID: 0}
+  IsMovementDisabled: 0
 --- !u!114 &662986090354539444
 MonoBehaviour:
   m_ObjectHideFlags: 0

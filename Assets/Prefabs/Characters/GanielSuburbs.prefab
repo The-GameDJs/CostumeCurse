@@ -528,7 +528,7 @@ GameObject:
   - component: {fileID: 5572740277378164996}
   - component: {fileID: 5572740277378164997}
   m_Layer: 0
-  m_Name: Ganiel 1
+  m_Name: GanielSuburbs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -586,10 +586,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsMainPlayer: 0
-  MovementSpeed: 10
+  MovementSpeed: 12
   RotationSpeed: 360
   FollowDistance: 5
   CatchUpSpeed: 15
+  PlayerCollider: {fileID: 0}
+  IsMovementDisabled: 0
 --- !u!114 &5572740277378164997
 MonoBehaviour:
   m_ObjectHideFlags: 0

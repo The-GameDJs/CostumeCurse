@@ -39,6 +39,9 @@ public class CombatSystem : MonoBehaviour
     private TextMeshProUGUI BattleBannerText;
     private int InitialCandyCornNumber;
 
+    [SerializeField] private AnimationCurve _movementAnimCurve;
+    public AnimationCurve MovementAnimCurve => _movementAnimCurve;
+
     void Start()
     {
         #if UNITY_EDITOR
@@ -76,7 +79,6 @@ public class CombatSystem : MonoBehaviour
     public void StartCombat(GameObject CombatZone, GameObject[] allies, GameObject[] enemies, GameObject[] targettableObjects)
     {
         _currentCameraZoneCM = CinemachineCameraRig.Instance.CurrentCinemachineCamera;
-        CinemachineCameraRig.Instance.ChangeCinemachineBrainBlendTime(1.0f);
         
         InitialCandyCornNumber = CandyCornManager.GetTotalCandyCorn();
         TotalCandyReward = 0;

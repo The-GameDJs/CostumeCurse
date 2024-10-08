@@ -1420,11 +1420,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsMainPlayer: 0
-  MovementSpeed: 10
+  MovementSpeed: 12
   RotationSpeed: 360
   FollowDistance: 5
   CatchUpSpeed: 15
   PlayerCollider: {fileID: 1068027122880330472}
+  IsMovementDisabled: 0
 --- !u!114 &5565676062077663811
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1451,8 +1452,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TurnPriority: 1
   MaxHealthPoints: 300
-  ElementResistance: 3
-  ElementWeakness: 3
+  ElementResistance: 
+  ElementWeakness: 
   Type: 0
   FireBurns:
   - {fileID: 4404755784157867682}
