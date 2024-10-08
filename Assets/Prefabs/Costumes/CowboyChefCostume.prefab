@@ -92,8 +92,9 @@ MonoBehaviour:
   MissedActionCommandSound: {fileID: 6664166677754882953}
   GoodActionCommandSound: {fileID: 7161951791883803293}
   PerfectActionCommandSound: {fileID: 4763670468142087091}
-  ApproachingDuration: 1.25
-  DisengagingDuration: 1
+  ApproachingDuration: 0.5
+  DisengagingDuration: 0.5
+  IsJumpingBonk: 1
   Damage: 30
   SpaceBetweenBonk: 2.5
   BonkSound: {fileID: 7931677029497977335}
@@ -124,8 +125,6 @@ MonoBehaviour:
   SweetCollectedSound: {fileID: 7624023035816383266}
   RottenCollectedSound: {fileID: 1006026378842062201}
   ConfectionMixVfxVerticalOffset: 3
-  IngredientTypes: []
-  IngredientSpawnLocations: []
 --- !u!114 &3062844817910028114
 MonoBehaviour:
   m_ObjectHideFlags: 0

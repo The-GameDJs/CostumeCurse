@@ -14,6 +14,8 @@ namespace Combat.Abilities
         private Timer Timer;
         [SerializeField] private float ApproachingDuration = 1.25f;
         [SerializeField] private float DisengagingDuration = 1.0f;
+
+        [SerializeField] private bool IsJumpingBonk;
         
         [SerializeField]
         private const float ActionCommandMultiplier = 1.2f;
@@ -65,13 +67,27 @@ namespace Combat.Abilities
         {
             if (Timer.IsInProgress())
             {
-                float t = Timer.GetProgress() / ApproachingDuration;
-                transform.parent.gameObject.transform.position = Vector3.Lerp(
-                    InitialPosition,
-                    AttackingPosition,
-                    t);
+                var progress = Timer.GetProgress() / ApproachingDuration;
+                var startPos = InitialPosition;
+                var targetPos = AttackingPosition;
+                
+                if (IsJumpingBonk)
+                {
+                    var currentPos = Vector3.Lerp(startPos, targetPos, progress);
+                    
+                    var jumpHeight = CombatSystem.MovementAnimCurve.Evaluate(progress);
+                    currentPos.y = Mathf.Lerp(startPos.y, targetPos.y, progress) + jumpHeight;
+                    
+                    transform.parent.gameObject.transform.position = currentPos;
+                }
+                else
+                {
+                    transform.parent.gameObject.transform.position = Vector3.Lerp(
+                        startPos,
+                        targetPos,
+                        progress);
+                }
             }
-
             else if (Timer.IsFinished())
             {
                 StartBonkPhase();
@@ -82,11 +98,27 @@ namespace Combat.Abilities
         {
             if (Timer.IsInProgress())
             {
-                float t = Timer.GetProgress() / DisengagingDuration;
-                transform.parent.gameObject.transform.position = Vector3.Lerp(
-                    AttackingPosition,
-                    InitialPosition,
-                    t);
+                var progress = Timer.GetProgress() / ApproachingDuration;
+                var startPos = AttackingPosition;
+                var targetPos = InitialPosition;
+                
+                if (IsJumpingBonk)
+                {
+                    
+                    var currentPos = Vector3.Lerp(startPos, targetPos, progress);
+                    
+                    var jumpHeight = CombatSystem.MovementAnimCurve.Evaluate(progress);
+                    currentPos.y = Mathf.Lerp(startPos.y, targetPos.y, progress) + jumpHeight;
+                    
+                    transform.parent.gameObject.transform.position = currentPos;
+                }
+                else
+                {
+                    transform.parent.gameObject.transform.position = Vector3.Lerp(
+                        startPos,
+                        targetPos,
+                        progress);
+                }
             }
 
             else if (Timer.IsFinished())
@@ -151,7 +183,7 @@ namespace Combat.Abilities
             }
             Animator.Play($"Base Layer.Bonk");
 
-            Timer.StartTimer(Animator.GetCurrentAnimatorStateInfo(0).length);
+            Timer.StartTimer(Animator.GetCurrentAnimatorStateInfo(0).length / 1.5f);
         }
 
         private void StartDisengagingPhase()
