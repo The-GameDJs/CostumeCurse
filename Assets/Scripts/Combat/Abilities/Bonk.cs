@@ -1,3 +1,4 @@
+using System.Collections;
 using Assets.Scripts.Combat;
 using UnityEditor;
 using UnityEngine;
@@ -183,7 +184,7 @@ namespace Combat.Abilities
             }
             Animator.Play($"Base Layer.Bonk");
 
-            Timer.StartTimer(Animator.GetCurrentAnimatorStateInfo(0).length / 1.5f);
+            Timer.StartTimer(Animator.GetCurrentAnimatorStateInfo(0).length / 1.2f);
         }
 
         private void StartDisengagingPhase()
@@ -215,6 +216,12 @@ namespace Combat.Abilities
 
             HasTimedPressEarly = false;
 
+            StartCoroutine(DelayEndAbility());
+        }
+
+        private IEnumerator DelayEndAbility()
+        {
+            yield return new WaitForSeconds(0.3f);
             CombatSystem.EndTurn();
         }
 
