@@ -13,6 +13,8 @@ namespace Combat.Abilities
     {
         private const float EndOfTurnDelay = 2.0f;
         private int CurrentDamage;
+        private Vector2 _lastInputDirection = Vector2.zero;
+        private bool _isRotatingCounterClockwise;
         
         private enum FireballPhase { Growth, Inactive }
         private FireballPhase CurrentPhase = FireballPhase.Inactive;
@@ -98,46 +100,47 @@ namespace Combat.Abilities
                         ShrinkFireball();
                         return;
                     }
-                    
-                    var currentKey = ExpectedDirections[0];
 
-                    switch (currentKey)
+                    var inputDirection = new Vector2(InputManager.InputDirection.x, InputManager.InputDirection.z);
+
+                    if (inputDirection.magnitude > 0.1f)
                     {
-                        case ExpectedDirection.Up:
-                            if (InputManager.InputDirection.x > 0.88f // Right
-                                || InputManager.InputDirection.z < -0.88f // Down
-                                || InputManager.InputDirection.x < -0.88f) // Left
-                                ShrinkFireball();
-                            else
-                                GrowFireball();
-                            break;
-                        case ExpectedDirection.Down:
-                            if (InputManager.InputDirection.x < -0.88f // Left
-                                || InputManager.InputDirection.x > 0.88f // Right
-                                || InputManager.InputDirection.z > 0.88f) // Up
-                                ShrinkFireball();
-                            else
-                                GrowFireball();
-                            break;
-                        case ExpectedDirection.Right:
-                            if (InputManager.InputDirection.z < -0.88f // Down
-                                || InputManager.InputDirection.x < -0.88f // Left
-                                || InputManager.InputDirection.z > 0.88f) // Up
-                                ShrinkFireball();
-                            else
-                                GrowFireball();
-                            break;
-                        case ExpectedDirection.Left:
-                            if (InputManager.InputDirection.z > 0.88f // Up
-                                || InputManager.InputDirection.x > 0.88f // Right
-                                || InputManager.InputDirection.z < -0.88f) // Down
-                                ShrinkFireball();
-                            else
-                                GrowFireball();
-                            break;
-                        default:
-                            break;
+                        // Calculate the angle between the last and current direction
+                        // If negative, it's a clockwise motion
+                        // Else, its a counter clockwise motion
+                        float angle1 = Mathf.Atan2(_lastInputDirection.y,
+                            _lastInputDirection.x) * Mathf.Rad2Deg;
+                        float angle2 = Mathf.Atan2(inputDirection.y,
+                            inputDirection.x) * Mathf.Rad2Deg;
+                        
+                        float angleDifference = angle2 - angle1;
+                        
+                        Debug.Log($"Angle difference: {angleDifference}");
+
+                        if (angleDifference > 0)
+                        {
+                            // Counterclockwise rotation
+                            _isRotatingCounterClockwise = true;
+                        }
+                        else if (angleDifference < 0)
+                        {
+                            // Clockwise rotation
+                            _isRotatingCounterClockwise = false;
+                        }
+
+                        if (_isRotatingCounterClockwise)
+                        {
+                            Debug.Log($"Counterclockwise rotation detected! Angle: {angleDifference}");
+                            ShrinkFireball();
+                        }
+                        else
+                        {
+                            Debug.Log($"Clockwise rotation detected! Angle: {angleDifference}");
+                            GrowFireball();
+                        }
                     }
+                    
+                    _lastInputDirection = inputDirection;
                 }
             }
 
@@ -247,9 +250,10 @@ namespace Combat.Abilities
 
         private void GrowFireball()
         {
-            Debug.Log("GrowFireball");
+            Debug.Log("Grow Fireball");
 
             Debug.Log($"Target size is {TargetFireballSize}");
+            
             FireballGrowSound.volume = Mathf.Clamp(TargetFireballSize, 0.01f, 1f);
 
             if (!FireballGrowSound.isPlaying)
@@ -266,7 +270,7 @@ namespace Combat.Abilities
 
         private void ShrinkFireball()
         {
-            Debug.Log("ShrinkFireball");
+            Debug.Log("Shrink Fireball");
 
             if (FireballGrowSound.isPlaying)
                 FireballGrowSound.Stop();
