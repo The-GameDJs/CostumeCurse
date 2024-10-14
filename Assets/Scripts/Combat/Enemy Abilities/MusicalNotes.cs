@@ -26,7 +26,7 @@ public class MusicalNotes : MonoBehaviour
         {
             CastMusicalNotesVfx();
 
-            if (Input.GetButtonDown("Action Command"))
+            if (InputManager.HasPressedActionCommand)
             {
                 Debug.Log("Parry Button Pressed");
                 _allyCombatant.HasParried = true;
