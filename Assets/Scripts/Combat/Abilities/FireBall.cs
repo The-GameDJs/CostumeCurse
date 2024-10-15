@@ -25,7 +25,7 @@ namespace Combat.Abilities
         private static GameObject Fireball;
         private const float FireballGrowthMinDuration = 1.5f;
         private const float FireballGrowthMaxDuration = 3.4f;
-        private const int FireballCycles = 20;
+        private const int FireballCycles = 1;
         private int CurrentFireballCycle = 0;
         private const float FireballUnstablingWarningDuration = 1.0f;
         private const float FireballUnstableDuration = 2.0f;
@@ -59,10 +59,10 @@ namespace Combat.Abilities
         private List<ExpectedDirection> ExpectedDirections = new List<ExpectedDirection>();
         private Light LightSource;
 
-        public float minAngleChange = 5f; // Min angle threshold in order for it to be considered 
-        public int bufferSize = 10; // Number of angles we are comparing
-        public float rotationTimeThreshold = 0.5f; // The time interval we check for an input change
-        public float inputThreshold = 0.8f;
+        private float minAngleChange = 5f; // Min angle threshold in order for it to be considered 
+        private int bufferSize = 10; // Number of angles we are comparing
+        private float rotationTimeThreshold = 0.5f; // The time interval we check for an input change
+        private float inputThreshold = 0.8f;
 
         private Queue<float> angleBuffer = new Queue<float>();
         private float lastRotationTime;

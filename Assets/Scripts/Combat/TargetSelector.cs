@@ -33,6 +33,7 @@ public class TargetSelector : MonoBehaviour
     private TargetSchema CurrentTargetSchema;
     [SerializeField] private GameObject SelectTextPrompt;
     [SerializeField] private GameObject WrongSelectionPrompt;
+    [SerializeField] private GameObject GetReadyPrompt;
     private GameObject CurrentSelectionPrompt;
 
     public void Start()
@@ -66,7 +67,7 @@ public class TargetSelector : MonoBehaviour
         if (CurrentTargetSchema.SelectorType == SelectorType.All)
         {
             if (CurrentTargetSchema.CombatantType == CombatantType.Enemy)
-                TargetAllEnemies();
+                StartCoroutine(TargetAllEnemies());
             else if (CurrentTargetSchema.CombatantType == CombatantType.Ally)
                 TargetAllAllies(userTargeting);
         }
@@ -132,8 +133,29 @@ public class TargetSelector : MonoBehaviour
         CurrentTargetedCombatants = enemy;
     }
 
-    private void TargetAllEnemies()
+    private IEnumerator TargetAllEnemies()
     {
+        GetReadyPrompt.SetActive(true);
+        
+        // Delay a bit because as soon as you select the ability, HasPressedActionCommand is true for a few frames
+        yield return new WaitForSeconds(0.2f);
+        
+        while (!InputManager.HasPressedActionCommand)
+        {
+            if (InputManager.HasPressedBack)
+            {
+                Debug.Log("Regretting decision");
+                CombatSystem.GoBackToAbilitySelect();
+                GetReadyPrompt.SetActive(false);
+                CurrentSelectionPrompt = SelectTextPrompt;
+                yield break;
+            }
+            yield return null;
+        }
+        
+        GetReadyPrompt.SetActive(false);
+        CurrentSelectionPrompt = SelectTextPrompt;
+        
         GameObject[] enemies = CombatSystem.Combatants.
             Where(combatant => combatant.CompareTag("Enemy") && combatant.GetComponent<Combatant>().IsAlive).ToArray();
 

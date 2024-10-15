@@ -16,11 +16,13 @@ public class InputManager : MonoBehaviour
     
     public static Vector3 InputDirection => _inputDirection;
     public static bool HasPressedActionCommand => _hasPressedActionCommand;
+    public static bool HasPressedBack => _hasPressedBack;
     public static string CurrentControlScheme => _currentControlScheme;
     
     private PlayerInput _inputAction;
     private static Vector3 _inputDirection;
     private static bool _hasPressedActionCommand;
+    private static bool _hasPressedBack;
     private static string _currentControlScheme;
 
     public static Action<bool> ActionCommandPressed;
@@ -75,6 +77,7 @@ public class InputManager : MonoBehaviour
     public void OnBackButton(InputAction.CallbackContext context)
     {
         BackButtonPressed?.Invoke(context.started);
+        _hasPressedBack = context.performed;
     }
 
     public void OnPauseButton(InputAction.CallbackContext context)
