@@ -29,8 +29,8 @@ namespace Combat.Abilities
         [SerializeField] private float SpaceBetweenBonk = 2.5f;
 
         private bool BelongsToAlly;
-        private bool HasTimedPress;
-        private bool HasCorrectlyTimedPress;
+        private bool HasParried;
+        private bool HasCorrectlyParried;
 
         [SerializeField] private AudioSource BonkSound;
 
@@ -72,9 +72,9 @@ namespace Combat.Abilities
                 var startPos = InitialPosition;
                 var targetPos = AttackingPosition;
                 
-                if (Timer.GetProgress() >= 0.2f && !HasTimedPress && InputManager.HasPressedActionCommand)
+                if (Timer.GetProgress() >= 0.2f && !HasParried && InputManager.HasPressedActionCommand)
                 {
-                    HasTimedPress = true;
+                    HasParried = true;
                     Debug.Log("Missed the timed bonk!");
                 }
                 
@@ -153,17 +153,17 @@ namespace Combat.Abilities
             {
                 var timerProgress = Timer.GetProgress() / Animator.GetCurrentAnimatorStateInfo(0).length;
                 
-                if (!HasTimedPress && (timerProgress >= 0.4f && timerProgress <= 0.6f) 
+                if (!HasParried && (timerProgress >= 0.4f && timerProgress <= 0.6f) 
                                    && InputManager.HasPressedActionCommand)
                 {
                     Debug.Log("Perfectly timed bonk!");
                     PerfectActionCommandSound.Play();
-                    HasTimedPress = true;
-                    HasCorrectlyTimedPress = true;
+                    HasParried = true;
+                    HasCorrectlyParried = true;
                 }
-                else if (!HasTimedPress && InputManager.HasPressedActionCommand)
+                else if (!HasParried && InputManager.HasPressedActionCommand)
                 {
-                    HasTimedPress = true;
+                    HasParried = true;
                     Debug.Log("Missed the timed bonk!");
                 }
             }
@@ -203,7 +203,7 @@ namespace Combat.Abilities
 
         private float EvaluateBonkDamage()
         {
-            float damage = HasCorrectlyTimedPress switch
+            float damage = HasCorrectlyParried switch
             {
                 true when BelongsToAlly => Damage * ActionCommandMultiplier,
                 true when !BelongsToAlly => Damage / ActionCommandMultiplier,
@@ -219,9 +219,9 @@ namespace Combat.Abilities
 
             CurrentPhase = Phase.Inactive;
             
-            HasTimedPress = false;
+            HasParried = false;
             
-            HasCorrectlyTimedPress = false;
+            HasCorrectlyParried = false;
 
             StartCoroutine(DelayEndAbility());
         }

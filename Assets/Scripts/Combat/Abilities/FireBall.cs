@@ -25,7 +25,7 @@ namespace Combat.Abilities
         private static GameObject Fireball;
         private const float FireballGrowthMinDuration = 1.5f;
         private const float FireballGrowthMaxDuration = 3.4f;
-        private const int FireballCycles = 1;
+        private const int FireballCycles = 20;
         private int CurrentFireballCycle = 0;
         private const float FireballUnstablingWarningDuration = 1.0f;
         private const float FireballUnstableDuration = 2.0f;
@@ -59,7 +59,14 @@ namespace Combat.Abilities
         private List<ExpectedDirection> ExpectedDirections = new List<ExpectedDirection>();
         private Light LightSource;
 
+        public float minAngleChange = 5f; // Min angle threshold in order for it to be considered 
+        public int bufferSize = 10; // Number of angles we are comparing
+        public float rotationTimeThreshold = 0.5f; // The time interval we check for an input change
+        public float inputThreshold = 0.8f;
 
+        private Queue<float> angleBuffer = new Queue<float>();
+        private float lastRotationTime;
+        
         public new void Start()
         {
             base.Start();
@@ -93,9 +100,9 @@ namespace Combat.Abilities
 
             if (Timer.IsInProgress())
             {
-                if(IsFireballKeyDown())
+                if (IsFireballKeyDown())
                 {
-                    if(CurrentCyclePhase == FireballCyclePhase.Unstable)
+                    if (CurrentCyclePhase == FireballCyclePhase.Unstable)
                     {
                         ShrinkFireball();
                         return;
@@ -103,44 +110,40 @@ namespace Combat.Abilities
 
                     var inputDirection = new Vector2(InputManager.InputDirection.x, InputManager.InputDirection.z);
 
-                    if (inputDirection.magnitude > 0.1f)
+                    if (inputDirection.magnitude > inputThreshold)
                     {
-                        // Calculate the angle between the last and current direction
-                        // If negative, it's a clockwise motion
-                        // Else, its a counter clockwise motion
-                        float angle1 = Mathf.Atan2(_lastInputDirection.y,
-                            _lastInputDirection.x) * Mathf.Rad2Deg;
-                        float angle2 = Mathf.Atan2(inputDirection.y,
-                            inputDirection.x) * Mathf.Rad2Deg;
-                        
-                        float angleDifference = angle2 - angle1;
-                        
-                        Debug.Log($"Angle difference: {angleDifference}");
+                        float currentAngle = Mathf.Atan2(inputDirection.y, inputDirection.x) * Mathf.Rad2Deg;
 
-                        if (angleDifference > 0)
+                        if (angleBuffer.Count >= bufferSize)
                         {
-                            // Counterclockwise rotation
-                            _isRotatingCounterClockwise = true;
-                        }
-                        else if (angleDifference < 0)
-                        {
-                            // Clockwise rotation
-                            _isRotatingCounterClockwise = false;
+                            angleBuffer.Dequeue();
                         }
 
-                        if (_isRotatingCounterClockwise)
+                        angleBuffer.Enqueue(currentAngle);
+                        // TODO Change from time to delta time?
+                        if (angleBuffer.Count == bufferSize &&
+                            Time.time - lastRotationTime > rotationTimeThreshold)
                         {
-                            Debug.Log($"Counterclockwise rotation detected! Angle: {angleDifference}");
-                            ShrinkFireball();
-                        }
-                        else
-                        {
-                            Debug.Log($"Clockwise rotation detected! Angle: {angleDifference}");
-                            GrowFireball();
+                            bool isClockwise = IsClockwiseRotation();
+
+                            if (isClockwise)
+                            {
+                                Debug.Log("Clockwise rotation detected!");
+                                GrowFireball();
+                            }
+                            else
+                            {
+                                Debug.Log("Counterclockwise rotation detected!");
+                                ShrinkFireball();
+                            }
+
+                            lastRotationTime = Time.time;
                         }
                     }
-                    
-                    _lastInputDirection = inputDirection;
+                    else
+                    {
+                        angleBuffer.Clear();
+                    }
                 }
             }
 
@@ -184,6 +187,29 @@ namespace Combat.Abilities
                     return;
                 }
             }
+        }
+
+        private bool IsClockwiseRotation()
+        {
+            float totalAngleChange = 0;
+            float[] angles = angleBuffer.ToArray();
+            for (int i = 1; i < angles.Length; i++)
+            {
+                float angleDiff = angles[i] - angles[i - 1];
+                
+                // Handle the wraparound case where say you go from 340 degrees to 20 degrees
+                // 20 - 340 = -320 => this is why we need to add 360 to actually get the change in angle
+                if (angleDiff > 180) 
+                    angleDiff -= 360;
+                
+                if (angleDiff < -180) 
+                    angleDiff += 360;
+                totalAngleChange += angleDiff;
+            }
+            
+            // Multiply by the buffer size to scale it based on the number of angles we are considering
+            // Required since we are adding the total sum of angle differences in the buffer size
+            return totalAngleChange < -minAngleChange * bufferSize;
         }
 
         private float EvaluateFireballDamage()
@@ -289,7 +315,7 @@ namespace Combat.Abilities
 
         private bool IsFireballKeyDown()
         {
-            return InputManager.InputDirection.x != 0 || InputManager.InputDirection.z != 0;
+            return InputManager.InputDirection.magnitude >= 0.2f;
         }
 
         public new void StartAbility(bool userTargeting = false)
