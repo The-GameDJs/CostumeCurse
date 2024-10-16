@@ -24,7 +24,16 @@ namespace Combat.Abilities
         {
             if (Target != null && _allyCombatant != null)
             {
-                if (InputManager.HasPressedActionCommand)
+                if (!_allyCombatant.HasParried && InputManager.HasPressedActionCommand && 
+                    Vector3.Distance(Target.transform.position, transform.position) >= 0.2f
+                    && Vector3.Distance(Target.transform.position, transform.position) <= 4.2f)
+                {
+                    Debug.Log("Parried correctly!");
+                    _allyCombatant.ParrySound.Play();
+                    _allyCombatant.HasParriedCorrectly = true;
+                }
+
+                if (!_allyCombatant.HasParried && InputManager.HasPressedActionCommand)
                 {
                     Debug.Log("Parry Button Pressed");
                     _allyCombatant.HasParried = true;
@@ -47,24 +56,6 @@ namespace Combat.Abilities
         public float GetSpeed()
         {
             return ChargeSpeed;
-        }
-
-        private void OnTriggerEnter(Collider other)
-        {
-            if (other.gameObject.Equals(Target) && !transform.parent)
-            {
-                if (_allyCombatant.ParryCollider == other &&
-                    !_allyCombatant.HasParried &&
-                    Input.GetButtonDown("Action Command"))
-                {
-                    Debug.Log("Parried!");
-                    _allyCombatant.HasParriedCorrectly = true;
-                }
-                else if(_allyCombatant.HasParried || !_allyCombatant.HasParriedCorrectly)
-                {
-                    Debug.Log($"Couldn't parry due because player pressed either missed or already pressed the parry button. Has Pressed Parry: {_allyCombatant.HasParried}");
-                }
-            }
         }
 
         private void OnTriggerStay(Collider other)
