@@ -11,7 +11,7 @@ public class AllyCombatant : Combatant
     [SerializeField] Costume costume;
     [SerializeField] public Collider HurtCollider;
     [SerializeField] public Collider ParryCollider;
-    [SerializeField] private AudioSource ParrySound;
+    [SerializeField] public AudioSource ParrySound;
 
     public bool HasParried;
     public bool HasParriedCorrectly;

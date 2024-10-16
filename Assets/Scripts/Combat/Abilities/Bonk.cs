@@ -153,7 +153,7 @@ namespace Combat.Abilities
             {
                 var timerProgress = Timer.GetProgress() / Animator.GetCurrentAnimatorStateInfo(0).length;
                 
-                if (!HasParried && (timerProgress >= 0.4f && timerProgress <= 0.6f) 
+                if (!HasParried && (timerProgress >= 0.4f && timerProgress <= 0.56f) 
                                    && InputManager.HasPressedActionCommand)
                 {
                     Debug.Log("Perfectly timed bonk!");

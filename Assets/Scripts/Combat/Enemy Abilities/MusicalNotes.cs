@@ -26,9 +26,9 @@ public class MusicalNotes : MonoBehaviour
         {
             CastMusicalNotesVfx();
 
-            if (InputManager.HasPressedActionCommand)
+            if (!_allyCombatant.HasParried && InputManager.HasPressedActionCommand)
             {
-                Debug.Log("Parry Button Pressed");
+                Debug.Log($"Couldn't parry due because player pressed either missed or already pressed the parry button. Has Pressed Parry: {_allyCombatant.HasParried}");
                 _allyCombatant.HasParried = true;
             }
         }
@@ -46,24 +46,6 @@ public class MusicalNotes : MonoBehaviour
                 SkeletonMusicAbility.DealSkelemusicDamage();
                 ExplodeCandies();
                 SetLight(false);
-            }
-        }
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.gameObject.Equals(Target))
-        {
-            if (_allyCombatant.ParryCollider == other && 
-                !_allyCombatant.HasParried && 
-                InputManager.HasPressedActionCommand)
-            {
-                Debug.Log("Parried!");
-                _allyCombatant.HasParriedCorrectly = true;
-            }
-            else if(_allyCombatant.HasParried || !_allyCombatant.HasParriedCorrectly)
-            {
-                Debug.Log($"Couldn't parry due because player pressed either missed or already pressed the parry button. Has Pressed Parry: {_allyCombatant.HasParried}");
             }
         }
     }
@@ -92,6 +74,15 @@ public class MusicalNotes : MonoBehaviour
     private void CastMusicalNotesVfx()
     {
         transform.position = Vector3.Lerp(transform.position, Target.transform.position + new Vector3(0.0f, TargetVerticalOffset, 0.0f), Speed * Time.deltaTime);
+        
+        if (!_allyCombatant.HasParried && InputManager.HasPressedActionCommand && 
+            Vector3.Distance(Target.transform.position, transform.position) >= 0.2f
+                                       && Vector3.Distance(Target.transform.position, transform.position) <= 4.2f)
+        {
+            Debug.Log("Parried correctly!");
+            _allyCombatant.ParrySound.Play();
+            _allyCombatant.HasParriedCorrectly = true;
+        }
     }
     
     public void StartMoving()
