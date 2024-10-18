@@ -28,8 +28,13 @@ public class InputUIManager : MonoBehaviour
     }
     
     [SerializeField] private RectTransform _joystickUI;
+    [SerializeField] private Animator _joystickUIAnimator;
+    
     [SerializeField] private RectTransform _arrowsUI;
+    [SerializeField] private Animator _arrowsUIAnimator;
+    
     [SerializeField] private RectTransform _buttonSouthUI;
+    [SerializeField] private Animator _buttonSouthUIAnimator;
     
     public RectTransform JoystickUI => _joystickUI;
 
@@ -38,6 +43,14 @@ public class InputUIManager : MonoBehaviour
         var input = GetInputRectFromType(inputType);
         input.transform.position = setActive ? pointsBar.InputUIAnchor.position : Vector3.zero;
         input.gameObject.SetActive(setActive);
+    }
+
+    public void SetJoystickUIButton(PointsBar pointsBar, bool setActive, string animation = "Default")
+    {
+        _joystickUI.transform.position = setActive ? pointsBar.InputUIAnchor.position : Vector3.zero;
+        if (!setActive) _joystickUIAnimator.Play("Default"); _joystickUIAnimator.Rebind(); _joystickUIAnimator.Update(0.0f);
+        _joystickUI.gameObject.SetActive(setActive);
+        if (setActive) _joystickUIAnimator.Play(animation);
     }
 
     public RectTransform GetInputRectFromType(InputUIType inputType)
