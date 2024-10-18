@@ -35,6 +35,7 @@ public class InputManager : MonoBehaviour
     {
         _inputAction = GetComponent<PlayerInput>();
         _inputAction.onControlsChanged += OnControlSchemeChanged;
+        _currentControlScheme = "Gamepad";
     }
 
     private void OnControlSchemeChanged(PlayerInput input)
