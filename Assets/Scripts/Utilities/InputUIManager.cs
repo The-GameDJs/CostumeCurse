@@ -37,6 +37,7 @@ public class InputUIManager : MonoBehaviour
     [SerializeField] private Animator _buttonSouthUIAnimator;
     
     public RectTransform JoystickUI => _joystickUI;
+    public RectTransform ButtonSouthUI => _buttonSouthUI;
 
     public void SetActiveUIButton(InputUIType inputType, PointsBar pointsBar, bool setActive)
     {
@@ -48,9 +49,33 @@ public class InputUIManager : MonoBehaviour
     public void SetJoystickUIButton(PointsBar pointsBar, bool setActive, string animation = "Default")
     {
         _joystickUI.transform.position = setActive ? pointsBar.InputUIAnchor.position : Vector3.zero;
-        if (!setActive) _joystickUIAnimator.Play("Default"); _joystickUIAnimator.Rebind(); _joystickUIAnimator.Update(0.0f);
+        if (!setActive)
+        {
+            _joystickUIAnimator.Play("Default");
+            _joystickUIAnimator.Rebind();
+            _joystickUIAnimator.Update(0.0f);
+        }
         _joystickUI.gameObject.SetActive(setActive);
-        if (setActive) _joystickUIAnimator.Play(animation);
+        if (setActive)
+        {
+            _joystickUIAnimator.Play("Default");
+        }
+    }
+    
+    public void SetGamepadSouthUIButton(PointsBar pointsBar, bool setActive, string animation = "Default")
+    {
+        _buttonSouthUI.transform.position = setActive ? pointsBar.InputUIAnchor.position : Vector3.zero;
+        if (!setActive)
+        {
+            _buttonSouthUIAnimator.Play(animation);
+            _buttonSouthUIAnimator.Rebind();
+            _buttonSouthUIAnimator.Update(0.0f);
+        }
+        _buttonSouthUI.gameObject.SetActive(setActive);
+        if (setActive)
+        {
+            _buttonSouthUIAnimator.Play(animation);
+        }
     }
 
     public RectTransform GetInputRectFromType(InputUIType inputType)

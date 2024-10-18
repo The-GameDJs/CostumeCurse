@@ -170,7 +170,7 @@ namespace Combat.Abilities
                 if (CurrentCyclePhase == FireballCyclePhase.UnstableWarning)
                 {
                     var joystickUI = InputUIManager.Instance.JoystickUI;
-                    if (!joystickUI.gameObject.activeSelf)
+                    if (joystickUI.gameObject.activeSelf)
                     {
                         InputUIManager.Instance.SetJoystickUIButton(Combatant.HealthBarUI.GetComponentInChildren<PointsBar>(), false);
                     }
@@ -189,7 +189,7 @@ namespace Combat.Abilities
                     LightSource.color = Color.red;
                     
                     var joystickUI = InputUIManager.Instance.JoystickUI;
-                    if (joystickUI.gameObject.activeSelf)
+                    if (!joystickUI.gameObject.activeSelf)
                     {
                         InputUIManager.Instance.SetJoystickUIButton(Combatant.HealthBarUI.GetComponentInChildren<PointsBar>(), true, "JoystickRotate");
                     }

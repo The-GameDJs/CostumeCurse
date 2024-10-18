@@ -138,6 +138,9 @@ public class ThunderStorm : Ability
         Instantiate(Lightning, Thunder.transform.position, Thunder.transform.rotation * Quaternion.Euler(180.0f, 0.0f, 0.0f));
         ThunderHasAppeared = true;
         LightningStrikeSound.Play();
+        
+        var victimCombatant = CurrentVictim.GetComponent<Combatant>();
+        InputUIManager.Instance.SetGamepadSouthUIButton(victimCombatant.HealthBarUI.GetComponentInChildren<PointsBar>(), true, "ClickOnce");
     }
 
     private void AnimateThunderstrike(float progress)
@@ -183,6 +186,8 @@ public class ThunderStorm : Ability
 
         Thunder.SetActive(false);
         ThunderCloudSound.Stop();
+        
+        InputUIManager.Instance.SetGamepadSouthUIButton(Combatant.HealthBarUI.GetComponentInChildren<PointsBar>(), false);
 
         StartThunderStrikePhase();
     }
@@ -217,6 +222,8 @@ public class ThunderStorm : Ability
         Thunder.transform.position = transform.position + ThunderStormHeight * Vector3.up;
         Thunder.transform.localScale = Vector3.one * ThunderStormScale;
         Thunder.GetComponent<Renderer>().material.color = Color.white;
+        
+        InputUIManager.Instance.SetGamepadSouthUIButton(Combatant.HealthBarUI.GetComponentInChildren<PointsBar>(), true, "ClickRepeat");
 
         Timer.StartTimer(ThunderCloudDuration);
     }
@@ -261,11 +268,10 @@ public class ThunderStorm : Ability
             possibleVictims[Random.Range(0, possibleVictims.Length)] :
             TargetedCombatants[Random.Range(0, possibleVictims.Length)];
 
+        var victimCombatant = CurrentVictim.GetComponent<Combatant>();
         var heightMultiplier = 1.0f;
         // Set Thunderstorm a little higher for boss, since he's much taller
-        if (CurrentVictim 
-            && CurrentVictim.TryGetComponent<Combatant>(out var combatantVictim)
-            && combatantVictim.isBoss)
+        if (CurrentVictim && victimCombatant.isBoss)
         {
             heightMultiplier = 3.0f;
         }
