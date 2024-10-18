@@ -12,6 +12,9 @@ public class PointsBar : MonoBehaviour
     public float NewValue;
     public float MaxValue;
     private const float Speed = 2.0f;
+    
+    [SerializeField] private Transform _inputUIAnchor;
+    public Transform InputUIAnchor => _inputUIAnchor;
 
     void Start()
     {

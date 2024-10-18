@@ -65,6 +65,9 @@ public abstract class Combatant : MonoBehaviour
     private PointsBar BlueBar;
     private TMP_Text ShieldText;
 
+    public GameObject HealthBarUI => HealthBar;
+    public GameObject ShieldBarUI => ShieldBar;
+
     [SerializeField] private AudioSource HurtSound;
 
     private const float HealthBarYOffsetScale = 1.25f;

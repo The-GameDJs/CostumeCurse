@@ -169,6 +169,11 @@ namespace Combat.Abilities
 
                 if (CurrentCyclePhase == FireballCyclePhase.UnstableWarning)
                 {
+                    var inputUIRect = InputUIManager.Instance.GetInputRectFromType(InputUIType.Joystick);
+                    if (inputUIRect.gameObject.activeSelf)
+                    {
+                        InputUIManager.Instance.SetActiveUIButton(InputUIType.Joystick, Combatant.HealthBarUI.GetComponentInChildren<PointsBar>(), false);
+                    }
                     CurrentCyclePhase = FireballCyclePhase.Unstable;
                     Timer.StartTimer(FireballUnstableDuration);
                     MainModule.startColor = Color.white;
@@ -182,6 +187,12 @@ namespace Combat.Abilities
                     CurrentCyclePhase = FireballCyclePhase.Normal;
                     MainModule.startColor = Color.red;
                     LightSource.color = Color.red;
+                    
+                    var inputUIRect = InputUIManager.Instance.GetInputRectFromType(InputUIType.Joystick);
+                    if (!inputUIRect.gameObject.activeSelf)
+                    {
+                        InputUIManager.Instance.SetActiveUIButton(InputUIType.Joystick, Combatant.HealthBarUI.GetComponentInChildren<PointsBar>(), true);
+                    }
 
                     Timer.StartTimer(Random.Range(FireballGrowthMinDuration, FireballGrowthMaxDuration));
                     return;
@@ -234,6 +245,8 @@ namespace Combat.Abilities
             GameObject victim = TargetedCombatants[Random.Range(0, TargetedCombatants.Length)];
 
             FireballGrowSound.Stop();
+            
+            InputUIManager.Instance.SetActiveUIButton(InputUIType.Joystick, Combatant.HealthBarUI.GetComponentInChildren<PointsBar>(), false);
 
             StartCoroutine(LaunchFireball(victim));
 
@@ -356,6 +369,8 @@ namespace Combat.Abilities
             };
 
             CurrentCyclePhase = FireballCyclePhase.Normal;
+            
+            InputUIManager.Instance.SetActiveUIButton(InputUIType.Joystick, Combatant.HealthBarUI.GetComponentInChildren<PointsBar>(), true);
 
             Timer.StartTimer(Random.Range(FireballGrowthMinDuration, FireballGrowthMaxDuration));
         }
