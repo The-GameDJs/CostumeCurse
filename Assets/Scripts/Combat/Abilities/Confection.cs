@@ -13,8 +13,8 @@ public class Confection : Ability
     private enum Phase { Brew, Bake, Inactive }
 
     [SerializeField] private Canvas BrewCanvas;
-    [SerializeField] private Canvas BakeCanvas;
     private Text TimerText;
+    private SliderHandle SliderScript;
     private static CanvasGroup BrewCanvasGroup;
     private static CanvasGroup BakeCanvasGroup;
     private Timer Timer;
@@ -25,11 +25,14 @@ public class Confection : Ability
     [SerializeField] private AudioSource SweetCollectedSound;
     [SerializeField] private AudioSource RottenCollectedSound;
 
-    private int TotalCorrectInput;
-    private readonly float BrewDuration = 4.5f;
+    private int GoodClicks;
+    private int MissedTime;
+    private int PerfectClicks;
+    private int Clicks;
+    private int MaxClicks = 5;
+    
+    private readonly float BrewDuration = 20.5f;
     private readonly int BaseDamage = 20;
-    private readonly int RottenDamage = -10;
-    private readonly int SweetsDamage = 10;
     private readonly float BakePerfectDamageBonus = 0.15f;
     private readonly float BakeGoodDamageBonus = 0.05f;
     private readonly int RandomDamageRangeOffset = 8;
@@ -43,7 +46,7 @@ public class Confection : Ability
     [SerializeField] private float ConfectionMixVfxVerticalOffset;
     private bool[] IsIngredientReserved;
 
-    public static Action<int> CastConfectionAction;
+    public static Action<int> ShowConfectionParticle;
 
     public new void Start()
     {
@@ -51,6 +54,7 @@ public class Confection : Ability
         Ganiel = GameObject.Find("Ganiel");
         ConfectionMixObject = GameObject.Find("ConfectionPowerMove");
         ConfectionMixVfx = ConfectionMixObject.GetComponent<ConfectionVfx>();
+        SliderScript = BrewCanvas.GetComponent<SliderHandle>();
         Timer = GetComponent<Timer>();
         InputOrder = new Queue<InputManager.Direction>();
         InputOrder.Enqueue(InputManager.Direction.Left);
@@ -91,9 +95,10 @@ public class Confection : Ability
     private void StartBrewPhase()
     {
         CookingAbilityPhase = Phase.Brew;
-        TotalCorrectInput = 0;
         
         BrewCanvas.transform.position = new Vector3(Screen.width / 2f, Screen.height / 2f, 0f);
+
+        SliderScript.enabled = true;
 
         if (BrewCanvas != null)
         {
@@ -103,8 +108,18 @@ public class Confection : Ability
         { 
             Debug.Log("Canvas is Null in StartBrewPhase()"); 
         }
-        
+
+        SliderScript.IsBaking = true;
         Timer.StartTimer(BrewDuration);
+        StartCoroutine(PlayPartOfCastingAnimation());
+    }
+
+    private IEnumerator PlayPartOfCastingAnimation()
+    {
+        ConfectionMixObject.transform.position = Ganiel.transform.position + new Vector3(0.0f, ConfectionMixVfxVerticalOffset, 0.0f);
+        Animator.Play("Base Layer.Casting");
+        yield return new WaitForSeconds(0.5f);
+        Animator.speed = 0f;
     }
 
     private void Update()
@@ -119,24 +134,32 @@ public class Confection : Ability
         {
             float progress = BrewDuration - Timer.GetProgress();
             TimerText.text =  Mathf.RoundToInt(progress).ToString();
+            
+            GoodClicks = SliderScript.GetGoodClicks();
+            MissedTime = SliderScript.GetMissedTime();
+            if (PerfectClicks != SliderScript.GetPerfectClicks())
+            {
+                PerfectClicks = SliderScript.GetPerfectClicks();
+                ShowConfectionParticle?.Invoke(PerfectClicks);
+            }
+            Clicks = SliderScript.GetTotalClicks();
+            if(Clicks == MaxClicks)
+                Timer.StopTimer();
         }
         else
         {
+            SliderScript.IsBaking = false;
             EndBrewPhase();
         }
     }
 
     private void EndBrewPhase()
     {
-        Debug.Log($"Brew Complete with candy: {TotalCorrectInput}");
+        Debug.Log($"Brew Complete! Perfect Clicks: {PerfectClicks}. Good Clicks: {GoodClicks}. Missed Clicks: {MissedTime}");
 
         CookingAbilityPhase = Phase.Inactive;
         
         BrewSound.Play();
-
-        CastConfectionAction?.Invoke(TotalCorrectInput);
-        
-        ResetBrewComponents();
 
         StartCoroutine(EndBrewUpdate());
     }
@@ -147,50 +170,8 @@ public class Confection : Ability
         yield return new WaitForSeconds(1.0f);
 
         BrewCanvas.enabled = false;
+        SliderScript.enabled = false;
         EndAbility();
-    }
-
-    private void OnJoystickTapped(Vector2 input)
-    {
-        VerifyConfectionInput(input);
-    }
-
-    private void VerifyConfectionInput(Vector2 input)
-    {
-        if (CookingAbilityPhase != Phase.Brew || input == Vector2.zero)
-            return;
-        
-        var direction = InputOrder.Dequeue();
-
-        switch (direction)
-        {
-            case InputManager.Direction.Left:
-                if (input.x <= -0.1f)
-                {
-                    TotalCorrectInput++;
-                }
-                else
-                {
-                    TotalCorrectInput--;
-                }
-                break;
-            case InputManager.Direction.Right:
-                if (input.x >= 0.1f)
-                {
-                    TotalCorrectInput++;
-                }
-                else
-                {
-                    TotalCorrectInput--;
-                }
-                break;
-        }
-
-        if (TotalCorrectInput < 0)
-            TotalCorrectInput = 0;
-        
-        Debug.Log($"Total Correct Input {TotalCorrectInput}");
-        InputOrder.Enqueue(direction);
     }
 
     public IEnumerator DealConfectionDamage()
@@ -200,19 +181,27 @@ public class Confection : Ability
         ConfectionMixVfx.ExplodeConfectionMix();
 
         yield return new WaitForSeconds(1.5f);
-
+        ConfectionMixVfx.TurnOffConfectionParticles();
         ConfectionMixVfx.ResetVfx();
+        ResetBrewComponents();
         CombatSystem.EndTurn();
     }
 
     private int CalculateTotalDamage()
     {
-        int total = (int) (TotalCorrectInput * BakePerfectDamageBonus + BaseDamage);
-
-        // Yeah this needs work lmao
-        total = InputManager.CurrentControlScheme == "Controller" ? total * total * total : total;
+        var p = PerfectClicks;
+        var g = GoodClicks;
+        var m = MissedTime;
+        var b = BaseDamage;
         
+        var bP = BakePerfectDamageBonus * p;
+        var bG = BakeGoodDamageBonus * g;
+        var bM = (int) (m / BrewDuration);
+        
+        int total = (int) (bP + b + bG) - bM;
+
         CurrentDamage = Random.Range(total, total + RandomDamageRangeOffset);
+        Debug.Log($"Confection Damage total: {CurrentDamage}");
 
         return CurrentDamage;
     }
@@ -220,15 +209,14 @@ public class Confection : Ability
     private IEnumerator CastConfection()
     {
         float animationTime = 0f;
-        float animationDuration = 2.5f;
+        float animationDuration = 2f;
         Animator.SetBool("IsFinishedCasting", false);
         var offset = TargetedCombatants[0].GetComponent<Combatant>().isBoss
             ? ConfectionMixVfxVerticalOffset * 2
             : ConfectionMixVfxVerticalOffset;
-
-        ConfectionMixObject.transform.position = Ganiel.transform.position + new Vector3(0.0f, ConfectionMixVfxVerticalOffset, 0.0f);
+        
         CinemachineCameraRig.Instance.SetCinemachineCameraTarget(Target.transform);
-
+        Animator.speed = 1f;
         while (animationTime < animationDuration)
         {
             animationTime += Time.deltaTime;
@@ -246,8 +234,6 @@ public class Confection : Ability
 
     protected override void EndAbility()
     {
-        Debug.Log($"Confection Damage total: {CurrentDamage}");
-        ConfectionMixVfx.SwitchConfectionMixParticleSystemsState();
         Target = TargetedCombatants[0];
         ConfectionMixVfx.SetTarget(Target);
         StartCoroutine(CastConfection());
@@ -255,16 +241,9 @@ public class Confection : Ability
 
     private void ResetBrewComponents()
     {
-        TotalCorrectInput = 0;
-    }
-
-    private void OnEnable()
-    {
-        InputManager.JoystickTapped += OnJoystickTapped;
-    }
-
-    private void OnDestroy()
-    {
-        InputManager.JoystickTapped -= OnJoystickTapped;
+        PerfectClicks = 0;
+        GoodClicks = 0;
+        MissedTime = 0;
+        CurrentDamage = 0;
     }
 }

@@ -50,10 +50,22 @@ public class ShadowBreath : Ability
         VictimForceField.transform.position = Victim.transform.position + new Vector3(0.0f, VictimForceFieldOffset, 0.0f);
         VictimForceField.gameObject.SetActive(true);
         ExhaleSound.Play();
+        InvokeRepeating("HandleParry", 0.3f, 0.001f);
     }
-    
+
+    private void HandleParry()
+    {
+        var ally = Victim.GetComponent<AllyCombatant>();
+        if (!ally.HasParried && InputManager.HasPressedActionCommand)
+        {
+            ally.HasParried = true;
+            ally.HasParriedCorrectly = true;
+        }
+    }
+
     public void DeactivateShadowBreath()
     {
+        CancelInvoke("HandleParry");
         var attack = new Attack(Damage, Element, Style);
         Victim.GetComponent<Combatant>().Defend(attack);
         

@@ -22,12 +22,13 @@ public class ConfectionVfx : MonoBehaviour
     private void Start()
     {
         GanielConfection = GameObject.Find("Ganiel").GetComponentInChildren<Confection>();
-        Confection.CastConfectionAction += OnConfectionCasted;
+        Confection.ShowConfectionParticle += OnPerfectClick;
     }
 
-    private void OnConfectionCasted(int totalInputs)
+    private void OnPerfectClick(int perfectClicks)
     {
-        TotalInputs = Mathf.Clamp(totalInputs / 8, 0, 4);
+        var particleSystem = MixParticles[perfectClicks - 1];
+        particleSystem.Play();
     }
 
     private void Update()
@@ -43,7 +44,7 @@ public class ConfectionVfx : MonoBehaviour
         if (other.gameObject.Equals(Target))
         {
             IsMoving = false;
-            SwitchConfectionMixParticleSystemsState(false);
+            TurnOffConfectionParticles();
             StartCoroutine(GanielConfection.DealConfectionDamage());
         }
     }
@@ -68,20 +69,13 @@ public class ConfectionVfx : MonoBehaviour
         gameObject.transform.position = new Vector3(0.0f, 0.0f, 0.0f);
     }
 
-    public void SwitchConfectionMixParticleSystemsState(bool activate = true)
+    public void TurnOffConfectionParticles()
     {
-        for (int i = 0; i <= TotalInputs; i++)
+        for (int i = 0; i < MixParticles.Length; i++)
         {
             var particleSystem = MixParticles[i];
             
-            if (activate)
-            {
-                particleSystem.Play();
-            }
-            else
-            {
-                particleSystem.Stop();
-            }
+            particleSystem.Stop();
         }
     }
 
