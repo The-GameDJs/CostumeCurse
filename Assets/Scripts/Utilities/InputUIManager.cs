@@ -51,14 +51,14 @@ public class InputUIManager : MonoBehaviour
         _joystickUI.transform.position = setActive ? pointsBar.InputUIAnchor.position : Vector3.zero;
         if (!setActive)
         {
-            _joystickUIAnimator.Play("Default");
+            _joystickUIAnimator.Play(animation);
             _joystickUIAnimator.Rebind();
             _joystickUIAnimator.Update(0.0f);
         }
         _joystickUI.gameObject.SetActive(setActive);
         if (setActive)
         {
-            _joystickUIAnimator.Play("Default");
+            _joystickUIAnimator.Play(animation);
         }
     }
     
