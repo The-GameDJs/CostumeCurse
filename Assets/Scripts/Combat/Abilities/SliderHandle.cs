@@ -161,9 +161,9 @@ public class SliderHandle : MonoBehaviour
     {
         Direction direction = Direction.Neutral;
         
-        if (inputDirectionX >= 0.8f)
+        if (inputDirectionX >= 0.3f)
             direction = Direction.Right;
-        else if (inputDirectionX <= -0.8f)
+        else if (inputDirectionX <= -0.3f)
             direction = Direction.Left;
 
         return direction;

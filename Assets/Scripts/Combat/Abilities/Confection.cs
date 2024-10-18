@@ -33,9 +33,10 @@ public class Confection : Ability
     
     private readonly float BrewDuration = 20.5f;
     private readonly int BaseDamage = 20;
-    private readonly float BakePerfectDamageBonus = 0.15f;
-    private readonly float BakeGoodDamageBonus = 0.05f;
+    private readonly float BakePerfectDamageBonus = 4.35f;
+    private readonly float BakeGoodDamageBonus = 0.044f;
     private readonly int RandomDamageRangeOffset = 8;
+    private readonly float ControllerFactor = 2.5f;
     private int CurrentDamage;
     private Phase CookingAbilityPhase = Phase.Inactive;
 
@@ -195,7 +196,7 @@ public class Confection : Ability
         var b = BaseDamage;
         
         var bP = BakePerfectDamageBonus * p;
-        var bG = BakeGoodDamageBonus * g;
+        var bG = InputManager.CurrentControlScheme.Equals("Gamepad") ? BakeGoodDamageBonus * ControllerFactor * g : BakeGoodDamageBonus * g;
         var bM = (int) (m / BrewDuration);
         
         int total = (int) (bP + b + bG) - bM;
