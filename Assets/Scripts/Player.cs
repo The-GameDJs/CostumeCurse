@@ -69,7 +69,26 @@ public class Player : MonoBehaviour
         else
             UpdateSecondaryCharacterMovement();
     }
-    
+
+    private void UpdateMainCharacterMovement()
+    {
+        Vector3 direction = InputManager.InputDirection;
+        var horizontalMovement = direction.x;
+        var verticalMovement = direction.z;
+        direction = Camera.main.transform.TransformDirection(direction);
+        direction.y = 0;
+        
+        direction = Vector3.ProjectOnPlane(direction, Vector3.up).normalized;
+
+        CharacterController.SimpleMove(direction * MovementSpeed);
+
+        if (!Mathf.Approximately(verticalMovement, 0.0f) || !Mathf.Approximately(horizontalMovement, 0.0f))
+            transform.localRotation = Quaternion.RotateTowards(
+                transform.localRotation,
+                Quaternion.LookRotation(direction, Vector3.up),
+                RotationSpeed * Time.deltaTime);
+    }
+
     private void UpdateSecondaryCharacterMovement()
     {
         if (!Timer.IsInProgress())
@@ -122,25 +141,6 @@ public class Player : MonoBehaviour
     public Quaternion GetTargetRotation()
     {
         return TargetRotation;
-    }
-
-    private void UpdateMainCharacterMovement()
-    {
-        Vector3 direction = InputManager.InputDirection;
-        var horizontalMovement = direction.x;
-        var verticalMovement = direction.y;
-        direction = Camera.main.transform.TransformDirection(direction);
-        direction.y = 0;
-        
-        direction = Vector3.ProjectOnPlane(direction, Vector3.up).normalized;
-
-        CharacterController.SimpleMove(direction * MovementSpeed);
-
-        if (!Mathf.Approximately(verticalMovement, 0.0f) || !Mathf.Approximately(horizontalMovement, 0.0f))
-            transform.localRotation = Quaternion.RotateTowards(
-                transform.localRotation,
-                Quaternion.LookRotation(direction, Vector3.up),
-                RotationSpeed * Time.deltaTime);
     }
 
     public void EnableMovement()
