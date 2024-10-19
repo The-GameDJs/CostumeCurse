@@ -84,6 +84,7 @@ public class ControllerSelect : MonoBehaviour
 
     public void SetSelectableObjects(List<GameObject> enemies, List<GameObject> objects)
     {
+        _selectedObject = null;
         SelectableObjects = new List<GameObject>(enemies);
         SelectableObjects.AddRange(objects);
         SelectTarget(enemies.First(x => x.GetComponent<EnemyCombatant>().IsAlive));
