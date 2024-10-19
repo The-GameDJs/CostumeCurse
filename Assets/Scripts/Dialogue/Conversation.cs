@@ -14,7 +14,7 @@ public struct Line
 [CreateAssetMenu(fileName = "New Conversation", menuName = "Conversation")]
 public class Conversation : ScriptableObject
 {
-    [SerializeField] private int CandyCornReward;
+    [SerializeField] public int CandyCornReward;
     [SerializeField] private bool ShowCharacterName;
     [FormerlySerializedAs("IsRestPoint")] [SerializeField] private bool RestPoint;
     private bool CandyCornRewardClaimed;
@@ -23,6 +23,7 @@ public class Conversation : ScriptableObject
     public bool IsRestPoint => RestPoint;
 
     // TODO this might break if we ever do more than one OnEnable during the game
+    
     public void OnEnable()
     {
         CandyCornRewardClaimed = false;
@@ -51,5 +52,10 @@ public class Conversation : ScriptableObject
     public bool HasCandyCornReward()
     {
         return CandyCornReward > 0;
+    }
+
+    public void ResetClaimedReward()
+    {
+        CandyCornRewardClaimed = false;
     }
 }

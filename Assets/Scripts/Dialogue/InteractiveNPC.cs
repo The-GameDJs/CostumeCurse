@@ -28,6 +28,10 @@ public class InteractiveNPC : MonoBehaviour
     void Start()
     {
         DialogueManager = GameObject.FindGameObjectWithTag("DialogueManager").GetComponent<DialogueManager>();
+        
+        if(Application.isEditor)
+            Conversation.ResetClaimedReward();
+        
         Sield = GameObject.Find("Sield");
         IsConversationActive = false;
         IsPlayerInRange = false;

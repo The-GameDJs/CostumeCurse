@@ -37,6 +37,11 @@ public class CandyCornManager : MonoBehaviour
     {
         return TotalCandyCorn;
     }
+    
+    public int GetMaxCandyCorn()
+    {
+        return MaxCandyCorn;
+    }
 
     public void SetCandyCorn(int candyCorn)
     {

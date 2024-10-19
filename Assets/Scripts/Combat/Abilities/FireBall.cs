@@ -36,7 +36,7 @@ namespace Combat.Abilities
         private const float FireballHeight = 7f;
         private const float FireballScale = 0.08f;
         private float TargetFireballSize = 0.15f;
-        private const float FireballGrowth = 0.015f;
+        private const float FireballGrowth = 0.275f;
         private const float FireballShrinkNormal = 0.005f;
         private const float FireballShrinkUnstable = 0.4f;
         private const float FireballScalingSmoothness = 2f;
@@ -46,8 +46,8 @@ namespace Combat.Abilities
         [FormerlySerializedAs("BulletTargetHeightOffset")]
         [Header("Properties")] 
         [SerializeField] private float FireballTargetHeightOffset;
-        private const float FireballMaximumDamage = 150;
-        private const float FireballMinimumDamage = 85;
+        private const float FireballMaximumDamage = 100;
+        private const float FireballMinimumDamage = 65;
         private const float FireballDifficultyCurve = 100;
 
         [Header("Components")]
@@ -60,7 +60,7 @@ namespace Combat.Abilities
         private Light LightSource;
 
         private float minAngleChange = 5f; // Min angle threshold in order for it to be considered 
-        private int bufferSize = 10; // Number of angles we are comparing
+        private int bufferSize = 5; // Number of angles we are comparing
         private float rotationTimeThreshold = 0.5f; // The time interval we check for an input change
         private float inputThreshold = 0.8f;
 
@@ -229,7 +229,7 @@ namespace Combat.Abilities
             float M = FireballMaximumDamage;
             float m = FireballMinimumDamage;
             float d = FireballDifficultyCurve;
-            float s = TargetFireballSize > 0.5f ? TargetFireballSize * 100 : 0;
+            float s = TargetFireballSize > 0.11f ? TargetFireballSize * 100 : 0;
 
             //// Please refer to https://www.desmos.com/calculator/ca9cqhpsto for curve
             float fireballDamage = (M - m) / (Mathf.PI / 2) * Mathf.Atan(s / d) + m;

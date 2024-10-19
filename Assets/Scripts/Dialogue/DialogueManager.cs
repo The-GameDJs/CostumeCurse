@@ -82,11 +82,11 @@ public class DialogueManager : MonoBehaviour
             LoadNextGameLevel();
         }
 
-        if (Conversation.IsRestPoint && ActiveLineIndex == Conversation.Lines.Length)
-        {
-            CandyCornManager.AddCandyCorn(Conversation.ClaimReward());
+        if (Conversation.IsRestPoint && CandyCornManager.GetTotalCandyCorn() < CandyCornManager.GetMaxCandyCorn() / 2 && ActiveLineIndex == Conversation.Lines.Length)
             SaveCheckpoint?.Invoke(CurrentSpeaker.transform.position, CandyCornManager.GetTotalCandyCorn());
-        }
+        
+        if(Conversation.CandyCornReward > 0 && ActiveLineIndex == Conversation.Lines.Length)
+            CandyCornManager.AddCandyCorn(Conversation.ClaimReward());
 
         DisplayDialogueBubble = false;
         ActiveLineIndex = 0;

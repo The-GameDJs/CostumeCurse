@@ -64,8 +64,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TurnPriority: 4
   MaxHealthPoints: 580
-  ElementResistance: 3
-  ElementWeakness: 3
+  ElementResistance: 
+  ElementWeakness: 
   Type: 0
   FireBurns:
   - {fileID: 1472896413115883271}
@@ -6637,6 +6637,9 @@ MonoBehaviour:
   MissedActionCommandSound: {fileID: 0}
   GoodActionCommandSound: {fileID: 0}
   PerfectActionCommandSound: {fileID: 0}
+  ApproachingDuration: 1.25
+  DisengagingDuration: 1
+  IsJumpingBonk: 0
   Damage: 42
   SpaceBetweenBonk: 15
   BonkSound: {fileID: 2494755633505995695}
@@ -6660,7 +6663,7 @@ MonoBehaviour:
   MissedActionCommandSound: {fileID: 0}
   GoodActionCommandSound: {fileID: 0}
   PerfectActionCommandSound: {fileID: 0}
-  BaseDamage: 55
+  BaseDamage: 58
   ChargeSound: {fileID: 8588563200515552386}
   ThrowSound: {fileID: 8588563200515552386}
   FlameChargeObject: {fileID: 0}

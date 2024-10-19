@@ -209,13 +209,13 @@ public abstract class Combatant : MonoBehaviour
         if (ElementResistance.Contains(element))
         {
             Debug.Log($"Resisted some damage, since resistance is {ElementResistance}");
-            damage /= 2;
+            damage = (int) (damage / 1.5);
             isResistant = true;
         }
         else if (ElementWeakness.Contains(element))
         {
             Debug.Log($"Combatant took more damage, since weakness is {ElementWeakness}, it's super effective!");
-            damage *= 2;
+            damage = (int) (damage * 1.25);
             isWeakness = true;
         }
 
