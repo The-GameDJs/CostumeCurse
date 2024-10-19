@@ -31,7 +31,7 @@ public class Confection : Ability
     private int Clicks;
     private int MaxClicks = 5;
     
-    private readonly float BrewDuration = 20.5f;
+    private readonly float BrewDuration = 10.0f;
     private readonly int BaseDamage = 20;
     private readonly float BakePerfectDamageBonus = 4.35f;
     private readonly float BakeGoodDamageBonus = 0.044f;
@@ -75,7 +75,7 @@ public class Confection : Ability
 
     private void StartBrewUI()
     {
-        TimerText = BrewCanvas.GetComponentInChildren<Text>();
+        // TimerText = BrewCanvas.GetComponentInChildren<Text>();
     }
 
     public new void StartAbility(bool userTargeting = false)
@@ -134,8 +134,9 @@ public class Confection : Ability
     {
         if (Timer.IsInProgress())
         {
-            float progress = BrewDuration - Timer.GetProgress();
-            TimerText.text =  Mathf.RoundToInt(progress).ToString();
+            // Uncomment if we ever want to add back the timer
+            // float progress = BrewDuration - Timer.GetProgress();
+            // TimerText.text =  Mathf.RoundToInt(progress).ToString();
             
             GoodClicks = SliderScript.GetGoodClicks();
             MissedTime = SliderScript.GetMissedTime();
