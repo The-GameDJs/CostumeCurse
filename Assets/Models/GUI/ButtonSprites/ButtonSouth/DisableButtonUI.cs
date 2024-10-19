@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DisableGamepadButtonSouthUI : MonoBehaviour
+public class DisableButtonUI : MonoBehaviour
 {
     [SerializeField] private Animator _animator;
     
-    public void DisableGamepadButtonSouthUIEvent()
+    public void DisableButtonUIEvent()
     {
         _animator.Play("Default");
         _animator.Rebind();

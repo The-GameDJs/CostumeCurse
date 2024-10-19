@@ -140,7 +140,7 @@ public class ThunderStorm : Ability
         LightningStrikeSound.Play();
         
         var victimCombatant = CurrentVictim.GetComponent<Combatant>();
-        InputUIManager.Instance.SetGamepadSouthUIButton(victimCombatant.HealthBarUI.GetComponentInChildren<PointsBar>(), true, "ClickOnce");
+        InputUIManager.Instance.SetActionCommandUIButton(victimCombatant.HealthBarUI.GetComponentInChildren<PointsBar>(), true, "HitOnce");
     }
 
     private void AnimateThunderstrike(float progress)
@@ -187,7 +187,7 @@ public class ThunderStorm : Ability
         Thunder.SetActive(false);
         ThunderCloudSound.Stop();
         
-        InputUIManager.Instance.SetGamepadSouthUIButton(Combatant.HealthBarUI.GetComponentInChildren<PointsBar>(), false);
+        InputUIManager.Instance.SetActionCommandUIButton(Combatant.HealthBarUI.GetComponentInChildren<PointsBar>(), false);
 
         StartThunderStrikePhase();
     }
@@ -223,7 +223,7 @@ public class ThunderStorm : Ability
         Thunder.transform.localScale = Vector3.one * ThunderStormScale;
         Thunder.GetComponent<Renderer>().material.color = Color.white;
         
-        InputUIManager.Instance.SetGamepadSouthUIButton(Combatant.HealthBarUI.GetComponentInChildren<PointsBar>(), true, "ClickRepeat");
+        InputUIManager.Instance.SetActionCommandUIButton(Combatant.HealthBarUI.GetComponentInChildren<PointsBar>(), true, "HitRepeat");
 
         Timer.StartTimer(ThunderCloudDuration);
     }

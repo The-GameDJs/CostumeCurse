@@ -93,7 +93,7 @@ public class Revolver : Ability
         RevolverCanvas.transform.position = new Vector3(Screen.width / 2f, Screen.height / 2f, 0f);
         StartCoroutine(FireGun());
         CurrentPhase = RevolverPhase.Load;
-        InputUIManager.Instance.SetJoystickUIButton(Combatant.HealthBarUI.GetComponentInChildren<PointsBar>(), true, "JoystickPull");
+        InputUIManager.Instance.SetRotatingInputUIButton(Combatant.HealthBarUI.GetComponentInChildren<PointsBar>(), true, "Pull");
         Timer.StartTimer(Random.Range(2f, ReloadDuration));
     }
 
@@ -122,7 +122,7 @@ public class Revolver : Ability
 
         Debug.Log($"Total time held down: {HoldDownDuration}");
         ReloadSource.Play();
-        InputUIManager.Instance.SetJoystickUIButton(Combatant.HealthBarUI.GetComponentInChildren<PointsBar>(), false);
+        InputUIManager.Instance.SetRotatingInputUIButton(Combatant.HealthBarUI.GetComponentInChildren<PointsBar>(), false);
         StartShootingPhase();
     }
 

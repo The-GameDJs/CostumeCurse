@@ -169,10 +169,10 @@ namespace Combat.Abilities
 
                 if (CurrentCyclePhase == FireballCyclePhase.UnstableWarning)
                 {
-                    var joystickUI = InputUIManager.Instance.JoystickUI;
-                    if (joystickUI.gameObject.activeSelf)
+                    var rotatingInputUI = InputManager.CurrentControlScheme == "Gamepad" ? InputUIManager.Instance.JoystickUI : InputUIManager.Instance.ArrowsUI;
+                    if (rotatingInputUI.gameObject.activeSelf)
                     {
-                        InputUIManager.Instance.SetJoystickUIButton(Combatant.HealthBarUI.GetComponentInChildren<PointsBar>(), false);
+                        InputUIManager.Instance.SetRotatingInputUIButton(Combatant.HealthBarUI.GetComponentInChildren<PointsBar>(), false);
                     }
                     CurrentCyclePhase = FireballCyclePhase.Unstable;
                     Timer.StartTimer(FireballUnstableDuration);
@@ -188,10 +188,10 @@ namespace Combat.Abilities
                     MainModule.startColor = Color.red;
                     LightSource.color = Color.red;
                     
-                    var joystickUI = InputUIManager.Instance.JoystickUI;
-                    if (!joystickUI.gameObject.activeSelf)
+                    var rotatingInputUI = InputManager.CurrentControlScheme == "Gamepad" ? InputUIManager.Instance.JoystickUI : InputUIManager.Instance.ArrowsUI;
+                    if (!rotatingInputUI.gameObject.activeSelf)
                     {
-                        InputUIManager.Instance.SetJoystickUIButton(Combatant.HealthBarUI.GetComponentInChildren<PointsBar>(), true, "JoystickRotate");
+                        InputUIManager.Instance.SetRotatingInputUIButton(Combatant.HealthBarUI.GetComponentInChildren<PointsBar>(), true, "Rotate");
                     }
 
                     Timer.StartTimer(Random.Range(FireballGrowthMinDuration, FireballGrowthMaxDuration));
@@ -246,7 +246,7 @@ namespace Combat.Abilities
 
             FireballGrowSound.Stop();
             
-            InputUIManager.Instance.SetJoystickUIButton(Combatant.HealthBarUI.GetComponentInChildren<PointsBar>(), false);
+            InputUIManager.Instance.SetRotatingInputUIButton(Combatant.HealthBarUI.GetComponentInChildren<PointsBar>(), false);
 
             StartCoroutine(LaunchFireball(victim));
 
@@ -370,7 +370,7 @@ namespace Combat.Abilities
 
             CurrentCyclePhase = FireballCyclePhase.Normal;
             
-            InputUIManager.Instance.SetJoystickUIButton(Combatant.HealthBarUI.GetComponentInChildren<PointsBar>(), true, "JoystickRotate");
+            InputUIManager.Instance.SetRotatingInputUIButton(Combatant.HealthBarUI.GetComponentInChildren<PointsBar>(), true, "Rotate");
 
             Timer.StartTimer(Random.Range(FireballGrowthMinDuration, FireballGrowthMaxDuration));
         }

@@ -5,10 +5,8 @@ using UnityEngine;
 public enum InputUIType
 {
     Joystick,
-    DPad,
     ButtonSouth,
     Arrows, // or WASD
-    MouseLeftClick
 }
 
 public class InputUIManager : MonoBehaviour
@@ -36,8 +34,11 @@ public class InputUIManager : MonoBehaviour
     [SerializeField] private RectTransform _buttonSouthUI;
     [SerializeField] private Animator _buttonSouthUIAnimator;
     
+    [SerializeField] private RectTransform _leftMouseUI;
+    [SerializeField] private Animator _leftMouseUIAnimator;
+    
     public RectTransform JoystickUI => _joystickUI;
-    public RectTransform ButtonSouthUI => _buttonSouthUI;
+    public RectTransform ArrowsUI => _arrowsUI;
 
     public void SetActiveUIButton(InputUIType inputType, PointsBar pointsBar, bool setActive)
     {
@@ -46,39 +47,80 @@ public class InputUIManager : MonoBehaviour
         input.gameObject.SetActive(setActive);
     }
 
-    public void SetJoystickUIButton(PointsBar pointsBar, bool setActive, string animation = "Default")
+    public void SetRotatingInputUIButton(PointsBar pointsBar, bool setActive, string animation = "Default")
     {
-        _joystickUI.transform.position = setActive ? pointsBar.InputUIAnchor.position : Vector3.zero;
-        if (!setActive)
+        var currentDevice = InputManager.CurrentControlScheme;
+
+        if (currentDevice == "Gamepad")
         {
-            _joystickUIAnimator.Play(animation);
-            _joystickUIAnimator.Rebind();
-            _joystickUIAnimator.Update(0.0f);
+            _joystickUI.transform.position = setActive ? pointsBar.InputUIAnchor.position : Vector3.zero;
+            if (!setActive)
+            {
+                _joystickUIAnimator.Play(animation);
+                _joystickUIAnimator.Rebind();
+                _joystickUIAnimator.Update(0.0f);
+            }
+            _joystickUI.gameObject.SetActive(setActive);
+            if (setActive)
+            {
+                _joystickUIAnimator.Play(animation);
+            }
         }
-        _joystickUI.gameObject.SetActive(setActive);
-        if (setActive)
+        else
         {
-            _joystickUIAnimator.Play(animation);
+            _arrowsUI.transform.position = setActive ? pointsBar.InputUIAnchor.position : Vector3.zero;
+            if (!setActive)
+            {
+                _arrowsUIAnimator.Play(animation);
+                _arrowsUIAnimator.Rebind();
+                _arrowsUIAnimator.Update(0.0f);
+            }
+            _arrowsUI.gameObject.SetActive(setActive);
+            if (setActive)
+            {
+                _arrowsUIAnimator.Play(animation);
+            }
         }
     }
     
-    public void SetGamepadSouthUIButton(PointsBar pointsBar, bool setActive, string animation = "Default")
+    public void SetActionCommandUIButton(PointsBar pointsBar, bool setActive, string animation = "Default")
     {
-        _buttonSouthUI.transform.position = setActive ? pointsBar.InputUIAnchor.position : Vector3.zero;
-        if (!setActive)
+        var currentDevice = InputManager.CurrentControlScheme;
+
+        if (currentDevice == "Gamepad")
         {
-            _buttonSouthUIAnimator.Play(animation);
-            _buttonSouthUIAnimator.Rebind();
-            _buttonSouthUIAnimator.Update(0.0f);
+            _buttonSouthUI.transform.position = setActive ? pointsBar.InputUIAnchor.position : Vector3.zero;
+            if (!setActive)
+            {
+                _buttonSouthUIAnimator.Play(animation);
+                _buttonSouthUIAnimator.Rebind();
+                _buttonSouthUIAnimator.Update(0.0f);
+            }
+            _buttonSouthUI.gameObject.SetActive(setActive);
+            if (setActive)
+            {
+                _buttonSouthUIAnimator.Play(animation);
+            }
         }
-        _buttonSouthUI.gameObject.SetActive(setActive);
-        if (setActive)
+        else
         {
-            _buttonSouthUIAnimator.Play(animation);
+            _leftMouseUI.transform.position = setActive ? pointsBar.InputUIAnchor.position : Vector3.zero;
+            if (!setActive)
+            {
+                _leftMouseUIAnimator.Play(animation);
+                _leftMouseUIAnimator.Rebind();
+                _leftMouseUIAnimator.Update(0.0f);
+            }
+            _leftMouseUI.gameObject.SetActive(setActive);
+            if (setActive)
+            {
+                _leftMouseUIAnimator.Play(animation);
+            }
         }
+        
     }
 
-    public RectTransform GetInputRectFromType(InputUIType inputType)
+    private RectTransform GetInputRectFromType(InputUIType inputType)
     {
         return inputType switch
         {
