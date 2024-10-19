@@ -100,6 +100,7 @@ public class Confection : Ability
         BrewCanvas.transform.position = new Vector3(Screen.width / 2f, Screen.height / 2f, 0f);
 
         SliderScript.enabled = true;
+        InputUIManager.Instance.SetRotatingInputUIButton(SliderScript.InputUIPosition.transform.position, true, "Right");
 
         if (BrewCanvas != null)
         {
@@ -161,6 +162,8 @@ public class Confection : Ability
         CookingAbilityPhase = Phase.Inactive;
         
         BrewSound.Play();
+
+        InputUIManager.Instance.SetRotatingInputUIButton(SliderScript.InputUIPosition.transform.position, false);
 
         StartCoroutine(EndBrewUpdate());
     }

@@ -47,13 +47,13 @@ public class InputUIManager : MonoBehaviour
         input.gameObject.SetActive(setActive);
     }
 
-    public void SetRotatingInputUIButton(PointsBar pointsBar, bool setActive, string animation = "Default")
+    public void SetRotatingInputUIButton(Vector3 anchorPosition, bool setActive, string animation = "Default")
     {
         var currentDevice = InputManager.CurrentControlScheme;
 
         if (currentDevice == "Gamepad")
         {
-            _joystickUI.transform.position = setActive ? pointsBar.InputUIAnchor.position : Vector3.zero;
+            _joystickUI.transform.position = setActive ? anchorPosition : Vector3.zero;
             if (!setActive)
             {
                 _joystickUIAnimator.Play(animation);
@@ -68,7 +68,7 @@ public class InputUIManager : MonoBehaviour
         }
         else
         {
-            _arrowsUI.transform.position = setActive ? pointsBar.InputUIAnchor.position : Vector3.zero;
+            _arrowsUI.transform.position = setActive ? anchorPosition : Vector3.zero;
             if (!setActive)
             {
                 _arrowsUIAnimator.Play(animation);
@@ -83,13 +83,13 @@ public class InputUIManager : MonoBehaviour
         }
     }
     
-    public void SetActionCommandUIButton(PointsBar pointsBar, bool setActive, string animation = "Default")
+    public void SetActionCommandUIButton(Vector3 anchorPosition, bool setActive, string animation = "Default")
     {
         var currentDevice = InputManager.CurrentControlScheme;
 
         if (currentDevice == "Gamepad")
         {
-            _buttonSouthUI.transform.position = setActive ? pointsBar.InputUIAnchor.position : Vector3.zero;
+            _buttonSouthUI.transform.position = setActive ? anchorPosition : Vector3.zero;
             if (!setActive)
             {
                 _buttonSouthUIAnimator.Play(animation);
@@ -104,7 +104,7 @@ public class InputUIManager : MonoBehaviour
         }
         else
         {
-            _leftMouseUI.transform.position = setActive ? pointsBar.InputUIAnchor.position : Vector3.zero;
+            _leftMouseUI.transform.position = setActive ? anchorPosition : Vector3.zero;
             if (!setActive)
             {
                 _leftMouseUIAnimator.Play(animation);
@@ -118,6 +118,26 @@ public class InputUIManager : MonoBehaviour
             }
         }
         
+    }
+
+    public void SwitchKeyJoystickDirection(bool isDirectionRight)
+    {
+        var currentDevice = InputManager.CurrentControlScheme;
+
+        if (currentDevice == "Gamepad")
+        {
+            if (_joystickUI.gameObject.activeSelf)
+            {
+                _joystickUIAnimator.SetBool("isRight", isDirectionRight);
+            }
+        }
+        else
+        {
+            if (_arrowsUI.gameObject.activeSelf)
+            {
+                _arrowsUIAnimator.SetBool("isRight", isDirectionRight);
+            }
+        }
     }
 
     private RectTransform GetInputRectFromType(InputUIType inputType)

@@ -172,7 +172,7 @@ namespace Combat.Abilities
                     var rotatingInputUI = InputManager.CurrentControlScheme == "Gamepad" ? InputUIManager.Instance.JoystickUI : InputUIManager.Instance.ArrowsUI;
                     if (rotatingInputUI.gameObject.activeSelf)
                     {
-                        InputUIManager.Instance.SetRotatingInputUIButton(Combatant.HealthBarUI.GetComponentInChildren<PointsBar>(), false);
+                        InputUIManager.Instance.SetRotatingInputUIButton(Combatant.HealthBarUI.GetComponentInChildren<PointsBar>().InputUIAnchor.position, false);
                     }
                     CurrentCyclePhase = FireballCyclePhase.Unstable;
                     Timer.StartTimer(FireballUnstableDuration);
@@ -191,7 +191,7 @@ namespace Combat.Abilities
                     var rotatingInputUI = InputManager.CurrentControlScheme == "Gamepad" ? InputUIManager.Instance.JoystickUI : InputUIManager.Instance.ArrowsUI;
                     if (!rotatingInputUI.gameObject.activeSelf)
                     {
-                        InputUIManager.Instance.SetRotatingInputUIButton(Combatant.HealthBarUI.GetComponentInChildren<PointsBar>(), true, "Rotate");
+                        InputUIManager.Instance.SetRotatingInputUIButton(Combatant.HealthBarUI.GetComponentInChildren<PointsBar>().InputUIAnchor.position, true, "Rotate");
                     }
 
                     Timer.StartTimer(Random.Range(FireballGrowthMinDuration, FireballGrowthMaxDuration));
@@ -246,7 +246,7 @@ namespace Combat.Abilities
 
             FireballGrowSound.Stop();
             
-            InputUIManager.Instance.SetRotatingInputUIButton(Combatant.HealthBarUI.GetComponentInChildren<PointsBar>(), false);
+            InputUIManager.Instance.SetRotatingInputUIButton(Combatant.HealthBarUI.GetComponentInChildren<PointsBar>().InputUIAnchor.position, false);
 
             StartCoroutine(LaunchFireball(victim));
 
@@ -370,7 +370,7 @@ namespace Combat.Abilities
 
             CurrentCyclePhase = FireballCyclePhase.Normal;
             
-            InputUIManager.Instance.SetRotatingInputUIButton(Combatant.HealthBarUI.GetComponentInChildren<PointsBar>(), true, "Rotate");
+            InputUIManager.Instance.SetRotatingInputUIButton(Combatant.HealthBarUI.GetComponentInChildren<PointsBar>().InputUIAnchor.position, true, "Rotate");
 
             Timer.StartTimer(Random.Range(FireballGrowthMinDuration, FireballGrowthMaxDuration));
         }

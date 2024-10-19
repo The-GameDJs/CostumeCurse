@@ -10,6 +10,7 @@ public class SliderHandle : MonoBehaviour
     [SerializeField] private GameObject StartPosition;
     [SerializeField] private GameObject MidpointPosition;
     [SerializeField] private GameObject EndPosition;
+    [SerializeField] private GameObject InputUIAnchor;
     [SerializeField] private float HitAreaOffset;
     [SerializeField] private float GoodColliderChangeOffset;
     [SerializeField] private float PerfectColliderChangeOffset;
@@ -59,6 +60,8 @@ public class SliderHandle : MonoBehaviour
         get => isBaking;
         set => isBaking = value;
     }
+
+    public GameObject InputUIPosition => InputUIAnchor;
 
     public void Start()
     {
@@ -136,6 +139,7 @@ public class SliderHandle : MonoBehaviour
                 Rounds++;
                 PerfectSource.Play();
                 ChangeHitAreaParameters();
+                InputUIManager.Instance.SwitchKeyJoystickDirection(CurrentInputDirection == Direction.Right);
                 Debug.Log("Perfect Direction Change!");
             }
             else if (SliderCollider.IsTouching(GoodCollider))
