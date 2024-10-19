@@ -196,7 +196,7 @@ public class Confection : Ability
         var b = BaseDamage;
         
         var bP = BakePerfectDamageBonus * p;
-        var bG = InputManager.CurrentControlScheme.Equals("Gamepad") ? BakeGoodDamageBonus * ControllerFactor * g : BakeGoodDamageBonus * g;
+        var bG = (BakeGoodDamageBonus * g) / 2;
         var bM = (int) (m / BrewDuration);
         
         int total = (int) (bP + b + bG) - bM;
