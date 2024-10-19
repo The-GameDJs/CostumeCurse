@@ -35,10 +35,10 @@ public class InputManager : MonoBehaviour
     {
         _inputAction = GetComponent<PlayerInput>();
         _inputAction.onControlsChanged += OnControlSchemeChanged;
-        _currentControlScheme = "Gamepad";
+        _currentControlScheme = _inputAction.currentControlScheme;
     }
 
-    private void OnControlSchemeChanged(PlayerInput input)
+    public void OnControlSchemeChanged(PlayerInput input)
     {
         _currentControlScheme = input.currentControlScheme;
         Debug.Log($"Current control scheme: {_currentControlScheme}");
