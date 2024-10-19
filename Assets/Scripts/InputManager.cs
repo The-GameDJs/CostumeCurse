@@ -34,7 +34,6 @@ public class InputManager : MonoBehaviour
     void Start()
     {
         _inputAction = GetComponent<PlayerInput>();
-        _inputAction.onControlsChanged += OnControlSchemeChanged;
         _currentControlScheme = _inputAction.currentControlScheme;
     }
 
@@ -85,10 +84,5 @@ public class InputManager : MonoBehaviour
     {
         if(context.started)
             PausedAction?.Invoke();
-    }
-
-    private void OnDestroy()
-    {
-        _inputAction.onControlsChanged -= OnControlSchemeChanged;
     }
 }
