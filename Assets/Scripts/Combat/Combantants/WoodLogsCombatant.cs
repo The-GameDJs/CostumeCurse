@@ -41,7 +41,7 @@ public class WoodLogsCombatant : ObjectCombatant
         if (other.gameObject.CompareTag("Enemy"))
         {
             var enemy = other.GetComponent<EnemyCombatant>();
-            Attack attack = new Attack(5, ElementType.Fire, AttackStyle.Magic);
+            Attack attack = new Attack(Damage, ElementDamage, AttackType);
             enemy.Defend(attack);
         }
     }

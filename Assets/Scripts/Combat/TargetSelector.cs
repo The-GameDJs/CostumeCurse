@@ -57,7 +57,7 @@ public class TargetSelector : MonoBehaviour
         {
             if (combatant.TryGetComponent(out ObjectCombatant objCombatant))
             {
-                combatant.GetComponent<Combatant>().HideHealthBar();
+                objCombatant.GetComponent<Combatant>().HideHealthBar();
                 continue;
             }
 

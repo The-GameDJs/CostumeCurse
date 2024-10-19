@@ -7,6 +7,10 @@ using UnityEngine;
 // Ex: Logs that catch on fire
 public abstract class ObjectCombatant : Combatant
 {
+    [SerializeField] protected int Damage;
+    [SerializeField] protected ElementType ElementDamage;
+    [SerializeField] protected AttackStyle AttackType;
+    
     new void Start()
     {
         base.Start();

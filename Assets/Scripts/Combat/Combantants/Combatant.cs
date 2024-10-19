@@ -394,7 +394,7 @@ public abstract class Combatant : MonoBehaviour
             Shield.transform.SetParent(GameObject.Find("CombatEffects").transform);
             Shield.SetActive(false);
         }
-
+        
         HealthBar = Instantiate(HealthBarPrefab);
         HealthBar.transform.SetParent(HealthBarUIPanel.transform);
         RedBar = HealthBar.GetComponentInChildren<PointsBar>();
@@ -420,7 +420,7 @@ public abstract class Combatant : MonoBehaviour
 
     public void HideHealthBar()
     {
-        HealthBarPrefab.SetActive(false);
+        HealthBar.SetActive(false);
     }
 
     public void HideBarsUI() 
@@ -431,8 +431,11 @@ public abstract class Combatant : MonoBehaviour
 
     public void ShowBarsUI() 
     {
-        HealthBarUIPanel.GetComponent<CanvasGroup>().alpha = 1f;
-        HealthBarUIPanel.GetComponent<CanvasGroup>().blocksRaycasts = true;
+        if (HealthBarUIPanel != null)
+        {
+            HealthBarUIPanel.GetComponent<CanvasGroup>().alpha = 1f;
+            HealthBarUIPanel.GetComponent<CanvasGroup>().blocksRaycasts = true;
+        }
     }
 
     public void ResetPoints()

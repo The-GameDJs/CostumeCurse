@@ -10,10 +10,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.07049686
-  m_Height: 0.14099371
+  m_Radius: 0.050959673
+  m_Height: 0.10447666
   m_Direction: 1
-  m_Center: {x: -0.023506975, y: -0.0006706987, z: -0.0035442216}
+  m_Center: {x: -0.022992106, y: 0.00885443, z: -0.010022596}
 --- !u!114 &4418367065990227968
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41,6 +41,9 @@ MonoBehaviour:
   Animator: {fileID: 0}
   DeathAudioSource: {fileID: 0}
   isBoss: 0
+  Damage: 40
+  ElementDamage: 1
+  AttackType: 2
   ExplosionHitbox: {fileID: 487598069146691317}
 --- !u!1001 &4166985680819712048
 PrefabInstance:
@@ -235,6 +238,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1912743271951276683, guid: e266ca512c90051488aae56f02220f95, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.0121
+      objectReference: {fileID: 0}
+    - target: {fileID: 1912743271951276683, guid: e266ca512c90051488aae56f02220f95, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.0026
+      objectReference: {fileID: 0}
+    - target: {fileID: 1912743271951276683, guid: e266ca512c90051488aae56f02220f95, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.0359
+      objectReference: {fileID: 0}
     - target: {fileID: 6917805810791803028, guid: e266ca512c90051488aae56f02220f95, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -282,6 +297,10 @@ PrefabInstance:
     - target: {fileID: 7731320563159839278, guid: e266ca512c90051488aae56f02220f95, type: 3}
       propertyPath: m_Name
       value: Log Pile Combatant
+      objectReference: {fileID: 0}
+    - target: {fileID: 7731320563159839278, guid: e266ca512c90051488aae56f02220f95, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5913024598737256956, guid: e266ca512c90051488aae56f02220f95, type: 3}
