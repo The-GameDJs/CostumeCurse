@@ -12,6 +12,8 @@ public class ShadowBreath : Ability
     [SerializeField] private ParticleSystemForceField VictimForceField;
     [SerializeField] private AudioSource ExhaleSound;
     
+    private float _parryWindow;
+    
     void Start()
     {
         base.Start();
@@ -55,17 +57,24 @@ public class ShadowBreath : Ability
 
     private void HandleParry()
     {
+        _parryWindow += Time.deltaTime;
+
         var ally = Victim.GetComponent<AllyCombatant>();
+        if (!ally.HasParried && !ally.HasParriedCorrectly && InputManager.HasPressedActionCommand && _parryWindow >= 3.0f)
+        {
+            ally.HasParriedCorrectly = true;
+        }
+
         if (!ally.HasParried && InputManager.HasPressedActionCommand)
         {
             ally.HasParried = true;
-            ally.HasParriedCorrectly = true;
         }
     }
 
     public void DeactivateShadowBreath()
     {
         CancelInvoke("HandleParry");
+        _parryWindow = 0f;
         var attack = new Attack(Damage, Element, Style);
         Victim.GetComponent<Combatant>().Defend(attack);
         

@@ -73,17 +73,30 @@ public class MusicalNotes : MonoBehaviour
     private void CastMusicalNotesVfx()
     {
         transform.position = Vector3.Lerp(transform.position, Target.transform.position + new Vector3(0.0f, TargetVerticalOffset, 0.0f), Speed * Time.deltaTime);
-        
+
+        CheckIfParried();
+    }
+
+    public void CheckIfParried()
+    {
         if (!_allyCombatant.HasParried && InputManager.HasPressedActionCommand && 
-            Vector3.Distance(Target.transform.position, transform.position) >= 0.2f
-                                       && Vector3.Distance(Target.transform.position, transform.position) <= 4.2f)
+            Vector3.Distance(Target.transform.position, transform.position) >= 0.0001f
+            && Vector3.Distance(Target.transform.position, transform.position) <= 4.2f)
         {
             Debug.Log("Parried correctly!");
-            _allyCombatant.ParrySound.Play();
             _allyCombatant.HasParriedCorrectly = true;
         }
     }
     
+    public void CheckIfParriedSecondTime()
+    {
+        if (!_allyCombatant.HasParried && InputManager.HasPressedActionCommand)
+        {
+            Debug.Log("Parried correctly!");
+            _allyCombatant.HasParriedCorrectly = true;
+        }
+    }
+
     public void StartMoving()
     {
         IsMoving = true;

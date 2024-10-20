@@ -136,7 +136,26 @@ using Random = UnityEngine.Random;
 
         IEnumerator DelayEndOfTurn()
         {
-            yield return new WaitForSeconds(EndOfTurnDelay/2);
+            // Delay a tiny bit of time so that it doesn't check for action command input immediately after the first hit happens
+            // (for fire skeleton)
+            yield return new WaitForSeconds(0.02f);
+            
+            var currentTime = 0f;
+            while (currentTime <= EndOfTurnDelay / 2)
+            {
+                currentTime += Time.deltaTime;
+
+                if (currentTime >= 0.8f && currentTime <= 1.8f)
+                    MusicalNotesVfx.CheckIfParriedSecondTime();
+                
+                if (InputManager.HasPressedActionCommand)
+                {
+                    Victim.TryGetComponent<AllyCombatant>(out var victim);
+                    victim.HasParried = true;
+                }
+
+                yield return null;
+            }
             
             if (Victim.TryGetComponent<AllyCombatant>(out var victimCombatant) && type == ElementType.Fire && victimCombatant.IsCombatantStillAlive())
             {
@@ -145,8 +164,8 @@ using Random = UnityEngine.Random;
                 victimCombatant.Defend(attack);
                 victimCombatant.SetFire(false, Combatant.FireType.eOrangeFire);
             }
-            
-            yield return new WaitForSeconds(EndOfTurnDelay/2);
+
+            yield return new WaitForSeconds(EndOfTurnDelay / 2);
             
             EndAbility();
         }
