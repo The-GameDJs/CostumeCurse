@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -26,6 +27,12 @@ public class DialogueManager : MonoBehaviour
         ActiveLineIndex = 0;
         DisplayDialogueBubble = false;
         CandyCornManager = GameObject.FindObjectOfType<CandyCornManager>();
+
+        if (SceneManager.GetActiveScene().name == "Epilogue_Scene")
+        {
+            CinemachineCameraRig.Instance.ChangeCinemachineBrainBlendTime(5.0f);
+            CinemachineCameraRig.Instance.SetCinemachineCamera(GameObject.Find("CMTarget (2)").GetComponentInChildren<CinemachineVirtualCamera>());
+        }
     }
 
     void Update()

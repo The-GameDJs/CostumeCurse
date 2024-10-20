@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class InteractiveNPC : MonoBehaviour
 {
@@ -29,7 +30,7 @@ public class InteractiveNPC : MonoBehaviour
     {
         DialogueManager = GameObject.FindGameObjectWithTag("DialogueManager").GetComponent<DialogueManager>();
         
-        if(Application.isEditor)
+        if(Application.isEditor && SceneManager.GetActiveScene().name != "Epilogue_Scene")
             Conversation.ResetClaimedReward();
         
         Sield = GameObject.Find("Sield");
