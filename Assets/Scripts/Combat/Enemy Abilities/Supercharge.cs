@@ -128,7 +128,9 @@ namespace Combat.Enemy_Abilities
             Damage = CalculateDamage();
             Attack attack = new Attack((int)Damage, Element, Style);
 
-            Victim.GetComponent<Combatant>().Defend(attack);
+            var victimCombatant = Victim.GetComponent<AllyCombatant>();
+            PlayExplosionParticles(victimCombatant.HasParriedCorrectly, victimCombatant);
+            victimCombatant.Defend(attack);
             StartCoroutine(DelayEndOfTurn());
         }
 

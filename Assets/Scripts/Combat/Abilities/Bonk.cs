@@ -142,20 +142,11 @@ namespace Combat.Abilities
                 Attack attack = new Attack(damage, Element, Style);
 
                 BonkSound.Play();
-                
-                
-                if (!HasParried && Victim.TryGetComponent<AllyCombatant>(out var allyCombatant))
-                {
-                    allyCombatant.ExplosionParticles.gameObject.SetActive(true);
-                    allyCombatant.ExplosionParticles.Play();
-                }
-                else if (HasParried && Victim.TryGetComponent<EnemyCombatant>(out var enemyCombatant))
-                {
-                    enemyCombatant.ExplosionParticles.gameObject.SetActive(true);
-                    enemyCombatant.ExplosionParticles.Play();
-                }
 
-                Victim.GetComponent<Combatant>().Defend(attack);
+                var victimCombatant = Victim.GetComponent<Combatant>();
+                PlayExplosionParticles(HasCorrectlyParried, victimCombatant);
+
+                victimCombatant.Defend(attack);
             }
         }
 
@@ -230,11 +221,6 @@ namespace Combat.Abilities
             Debug.Log($"Bonk Damage total: {Damage}");
 
             CurrentPhase = Phase.Inactive;
-
-            if (Victim.TryGetComponent<Combatant>(out var victimCombatant) && victimCombatant.ExplosionParticles.gameObject.activeSelf)
-            {
-                victimCombatant.ExplosionParticles.gameObject.SetActive(false);
-            }
             
             HasParried = false;
             

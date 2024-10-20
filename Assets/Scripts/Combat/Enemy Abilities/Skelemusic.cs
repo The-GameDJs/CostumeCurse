@@ -123,7 +123,8 @@ using Random = UnityEngine.Random;
                 Damage = CalculateDamage();
                 Attack attack = new Attack((int)Damage, Element, Style);
 
-                var victimCombatant = Victim.GetComponent<Combatant>();
+                var victimCombatant = Victim.GetComponent<AllyCombatant>();
+                PlayExplosionParticles(victimCombatant.HasParriedCorrectly, victimCombatant);
                 victimCombatant.Defend(attack);
                 if (type == ElementType.Fire)
                 {
@@ -137,8 +138,9 @@ using Random = UnityEngine.Random;
         {
             yield return new WaitForSeconds(EndOfTurnDelay/2);
             
-            if (Victim.TryGetComponent<Combatant>(out var victimCombatant) && type == ElementType.Fire && victimCombatant.IsCombatantStillAlive())
+            if (Victim.TryGetComponent<AllyCombatant>(out var victimCombatant) && type == ElementType.Fire && victimCombatant.IsCombatantStillAlive())
             {
+                PlayExplosionParticles(victimCombatant.HasParriedCorrectly, victimCombatant);
                 var attack = new Attack((int)Damage / 2, Element, Style);
                 victimCombatant.Defend(attack);
                 victimCombatant.SetFire(false, Combatant.FireType.eOrangeFire);

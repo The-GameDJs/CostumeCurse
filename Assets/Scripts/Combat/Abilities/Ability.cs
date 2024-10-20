@@ -111,4 +111,17 @@ public abstract class Ability : MonoBehaviour
         yield return new WaitForSeconds(1);
         NotEnoughCandiesPrompt.GetComponent<CanvasGroup>().alpha = 0f;
     }
+
+    public void PlayExplosionParticles(bool hasParried, Combatant combatant)
+    {
+        // Note: Always place function before the Defend() function found at Combatant classes
+        if (!hasParried && combatant is AllyCombatant)
+        {
+            combatant.ExplosionParticles.Play();
+        }
+        else if (hasParried && combatant is EnemyCombatant)
+        {
+            combatant.ExplosionParticles.Play();
+        }
+    }
 }
