@@ -23,6 +23,10 @@ public abstract class Combatant : MonoBehaviour
 
     [SerializeField] private CombatantType Type;
 
+    [SerializeField] private ParticleSystem _explosionParticles;
+
+    public ParticleSystem ExplosionParticles => _explosionParticles;
+
     public CombatantType CombatType
     {
         get => Type;

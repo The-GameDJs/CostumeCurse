@@ -183,7 +183,7 @@ public class Confection : Ability
     {
         Attack attack = new Attack(CalculateTotalDamage(), Element, Style);
         Target.GetComponent<Combatant>().Defend(attack);
-        ConfectionMixVfx.ExplodeConfectionMix();
+        //ConfectionMixVfx.ExplodeConfectionMix();
 
         yield return new WaitForSeconds(1.5f);
         ConfectionMixVfx.TurnOffConfectionParticles();

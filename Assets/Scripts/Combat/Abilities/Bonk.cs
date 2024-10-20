@@ -35,8 +35,6 @@ namespace Combat.Abilities
         [SerializeField] private AudioSource BonkSound;
 
         [SerializeField] private GameObject Model;
-        
-        private ParticleSystem ExplosionParticles;
 
         public new void Start()
         {
@@ -49,8 +47,6 @@ namespace Combat.Abilities
                 1,
                 BelongsToAlly ? CombatantType.Enemy : CombatantType.Ally,
                 SelectorType.Number);
-
-            ExplosionParticles = GameObject.Find("BonkCandyExplosion").GetComponent<ParticleSystem>();
         }
 
         public void Update()
@@ -146,10 +142,17 @@ namespace Combat.Abilities
                 Attack attack = new Attack(damage, Element, Style);
 
                 BonkSound.Play();
-                if (Combatant is EnemyCombatant && !HasParried)
+                
+                
+                if (!HasParried && Victim.TryGetComponent<AllyCombatant>(out var allyCombatant))
                 {
-                    ExplosionParticles.transform.position = Victim.transform.position + new Vector3(0.0f, 3.0f, 0.0f);
-                    ExplosionParticles.Play();
+                    allyCombatant.ExplosionParticles.gameObject.SetActive(true);
+                    allyCombatant.ExplosionParticles.Play();
+                }
+                else if (HasParried && Victim.TryGetComponent<EnemyCombatant>(out var enemyCombatant))
+                {
+                    enemyCombatant.ExplosionParticles.gameObject.SetActive(true);
+                    enemyCombatant.ExplosionParticles.Play();
                 }
 
                 Victim.GetComponent<Combatant>().Defend(attack);
@@ -227,8 +230,11 @@ namespace Combat.Abilities
             Debug.Log($"Bonk Damage total: {Damage}");
 
             CurrentPhase = Phase.Inactive;
-            
-            ExplosionParticles.transform.position = Vector3.zero;
+
+            if (Victim.TryGetComponent<Combatant>(out var victimCombatant) && victimCombatant.ExplosionParticles.gameObject.activeSelf)
+            {
+                victimCombatant.ExplosionParticles.gameObject.SetActive(false);
+            }
             
             HasParried = false;
             

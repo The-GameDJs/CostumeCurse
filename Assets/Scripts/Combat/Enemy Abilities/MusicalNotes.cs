@@ -7,7 +7,6 @@ public class MusicalNotes : MonoBehaviour
     
     [SerializeField] private ParticleSystem[] MixParticles;
     [SerializeField] private ParticleSystem SprinklesParticles;
-    [SerializeField] private ParticleSystem explosionParticles;
     [SerializeField] private Material ParticlesMaterial;
     
     [SerializeField] private Light emission;
@@ -44,7 +43,7 @@ public class MusicalNotes : MonoBehaviour
                 IsMoving = false;
                 SwitchMusicalNotesParticleSystemsState(false);
                 SkeletonMusicAbility.DealSkelemusicDamage();
-                ExplodeCandies();
+                //xplodeCandies();
                 SetLight(false);
             }
         }
@@ -130,6 +129,6 @@ public class MusicalNotes : MonoBehaviour
 
     private void ExplodeCandies()
     {
-        explosionParticles.Play();
+        //explosionParticles.Play();
     }
 }
