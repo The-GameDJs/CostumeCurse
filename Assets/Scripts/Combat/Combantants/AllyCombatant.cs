@@ -10,8 +10,11 @@ public class AllyCombatant : Combatant
 {
     [SerializeField] Costume costume;
     [SerializeField] public Collider HurtCollider;
+    
     [SerializeField] public Collider ParryCollider;
     [SerializeField] public AudioSource ParrySound;
+    [SerializeField] private ParryVfx ParryEffect;
+    [SerializeField] public Transform ParryVfxPlacement;
 
     public bool HasParried;
     public bool HasParriedCorrectly;
@@ -67,5 +70,10 @@ public class AllyCombatant : Combatant
 
         HasParriedCorrectly = false;
         HasParried = false;
+    }
+
+    public void PlayParticleVfx()
+    {
+        ParryEffect.ActivateVfx(this);
     }
 }

@@ -112,16 +112,22 @@ public abstract class Ability : MonoBehaviour
         NotEnoughCandiesPrompt.GetComponent<CanvasGroup>().alpha = 0f;
     }
 
-    public void PlayExplosionParticles(bool hasParried, Combatant combatant)
+    protected void PlayExplosionParticles(bool hasParried, Combatant victimCombatant)
     {
         // Note: Always place function before the Defend() function found at Combatant classes
-        if (!hasParried && combatant is AllyCombatant)
+        if (hasParried && victimCombatant is AllyCombatant)
         {
-            combatant.ExplosionParticles.Play();
+            victimCombatant.gameObject.GetComponent<AllyCombatant>().PlayParticleVfx();
         }
-        else if (hasParried && combatant is EnemyCombatant)
+        else if (!hasParried && victimCombatant is AllyCombatant)
         {
-            combatant.ExplosionParticles.Play();
+            // When ally doesn't parry correctly
+            victimCombatant.ExplosionParticles.Play();
+        }
+        else if (hasParried && victimCombatant is EnemyCombatant)
+        {
+            // When bonking enemy with extra damage
+            victimCombatant.ExplosionParticles.Play();
         }
     }
 }
