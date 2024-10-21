@@ -59,6 +59,9 @@ public class InteractiveNPC : MonoBehaviour
     
     private void OnDialogueTriggered(bool hasPressedActionCommand)
     {
+        if (Conversation.Lines[0].Character == "The Witch" && DialogueManager.HasSpokenToWitch)
+            return;
+        
         if (IsConversationActive && hasPressedActionCommand)
         {
             IsConversationActive = DialogueManager.AdvanceConversation();

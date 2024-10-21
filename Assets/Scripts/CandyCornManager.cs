@@ -22,7 +22,7 @@ public class CandyCornManager : MonoBehaviour
             CandyCornValue = GameObject.Find("CandyCornValue").GetComponent<TMP_Text>();
         }
 
-        TotalCandyCorn = (int) SaveSystem.Load("Candy Corn");
+        TotalCandyCorn = (int) SaveSystem.LoadSave("Candy Corn");
     }
 
     void Update()

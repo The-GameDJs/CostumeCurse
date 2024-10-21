@@ -1,18 +1,29 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
-    private GameObject PauseMenuUI;
+    private GameObject PauseMenuUI { get; set; }
     public static bool IsPaused = false;
+
+
+    private void Awake()
+    {
+        PauseMenuUI = GameObject.Find("PauseMenu");
+    }
 
     void Start()
     {
-        PauseMenuUI = GameObject.Find("PauseMenu");
         PauseMenuUI.SetActive(false);
         InputManager.PausedAction += OnPauseButtonClicked;
+    }
+
+    private void OnDestroy()
+    {
+        InputManager.PausedAction -= OnPauseButtonClicked;
     }
 
     private void OnPauseButtonClicked()
@@ -44,12 +55,14 @@ public class PauseMenu : MonoBehaviour
 
     public void BackToTitle()
     {
+        IsPaused = false;
         DeactivateMenu();
         SceneManager.LoadScene("Title_Screen");
     }
 
     public void QuitGame()
     {
+        InputManager.PausedAction -= OnPauseButtonClicked;
         Application.Quit();
     }
 }

@@ -17,10 +17,11 @@ public class DialogueManager : MonoBehaviour
     private const float YOffsetScale = 1.45f;
 
     private bool DisplayDialogueBubble;
+    public bool HasSpokenToWitch;
 
     private CandyCornManager CandyCornManager;
 
-    public static Action<Vector3, int> SaveCheckpoint;
+    public static Action<Vector3, float> SaveCheckpoint;
 
     void Start()
     {
@@ -85,14 +86,20 @@ public class DialogueManager : MonoBehaviour
         Debug.Log(CurrentSpeaker.gameObject.name);
         if (CurrentSpeaker.gameObject.name == "The Witch" && ActiveLineIndex == Conversation.Lines.Length)
         {
+            HasSpokenToWitch = true;
             CurrentSpeaker.GetComponent<InteractiveNPC>().ActivateWitchSummoning();
             LoadNextGameLevel();
         }
 
-        if (Conversation.IsRestPoint && CandyCornManager.GetTotalCandyCorn() < CandyCornManager.GetMaxCandyCorn() / 2 && ActiveLineIndex == Conversation.Lines.Length)
+        if (Conversation.IsRestPoint && ActiveLineIndex == Conversation.Lines.Length)
             SaveCheckpoint?.Invoke(CurrentSpeaker.transform.position, CandyCornManager.GetTotalCandyCorn());
-        
-        if(Conversation.CandyCornReward > 0 && ActiveLineIndex == Conversation.Lines.Length)
+
+        if (!Conversation.IsRestPoint && Conversation.CandyCornReward > 0 && ActiveLineIndex == Conversation.Lines.Length)
+            CandyCornManager.AddCandyCorn(Conversation.ClaimReward());
+
+        if (Conversation.IsRestPoint &&
+            CandyCornManager.GetTotalCandyCorn() < CandyCornManager.GetMaxCandyCorn() / 2 &&
+            ActiveLineIndex == Conversation.Lines.Length)
             CandyCornManager.AddCandyCorn(Conversation.ClaimReward());
 
         DisplayDialogueBubble = false;

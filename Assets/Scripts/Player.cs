@@ -52,11 +52,10 @@ public class Player : MonoBehaviour
         // In the future, when the prologue scene becomes a little bit more extensive, add saving/loading system there too.
         if (SceneManager.GetActiveScene().name == "Main_Scene")
         {
-            currentCheckpoint = new Vector3(SaveSystem.Load("Rest.x"), SaveSystem.Load("Rest.y"), SaveSystem.Load("Rest.z"));
+            currentCheckpoint = new Vector3(SaveSystem.LoadSave("Rest.x"), SaveSystem.LoadSave("Rest.y"), SaveSystem.LoadSave("Rest.z"));
         }
         
         transform.position = currentCheckpoint == Vector3.zero ? transform.position : currentCheckpoint;
-
     }
 
     void Update()
