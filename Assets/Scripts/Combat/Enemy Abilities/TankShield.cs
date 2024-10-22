@@ -57,6 +57,11 @@ namespace Combat.Enemy_Abilities
             }
             else
             {
+                var self = gameObject.GetComponentInParent<WeakPointCombatant>();
+
+                if (self != null)
+                    self.ResetWeakPointHit();
+                
                 Shield.SetActive(true);
             }
             

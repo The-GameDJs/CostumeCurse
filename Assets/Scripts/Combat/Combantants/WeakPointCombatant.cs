@@ -15,6 +15,11 @@ public abstract class WeakPointCombatant : EnemyCombatant
     {
         base.Update();
     }
+
+    public void ResetWeakPointHit()
+    {
+        HasWeakPointBeenHit = false;
+    }
     
     public abstract void TriggerWeakState();
 
