@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5202692887636974908}
   - component: {fileID: 8056318470788706839}
   - component: {fileID: 6759174991960800047}
+  - component: {fileID: 1800066682512420380}
   m_Layer: 0
   m_Name: Smoke
   m_TagString: Untagged
@@ -4816,6 +4817,21 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &1800066682512420380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3400335955791171777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b42f4e2ff52bd014190216e36a8a28be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startTime: 60
+  particleSystem: {fileID: 8056318470788706839}
+  ScrollSpeed: 0
 --- !u!1 &4736080547046731984
 GameObject:
   m_ObjectHideFlags: 0
@@ -4895,7 +4911,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de8c1d5d9c3e70c4eb4a86918b7a813a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CheckpointData: {fileID: 11400000, guid: 12defca9443f0a142afa43a14da8bdb3, type: 2}
 --- !u!1 &7795902052334523967
 GameObject:
   m_ObjectHideFlags: 0
@@ -4907,6 +4922,7 @@ GameObject:
   - component: {fileID: 2726919972567813737}
   - component: {fileID: 1141123144097675295}
   - component: {fileID: 4223398511280842349}
+  - component: {fileID: 6438799892768892035}
   m_Layer: 0
   m_Name: Fire
   m_TagString: Untagged
@@ -9712,6 +9728,21 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &6438799892768892035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7795902052334523967}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b42f4e2ff52bd014190216e36a8a28be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startTime: 60
+  particleSystem: {fileID: 1141123144097675295}
+  ScrollSpeed: 0
 --- !u!1001 &621186629162330390
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5454508878178040040}
   - component: {fileID: 5454508878178040042}
   - component: {fileID: 5454508878178040041}
+  - component: {fileID: 3478521026820916435}
   m_Layer: 0
   m_Name: GraveyardSmog
   m_TagString: Untagged
@@ -4804,3 +4805,18 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &3478521026820916435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5454508878178040047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b42f4e2ff52bd014190216e36a8a28be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startTime: 60
+  particleSystem: {fileID: 5454508878178040042}
+  ScrollSpeed: 0

@@ -1045,6 +1045,7 @@ GameObject:
   - component: {fileID: 7838164399620938152}
   - component: {fileID: 5100083373288550366}
   - component: {fileID: 8326506086812660140}
+  - component: {fileID: 5792839927627519733}
   m_Layer: 0
   m_Name: Fire
   m_TagString: Untagged
@@ -5850,6 +5851,21 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &5792839927627519733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2675608936743502334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b42f4e2ff52bd014190216e36a8a28be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startTime: 60
+  particleSystem: {fileID: 5100083373288550366}
+  ScrollSpeed: 0
 --- !u!1 &2745959396532720002
 GameObject:
   m_ObjectHideFlags: 0
@@ -7876,6 +7892,7 @@ GameObject:
   - component: {fileID: 81797238197308157}
   - component: {fileID: 2800391576907490774}
   - component: {fileID: 1503180200829037806}
+  - component: {fileID: 5282399866317830443}
   m_Layer: 0
   m_Name: Smoke
   m_TagString: Untagged
@@ -12681,6 +12698,21 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &5282399866317830443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7359264641903331072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b42f4e2ff52bd014190216e36a8a28be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startTime: 60
+  particleSystem: {fileID: 2800391576907490774}
+  ScrollSpeed: 0
 --- !u!1 &7852982864324558929
 GameObject:
   m_ObjectHideFlags: 0
