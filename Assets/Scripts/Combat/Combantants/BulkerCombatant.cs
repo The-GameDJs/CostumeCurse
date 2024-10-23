@@ -20,6 +20,7 @@ public class BulkerCombatant : WeakPointCombatant
     public override void TriggerWeakState()
     {
         // Remove shield
+        ElementResistance.Clear();
         ShieldBulker.SetActive(false);
     }
 
@@ -30,8 +31,15 @@ public class BulkerCombatant : WeakPointCombatant
             base.TakeDamage(damage, element, style);
             return;
         }
+        
+        // Reduce thunderstorm damage to incentivise shield breaking
+        if (element == ElementType.Ice && style == AttackStyle.Magic)
+        {
+            base.TakeDamage(damage / 2, ElementType.Normal, style);
+            return;
+        }
 
-        if (ElementWeakness.Contains(element) && !HasWeakPointBeenHit)
+        if (ElementWeakness.Contains(element) && style == AttackStyle.Magic && !HasWeakPointBeenHit)
         {
             HasWeakPointBeenHit = true;
             TakeWeakpointDamage("Shield Burned!", HasWeakPointBeenHit);

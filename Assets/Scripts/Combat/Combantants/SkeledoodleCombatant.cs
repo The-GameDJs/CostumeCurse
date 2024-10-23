@@ -31,7 +31,7 @@ public class SkeledoodleCombatant : WeakPointCombatant
     public override IEnumerator ResetWeakState()
     {
         HasWeakPointBeenHit = false;
-        CurrentHealthPoints = MaxHealthPoints;
+        CurrentHealthPoints = MaxHealthPoints / 2;
         IsAlive = true;
         TurnCountSinceWeakPoint = -1;
         Animator.Play("Base Layer.Skelemusic");

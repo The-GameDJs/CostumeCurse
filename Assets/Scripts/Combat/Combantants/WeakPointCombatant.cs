@@ -1,4 +1,5 @@
 using System.Collections;
+using Assets.Scripts.Combat;
 
 public abstract class WeakPointCombatant : EnemyCombatant
 {
@@ -19,6 +20,7 @@ public abstract class WeakPointCombatant : EnemyCombatant
     public void ResetWeakPointHit()
     {
         HasWeakPointBeenHit = false;
+        ElementResistance.Add(ElementType.Normal);
     }
     
     public abstract void TriggerWeakState();
