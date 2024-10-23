@@ -40,13 +40,13 @@ public class ControllerSelect : MonoBehaviour
             _currentSelection++;
 
             if (_currentSelection > SelectableObjects.Count - 1)
-                _currentSelection = SelectableObjects.Count - 1;
+                _currentSelection = 0;
         }
         else if (_controllerInput.x < -0.1f)
         {
             _currentSelection--;
             if (_currentSelection < 0)
-                _currentSelection = 0;
+                _currentSelection = SelectableObjects.Count - 1;
         }
         
         SelectTarget(SelectableObjects[_currentSelection]);
