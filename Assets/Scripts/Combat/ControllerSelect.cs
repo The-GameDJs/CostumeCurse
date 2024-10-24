@@ -6,8 +6,6 @@ using UnityEngine;
 
 public class ControllerSelect : MonoBehaviour
 {
-    [SerializeField] private GameObject TargetIndicator;
-    
     private List<GameObject> SelectableObjects;
 
     private GameObject _selectedObject;
@@ -28,7 +26,6 @@ public class ControllerSelect : MonoBehaviour
     void Start()
     {
         TargetSelector = GetComponent<TargetSelector>();
-        TargetIndicator.SetActive(false);
     }
 
     private void OnControllerMoved(Vector2 input)
@@ -58,7 +55,6 @@ public class ControllerSelect : MonoBehaviour
             return;
         
         Debug.Log("Selected target");
-        TargetIndicator.SetActive(false);
         Renderer[] renderers = SelectedObject.GetComponentsInChildren<Renderer>();
         foreach(Renderer r in renderers) {
             Material m = r.material;
@@ -79,7 +75,6 @@ public class ControllerSelect : MonoBehaviour
         
         IsRegrettingDecision = true;
         ClearSelection();
-        TargetIndicator.SetActive(false);
     }
 
     public void SetSelectableObjects(List<GameObject> enemies, List<GameObject> objects)
@@ -92,7 +87,7 @@ public class ControllerSelect : MonoBehaviour
 
     void SelectTarget(GameObject target)
     {
-        if(target.GetComponent<Combatant>().IsAlive)
+        if(target.TryGetComponent<Combatant>(out var enemy) && enemy.IsAlive)
         {
             if (_selectedObject != null)
             {
@@ -104,11 +99,9 @@ public class ControllerSelect : MonoBehaviour
 
             _selectedObject = target;
 
-            Renderer[] renderers = _selectedObject.GetComponentsInChildren<Renderer>();
-            foreach(Renderer r in renderers) {
-                Material m = r.material;
-                m.color = Color.red;
-                r.material = m;
+            if (!enemy.SelectorLight.gameObject.activeSelf)
+            {
+                enemy.SelectorLight.gameObject.SetActive(true);
             }
         }
     }
@@ -117,15 +110,13 @@ public class ControllerSelect : MonoBehaviour
     {
         if(_selectedObject == null)
         {
-            TargetIndicator.SetActive(false);
             return;
         }
 
-        Renderer[] renderers = _selectedObject.GetComponentsInChildren<Renderer>();
-        foreach(Renderer r in renderers) {
-            Material m = r.material;
-            m.color = Color.white;
-            r.material = m;
+        var light = _selectedObject.GetComponent<Combatant>().SelectorLight.gameObject;
+        if (light.activeSelf)
+        {
+            light.SetActive(false);
         }
 
         _selectedObject = null;

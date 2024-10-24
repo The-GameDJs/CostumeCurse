@@ -7,6 +7,7 @@ using Combat.Abilities;
 using Combat.Enemy_Abilities;
 using UnityEngine;
 using TMPro;
+using UnityEngine.Experimental.GlobalIllumination;
 using UnityEngine.Serialization;
 
 public abstract class Combatant : MonoBehaviour
@@ -24,6 +25,9 @@ public abstract class Combatant : MonoBehaviour
     [SerializeField] private CombatantType Type;
 
     [SerializeField] private ParticleSystem _explosionParticles;
+    
+    [SerializeField] protected Light TargetSelectorLight;
+    public Light SelectorLight => TargetSelectorLight;
 
     public ParticleSystem ExplosionParticles => _explosionParticles;
 
@@ -86,6 +90,7 @@ public abstract class Combatant : MonoBehaviour
 
     [SerializeField] protected Animator Animator;
     [SerializeField] protected AudioSource DeathAudioSource;
+    
     public bool isBoss;
 
     public void Start()

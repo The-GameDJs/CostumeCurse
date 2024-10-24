@@ -10,13 +10,10 @@ public class MouseSelect : MonoBehaviour
     public bool IsTargetSelected = false;
     public bool IsRegrettingDecision = false;
     public bool IsSingleTargetting = false;
-    private GameObject TargetIndicator;
 
     void Start()
     {
         TargetSelector = GetComponent<TargetSelector>();
-        TargetIndicator = GameObject.Find("TargetIndicator");
-        TargetIndicator.SetActive(false);
     }
 
     void Update()
@@ -28,7 +25,6 @@ public class MouseSelect : MonoBehaviour
         if (Physics.Raycast(ray, out hit, 100f, LayerMask)) {
             GameObject hitObject = hit.transform.gameObject;
             SelectTarget(hitObject);
-            TargetIndicator.SetActive(true);
         }
         else 
         {
@@ -39,18 +35,15 @@ public class MouseSelect : MonoBehaviour
         {
             IsRegrettingDecision = true;
             ClearSelection();
-            TargetIndicator.SetActive(false);
         }
 
         if (SelectedObject != null && Input.GetButtonDown("Action Command"))
         {
             Debug.Log("Selected target");
-            TargetIndicator.SetActive(false);
-            Renderer[] renderers = SelectedObject.GetComponentsInChildren<Renderer>();
-            foreach(Renderer r in renderers) {
-                Material m = r.material;
-                m.color = Color.white;
-                r.material = m;
+            var light = SelectedObject.GetComponent<Combatant>().SelectorLight.gameObject;
+            if (light.activeSelf)
+            {
+                light.SetActive(false);
             }
             
             if (IsSingleTargetting)
@@ -74,11 +67,10 @@ public class MouseSelect : MonoBehaviour
 
             SelectedObject = target;
 
-            Renderer[] renderers = SelectedObject.GetComponentsInChildren<Renderer>();
-            foreach(Renderer r in renderers) {
-                Material m = r.material;
-                m.color = Color.red;
-                r.material = m;
+            var light = SelectedObject.GetComponent<Combatant>().SelectorLight.gameObject;
+            if (!light.activeSelf)
+            {
+                light.SetActive(true);
             }
         }
     }
@@ -87,16 +79,14 @@ public class MouseSelect : MonoBehaviour
     {
         if(SelectedObject == null)
         {
-            TargetIndicator.SetActive(false);
             return;
         }
 
-        Renderer[] renderers = SelectedObject.GetComponentsInChildren<Renderer>();
-		foreach(Renderer r in renderers) {
-			Material m = r.material;
-			m.color = Color.white;
-			r.material = m;
-		}
+        var light = SelectedObject.GetComponent<Combatant>().SelectorLight.gameObject;
+        if (light.activeSelf)
+        {
+            light.SetActive(false);
+        }
 
         SelectedObject = null;
     }
