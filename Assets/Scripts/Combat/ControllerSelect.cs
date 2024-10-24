@@ -55,11 +55,10 @@ public class ControllerSelect : MonoBehaviour
             return;
         
         Debug.Log("Selected target");
-        Renderer[] renderers = SelectedObject.GetComponentsInChildren<Renderer>();
-        foreach(Renderer r in renderers) {
-            Material m = r.material;
-            m.color = Color.white;
-            r.material = m;
+        var light = _selectedObject.GetComponent<Combatant>().SelectorLight.gameObject;
+        if (light && light.activeSelf)
+        {
+            light.SetActive(false);
         }
             
         if (IsSingleTargetting)
@@ -99,7 +98,7 @@ public class ControllerSelect : MonoBehaviour
 
             _selectedObject = target;
 
-            if (!enemy.SelectorLight.gameObject.activeSelf)
+            if (enemy.SelectorLight && !enemy.SelectorLight.gameObject.activeSelf)
             {
                 enemy.SelectorLight.gameObject.SetActive(true);
             }
@@ -114,7 +113,7 @@ public class ControllerSelect : MonoBehaviour
         }
 
         var light = _selectedObject.GetComponent<Combatant>().SelectorLight.gameObject;
-        if (light.activeSelf)
+        if (light && light.activeSelf)
         {
             light.SetActive(false);
         }

@@ -41,7 +41,7 @@ public class MouseSelect : MonoBehaviour
         {
             Debug.Log("Selected target");
             var light = SelectedObject.GetComponent<Combatant>().SelectorLight.gameObject;
-            if (light.activeSelf)
+            if (light && light.activeSelf)
             {
                 light.SetActive(false);
             }
@@ -68,7 +68,7 @@ public class MouseSelect : MonoBehaviour
             SelectedObject = target;
 
             var light = SelectedObject.GetComponent<Combatant>().SelectorLight.gameObject;
-            if (!light.activeSelf)
+            if (light && !light.activeSelf)
             {
                 light.SetActive(true);
             }
@@ -83,7 +83,7 @@ public class MouseSelect : MonoBehaviour
         }
 
         var light = SelectedObject.GetComponent<Combatant>().SelectorLight.gameObject;
-        if (light.activeSelf)
+        if (light && light.activeSelf)
         {
             light.SetActive(false);
         }

@@ -256,7 +256,7 @@ namespace Combat.Abilities
 
         private void StartApproachingPhase()
         {
-            if (Combatant.CombatType == Combatant.CombatantType.Flying)
+            if (Combatant is SkelebatCombatant)
             {
                 Animator.Play($"Base Layer.BonkStart");
             }

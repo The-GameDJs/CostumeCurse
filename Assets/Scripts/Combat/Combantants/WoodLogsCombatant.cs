@@ -31,7 +31,7 @@ public class WoodLogsCombatant : ObjectCombatant
     protected override IEnumerator StartObjectReaction()
     {
         yield return new WaitForSeconds(1f);
-        ExplosionHitbox.radius *= 30f;
+        ExplosionHitbox.radius *= 20f;
         yield return new WaitForSeconds(0.2f);
         ExplosionParticles.transform.parent = null;
         ExplosionParticles.Play();
