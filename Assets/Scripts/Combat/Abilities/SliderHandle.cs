@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Random = UnityEngine.Random;
 
 public class SliderHandle : MonoBehaviour
 {
@@ -26,7 +27,7 @@ public class SliderHandle : MonoBehaviour
 
     private float SliderSpeed = 100.0f;
     private int Rounds;
-    private readonly int MaxRounds = 8;
+    private readonly int MaxRounds = 9;
     private int GoodClicks;
     private int PerfectClicks;
     private bool Arrived = false;
@@ -45,6 +46,7 @@ public class SliderHandle : MonoBehaviour
 
     private Queue<Direction> InputDirections;
     private Direction CurrentInputDirection;
+    private Direction _previousDirection;
 
     private enum Click { None, Miss, Good, Perfect }
     
@@ -77,6 +79,7 @@ public class SliderHandle : MonoBehaviour
         InputDirections.Enqueue(Direction.Right);
         InputDirections.Enqueue(Direction.Left);
         CurrentInputDirection = InputDirections.Peek();
+        _previousDirection = CurrentInputDirection;
         
         _originalSliderPosition = Slider.transform.localPosition;
         _originalStartPosition = StartPosition.transform.localPosition;
@@ -85,6 +88,7 @@ public class SliderHandle : MonoBehaviour
         _originalPerfectColliderSize = PerfectCollider.size;
         _originalGoodAreaSize = GoodArea.sizeDelta;
         _originalPerfectAreaSize = PerfectArea.sizeDelta;
+        _originalHitAreaLocation = HitArea.transform.localPosition;
         _originalSliderSpeed = SliderSpeed;
     }
 
@@ -118,7 +122,8 @@ public class SliderHandle : MonoBehaviour
             }
 
             CheckArrived();
-            CheckSliderPosition();
+            if(_previousDirection != GetDirection(InputManager.InputDirection.x))
+                CheckSliderPosition();
         }
         else
         {
@@ -126,11 +131,14 @@ public class SliderHandle : MonoBehaviour
             GoodClicks = 0;
             PerfectClicks = 0;
         }
+
+        _previousDirection = GetDirection(InputManager.InputDirection.x);
     }
 
     private void CheckSliderPosition()
     {
-        if (GetDirection(InputManager.InputDirection.x) != Direction.Neutral && GetDirection(InputManager.InputDirection.x) != CurrentInputDirection)
+        if (GetDirection(InputManager.InputDirection.x) != Direction.Neutral 
+                    && GetDirection(InputManager.InputDirection.x) != CurrentInputDirection)
         {
             if (SliderCollider.IsTouching(PerfectCollider))
             {
@@ -139,7 +147,6 @@ public class SliderHandle : MonoBehaviour
                 Rounds++;
                 PerfectSource.Play();
                 ChangeHitAreaParameters();
-                InputUIManager.Instance.SwitchKeyJoystickDirection(CurrentInputDirection == Direction.Right);
                 Debug.Log("Perfect Direction Change!");
             }
             else if (SliderCollider.IsTouching(GoodCollider))
@@ -153,6 +160,8 @@ public class SliderHandle : MonoBehaviour
             }
             else
             {
+                Rounds++;
+                ChangeHitAreaParameters();
                 MissSource.Play();
                 Debug.Log("Missed Direction Change");
             }
@@ -175,11 +184,19 @@ public class SliderHandle : MonoBehaviour
 
     private void CheckArrived()
     {
-        if(Slider.transform.localPosition == EndPosition.transform.localPosition)
+        if (Slider.transform.localPosition == EndPosition.transform.localPosition)
+        {
             Arrived = true;
+            Rounds++;
+            // ChangeHitAreaParameters();
+        }
 
-        if(Slider.transform.localPosition == StartPosition.transform.localPosition)
-           Arrived = false;
+        if (Slider.transform.localPosition == StartPosition.transform.localPosition)
+        {
+            Arrived = false;
+            Rounds++;
+            // ChangeHitAreaParameters();
+        }
     }
 
     private void ChangeHitAreaParameters()
@@ -191,7 +208,7 @@ public class SliderHandle : MonoBehaviour
         var startPosition = new Vector3(end.x + HitAreaOffset, end.y, 0.0f);
         
         HitArea.transform.localPosition = InputDirections.Peek() == Direction.Left ? 
-            new Vector3(EndPosition.transform.localPosition.x - 30f, Slider.transform.localPosition.y, 0.0f) : new Vector3(StartPosition.transform.localPosition.x + 30f, Slider.transform.localPosition.y, 0.0f);
+            new Vector3(EndPosition.transform.localPosition.x - Random.Range(45f, 60f), Slider.transform.localPosition.y, 0.0f) : new Vector3(StartPosition.transform.localPosition.x + Random.Range(45f, 60f), Slider.transform.localPosition.y, 0.0f);
 
         EndPosition.transform.localPosition = endPosition;
         StartPosition.transform.localPosition = startPosition;
@@ -210,11 +227,7 @@ public class SliderHandle : MonoBehaviour
         var tmp = InputDirections.Dequeue();
         InputDirections.Enqueue(tmp);
         CurrentInputDirection = InputDirections.Peek();
-    }
-
-    private void OnEnable()
-    {
-        _originalHitAreaLocation = HitArea.transform.position;
+        InputUIManager.Instance.SwitchKeyJoystickDirection(CurrentInputDirection == Direction.Right);
     }
 
     private void OnDisable()
@@ -229,8 +242,7 @@ public class SliderHandle : MonoBehaviour
         InputDirections.Enqueue(Direction.Left);
         CurrentInputDirection = InputDirections.Peek();
 
-        HitArea.transform.localPosition =
-            new Vector3(EndPosition.transform.localPosition.x - 30f, Slider.transform.localPosition.y, 0.0f);
+        HitArea.transform.localPosition = _originalHitAreaLocation;
         
         Slider.transform.localPosition = _originalSliderPosition;
         StartPosition.transform.localPosition = _originalStartPosition;
@@ -239,7 +251,6 @@ public class SliderHandle : MonoBehaviour
         PerfectCollider.size = _originalPerfectColliderSize;
         GoodArea.sizeDelta = _originalGoodAreaSize;
         PerfectArea.sizeDelta = _originalPerfectAreaSize;
-        HitArea.transform.position = _originalHitAreaLocation;
         SliderSpeed = _originalSliderSpeed;
         
         _notStirringTime = 0f;

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class ConfectionVfx : MonoBehaviour
@@ -22,10 +23,21 @@ public class ConfectionVfx : MonoBehaviour
         Confection.ShowConfectionParticle += OnPerfectClick;
     }
 
+    public void ActivateVfx()
+    {
+        var particleSystem = MixParticles[0];
+        particleSystem.Play();
+    }
+    
     private void OnPerfectClick(int perfectClicks)
     {
         var particleSystem = MixParticles[perfectClicks - 1];
         particleSystem.Play();
+    }
+
+    private void OnDestroy()
+    {
+        Confection.ShowConfectionParticle -= OnPerfectClick;
     }
 
     private void Update()

@@ -29,7 +29,7 @@ public class Confection : Ability
     private int MissedTime;
     private int PerfectClicks;
     private int Clicks;
-    private int MaxClicks = 5;
+    private int MaxClicks = 6;
     
     private readonly float BrewDuration = 10.0f;
     private readonly int BaseDamage = 20;
@@ -112,6 +112,7 @@ public class Confection : Ability
         }
 
         SliderScript.IsBaking = true;
+        ConfectionMixVfx.ActivateVfx();
         Timer.StartTimer(BrewDuration);
         StartCoroutine(PlayPartOfCastingAnimation());
     }

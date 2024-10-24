@@ -1,6 +1,7 @@
 using System;
 using Combat.Enemy_Abilities;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Combat.Abilities
 {
@@ -26,7 +27,7 @@ namespace Combat.Abilities
             {
                 if (!_allyCombatant.HasParried && InputManager.HasPressedActionCommand && 
                     Vector3.Distance(Target.transform.position, transform.position) >= 0.2f
-                    && Vector3.Distance(Target.transform.position, transform.position) <= 4.2f)
+                    && Vector3.Distance(Target.transform.position, transform.position) <= 4.4f)
                 {
                     Debug.Log("Parried correctly!");
                     _allyCombatant.ParrySound.Play();
@@ -55,7 +56,7 @@ namespace Combat.Abilities
 
         public float GetSpeed()
         {
-            return ChargeSpeed;
+            return Random.Range(ChargeSpeed, ChargeSpeed * 1.7f);
         }
 
         private void OnTriggerStay(Collider other)
