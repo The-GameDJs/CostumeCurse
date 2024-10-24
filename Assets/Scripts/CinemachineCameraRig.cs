@@ -41,19 +41,19 @@ public class CinemachineCameraRig : MonoBehaviour
         _currentCinemachineCamera.Priority = 11;
     }
 
-    public void SetCinemachineCameraTarget(Transform target, float offset = 3.0f)
+    public void SetCinemachineCameraTarget(Transform target)
     {
         _currentCinemachineCamera.Follow = target;
         _currentCinemachineCamera.LookAt = target;
         
-        var composer = _currentCinemachineCamera.GetCinemachineComponent<CinemachineComposer>();
+        /*var composer = _currentCinemachineCamera.GetCinemachineComponent<CinemachineComposer>();
 
         if (composer && composer.m_TrackedObjectOffset.y != offset)
         {
             var followOffset = composer.m_TrackedObjectOffset;
             followOffset.y = offset;
             composer.m_TrackedObjectOffset = followOffset;
-        }
+        }*/
     }
 
     public void ChangeCinemachineBrainBlendTime(float blendTime)
