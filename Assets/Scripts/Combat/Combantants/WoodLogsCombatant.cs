@@ -31,18 +31,20 @@ public class WoodLogsCombatant : ObjectCombatant
     protected override IEnumerator StartObjectReaction()
     {
         yield return new WaitForSeconds(1f);
-        ExplosionHitbox.radius *= 10f;
+        ExplosionHitbox.radius *= 30f;
         yield return new WaitForSeconds(0.2f);
+        ExplosionParticles.transform.parent = null;
+        ExplosionParticles.Play();
         gameObject.SetActive(false);
     }
 
     public void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Enemy"))
+        if (other.TryGetComponent<EnemyCombatant>(out var enemy) && enemy.IsCombatantInCombat && enemy.IsAlive)
         {
-            var enemy = other.GetComponent<EnemyCombatant>();
             Attack attack = new Attack(Damage, ElementDamage, AttackType);
             enemy.Defend(attack);
+            enemy.SetFireTimed();
         }
     }
 }

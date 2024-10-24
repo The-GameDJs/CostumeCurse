@@ -82,6 +82,7 @@ public abstract class Combatant : MonoBehaviour
 
     public bool IsAlive = true;
     private bool IsInCombat;
+    public bool IsCombatantInCombat => IsInCombat;
 
     [SerializeField] protected Animator Animator;
     [SerializeField] protected AudioSource DeathAudioSource;
@@ -271,6 +272,18 @@ public abstract class Combatant : MonoBehaviour
         
         if(Animator != null)
             Animator.Play("Base Layer.Death");
+    }
+
+    public void SetFireTimed()
+    {
+        StartCoroutine(SetFireCoroutine());
+    }
+
+    private IEnumerator SetFireCoroutine()
+    {
+        SetFire(true, FireType.eOrangeFire);
+        yield return new WaitForSeconds(2.0f);
+        SetFire(false, FireType.eOrangeFire);
     }
 
     public GameObject ApplyShield(int shieldHealth, ElementType element)
