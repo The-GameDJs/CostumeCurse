@@ -65,7 +65,21 @@ public class ConfectionVfx : MonoBehaviour
 
     private void CastConfectionMixVfx()
     {
-        transform.position = Vector3.Lerp(transform.position, Target.transform.position + new Vector3(0.0f, TargetVerticalOffset, 0.0f), Speed * Time.deltaTime);
+        var victimCombatant = Target.GetComponent<Combatant>();
+        float offset;
+        if (victimCombatant.isBoss)
+        {
+            offset = TargetVerticalOffset * 2;
+        }
+        else if (victimCombatant is WoodLogsCombatant)
+        {
+            offset = 0.0f;
+        }
+        else
+        {
+            offset = TargetVerticalOffset;
+        }
+        transform.position = Vector3.Lerp(transform.position, Target.transform.position + new Vector3(0.0f, offset, 0.0f), Speed * Time.deltaTime);
     }
 
     public void StartMoving()

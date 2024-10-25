@@ -213,10 +213,22 @@ public class Revolver : Ability
         GameObject go = Instantiate(Bullet, RevolverNozzle.transform.position, RevolverNozzle.transform.rotation);
         var bullet = go.GetComponent<Bullet>();
         bullet.SetTarget(TargetedCombatants[0]);
-        var offset = TargetedCombatants[0].GetComponent<Combatant>().isBoss
-            ? BulletTargetHeightOffset * 4
-            : BulletTargetHeightOffset;
-        Vector3 direction = (TargetedCombatants[0].gameObject.transform.position + new Vector3(0f, offset, 0f) - RevolverNozzle.position).normalized;
+        
+        var victimCombatant = TargetedCombatants[0].GetComponent<Combatant>();
+        float offset;
+        if (victimCombatant.isBoss)
+        {
+            offset = BulletTargetHeightOffset * 4;
+        }
+        else if (victimCombatant is WoodLogsCombatant)
+        {
+            offset = 0.0f;
+        }
+        else
+        {
+            offset = BulletTargetHeightOffset;
+        }
+        Vector3 direction = (victimCombatant.transform.position + new Vector3(0f, offset, 0f) - RevolverNozzle.position).normalized;
         bullet.GetRigidBody().velocity = direction * bullet.GetSpeed();
         Gunshot.Play();
         ShootSource.Play();

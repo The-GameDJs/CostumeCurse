@@ -190,6 +190,7 @@ public class Confection : Ability
         ConfectionMixVfx.TurnOffConfectionParticles();
         ConfectionMixVfx.ResetVfx();
         ResetBrewComponents();
+        Animator.SetBool("IsFinishedCasting", false);
         CombatSystem.EndTurn();
     }
 
@@ -217,9 +218,6 @@ public class Confection : Ability
         float animationTime = 0f;
         float animationDuration = 2f;
         Animator.SetBool("IsFinishedCasting", false);
-        var offset = TargetedCombatants[0].GetComponent<Combatant>().isBoss
-            ? ConfectionMixVfxVerticalOffset * 2
-            : ConfectionMixVfxVerticalOffset;
         
         CinemachineCameraRig.Instance.SetCinemachineCameraTarget(Target.transform);
         Animator.speed = 1f;

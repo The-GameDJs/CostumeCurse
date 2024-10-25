@@ -35,6 +35,7 @@ public class WoodLogsCombatant : ObjectCombatant
         yield return new WaitForSeconds(0.2f);
         ExplosionParticles.transform.parent = null;
         ExplosionParticles.Play();
+        IsAlive = false;
         gameObject.SetActive(false);
     }
 

@@ -260,9 +260,20 @@ namespace Combat.Abilities
             float launchDuration = 1f;
             float elapsedTime = 0;
             Vector3 origin = Fireball.transform.position;
-            var offset = TargetedCombatants[0].GetComponent<Combatant>().isBoss
-                ? FireballTargetHeightOffset * 4
-                : FireballTargetHeightOffset;
+            var victimCombatant = TargetedCombatants[0].GetComponent<Combatant>();
+            float offset;
+            if (victimCombatant.isBoss)
+            {
+                offset = FireballTargetHeightOffset * 4;
+            }
+            else if (victimCombatant is WoodLogsCombatant)
+            {
+                offset = 0.0f;
+            }
+            else
+            {
+                offset = FireballTargetHeightOffset;
+            }
             CinemachineCameraRig.Instance.SetCinemachineCameraTarget(target.transform);
 
             while (elapsedTime < launchDuration)
