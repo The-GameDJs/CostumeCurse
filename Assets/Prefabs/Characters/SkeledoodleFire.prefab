@@ -716,7 +716,7 @@ GameObject:
   - component: {fileID: 6543156113162692071}
   - component: {fileID: 6543156113162692070}
   - component: {fileID: 8340664348812271479}
-  - component: {fileID: 4292595803075815099}
+  - component: {fileID: 325000677213369411}
   - component: {fileID: 2616065634956799802}
   - component: {fileID: -1153288120458691481}
   m_Layer: 11
@@ -789,7 +789,7 @@ CapsuleCollider:
   m_Height: 6.37
   m_Direction: 1
   m_Center: {x: 0, y: 2.93, z: 0}
---- !u!114 &4292595803075815099
+--- !u!114 &325000677213369411
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -798,7 +798,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6543156113162692069}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4616a9634be2df45a4140446909f982, type: 3}
+  m_Script: {fileID: 11500000, guid: 13136ac8cae04864aac8074065047bb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   TurnPriority: 4
@@ -821,6 +821,9 @@ MonoBehaviour:
   CandyCornValue: 30
   Abilities: []
   Model: {fileID: 0}
+  _rootTransform: {fileID: 6543156113162692071}
+  _timer: {fileID: 2616065634956799802}
+  _wiggleTime: 0.5
 --- !u!114 &2616065634956799802
 MonoBehaviour:
   m_ObjectHideFlags: 0

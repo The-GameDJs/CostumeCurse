@@ -40,7 +40,12 @@ public class CombatZone : MonoBehaviour
     private bool CombatStarted;
 
     [SerializeField] private bool IsBossBattle;
+
+    [SerializeField] private bool ShouldTriggerBattleEvent;
+    
     public bool IsBoss => IsBossBattle;
+
+    public static Action<int> BattleEnded;
 
     public void Start()
     {
@@ -112,7 +117,6 @@ public class CombatZone : MonoBehaviour
         if (Timer.IsFinished())
             return;
 
-
         for (int i = 0; i < PlayerPositions.Length; i++)
         {
             GameObject player = Players[i];
@@ -170,6 +174,9 @@ public class CombatZone : MonoBehaviour
         var message = isAllyWin ? "Destroying this Combat Zone!" : "Resetting this Combat Zone!";
         Debug.Log(message);
         CombatStarted = false;
+
+        if (ShouldTriggerBattleEvent)
+            BattleEnded?.Invoke(gameObject.GetInstanceID());
 
         foreach (var player in Players)
         {
