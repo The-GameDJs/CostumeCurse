@@ -38,26 +38,30 @@ public class PointsBar : MonoBehaviour
         DamageTextField.fontSize = OriginalDamageTextField.fontSize;
         DamageTextField.fontStyle = OriginalDamageTextField.fontStyle;
 
+        var stringDamageIndicator = "";
         if (isResistant)
         {
             DamageTextField.fontSize /= 1.2f;
+            stringDamageIndicator = "RESISTANT";
             DamageTextField.color = Color.blue;
         }
         else if (isWeakness)
         {
-            DamageTextField.fontSize *= 1.8f;
+            DamageTextField.fontSize *= 1.2f;
+            stringDamageIndicator = "CRITICAL";
             DamageTextField.color = Color.red;
             DamageTextField.fontStyle = FontStyles.Bold;
         }
         else if (hasAttackMissed)
         {
             DamageTextField.color = Color.gray;
+            stringDamageIndicator = "MISSED";
             DamageTextField.fontSize *= 1.2f;
             DamageTextField.fontStyle = FontStyles.Strikethrough;
             DamageTextField.fontStyle = FontStyles.Normal;
         }
 
-        DamageTextField.text = $"-{damage.ToString()}";
+        DamageTextField.text = stringDamageIndicator.Length > 0 ? $"*{stringDamageIndicator}*\n-{damage.ToString()}" : $"-{damage.ToString()}";
         DamageTextAnimator.enabled = true;
         DamageTextAnimator.Play("Move");
     }
