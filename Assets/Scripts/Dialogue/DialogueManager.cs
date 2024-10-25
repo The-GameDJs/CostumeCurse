@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -21,7 +22,9 @@ public class DialogueManager : MonoBehaviour
 
     private CandyCornManager CandyCornManager;
 
-    public static Action<Vector3, float> SaveCheckpoint;
+    public static Action<Vector3, int> SaveCheckpoint;
+
+    public static Action<string> GrantAbility;
 
     void Start()
     {
@@ -89,6 +92,14 @@ public class DialogueManager : MonoBehaviour
             HasSpokenToWitch = true;
             CurrentSpeaker.GetComponent<InteractiveNPC>().ActivateWitchSummoning();
             LoadNextGameLevel();
+        }
+
+        var monkName = Conversation.Lines.Where(x => x.Character == "Mysterious Monk").Select(x => x.Character).FirstOrDefault();
+        
+        if (monkName != null && Conversation.ShouldGrantAbility)
+        {
+            var count = Conversation.Lines.Length;
+            GrantAbility?.Invoke(Conversation.Lines[count - 1].Character);
         }
 
         if (Conversation.IsRestPoint && ActiveLineIndex == Conversation.Lines.Length)

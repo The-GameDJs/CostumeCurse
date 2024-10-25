@@ -16,6 +16,8 @@ public class Conversation : ScriptableObject
 {
     [SerializeField] public int CandyCornReward;
     [SerializeField] private bool ShowCharacterName;
+    [SerializeField] public bool ShouldGrantAbility;
+    
     [FormerlySerializedAs("IsRestPoint")] [SerializeField] private bool RestPoint;
     private bool CandyCornRewardClaimed;
     public Line[] Lines;

@@ -8,12 +8,41 @@ public class Costume : MonoBehaviour
 {
     [SerializeField] private GameObject AbilitiesUIPanel;
     private bool IsDisplayingAbilities;
+    private List<GameObject> Abilities;
+    private int AbilityCount = 1;
 
     // TODO: Stop displaying abilities UI after a choice
 
     private void Awake()
     {
         AbilitiesUIPanel.SetActive(false);
+        Abilities = new List<GameObject>();
+        
+        foreach(Transform child in AbilitiesUIPanel.transform)
+            Abilities.Add(child.gameObject);
+    }
+
+    private void Start()
+    {
+        var save = SaveSystem.LoadSave();
+
+        switch (transform.parent.gameObject.name)
+        {
+            case "Sield": 
+                AbilityCount = save.SieldAbilityIndex; 
+                break;
+            default: 
+                AbilityCount = save.GanielAbilityIndex;
+                break;
+        }
+        
+        DialogueManager.GrantAbility += OnFinishedTalkingToMonk;
+    }
+
+    private void OnFinishedTalkingToMonk(string character)
+    {
+        if(transform.parent.gameObject.name == character)
+            AbilityCount++;
     }
 
     private void Update()
@@ -29,5 +58,18 @@ public class Costume : MonoBehaviour
     {
         IsDisplayingAbilities = displayAbilities;
         AbilitiesUIPanel.SetActive(displayAbilities);
+        
+        for(int i = 0; i <= AbilityCount; i++)
+            Abilities[i].SetActive(true);
+    }
+
+    public int GetAbilityIndex()
+    {
+        return AbilityCount;
+    }
+
+    private void OnDestroy()
+    {
+        DialogueManager.GrantAbility -= OnFinishedTalkingToMonk;
     }
 }

@@ -91,7 +91,7 @@ public class SaveEditorWindow : EditorWindow
 
     private void SaveGame()
     {
-        var saveData = new SaveSystem.SaveData(_player.transform.position, 100);
+        var saveData = new SaveSystem.SaveData(_player.transform.position, 150, 3, 2);
         SaveSystem.Save(saveData);
     }
 

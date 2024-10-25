@@ -32,7 +32,7 @@ public class BulkerCombatant : WeakPointCombatant
             return;
         }
         
-        // Reduce thunderstorm damage to incentivise shield breaking
+        // Reduce thunderstorm damage to incentivize shield breaking
         if (element == ElementType.Ice && style == AttackStyle.Magic)
         {
             base.TakeDamage(damage / 2, ElementType.Normal, style);

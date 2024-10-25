@@ -10,9 +10,11 @@ public class Checkpoint : MonoBehaviour
         DialogueManager.SaveCheckpoint += OnCampfireRest;
     }
 
-    private void OnCampfireRest(Vector3 checkpoint, float candyCornCount)
+    private void OnCampfireRest(Vector3 checkpoint, int candyCornCount)
     {
-        SaveSystem.SaveData data = new SaveSystem.SaveData(checkpoint, candyCornCount);
+        var sieldCostume = GameObject.Find("Sield").GetComponent<Costume>();
+        var ganielCostume = GameObject.Find("Ganiel").GetComponent<Costume>();
+        SaveSystem.SaveData data = new SaveSystem.SaveData(checkpoint, candyCornCount, sieldCostume.GetAbilityIndex(), ganielCostume.GetAbilityIndex());
         SaveSystem.Save(data);
     }
 
