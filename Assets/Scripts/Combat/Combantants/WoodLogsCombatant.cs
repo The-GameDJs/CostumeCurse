@@ -7,6 +7,7 @@ using UnityEngine;
 public class WoodLogsCombatant : ObjectCombatant
 {
     [SerializeField] private CapsuleCollider ExplosionHitbox;
+    [SerializeField] private AudioSource _explosionSound;
     
     new void Start()
     {
@@ -30,12 +31,13 @@ public class WoodLogsCombatant : ObjectCombatant
 
     protected override IEnumerator StartObjectReaction()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.0f);
         ExplosionHitbox.radius *= 20f;
-        yield return new WaitForSeconds(0.2f);
         ExplosionParticles.transform.parent = null;
+        _explosionSound.Play();
         ExplosionParticles.Play();
         IsAlive = false;
+        yield return new WaitForSeconds(0.2f);
         gameObject.SetActive(false);
     }
 
