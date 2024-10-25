@@ -20,8 +20,8 @@ public class CinemachineCameraRig : MonoBehaviour
 
     [SerializeField] private CinemachineBrain CinemachineBrain;
     [SerializeField] private CinemachineVirtualCamera DefaultCinemachineVirtualCamera;
-    private CinemachineVirtualCamera _currentCinemachineCamera;
-    public CinemachineVirtualCamera CurrentCinemachineCamera;
+    [SerializeField] private CinemachineVirtualCamera _currentCinemachineCamera;
+    public CinemachineVirtualCamera CurrentCinemachineCamera => _currentCinemachineCamera;
     [SerializeField] private float CameraInitialBlendTime;
 
     private void Start()
