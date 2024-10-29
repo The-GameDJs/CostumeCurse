@@ -31,7 +31,7 @@ public class SaveSystem : MonoBehaviour
         PlayerPrefs.SetInt("Ganiel Ability Index", data.GanielAbilityIndex);
     }
 
-    public static SaveData LoadSave()
+    public static SaveData Load()
     {
         Debug.Log($"Loading save data!");
         var candyCount = PlayerPrefs.GetInt("Candy Corn");

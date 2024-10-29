@@ -47,15 +47,17 @@ public class Player : MonoBehaviour
         CurrentCatchUpSpeed = CatchUpSpeed;
 
         var currentCheckpoint = Vector3.zero;
+        Debug.Log(SceneManager.GetActiveScene().name);
         
         // Ensure the Loading system occurs only in the Main Scene.
         // In the future, when the prologue scene becomes a little bit more extensive, add saving/loading system there too.
-        if (SceneManager.GetActiveScene().name == "Main_Scene")
+        if (IsMainPlayer && SceneManager.GetActiveScene().name == "Main_Scene")
         {
-            currentCheckpoint = SaveSystem.LoadSave().RestPosition;
+            currentCheckpoint = SaveSystem.Load().RestPosition;
+
+            transform.position = currentCheckpoint == Vector3.zero ? transform.position : currentCheckpoint;
+            Debug.Log($"Spawn Location: {transform.position}");
         }
-        
-        transform.position = currentCheckpoint == Vector3.zero ? transform.position : currentCheckpoint;
     }
 
     void Update()
@@ -72,6 +74,10 @@ public class Player : MonoBehaviour
     private void UpdateMainCharacterMovement()
     {
         Vector3 direction = InputManager.InputDirection;
+        
+        if (direction == Vector3.zero)
+            return;
+        
         var horizontalMovement = direction.x;
         var verticalMovement = direction.z;
         direction = Camera.main.transform.TransformDirection(direction);

@@ -24,7 +24,7 @@ public class Costume : MonoBehaviour
 
     private void Start()
     {
-        var save = SaveSystem.LoadSave();
+        var save = SaveSystem.Load();
 
         switch (transform.parent.gameObject.name)
         {

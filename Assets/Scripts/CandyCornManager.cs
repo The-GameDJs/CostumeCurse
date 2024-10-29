@@ -20,9 +20,9 @@ public class CandyCornManager : MonoBehaviour
         if (sceneName == "Main_Scene")
         {
             CandyCornValue = GameObject.Find("CandyCornValue").GetComponent<TMP_Text>();
+            TotalCandyCorn = SaveSystem.Load().CandyCornCount;
+            Debug.Log($"Candy Corn Count Loaded: {TotalCandyCorn}");
         }
-
-        TotalCandyCorn = SaveSystem.LoadSave().CandyCornCount;
     }
 
     void Update()

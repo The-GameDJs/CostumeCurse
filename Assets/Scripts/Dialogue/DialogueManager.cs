@@ -102,8 +102,6 @@ public class DialogueManager : MonoBehaviour
             GrantAbility?.Invoke(Conversation.Lines[count - 1].Character);
         }
 
-        if (Conversation.IsRestPoint && ActiveLineIndex == Conversation.Lines.Length)
-            SaveCheckpoint?.Invoke(CurrentSpeaker.transform.position, CandyCornManager.GetTotalCandyCorn());
 
         if (!Conversation.IsRestPoint && Conversation.CandyCornReward > 0 && ActiveLineIndex == Conversation.Lines.Length)
             CandyCornManager.AddCandyCorn(Conversation.ClaimReward());
@@ -112,6 +110,9 @@ public class DialogueManager : MonoBehaviour
             CandyCornManager.GetTotalCandyCorn() < CandyCornManager.GetMaxCandyCorn() / 2 &&
             ActiveLineIndex == Conversation.Lines.Length)
             CandyCornManager.AddCandyCorn(Conversation.ClaimReward());
+        
+        if (Conversation.IsRestPoint && ActiveLineIndex == Conversation.Lines.Length)
+            SaveCheckpoint?.Invoke(CurrentSpeaker.transform.position, CandyCornManager.GetTotalCandyCorn());
 
         DisplayDialogueBubble = false;
         ActiveLineIndex = 0;

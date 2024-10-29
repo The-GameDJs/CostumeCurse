@@ -12,6 +12,7 @@ public class Checkpoint : MonoBehaviour
 
     private void OnCampfireRest(Vector3 checkpoint, int candyCornCount)
     {
+        Debug.Log($"Campfire rest. Data: {checkpoint}, {candyCornCount}");
         var sieldCostume = GameObject.Find("Sield").GetComponentInChildren<Costume>();
         var ganielCostume = GameObject.Find("Ganiel").GetComponentInChildren<Costume>();
         SaveSystem.SaveData data = new SaveSystem.SaveData(checkpoint, candyCornCount, sieldCostume.GetAbilityIndex(), ganielCostume.GetAbilityIndex());

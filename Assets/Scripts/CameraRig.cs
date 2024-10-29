@@ -57,7 +57,7 @@ public class CameraRig : MonoBehaviour
         // In the future, when the prologue scene becomes a little bit more extensive, add saving/loading system there too.
         if (SceneManager.GetActiveScene().name == "Main_Scene")
         {
-            currentCheckpoint = SaveSystem.LoadSave().RestPosition;
+            currentCheckpoint = SaveSystem.Load().RestPosition;
         }
         
         transform.position = currentCheckpoint == Vector3.zero ? transform.position : currentCheckpoint;

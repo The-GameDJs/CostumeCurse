@@ -37,7 +37,7 @@ public class MainMenu : MonoBehaviour
 
     public void PlayGame()
     {
-        SceneManager.LoadScene(SaveSystem.LoadSave().RestPosition.x != 0 ? "Main_Scene" : "Prologue_Scene");
+        SceneManager.LoadScene(SaveSystem.Load().RestPosition.x != 0 ? "Main_Scene" : "Prologue_Scene");
     }
 
     private IEnumerator LoadUpPrologueScene()
