@@ -30,7 +30,7 @@ public class BattleEventHandler : MonoBehaviour
         
         _currentBattleCounter++;
 
-        if (_currentBattleCounter == BattlesAffected.Count || Application.isEditor)
+        if (_currentBattleCounter == BattlesAffected.Count)
         {
             TriggerBattleEvent();
             CombatZone.BattleEnded -= OnBattleEnded;

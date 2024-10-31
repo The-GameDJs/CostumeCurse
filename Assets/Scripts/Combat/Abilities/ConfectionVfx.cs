@@ -12,6 +12,9 @@ public class ConfectionVfx : MonoBehaviour
     [SerializeField]
     private float TargetVerticalOffset;
 
+    [SerializeField]
+    private AudioSource ConfectionSound;
+
     private bool IsMoving;
     private Confection GanielConfection;
     private GameObject Target;
@@ -27,6 +30,7 @@ public class ConfectionVfx : MonoBehaviour
     {
         var particleSystem = MixParticles[0];
         particleSystem.Play();
+        ConfectionSound.Play();
     }
     
     private void OnPerfectClick(int perfectClicks)
@@ -52,6 +56,7 @@ public class ConfectionVfx : MonoBehaviour
     {
         if (other.gameObject.Equals(Target))
         {
+            ConfectionSound.Stop();
             IsMoving = false;
             TurnOffConfectionParticles();
             StartCoroutine(GanielConfection.DealConfectionDamage());

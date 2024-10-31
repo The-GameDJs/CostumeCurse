@@ -121,6 +121,7 @@ public class ThunderStorm : Ability
 
         if (Timer.IsFinished())
         {
+            ThunderCloudSound.Stop();
             CurrentPhase = ThunderstormPhase.Inactive;
 
             var possibleVictims = Array.FindAll(TargetedCombatants, combatant => combatant.GetComponent<Combatant>().IsAlive).Length;
@@ -261,6 +262,7 @@ public class ThunderStorm : Ability
 
         Thunder.SetActive(true);
         Thunder.transform.localScale = Vector3.one * ThunderStormScale;
+        ThunderCloudSound.Play();
 
         var possibleVictims = Array.FindAll(TargetedCombatants, combatant => combatant.GetComponent<Combatant>().IsAlive);
 
