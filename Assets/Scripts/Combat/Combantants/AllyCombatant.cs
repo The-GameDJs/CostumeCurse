@@ -47,6 +47,9 @@ public class AllyCombatant : Combatant
 
     protected override void TakeTurnWhileAlive()
     {
+        if(IsCharging)
+            EndTurn();
+        
         costume.DisplayAbilities(true);
     }
 
@@ -67,6 +70,12 @@ public class AllyCombatant : Combatant
             ParrySound.Play();
         
         TakeDamage(damage, attack.Element, attack.Style);
+        
+        if (IsCharging)
+        {
+            Animator.SetBool("IsFinishedCasting", false);
+            Animator.Play("Base Layer.Casting");
+        }
 
         HasParriedCorrectly = false;
         HasParried = false;

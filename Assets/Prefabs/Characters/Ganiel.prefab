@@ -1486,6 +1486,7 @@ MonoBehaviour:
   ElementWeakness: 
   Type: 0
   _explosionParticles: {fileID: 8031551109415020203}
+  TargetSelectorLight: {fileID: 0}
   FireBurns:
   - {fileID: 4404755784157867682}
   - {fileID: 3124837576849698906}
@@ -1493,6 +1494,7 @@ MonoBehaviour:
   ShieldPrefab: {fileID: 6193617355382351729, guid: 239e5b4c5a61a7b43bff8bd16b94a8ee, type: 3}
   HurtSound: {fileID: 6949792102507138324}
   IsAlive: 1
+  IsCharging: 0
   Animator: {fileID: 4885474363960887048}
   DeathAudioSource: {fileID: 0}
   isBoss: 0
@@ -2799,6 +2801,10 @@ PrefabInstance:
       propertyPath: m_audioClip
       value: 
       objectReference: {fileID: 8300000, guid: 43ccb41a5bd7e9e499819835c035d25d, type: 3}
+    - target: {fileID: 8141682504057682469, guid: e19b05be92dab1b4284a9e5a9c3441f3, type: 3}
+      propertyPath: Animator
+      value: 
+      objectReference: {fileID: 4885474363960887048}
     - target: {fileID: 8237115000342722388, guid: e19b05be92dab1b4284a9e5a9c3441f3, type: 3}
       propertyPath: m_RootOrder
       value: 0

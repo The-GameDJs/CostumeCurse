@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 3318459807386206545}
   - component: {fileID: 695683454906239080}
   - component: {fileID: 1894241433914813861}
+  - component: {fileID: 11661421981237401}
   m_Layer: 0
   m_Name: WizardCostume
   m_TagString: Untagged
@@ -163,6 +164,28 @@ MonoBehaviour:
   SpaceBetweenBonk: 2.5
   BonkSound: {fileID: 5100185709576317177}
   Model: {fileID: 0}
+--- !u!114 &11661421981237401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5526754725628559126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fef0791f2b0cebd4788e9870ce983a53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CandyCornCost: 0
+  Element: 0
+  Style: 0
+  Animator: {fileID: 0}
+  MissedActionCommandSound: {fileID: 1843996119666830999}
+  GoodActionCommandSound: {fileID: 7481197917362899632}
+  PerfectActionCommandSound: {fileID: 6952391778905883355}
+  CandyGain: 10
+  TurnsToRegen: 1
+  CastTime: 2
 --- !u!1001 &897483340799573717
 PrefabInstance:
   m_ObjectHideFlags: 0

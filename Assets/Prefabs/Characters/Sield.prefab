@@ -1652,6 +1652,7 @@ MonoBehaviour:
   ElementWeakness: 
   Type: 0
   _explosionParticles: {fileID: 6865265557783166799}
+  TargetSelectorLight: {fileID: 0}
   FireBurns:
   - {fileID: 3400759737970433682}
   - {fileID: 6660264822921154702}
@@ -1659,6 +1660,7 @@ MonoBehaviour:
   ShieldPrefab: {fileID: 6193617355382351729, guid: 239e5b4c5a61a7b43bff8bd16b94a8ee, type: 3}
   HurtSound: {fileID: 782069733137587307}
   IsAlive: 1
+  IsCharging: 0
   Animator: {fileID: 7367481652005828946}
   DeathAudioSource: {fileID: 0}
   isBoss: 0
@@ -2078,6 +2080,10 @@ PrefabInstance:
       propertyPath: BrewCanvas
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 11661421981237401, guid: 03db29cbb4fd4cf478a3eb2f6ba21cc5, type: 3}
+      propertyPath: Animator
+      value: 
+      objectReference: {fileID: 7367481652005828946}
     - target: {fileID: 695683454906239080, guid: 03db29cbb4fd4cf478a3eb2f6ba21cc5, type: 3}
       propertyPath: Animator
       value: 

@@ -9,7 +9,7 @@ public class Costume : MonoBehaviour
     [SerializeField] private GameObject AbilitiesUIPanel;
     private bool IsDisplayingAbilities;
     private List<GameObject> Abilities;
-    private int AbilityCount = 1;
+    private int AbilityCount = 2;
 
     // TODO: Stop displaying abilities UI after a choice
 

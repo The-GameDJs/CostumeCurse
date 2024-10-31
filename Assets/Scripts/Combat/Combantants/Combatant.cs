@@ -85,6 +85,7 @@ public abstract class Combatant : MonoBehaviour
     float CharacterHeight;
 
     public bool IsAlive = true;
+    public bool IsCharging = false;
     private bool IsInCombat;
     public bool IsCombatantInCombat => IsInCombat;
 
@@ -187,7 +188,13 @@ public abstract class Combatant : MonoBehaviour
 
     public void StartTurn()
     {
-        if (IsAlive)
+        if (IsCharging)
+        {
+            transform.GetComponentInChildren<CandyRegen>().StartAbility();
+            return;
+        }
+
+        if (IsAlive && !IsCharging)
             TakeTurnWhileAlive();
         else
             TakeTurnWhileDead();
