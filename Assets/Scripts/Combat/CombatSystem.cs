@@ -116,10 +116,10 @@ public class CombatSystem : MonoBehaviour
         {
             StartCoroutine(ShowVictoryBanner(true, TotalCandyReward));
 
-            CurrentCombatZone.GetComponent<CombatZone>().DestroyCombatZone();
-
             CinemachineCameraRig.Instance.SetCinemachineCamera(_currentCameraZoneCM);
             CinemachineCameraRig.Instance.ChangeCinemachineBrainBlendTime(2.0f);
+            
+            CurrentCombatZone.GetComponent<CombatZone>().DestroyCombatZone();
             _currentCameraZoneCM = null;
         }
         // If boss died, play boss death scenario and return to menu

@@ -84,6 +84,7 @@ public class DialogueManager : MonoBehaviour
         DialogueUI.Display(ActiveLine.text, Conversation.ShouldShowCharacterName ? ActiveLine.Character : String.Empty, isHumanoid);
     }
 
+    // ReSharper disable Unity.PerformanceAnalysis
     public void CloseDialogue()
     {
         Debug.Log(CurrentSpeaker.gameObject.name);
@@ -100,6 +101,11 @@ public class DialogueManager : MonoBehaviour
         {
             var count = Conversation.Lines.Length;
             GrantAbility?.Invoke(Conversation.Lines[count - 1].Character);
+            BattleEventHandler.DialogueEnded?.Invoke();
+            if (CurrentSpeaker.TryGetComponent<Monk>(out var monk))
+            {
+                monk.PlayParticlesSummoningCloud();
+            }
         }
 
 

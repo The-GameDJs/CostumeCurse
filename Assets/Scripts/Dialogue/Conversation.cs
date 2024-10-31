@@ -9,6 +9,8 @@ public struct Line
 
     [TextArea(2, 5)]
     public string text;
+
+    public bool HasEvent;
 }
 
 [CreateAssetMenu(fileName = "New Conversation", menuName = "Conversation")]

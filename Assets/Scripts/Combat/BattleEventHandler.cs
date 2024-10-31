@@ -2,18 +2,23 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Cinemachine;
 using UnityEngine;
 
 public class BattleEventHandler : MonoBehaviour
 {
+    [SerializeField] private CinemachineVirtualCamera CinemachineCamera;
     [SerializeField] private GameObject ObjectToAppear;
     [SerializeField] private List<GameObject> BattlesAffected;
 
     private int _currentBattleCounter;
     
+    public static Action DialogueEnded;
+    
     void Start()
     {
         CombatZone.BattleEnded += OnBattleEnded;
+        DialogueEnded += OnDialogueEnded;
     }
 
     private void OnBattleEnded(int gameObjId)
@@ -34,11 +39,58 @@ public class BattleEventHandler : MonoBehaviour
 
     private void TriggerBattleEvent()
     {
+        StartCoroutine(SummonMonk());
+    }
+
+    private void OnDialogueEnded()
+    {
+        StartCoroutine(VanishMonk());
+    }
+
+    private IEnumerator SummonMonk()
+    {
+        var sield = GameObject.Find("Sield").GetComponent<Player>();
+        sield.DisableMovement();
+        
+        yield return new WaitForSeconds(2.0f);
+        
         ObjectToAppear.SetActive(true);
+        if (ObjectToAppear.TryGetComponent<Monk>(out var monk))
+        {
+            monk.PlayParticlesSummoningCloud();
+        }
+
+        var previousCamera = CinemachineCameraRig.Instance.CurrentCinemachineCamera;
+        CinemachineCameraRig.Instance.SetCinemachineCamera(CinemachineCamera);
+        
+        yield return new WaitForSeconds(2.0f);
+        
+        CinemachineCameraRig.Instance.SetCinemachineCamera(previousCamera);
+        
+        yield return new WaitForSeconds(2.0f);
+        
+        sield.EnableMovement();
+    }
+
+    private IEnumerator VanishMonk()
+    {
+        // Ensure dialogue doesnt start when vanishing starts
+        Destroy(ObjectToAppear.GetComponent<InteractiveNPC>());
+        
+        var monk = ObjectToAppear.GetComponent<Monk>();
+        if (monk)
+        {
+            monk.PlayParticlesDisappearingCloud();
+        }
+        
+        yield return new WaitForSeconds(0.6f);
+        
+        ObjectToAppear.SetActive(false);
     }
 
     private void OnDestroy()
     {
         CombatZone.BattleEnded -= OnBattleEnded;
+        DialogueEnded -= OnDialogueEnded;
     }
 }
