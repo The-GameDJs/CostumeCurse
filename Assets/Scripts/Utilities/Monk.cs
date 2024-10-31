@@ -1,9 +1,21 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
+
+[Serializable]
+public struct AbilitySummoningInfo
+{
+    public List<GameObject> visualFX;
+    public AudioSource audioFX;
+    public string heroName;
+}
 
 public class Monk : MonoBehaviour
 {
     [SerializeField] private ParticleSystem SummoningCloud;
+    [SerializeField] private AbilitySummoningInfo GrantingAbility;
+
+    public AbilitySummoningInfo GrantingPlayerAbility => GrantingAbility;
 
     public void PlayParticlesSummoningCloud()
     {
@@ -18,12 +30,9 @@ public class Monk : MonoBehaviour
 
     public void PlayParticlesDisappearingCloud()
     {
-        if (!SummoningCloud) return;
-
+        if (!SummoningCloud || !gameObject.activeSelf) return;
+        
         SummoningCloud.transform.parent = null;
-        var main = SummoningCloud.main;
-        main.stopAction = ParticleSystemStopAction.Destroy;
-
         SummoningCloud.Play();
     }
 }

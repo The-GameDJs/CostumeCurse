@@ -37,12 +37,41 @@ public class Costume : MonoBehaviour
         }
         
         DialogueManager.GrantAbility += OnFinishedTalkingToMonk;
+        DialogueManager.DemonstrateAbilityVFX += OnDemonstratedAbilityVFX;
     }
 
     private void OnFinishedTalkingToMonk(string character)
     {
         if(transform.parent.gameObject.name == character)
             AbilityCount++;
+    }
+
+    private void OnDemonstratedAbilityVFX(string character, Monk monk)
+    {
+        if (transform.parent.gameObject.name == character)
+        {
+            monk.GrantingPlayerAbility.audioFX.Play();
+            monk.GrantingPlayerAbility.audioFX.gameObject.transform.position = transform.parent.position + new Vector3(0.0f, 5.0f, 0.0f);
+            foreach (var vfx in monk.GrantingPlayerAbility.visualFX)
+            {
+                if (vfx.TryGetComponent<ParticleSystem>(out var ps))
+                {
+                    vfx.transform.position = transform.parent.position + new Vector3(0.0f, 5.0f, 0.0f);
+                    ps.Play();
+                }
+                else
+                {
+                    StartCoroutine(PeakAbilityGameObject(vfx));
+                }
+            }
+        }
+    }
+
+    private IEnumerator PeakAbilityGameObject(GameObject go)
+    {
+        go.transform.position = transform.parent.position + new Vector3(0.0f, 3.0f, 0.0f);
+        yield return new WaitForSeconds(2.0f);
+        go.transform.position = Vector3.zero;
     }
 
     private void Update()
@@ -71,5 +100,6 @@ public class Costume : MonoBehaviour
     private void OnDestroy()
     {
         DialogueManager.GrantAbility -= OnFinishedTalkingToMonk;
+        DialogueManager.DemonstrateAbilityVFX -= OnDemonstratedAbilityVFX;
     }
 }

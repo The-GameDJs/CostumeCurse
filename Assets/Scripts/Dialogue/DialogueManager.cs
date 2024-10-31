@@ -19,12 +19,14 @@ public class DialogueManager : MonoBehaviour
 
     private bool DisplayDialogueBubble;
     public bool HasSpokenToWitch;
+    public bool IsEventPlaying;
 
     private CandyCornManager CandyCornManager;
 
     public static Action<Vector3, int> SaveCheckpoint;
 
     public static Action<string> GrantAbility;
+    public static Action<string, Monk> DemonstrateAbilityVFX;
 
     void Start()
     {
@@ -63,11 +65,9 @@ public class DialogueManager : MonoBehaviour
             ActiveLineIndex++;
             return true;
         }
-        else
-        {
-            CloseDialogue();
-            return false;
-        }
+
+        CloseDialogue();
+        return false;
     }
 
     void DisplayLine()
@@ -81,7 +81,14 @@ public class DialogueManager : MonoBehaviour
         {
             interactiveNPC.NPCSpeakSoundSource.Play();
         }
+        
         DialogueUI.Display(ActiveLine.text, Conversation.ShouldShowCharacterName ? ActiveLine.Character : String.Empty, isHumanoid);
+
+        var monk = FindObjectOfType<Monk>();
+        if (ActiveLine.HasEvent && monk && monk.gameObject.activeSelf)
+        {
+            DemonstrateAbilityVFX?.Invoke(monk.GrantingPlayerAbility.heroName, monk);
+        }
     }
 
     // ReSharper disable Unity.PerformanceAnalysis

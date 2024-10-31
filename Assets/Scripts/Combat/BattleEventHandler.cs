@@ -30,7 +30,7 @@ public class BattleEventHandler : MonoBehaviour
         
         _currentBattleCounter++;
 
-        if (_currentBattleCounter == BattlesAffected.Count)
+        if (_currentBattleCounter == BattlesAffected.Count || Application.isEditor)
         {
             TriggerBattleEvent();
             CombatZone.BattleEnded -= OnBattleEnded;
@@ -63,7 +63,7 @@ public class BattleEventHandler : MonoBehaviour
         var previousCamera = CinemachineCameraRig.Instance.CurrentCinemachineCamera;
         CinemachineCameraRig.Instance.SetCinemachineCamera(CinemachineCamera);
         
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(4.0f);
         
         CinemachineCameraRig.Instance.SetCinemachineCamera(previousCamera);
         
@@ -74,9 +74,6 @@ public class BattleEventHandler : MonoBehaviour
 
     private IEnumerator VanishMonk()
     {
-        // Ensure dialogue doesnt start when vanishing starts
-        Destroy(ObjectToAppear.GetComponent<InteractiveNPC>());
-        
         var monk = ObjectToAppear.GetComponent<Monk>();
         if (monk)
         {
