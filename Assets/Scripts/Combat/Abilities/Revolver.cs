@@ -175,7 +175,7 @@ public class Revolver : Ability
     {
         isCoroutineWaiting = true;
         CurrentPhase = RevolverPhase.Inactive;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1.2f);
         Debug.Log("Ending Ability");
         
         Timer.ResetTimer();
@@ -241,7 +241,7 @@ public class Revolver : Ability
 
     private IEnumerator FinishRevolverDamage()
     {
-        CalculateRevolverDamage();
+        TotalDamage = CalculateRevolverDamage();
         int revolverdamage = (int) TotalDamage;
         Attack attack = new Attack(revolverdamage, Element, Style);
         TargetedCombatants[0].GetComponent<Combatant>().Defend(attack);
