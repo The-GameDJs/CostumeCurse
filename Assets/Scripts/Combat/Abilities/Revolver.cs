@@ -29,8 +29,8 @@ public class Revolver : Ability
     private float TotalDamage;
     private readonly float BaseBulletDamage = 10f;
     private readonly float BaseTotalDamage = 10f;
-    private readonly float MaxDamage = 80f;
-    private readonly int RandomDamageRangeOffset = 10;
+    private readonly float MaxDamage = 62f;
+    private readonly int RandomDamageRangeOffset = 6;
     private readonly float BulletTargetHeightOffset = 3.0f;
 
     [SerializeField] AudioSource ReloadSource;
@@ -43,7 +43,7 @@ public class Revolver : Ability
     [Header("Shooting Phase")] 
     private bool HasLetGoOfJoystick;
     private bool HasMissedShot;
-    private float ShootingFactor = 2f;
+    private float ShootingFactor = 1.5f;
 
     [Header("Shooting Battle Phase")]
     [SerializeField] GameObject Bullet;
@@ -175,7 +175,9 @@ public class Revolver : Ability
     {
         isCoroutineWaiting = true;
         CurrentPhase = RevolverPhase.Inactive;
-        yield return new WaitForSeconds(1.2f);
+        yield return new WaitForSeconds(0.7f);
+        RevolverCanvas.SetActive(false);
+        yield return new WaitForSeconds(0.5f);
         Debug.Log("Ending Ability");
         
         Timer.ResetTimer();
@@ -279,7 +281,6 @@ public class Revolver : Ability
     
     protected override void EndAbility()
     {
-        RevolverCanvas.SetActive(false);
         Debug.Log($"Revolver Damage total: {TotalDamage}");
     }
 }

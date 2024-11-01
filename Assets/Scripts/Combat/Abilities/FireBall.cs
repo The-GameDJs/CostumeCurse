@@ -36,7 +36,7 @@ namespace Combat.Abilities
         private const float FireballHeight = 7f;
         private const float FireballScale = 0.08f;
         private float TargetFireballSize = 0.15f;
-        private const float FireballGrowth = 0.275f;
+        private const float FireballGrowth = 0.375f;
         private const float FireballShrinkNormal = 0.005f;
         private const float FireballShrinkUnstable = 0.4f;
         private const float FireballScalingSmoothness = 2f;
@@ -47,8 +47,8 @@ namespace Combat.Abilities
         [Header("Properties")] 
         [SerializeField] private float FireballTargetHeightOffset;
         private const float FireballMaximumDamage = 100;
-        private const float FireballMinimumDamage = 65;
-        private const float FireballDifficultyCurve = 100;
+        private const float FireballMinimumDamage = 40;
+        private const float FireballDifficultyCurve = 40;
 
         [Header("Components")]
         private Timer Timer;
@@ -314,7 +314,7 @@ namespace Combat.Abilities
             ExpectedDirections.Add(currentKey);
 
             TargetFireballSize += FireballGrowth * FireballParticleSystemAdjustmentFactor;
-            TargetFireballSize = Mathf.Clamp(TargetFireballSize, 0.15f, 0.6f);
+            TargetFireballSize = Mathf.Clamp(TargetFireballSize, 0.15f, 0.8f);
             LightSource.intensity += FireballGrowth * FireballLightSourceAdjustmentFactor;
         }
 

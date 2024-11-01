@@ -175,7 +175,7 @@ public class CombatZone : MonoBehaviour
         Debug.Log(message);
         CombatStarted = false;
 
-        if (ShouldTriggerBattleEvent)
+        if (ShouldTriggerBattleEvent && isAllyWin)
             BattleEnded?.Invoke(gameObject.GetInstanceID());
 
         foreach (var player in Players)

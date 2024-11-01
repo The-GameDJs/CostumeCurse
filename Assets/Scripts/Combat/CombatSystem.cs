@@ -142,7 +142,8 @@ public class CombatSystem : MonoBehaviour
 
         if (Sield != null)
         {
-            Sield.transform.position = combatZone.CheckpointPosition.position;
+            var saveData = SaveSystem.Load();
+            Sield.transform.position = saveData.RestPosition;
             Sield.GetComponent<Player>().SetColliderVisibility(false);
             CinemachineCameraRig.Instance.SetCinemachineCamera(_currentCameraZoneCM);
             CinemachineCameraRig.Instance.SetCinemachineCameraTarget(Sield.transform);

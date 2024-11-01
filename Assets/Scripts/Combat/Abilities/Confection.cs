@@ -31,12 +31,11 @@ public class Confection : Ability
     private int Clicks;
     private int MaxClicks = 6;
     
-    private readonly float BrewDuration = 10.0f;
+    private readonly float BrewDuration = 8.0f;
     private readonly int BaseDamage = 20;
     private readonly float BakePerfectDamageBonus = 4.35f;
-    private readonly float BakeGoodDamageBonus = 0.044f;
+    private readonly float BakeGoodDamageBonus = 0.08f;
     private readonly int RandomDamageRangeOffset = 8;
-    private readonly float ControllerFactor = 2.5f;
     private int CurrentDamage;
     private Phase CookingAbilityPhase = Phase.Inactive;
 

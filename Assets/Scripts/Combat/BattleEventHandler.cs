@@ -10,6 +10,8 @@ public class BattleEventHandler : MonoBehaviour
     [SerializeField] private CinemachineVirtualCamera CinemachineCamera;
     [SerializeField] private GameObject ObjectToAppear;
     [SerializeField] private List<GameObject> BattlesAffected;
+    [SerializeField] private string GrantAbilityTo;
+    [SerializeField] private int AbilityNumber;
 
     private int _currentBattleCounter;
     
@@ -17,6 +19,22 @@ public class BattleEventHandler : MonoBehaviour
     
     void Start()
     {
+        var save = SaveSystem.Load();
+        int abilityIndex;
+
+        switch (GrantAbilityTo)
+        {
+            case "Sield":
+                abilityIndex = save.SieldAbilityIndex;
+                break;
+            default:
+                abilityIndex = save.GanielAbilityIndex;
+                break;
+        }
+        
+        if (abilityIndex >= AbilityNumber)
+            return;
+        
         CombatZone.BattleEnded += OnBattleEnded;
         DialogueEnded += OnDialogueEnded;
     }

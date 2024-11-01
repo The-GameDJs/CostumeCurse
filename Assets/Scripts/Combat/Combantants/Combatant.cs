@@ -358,8 +358,7 @@ public abstract class Combatant : MonoBehaviour
     // Due to how the animator event system work, we have no choice but to broadcast this event down :( 
     public void DealBonkDamage()
     {
-        GetComponentInChildren<Bonk>().DealBonkDamage();
-    }
+        GetComponentInChildren<Bonk>().DealBonkDamage(); }
 
     public void DealConfectionDamage()
     {

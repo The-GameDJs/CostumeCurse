@@ -13,12 +13,18 @@ MonoBehaviour:
   m_Name: Cemetery Sign Text
   m_EditorClassIdentifier: 
   CandyCornReward: 0
+  ShowCharacterName: 0
+  ShouldGrantAbility: 0
+  RestPoint: 0
   Lines:
   - Character: Cemetery Sign
     text: 'Left:     Ghastly Cemetery
 
       Right:   Village of the Unspoken'
+    HasEvent: 0
   - Character: Ganiel
     text: Can we <shaky>NOT</shaky> go to the Cemetery?
+    HasEvent: 0
   - Character: Sield
-    text: We need answers, Ganiel!
+    text: The monk said to explore! Come on, let's at least take a look!
+    HasEvent: 0

@@ -74,10 +74,13 @@ public class Player : MonoBehaviour
     private void UpdateMainCharacterMovement()
     {
         Vector3 direction = InputManager.InputDirection;
-        
+
         if (direction == Vector3.zero)
+        {
+            CharacterController.SimpleMove(direction * MovementSpeed);
             return;
-        
+        }
+
         var horizontalMovement = direction.x;
         var verticalMovement = direction.z;
         direction = Camera.main.transform.TransformDirection(direction);

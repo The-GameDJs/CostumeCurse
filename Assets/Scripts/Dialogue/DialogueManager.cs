@@ -114,13 +114,12 @@ public class DialogueManager : MonoBehaviour
                 monk.PlayParticlesSummoningCloud();
             }
         }
-
-
+        
         if (!Conversation.IsRestPoint && Conversation.CandyCornReward > 0 && ActiveLineIndex == Conversation.Lines.Length)
             CandyCornManager.AddCandyCorn(Conversation.ClaimReward());
 
         if (Conversation.IsRestPoint &&
-            CandyCornManager.GetTotalCandyCorn() < CandyCornManager.GetMaxCandyCorn() / 2 &&
+            CandyCornManager.GetTotalCandyCorn() < CandyCornManager.GetMaxCandyCorn() / 3.5 &&
             ActiveLineIndex == Conversation.Lines.Length)
             CandyCornManager.AddCandyCorn(Conversation.ClaimReward());
         

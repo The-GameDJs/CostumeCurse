@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2b4478411a425943808b2200613323a, type: 3}
   m_Name: Village Monk Campfire Conversation
   m_EditorClassIdentifier: 
-  CandyCornReward: 30
+  CandyCornReward: 25
   ShowCharacterName: 1
   ShouldGrantAbility: 1
   RestPoint: 0
@@ -27,14 +27,19 @@ MonoBehaviour:
     text: Yeah, we could of used your help!
     HasEvent: 0
   - Character: Mysterious Monk
-    text: Unfortunately, I cannot aid to your mission. Fighting anomalies is not
-      my only job.
+    text: Unfortunately, I cannot do that. Fighting anomalies is your job
     HasEvent: 0
   - Character: Mysterious Monk
-    text: You have to act fast and face the Great Pimpkin.
+    text: Once you defeat the Great Pimpkin, I need to be there at the right time
+      to seal his flame for good
     HasEvent: 0
   - Character: Mysterious Monk
-    text: Once you defeat him, I need to seal him for good.
+    text: As long as his lantern flame stays lit within him, the pimpkins will keep
+      on coming
+    HasEvent: 0
+  - Character: Ganiel
+    text: "I guess that makes sense...why does every legend have a \"sealing\r the
+      curse\" trope"
     HasEvent: 0
   - Character: Mysterious Monk
     text: You'll be needing this if you are to face more of these bulkers
@@ -56,4 +61,5 @@ MonoBehaviour:
     HasEvent: 0
   - Character: Sield
     text: Let's do this! This new Magic Shield Ability will come in handy in battle!
+      (Why is the ability name so weird?)
     HasEvent: 0

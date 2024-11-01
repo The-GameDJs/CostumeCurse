@@ -13,14 +13,21 @@ MonoBehaviour:
   m_Name: Shack Signpost Text
   m_EditorClassIdentifier: 
   CandyCornReward: 0
+  ShowCharacterName: 0
+  ShouldGrantAbility: 0
+  RestPoint: 0
   Lines:
   - Character: Shack Sign
     text: 'Left:     Old Man''s Shack
 
       Right:   Cursed Wheat Farm'
+    HasEvent: 0
   - Character: Ganiel
     text: Old Man's Shack...Cursed Whe- What are these <shaky>names</shaky>???
+    HasEvent: 0
   - Character: Sield
-    text: Whoever lives on that shack might give us a clue of what's going on here.
+    text: No clue, but I love some spooky haunted houses! Come on!
+    HasEvent: 0
   - Character: Ganiel
-    text: I am not liking this...
+    text: Why Sield...why...
+    HasEvent: 0
