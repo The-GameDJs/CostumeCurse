@@ -191,12 +191,13 @@ public abstract class Combatant : MonoBehaviour
         if (IsCharging)
         {
             transform.GetComponentInChildren<CandyRegen>().StartAbility();
-            return;
         }
 
         if (IsAlive && !IsCharging)
+        {
             TakeTurnWhileAlive();
-        else
+        }
+        else if(!IsAlive)
             TakeTurnWhileDead();
     }
     

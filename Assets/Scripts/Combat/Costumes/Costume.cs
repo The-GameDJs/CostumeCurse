@@ -25,6 +25,12 @@ public class Costume : MonoBehaviour
     private void Start()
     {
         var save = SaveSystem.Load();
+        
+        DialogueManager.GrantAbility += OnFinishedTalkingToMonk;
+        DialogueManager.DemonstrateAbilityVFX += OnDemonstratedAbilityVFX;
+
+        if (save.SieldAbilityIndex == 0 || save.GanielAbilityIndex == 0)
+            return;
 
         switch (transform.parent.gameObject.name)
         {
@@ -35,9 +41,6 @@ public class Costume : MonoBehaviour
                 AbilityCount = save.GanielAbilityIndex;
                 break;
         }
-        
-        DialogueManager.GrantAbility += OnFinishedTalkingToMonk;
-        DialogueManager.DemonstrateAbilityVFX += OnDemonstratedAbilityVFX;
     }
 
     private void OnFinishedTalkingToMonk(string character)

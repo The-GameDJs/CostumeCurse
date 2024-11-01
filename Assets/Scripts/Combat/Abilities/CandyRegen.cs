@@ -21,7 +21,6 @@ public class CandyRegen : Ability
     private AllyCombatant _allyCombatant;
     private Timer _timer;
     
-    // Start is called before the first frame update
     public new void Start()
     {
         base.Start();
@@ -37,8 +36,7 @@ public class CandyRegen : Ability
     
     void Update()
     {
-        if ((CurrentPhase == CandyRegenPhase.Charging && _timer.IsFinished())
-            || (CurrentPhase == CandyRegenPhase.Activated && _timer.IsFinished()))
+        if (CurrentPhase == CandyRegenPhase.Charging && _timer.IsFinished())
         {
             EndAbility();
         }
@@ -61,6 +59,9 @@ public class CandyRegen : Ability
         _timer.StartTimer(CastTime);
         Animator.SetBool("IsFinishedCasting", false);
         Animator.Play("Base Layer.Casting");
+
+        if (_allyCombatant.IsCharging)
+            CurrentPhase = CandyRegenPhase.Charging;
 
         if (CurrentPhase == CandyRegenPhase.Inactive && _currentTurnCount == 0)
         {
@@ -87,12 +88,18 @@ public class CandyRegen : Ability
         Animator.SetBool("IsFinishedCasting", true);
         Animator.Play("Base Layer.Idle");
         
+        _timer.ResetTimer();
+        CurrentPhase = CandyRegenPhase.Inactive;
+        
         _currentTurnCount = 0;
     }
 
     protected override void EndAbility()
     {
         CurrentPhase = CandyRegenPhase.Inactive;
+        
+        if(_allyCombatant.gameObject.name == "Ganiel")
+            Animator.SetBool("IsFinishedCasting", true);
         
         _currentTurnCount++;
 
