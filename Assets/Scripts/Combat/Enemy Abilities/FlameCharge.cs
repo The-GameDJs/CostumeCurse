@@ -18,6 +18,7 @@ namespace Combat.Abilities
 
         private Firecharge ChargeAbility;
         private GameObject Target;
+        private AllyCombatant _allyCombatant;
         private bool isAttached;
 
         private void Update()
@@ -26,6 +27,21 @@ namespace Combat.Abilities
             {
                 transform.position = ChargeAbility.GetAttachPoint().position;
             }
+            if (!_allyCombatant.HasParried && InputManager.HasPressedActionCommand && 
+                Vector3.Distance(Target.transform.position, transform.position) >= 0.2f
+                && Vector3.Distance(Target.transform.position, transform.position) <= 6.4f)
+            {
+                Debug.Log("Parried correctly!");
+                _allyCombatant.ParrySound.Play();
+                _allyCombatant.HasParriedCorrectly = true;
+            }
+
+            if (!_allyCombatant.HasParried && InputManager.HasPressedActionCommand)
+            {
+                Debug.Log("Parry Button Pressed");
+                _allyCombatant.HasParried = true;
+            }
+            
         }
 
         public void EnableEffect()
@@ -37,6 +53,7 @@ namespace Combat.Abilities
         public void SetTarget(GameObject target)
         {
             Target = target;
+            _allyCombatant = Target.GetComponent<AllyCombatant>();
         }
 
         public void SetAttached(bool isAttached)

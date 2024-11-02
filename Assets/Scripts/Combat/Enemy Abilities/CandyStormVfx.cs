@@ -22,6 +22,7 @@ public class CandyStormVfx : MonoBehaviour
     [SerializeField] private AudioSource StormExplosionSound;
     private bool IsMoving;
     private GameObject Target;
+    private AllyCombatant _allyCombatant;
 
 
     private void Start()
@@ -61,6 +62,7 @@ public class CandyStormVfx : MonoBehaviour
     public void SetComponents(GameObject target)
     {
         Target = target;
+        _allyCombatant = target.GetComponent<AllyCombatant>();
     }
     
     public void StartMoving()
@@ -78,6 +80,21 @@ public class CandyStormVfx : MonoBehaviour
     private void StrikeCandyStormVfx()
     {
         transform.position = Vector3.Lerp(transform.position, Target.transform.position + new Vector3(0.0f, TargetVerticalOffset, 0.0f), MovementSpeed * Time.deltaTime);
+        
+        if (!_allyCombatant.HasParried && InputManager.HasPressedActionCommand && 
+            Vector3.Distance(Target.transform.position, transform.position) >= 0.2f
+            && Vector3.Distance(Target.transform.position, transform.position) <= 6.4f)
+        {
+            Debug.Log("Parried correctly!");
+            _allyCombatant.ParrySound.Play();
+            _allyCombatant.HasParriedCorrectly = true;
+        }
+
+        if (!_allyCombatant.HasParried && InputManager.HasPressedActionCommand)
+        {
+            Debug.Log("Parry Button Pressed");
+            _allyCombatant.HasParried = true;
+        }
     }
     
     public void SwitchCloudStormParticleSystemsState(bool activate = true)

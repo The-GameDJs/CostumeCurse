@@ -60,23 +60,18 @@ public class CandyRegen : Ability
         Animator.SetBool("IsFinishedCasting", false);
         Animator.Play("Base Layer.Casting");
 
-        if (_allyCombatant.IsCharging)
-            CurrentPhase = CandyRegenPhase.Charging;
+        CurrentPhase = CandyRegenPhase.Charging;
 
-        if (CurrentPhase == CandyRegenPhase.Inactive && _currentTurnCount == 0)
+        if (_currentTurnCount == 0)
         {
             CurrentPhase = CandyRegenPhase.Charging;
             _allyCombatant.IsCharging = true;
         }
-        else if (CurrentPhase == CandyRegenPhase.Charging && _currentTurnCount > TurnsToRegen)
+        else if (_currentTurnCount > TurnsToRegen)
         {
             CurrentPhase = CandyRegenPhase.Activated;
             GrantCandyCorn();
             _allyCombatant.IsCharging = false;
-        }
-        else
-        {
-            CurrentPhase = CandyRegenPhase.Charging;
         }
     }
 

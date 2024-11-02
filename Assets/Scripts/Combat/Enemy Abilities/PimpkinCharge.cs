@@ -20,7 +20,6 @@ namespace Combat.Abilities
         private GameObject Target;
         private AllyCombatant _allyCombatant;
 
-
         private void Update()
         {
             if (Target != null && _allyCombatant != null)
