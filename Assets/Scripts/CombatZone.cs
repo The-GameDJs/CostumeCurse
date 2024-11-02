@@ -181,7 +181,10 @@ public class CombatZone : MonoBehaviour
         foreach (var player in Players)
         {
             player.GetComponent<AllyCombatant>().ExitCombat();
-            player.GetComponent<Player>().EnableMovement();
+            if (!ShouldTriggerBattleEvent)
+            {
+                player.GetComponent<Player>().EnableMovement();
+            }
         }
 
         foreach (var enemy in Enemies)

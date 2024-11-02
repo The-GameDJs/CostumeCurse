@@ -68,7 +68,9 @@ public class BattleEventHandler : MonoBehaviour
     private IEnumerator SummonMonk()
     {
         var sield = GameObject.Find("Sield").GetComponent<Player>();
+        var ganiel = GameObject.Find("Ganiel").GetComponent<Player>();
         sield.DisableMovement();
+        ganiel.DisableMovement();
         
         yield return new WaitForSeconds(2.0f);
         
@@ -88,6 +90,7 @@ public class BattleEventHandler : MonoBehaviour
         yield return new WaitForSeconds(2.0f);
         
         sield.EnableMovement();
+        ganiel.EnableMovement();
     }
 
     private IEnumerator VanishMonk()
@@ -96,6 +99,11 @@ public class BattleEventHandler : MonoBehaviour
         if (monk)
         {
             monk.PlayParticlesDisappearingCloud();
+        }
+
+        if (ObjectToAppear.activeSelf && ObjectToAppear.TryGetComponent<InteractiveNPC>(out var npc))
+        {
+            Destroy(npc);
         }
         
         yield return new WaitForSeconds(0.6f);
