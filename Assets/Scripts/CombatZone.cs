@@ -87,8 +87,12 @@ public class CombatZone : MonoBehaviour
         CinemachineCameraRig.Instance.SetCinemachineCamera(_combatCinemachineCamera);
         CinemachineCameraRig.Instance.ChangeCinemachineBrainBlendTime(1.0f);
         DisablePlayerMovement();
+        
+        MusicManager.Instance.StopAllMusic();
 
         yield return new WaitForSeconds(0.5f);
+        
+        MusicManager.Instance.EnterCombatMode();
         
         Timer.StartTimer(MovementTime);
         SetInitialCombatPositions();

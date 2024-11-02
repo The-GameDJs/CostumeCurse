@@ -121,6 +121,8 @@ public class CombatSystem : MonoBehaviour
             
             CurrentCombatZone.GetComponent<CombatZone>().DestroyCombatZone();
             _currentCameraZoneCM = null;
+            
+            MusicManager.Instance.ExitCombatMode();
         }
         // If boss died, play boss death scenario and return to menu
         else
@@ -130,6 +132,8 @@ public class CombatSystem : MonoBehaviour
             CinemachineCameraRig.Instance.ChangeCinemachineBrainBlendTime(5.0f);
             CinemachineCameraRig.Instance.SetCinemachineCamera(GameObject.Find("CursedPimpkinBoss").GetComponentInChildren<CinemachineVirtualCamera>());
             PlayerPrefs.SetInt("CandyCollected", CandyCornManager.GetTotalCandyCorn());
+            
+            MusicManager.Instance.StopAllMusic();
         }
         IsInProgress = false;
     }
@@ -184,6 +188,8 @@ public class CombatSystem : MonoBehaviour
         IsInProgress = false;
         Sield.GetComponent<Player>().SetColliderVisibility(true);
         combatZone.SetCombatColliderVisibility(true);
+        
+        MusicManager.Instance.ExitCombatMode();
     }
 
     public void EndTurn()
