@@ -31,8 +31,8 @@ public class ThunderStorm : Ability
     private readonly float ThunderStormScale = 0.04f;
     private readonly float ThunderStormHeight = 8f;
     private readonly float ThunderCloudDuration = 2.5f;
-    private readonly int ThunderCloudMinimumDamage = 15;
-    private readonly int ThunderCloudMaximumDamage = 30;
+    private readonly int ThunderCloudMinimumDamage = 20;
+    private readonly int ThunderCloudMaximumDamage = 40;
     private readonly int ThunderCloudDifficultyCurve = 10;
     private readonly int ThunderStrikePerfectDamageBonus = 40;
     private readonly int ThunderStrikeGoodDamageBonus = 20;

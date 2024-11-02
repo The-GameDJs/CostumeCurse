@@ -32,7 +32,7 @@ public class Confection : Ability
     private int MaxClicks = 6;
     
     private readonly float BrewDuration = 8.0f;
-    private readonly int BaseDamage = 20;
+    private readonly int BaseDamage = 40;
     private readonly float BakePerfectDamageBonus = 4.35f;
     private readonly float BakeGoodDamageBonus = 0.08f;
     private readonly int RandomDamageRangeOffset = 8;

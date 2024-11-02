@@ -34,6 +34,7 @@ public class WoodLogsCombatant : ObjectCombatant
         yield return new WaitForSeconds(1.0f);
         ExplosionHitbox.radius *= 20f;
         ExplosionParticles.transform.parent = null;
+        ExplosionParticles.transform.position = transform.position;
         _explosionSound.Play();
         ExplosionParticles.Play();
         IsAlive = false;

@@ -14,7 +14,7 @@ public class DialogueBubble : MonoBehaviour
 
     const string KAlphaCode = "<color=#00000000>";
     const float KMaxTextTime = 0.1f;
-    public static float TextSpeed = 2.6f;
+    public static float TextSpeed = 5.5f;
     private float OriginalTextSpeed;
 
     private CanvasGroup Group;
@@ -55,7 +55,7 @@ public class DialogueBubble : MonoBehaviour
         // Simple hacky way to accelerate the text speed.
         if (Input.GetButtonDown("Fast Forward"))
         {
-            TextSpeed = FastForwardTextSpeed;
+            //TextSpeed = FastForwardTextSpeed;
         }
 
         // Update arrow position

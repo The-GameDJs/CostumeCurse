@@ -179,17 +179,14 @@ public class CombatZone : MonoBehaviour
         Debug.Log(message);
         CombatStarted = false;
 
-        if (ShouldTriggerBattleEvent && isAllyWin)
-            BattleEnded?.Invoke(gameObject.GetInstanceID());
-
         foreach (var player in Players)
         {
             player.GetComponent<AllyCombatant>().ExitCombat();
-            if (!ShouldTriggerBattleEvent)
-            {
-                player.GetComponent<Player>().EnableMovement();
-            }
+            player.GetComponent<Player>().EnableMovement();
         }
+        
+        if (ShouldTriggerBattleEvent && isAllyWin)
+            BattleEnded?.Invoke(gameObject.GetInstanceID());
 
         foreach (var enemy in Enemies)
         {

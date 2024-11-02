@@ -99,7 +99,7 @@ public class Revolver : Ability
 
     private void ReloadUpdate()
     {
-        ShootingTimerText.text = "Get Ready...";
+        ShootingTimerText.text = "Pull Trigger...";
         float timeRemaining = ReloadDuration - Timer.GetProgress();
         ReloadTimerText.text = Mathf.RoundToInt(timeRemaining) + "";
         
@@ -140,7 +140,7 @@ public class Revolver : Ability
     {
         if (Timer.IsInProgress())
         {
-            ShootingTimerText.text = "Shoot!";
+            ShootingTimerText.text = "Release!";
             // Maybe depending on how long you hold down, it will load a certain amount of bullets
             // Then you time your hold down joystick motion based on the number of bullets loaded?
             // Could be a future TODO
