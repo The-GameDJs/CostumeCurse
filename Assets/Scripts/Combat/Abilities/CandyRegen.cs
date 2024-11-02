@@ -8,6 +8,12 @@ public class CandyRegen : Ability
     [SerializeField] private int CandyGain;
     [SerializeField] private int TurnsToRegen;
     [SerializeField] private float CastTime;
+
+    [Header("Candy Corn Vfx Object")]
+    [SerializeField] private ParticleSystem CandyCornVfx;
+    [SerializeField] private ParticleSystem CandySprinklesVfx;
+    [SerializeField] private GameObject CandyMixObject;
+    [SerializeField] private AudioSource CandyMixSound;
     
     private enum CandyRegenPhase
     {
@@ -56,6 +62,7 @@ public class CandyRegen : Ability
 
     private void StartCharging()
     {
+        CandyMixSound.Play();
         _timer.StartTimer(CastTime);
         Animator.SetBool("IsFinishedCasting", false);
         Animator.Play("Base Layer.Casting");
@@ -66,17 +73,30 @@ public class CandyRegen : Ability
         {
             CurrentPhase = CandyRegenPhase.Charging;
             _allyCombatant.IsCharging = true;
+            CandyMixObject.SetActive(true);
+            CandyMixObject.transform.position = Combatant.transform.position + new Vector3(0.0f, 6.0f, 0.0f);
+            CandyCornVfx.Play();
+            CandySprinklesVfx.Play();
+            CandyMixSound.Play();
         }
         else if (_currentTurnCount > TurnsToRegen)
         {
             CurrentPhase = CandyRegenPhase.Activated;
-            GrantCandyCorn();
+            StartCoroutine(GrantCandyCorn());
             _allyCombatant.IsCharging = false;
         }
     }
 
-    private void GrantCandyCorn()
+    private IEnumerator GrantCandyCorn()
     {
+        CandyCornVfx.Stop();
+        CandySprinklesVfx.Stop();
+
+        yield return new WaitForSeconds(1.0f);
+        
+        CandyMixObject.SetActive(false);
+        CandyMixObject.transform.position = Vector3.zero;
+        
         Debug.Log($"Charge complete! Adding some candy corn: {CandyGain}");
         CandyCornManager.AddCandyCorn(CandyGain);
         
