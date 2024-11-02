@@ -80,20 +80,23 @@ public class CandyStormVfx : MonoBehaviour
     private void StrikeCandyStormVfx()
     {
         transform.position = Vector3.Lerp(transform.position, Target.transform.position + new Vector3(0.0f, TargetVerticalOffset, 0.0f), MovementSpeed * Time.deltaTime);
-        
-        if (!_allyCombatant.HasParried && InputManager.HasPressedActionCommand && 
-            Vector3.Distance(Target.transform.position, transform.position) >= 0.2f
-            && Vector3.Distance(Target.transform.position, transform.position) <= 6.4f)
-        {
-            Debug.Log("Parried correctly!");
-            _allyCombatant.ParrySound.Play();
-            _allyCombatant.HasParriedCorrectly = true;
-        }
 
-        if (!_allyCombatant.HasParried && InputManager.HasPressedActionCommand)
+        if (Target != null && _allyCombatant != null)
         {
-            Debug.Log("Parry Button Pressed");
-            _allyCombatant.HasParried = true;
+            if (!_allyCombatant.HasParried && InputManager.HasPressedActionCommand &&
+                Vector3.Distance(Target.transform.position, transform.position) >= 0.2f
+                && Vector3.Distance(Target.transform.position, transform.position) <= 6.4f)
+            {
+                Debug.Log("Parried correctly!");
+                _allyCombatant.ParrySound.Play();
+                _allyCombatant.HasParriedCorrectly = true;
+            }
+
+            if (!_allyCombatant.HasParried && InputManager.HasPressedActionCommand)
+            {
+                Debug.Log("Parry Button Pressed");
+                _allyCombatant.HasParried = true;
+            }
         }
     }
     
