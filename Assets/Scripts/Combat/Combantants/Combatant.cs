@@ -91,6 +91,8 @@ public abstract class Combatant : MonoBehaviour
 
     [SerializeField] protected Animator Animator;
     [SerializeField] protected AudioSource DeathAudioSource;
+
+    public static Action EndCandyRegenAbility;
     
     public bool isBoss;
 
@@ -332,6 +334,13 @@ public abstract class Combatant : MonoBehaviour
         DestroyUIInstances();
         ResetPoints();
         IsInCombat = false;
+
+        if (IsCharging)
+        {
+            IsCharging = false;
+            EndCandyRegenAbility?.Invoke();
+        }
+        
         ElementResistance.Clear();
         ElementResistance.Add(ElementType.None);
         ElementWeakness.Clear();
@@ -358,7 +367,8 @@ public abstract class Combatant : MonoBehaviour
     // Due to how the animator event system work, we have no choice but to broadcast this event down :( 
     public void DealBonkDamage()
     {
-        GetComponentInChildren<Bonk>().DealBonkDamage(); }
+        GetComponentInChildren<Bonk>().DealBonkDamage();
+    }
 
     public void DealConfectionDamage()
     {

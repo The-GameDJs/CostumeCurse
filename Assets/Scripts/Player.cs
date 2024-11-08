@@ -34,6 +34,7 @@ public class Player : MonoBehaviour
     private Player MainPlayer;
     private Timer Timer;
     private InputManager _inputSystem;
+    private bool isStartingUp;
 
     void Start()
     {
@@ -58,10 +59,19 @@ public class Player : MonoBehaviour
             transform.position = currentCheckpoint == Vector3.zero ? transform.position : currentCheckpoint;
             Debug.Log($"Spawn Location: {transform.position}");
         }
+
+        isStartingUp = true;
+        IsMovementDisabled = true;
     }
 
     void Update()
     {
+        if (isStartingUp)
+        {
+            isStartingUp = false;
+            Invoke(nameof(StartAcceptingMovementInputs), 0.5f);
+        }
+        
         if (IsMovementDisabled)
             return;
 
@@ -71,13 +81,18 @@ public class Player : MonoBehaviour
             UpdateSecondaryCharacterMovement();
     }
 
+    private void StartAcceptingMovementInputs()
+    {
+        IsMovementDisabled = false;
+    }
+
     private void UpdateMainCharacterMovement()
     {
         Vector3 direction = InputManager.InputDirection;
 
         if (direction == Vector3.zero)
         {
-            CharacterController.SimpleMove(direction * MovementSpeed);
+            CharacterController.SimpleMove(Vector3.zero * MovementSpeed);
             return;
         }
 

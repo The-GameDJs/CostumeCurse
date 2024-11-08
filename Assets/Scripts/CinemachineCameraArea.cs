@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
@@ -16,6 +17,17 @@ public class CinemachineCameraArea : MonoBehaviour
     }
     
     private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player")
+            && other.gameObject.name == "Sield"
+            && other.gameObject.TryGetComponent<Player>(out var player)
+            && !player.IsMovementDisabled)
+        {
+            CinemachineCameraRig.Instance.SetCinemachineCamera(_cinemachineVirtualCamera);
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Player")
             && other.gameObject.name == "Sield"

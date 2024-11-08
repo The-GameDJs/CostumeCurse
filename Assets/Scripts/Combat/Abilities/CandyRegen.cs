@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -38,6 +39,8 @@ public class CandyRegen : Ability
             1,
             CombatantType.Ally,
             SelectorType.Self);
+
+        Combatant.EndCandyRegenAbility += OnBattleEnd;
     }
     
     void Update()
@@ -82,18 +85,28 @@ public class CandyRegen : Ability
         else if (_currentTurnCount > TurnsToRegen)
         {
             CurrentPhase = CandyRegenPhase.Activated;
-            StartCoroutine(GrantCandyCorn());
+            StartCoroutine(DelayEndOfCandyRegenCycle());
             _allyCombatant.IsCharging = false;
         }
     }
 
-    private IEnumerator GrantCandyCorn()
+    private IEnumerator DelayEndOfCandyRegenCycle()
     {
-        CandyCornVfx.Stop();
-        CandySprinklesVfx.Stop();
+        StopCandyRegenVfx();
 
         yield return new WaitForSeconds(1.0f);
         
+        EndCandyRegenCycle();
+    }
+
+    private void OnBattleEnd()
+    {
+        StopCandyRegenVfx();
+        EndCandyRegenCycle();
+    }
+
+    private void EndCandyRegenCycle()
+    {
         CandyMixObject.SetActive(false);
         CandyMixObject.transform.position = Vector3.zero;
         
@@ -109,6 +122,12 @@ public class CandyRegen : Ability
         _currentTurnCount = 0;
     }
 
+    private void StopCandyRegenVfx()
+    {
+        CandyCornVfx.Stop();
+        CandySprinklesVfx.Stop();
+    }
+
     protected override void EndAbility()
     {
         CurrentPhase = CandyRegenPhase.Inactive;
@@ -119,5 +138,10 @@ public class CandyRegen : Ability
         _currentTurnCount++;
 
         CombatSystem.EndTurn();
+    }
+
+    private void OnDestroy()
+    {
+        Combatant.EndCandyRegenAbility -= OnBattleEnd;
     }
 }
