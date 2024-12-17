@@ -32,6 +32,10 @@ public class CinemachineCameraRig : MonoBehaviour
 
     public void SetCinemachineCamera(CinemachineVirtualCamera cm)
     {
+        if (_currentCinemachineCamera.LookAt.parent != null && 
+            _currentCinemachineCamera.LookAt.parent.name == "The Witch")
+            return;
+        
         if (_currentCinemachineCamera)
         {
             _currentCinemachineCamera.Priority = 10;
