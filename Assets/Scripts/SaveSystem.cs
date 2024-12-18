@@ -31,6 +31,11 @@ public class SaveSystem : MonoBehaviour
         PlayerPrefs.SetInt("Ganiel Ability Index", data.GanielAbilityIndex);
     }
 
+    public static void DeleteSave()
+    {
+        PlayerPrefs.DeleteAll();
+    }
+
     public static SaveData Load()
     {
         Debug.Log($"Loading save data!");

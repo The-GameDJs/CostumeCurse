@@ -13,6 +13,7 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private GameObject CreditsPanel;
     [SerializeField] private RectTransform CreditsPanelRectTransform;
     [SerializeField] private GameObject PlayButton;
+    [SerializeField] private GameObject NewGameButton;
     [SerializeField] private GameObject CreditsButton;
     [SerializeField] private GameObject QuitButton;
     [SerializeField] private GameObject CloseCreditsButton;
@@ -25,6 +26,7 @@ public class MainMenu : MonoBehaviour
     void Start()
     {
         InitialCreditsPanelRectPosition = CreditsPanelRectTransform.position;
+        NewGameButton.SetActive(SaveSystem.Load().RestPosition.x != 0);
     }
 
     private void Update()
@@ -37,7 +39,24 @@ public class MainMenu : MonoBehaviour
 
     public void PlayGame()
     {
-        SceneManager.LoadScene(SaveSystem.Load().RestPosition.x != 0 ? "Main_Scene" : "Prologue_Scene");
+        if (SaveSystem.Load().RestPosition.x != 0)
+        {
+            SceneManager.LoadScene("Main_Scene");
+            return;
+        }
+
+        StartCoroutine(LoadUpPrologueScene());
+    }
+    
+    public void NewGame()
+    {
+        SaveSystem.DeleteSave();
+        StartCoroutine(LoadUpPrologueScene());
+    }
+
+    public void OpenDemoSurvey()
+    {
+        Application.OpenURL("https://docs.google.com/forms/d/e/1FAIpQLSc1df417j_xaY7g2bp4JJU2YszVhLbZQIQqkmd5BGcMcc7Dpw/viewform?usp=sharing");
     }
 
     private IEnumerator LoadUpPrologueScene()

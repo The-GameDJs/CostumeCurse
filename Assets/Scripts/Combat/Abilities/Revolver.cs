@@ -177,7 +177,7 @@ public class Revolver : Ability
         CurrentPhase = RevolverPhase.Inactive;
         yield return new WaitForSeconds(0.7f);
         RevolverCanvas.SetActive(false);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.64f);
         Debug.Log("Ending Ability");
         
         Timer.ResetTimer();
