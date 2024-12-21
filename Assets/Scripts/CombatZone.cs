@@ -84,6 +84,7 @@ public class CombatZone : MonoBehaviour
 
     private IEnumerator EnterBattleSequence()
     {
+        CinemachineCameraRig.Instance.SetCinemachineWorldCamera(CinemachineCameraRig.Instance.CurrentCinemachineCamera);
         CinemachineCameraRig.Instance.SetCinemachineCamera(_combatCinemachineCamera);
         CinemachineCameraRig.Instance.ChangeCinemachineBrainBlendTime(1.0f);
         DisablePlayerMovement();

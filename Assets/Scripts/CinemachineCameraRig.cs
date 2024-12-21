@@ -21,7 +21,9 @@ public class CinemachineCameraRig : MonoBehaviour
     [SerializeField] private CinemachineBrain CinemachineBrain;
     [SerializeField] private CinemachineVirtualCamera DefaultCinemachineVirtualCamera;
     [SerializeField] private CinemachineVirtualCamera _currentCinemachineCamera;
+    [SerializeField] private CinemachineVirtualCamera _currentWorldCinemachineCamera;
     public CinemachineVirtualCamera CurrentCinemachineCamera => _currentCinemachineCamera;
+    public CinemachineVirtualCamera CurrentWorldCinemachineCamera => _currentWorldCinemachineCamera;
     [SerializeField] private float CameraInitialBlendTime;
 
     private void Start()
@@ -63,5 +65,10 @@ public class CinemachineCameraRig : MonoBehaviour
     public void ChangeCinemachineBrainBlendTime(float blendTime)
     {
         CinemachineBrain.m_DefaultBlend.m_Time = blendTime;
+    }
+
+    public void SetCinemachineWorldCamera(CinemachineVirtualCamera currentCinemachineCamera)
+    {
+        _currentWorldCinemachineCamera = currentCinemachineCamera;
     }
 }

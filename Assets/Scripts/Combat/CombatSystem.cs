@@ -21,6 +21,7 @@ public class CombatSystem : MonoBehaviour
     private int CurrentCombatantTurn;
 
     [SerializeField] private CinemachineVirtualCamera _currentCameraZoneCM;
+    [SerializeField] private CinemachineVirtualCamera _currentWorldCameraZoneCM;
 
     private GameObject MainCamera;
 
@@ -79,6 +80,7 @@ public class CombatSystem : MonoBehaviour
     public void StartCombat(GameObject CombatZone, GameObject[] allies, GameObject[] enemies, GameObject[] targettableObjects)
     {
         _currentCameraZoneCM = CinemachineCameraRig.Instance.CurrentCinemachineCamera;
+        _currentWorldCameraZoneCM = CinemachineCameraRig.Instance.CurrentWorldCinemachineCamera;
         
         InitialCandyCornNumber = CandyCornManager.GetTotalCandyCorn();
         TotalCandyReward = 0;
@@ -116,7 +118,8 @@ public class CombatSystem : MonoBehaviour
         {
             StartCoroutine(ShowVictoryBanner(true, TotalCandyReward));
 
-            CinemachineCameraRig.Instance.SetCinemachineCamera(_currentCameraZoneCM);
+            CinemachineCameraRig.Instance.SetCinemachineCamera(_currentWorldCameraZoneCM);
+            CinemachineCameraRig.Instance.SetCinemachineCameraTarget(Sield.transform);
             CinemachineCameraRig.Instance.ChangeCinemachineBrainBlendTime(2.0f);
             
             CurrentCombatZone.GetComponent<CombatZone>().DestroyCombatZone();
@@ -149,7 +152,7 @@ public class CombatSystem : MonoBehaviour
             var saveData = SaveSystem.Load();
             Sield.transform.position = saveData.RestPosition;
             Sield.GetComponent<Player>().SetColliderVisibility(false);
-            CinemachineCameraRig.Instance.SetCinemachineCamera(_currentCameraZoneCM);
+            CinemachineCameraRig.Instance.SetCinemachineCamera(_currentWorldCameraZoneCM);
             CinemachineCameraRig.Instance.SetCinemachineCameraTarget(Sield.transform);
             CinemachineCameraRig.Instance.ChangeCinemachineBrainBlendTime(2.0f);
         }
